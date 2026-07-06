@@ -2,17 +2,18 @@
 
 ## Purpose
 
-Some streams in the iptv-org playlist (e.g. SABC) declare that they
-require a specific `Referer` and/or `User-Agent` header to be served at
-all — visible in the M3U as `http-referrer`/`http-user-agent` attributes
-on the `#EXTINF` line (and redundantly as `#EXTVLCOPT:` lines for VLC).
-Browsers forbid client-side JavaScript from setting either header on any
-request (`fetch`/`XMLHttpRequest`) — this is a hard platform restriction
-(both are in the Fetch spec's forbidden-header-name list), not a policy
-choice, and it cannot be worked around from in-page script. As a result,
-these specific streams currently fail with the existing best-effort
-"Can't play this channel" error, indistinguishable from a genuinely dead
-stream.
+Some streams in the iptv-org playlist declare that they require a
+specific `Referer` and/or `User-Agent` header to be served at all —
+visible in the M3U as `http-referrer`/`http-user-agent` attributes on the
+`#EXTINF` line (and redundantly as `#EXTVLCOPT:` lines for VLC; ~422
+entries playlist-wide as of this writing, e.g. a Spanish channel called
+"EsTuTele"). Browsers forbid client-side JavaScript from setting either
+header on any request (`fetch`/`XMLHttpRequest`) — this is a hard
+platform restriction (both are in the Fetch spec's forbidden-header-name
+list), not a policy choice, and it cannot be worked around from in-page
+script. As a result, these specific streams currently fail with the
+existing best-effort "Can't play this channel" error, indistinguishable
+from a genuinely dead stream.
 
 This adds a small local proxy, run as part of the app's own dev server,
 that fetches exactly these flagged streams server-side (where custom
@@ -20,9 +21,17 @@ headers are unrestricted) and re-serves them to the browser. It is scoped
 **only** to channels that declare a required referrer/user-agent — every
 other channel continues to stream directly from its origin, unchanged.
 
-This does not, and is not intended to, bypass IP-based geographic
-restrictions — it only supplies the header values the stream's own M3U
-entry already declares are required to play it at all.
+**Confirmed limitation:** SABC's channels in the live playlist are tagged
+`[Geo-blocked]` by iptv-org's own curators and declare no
+`http-referrer`/`http-user-agent` at all — their block is genuine
+IP-based geolocation, not a header check. A *local* proxy (running on the
+same machine and internet connection as the browser) cannot change the
+apparent client IP, so this feature does not and will not unblock SABC.
+It's still worth building for the ~422 other playlist entries that
+genuinely require a referrer/user-agent to play. This proxy does not,
+and is not intended to, bypass IP-based geographic restrictions — it
+only supplies header values a stream's own M3U entry already declares
+are required to play it at all.
 
 ## Scope
 
@@ -123,9 +132,10 @@ Manual (browser + running `server.js` locally):
 - A channel with no `http-referrer`/`http-user-agent` plays exactly as
   before (direct URL, no proxy involved) — confirm via the network panel
   that the request goes straight to the origin, not through `/proxy`.
-- The SABC channel (or another real playlist entry declaring these
-  attributes) is selected, its manifest and segment requests are observed
+- A real playlist entry declaring `http-referrer`/`http-user-agent` (e.g.
+  "EsTuTele") is selected, its manifest and segment requests are observed
   going through `/proxy`, and playback succeeds where it previously showed
-  "Can't play this channel."
+  "Can't play this channel." (Not SABC — confirmed above to be true
+  IP geo-blocking, unaffected by this feature.)
 - Requesting `/proxy?url=file:///etc/passwd` (or similar) is rejected
   rather than proxied, confirming the http(s)-only guard.
