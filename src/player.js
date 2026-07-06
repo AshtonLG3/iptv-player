@@ -1,5 +1,6 @@
 export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined) } = {}) {
   let hls = null;
+  let nativeErrorListener = null;
   let errorHandler = () => {};
 
   function onError(handler) {
@@ -10,6 +11,10 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
     if (hls) {
       hls.destroy();
       hls = null;
+    }
+    if (nativeErrorListener) {
+      videoEl.removeEventListener('error', nativeErrorListener);
+      nativeErrorListener = null;
     }
   }
 
@@ -34,7 +39,8 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
 
     if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
       videoEl.src = url;
-      videoEl.addEventListener('error', () => errorHandler(new Error('Playback failed')), { once: true });
+      nativeErrorListener = () => errorHandler(new Error('Playback failed'));
+      videoEl.addEventListener('error', nativeErrorListener, { once: true });
       videoEl.play().catch((err) => errorHandler(err));
       return;
     }

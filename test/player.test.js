@@ -41,6 +41,7 @@ class FakeHls {
 }
 
 function createFakeVideo({ canPlayHls = false, playResolves = true } = {}) {
+  const errorListeners = [];
   return {
     src: '',
     removeAttribute() {},
@@ -48,7 +49,17 @@ function createFakeVideo({ canPlayHls = false, playResolves = true } = {}) {
     play() {
       return playResolves ? Promise.resolve() : Promise.reject(new Error('play failed'));
     },
-    addEventListener() {},
+    addEventListener(event, cb) {
+      if (event === 'error') errorListeners.push(cb);
+    },
+    removeEventListener(event, cb) {
+      if (event !== 'error') return;
+      const index = errorListeners.indexOf(cb);
+      if (index !== -1) errorListeners.splice(index, 1);
+    },
+    triggerError() {
+      errorListeners.slice().forEach((cb) => cb());
+    },
   };
 }
 
@@ -117,4 +128,35 @@ test('play() reports an error when neither Hls.js nor native HLS is available', 
 
   assert.ok(receivedError);
   assert.match(receivedError.message, /not supported/);
+});
+
+test('play() replaces the native error listener on a channel switch, avoiding stale double-fires', () => {
+  FakeHls.supported = false;
+  const video = createFakeVideo({ canPlayHls: true });
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+
+  const receivedErrors = [];
+  player.onError((err) => { receivedErrors.push(err); });
+
+  player.play('https://example.com/stream-a.m3u8');
+  player.play('https://example.com/stream-b.m3u8');
+
+  video.triggerError();
+
+  assert.equal(receivedErrors.length, 1);
+});
+
+test('destroy() removes a registered native error listener', () => {
+  FakeHls.supported = false;
+  const video = createFakeVideo({ canPlayHls: true });
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+
+  let receivedError = null;
+  player.onError((err) => { receivedError = err; });
+  player.play('https://example.com/stream.m3u8');
+  player.destroy();
+
+  video.triggerError();
+
+  assert.equal(receivedError, null);
 });
