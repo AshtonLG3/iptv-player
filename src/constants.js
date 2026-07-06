@@ -1,0 +1,18 @@
+export const SADC_COUNTRIES = {
+  ao: 'Angola',
+  bw: 'Botswana',
+  km: 'Comoros',
+  cd: 'DR Congo',
+  sz: 'Eswatini',
+  ls: 'Lesotho',
+  mg: 'Madagascar',
+  mw: 'Malawi',
+  mu: 'Mauritius',
+  mz: 'Mozambique',
+  na: 'Namibia',
+  sc: 'Seychelles',
+  za: 'South Africa',
+  tz: 'Tanzania',
+  zm: 'Zambia',
+  zw: 'Zimbabwe',
+};
