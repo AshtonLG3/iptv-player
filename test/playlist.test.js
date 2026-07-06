@@ -60,3 +60,22 @@ test('loadChannels throws and does not cache when the fetch response is not ok',
   );
   assert.equal(sessionStore.getItem('sadc-iptv:playlist-cache'), null);
 });
+
+test('loadChannels recovers from corrupted cache by fetching fresh', async () => {
+  let fetchCalls = 0;
+  const fetchImpl = async () => {
+    fetchCalls += 1;
+    return { ok: true, status: 200, text: async () => SAMPLE };
+  };
+  const sessionStore = createFakeStore();
+
+  // seed cache with corrupted (non-JSON) data
+  sessionStore.setItem('sadc-iptv:playlist-cache', 'corrupted{][}invalid');
+
+  const channels = await loadChannels({ fetchImpl, sessionStore });
+
+  assert.equal(fetchCalls, 1);
+  assert.equal(channels.length, 1);
+  assert.equal(channels[0].name, 'NBC1');
+  assert.equal(channels[0].country, 'na');
+});

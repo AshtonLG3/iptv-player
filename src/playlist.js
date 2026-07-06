@@ -6,7 +6,11 @@ const CACHE_KEY = 'sadc-iptv:playlist-cache';
 export async function loadChannels({ fetchImpl, sessionStore }) {
   const cached = sessionStore.getItem(CACHE_KEY);
   if (cached) {
-    return JSON.parse(cached);
+    try {
+      return JSON.parse(cached);
+    } catch {
+      // corrupted cache entry — fall through and fetch fresh
+    }
   }
 
   const response = await fetchImpl(PLAYLIST_URL);
