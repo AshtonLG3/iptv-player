@@ -46,10 +46,10 @@ full playlist (still well under typical `sessionStorage` quota limits).
   - `COUNTRY_NAMES`: a static `{ [lowercase-iso-alpha-2]: displayName }`
     map covering the standard ISO 3166-1 alpha-2 country list (~250
     entries), replacing the old 16-entry `SADC_COUNTRIES`.
-  - `DEFAULT_COUNTRY_CODES`: `['ao','bw','km','cd','sz','ls','mg','mw','mu','mz','na','sc','za','tz','zm','zw','gb']`
-    — the original 16 SADC codes plus `gb` (United Kingdom) — used as the
-    seed default the first time the app runs (before the user has ever
-    changed their selection).
+  - `DEFAULT_COUNTRY_CODES`: `['ao','bw','km','cd','sz','ls','mg','mw','mu','mz','na','sc','za','tz','zm','zw','gb','ke']`
+    — the original 16 SADC codes plus `gb` (United Kingdom) and `ke`
+    (Kenya) — used as the seed default the first time the app runs
+    (before the user has ever changed their selection).
 - `src/parser.js`: `filterBySadc(channels)` is replaced by
   `filterByCountries(channels, countryCodes)`, where `countryCodes` is an
   array/Set of lowercase ISO codes to keep. `extractCountryCode` is
