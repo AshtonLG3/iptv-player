@@ -15,6 +15,11 @@ async function main() {
   const videoEl = document.getElementById('video');
   const statusEl = document.getElementById('player-status');
   const retryButton = document.getElementById('retry-button');
+  const layoutEl = document.querySelector('.layout');
+  const drawerHandle = document.getElementById('drawer-handle');
+  const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
+  let touchStartX = 0;
+  let touchStartY = 0;
 
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
@@ -36,6 +41,44 @@ async function main() {
 
   applyTheme(themeApi.get());
 
+  function setDrawerOpen(isOpen) {
+    layoutEl.classList.toggle('drawer-open', isOpen);
+    drawerHandle.setAttribute('aria-expanded', String(isOpen));
+    drawerHandle.setAttribute('aria-label', isOpen ? 'Hide channels' : 'Show channels');
+  }
+
+  function isLandscapeDrawerActive() {
+    return landscapeDrawerQuery.matches;
+  }
+
+  drawerHandle.addEventListener('click', () => {
+    if (isLandscapeDrawerActive()) {
+      setDrawerOpen(!layoutEl.classList.contains('drawer-open'));
+    }
+  });
+
+  layoutEl.addEventListener('touchstart', (event) => {
+    if (!isLandscapeDrawerActive() || event.touches.length !== 1) return;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }, { passive: true });
+
+  layoutEl.addEventListener('touchend', (event) => {
+    if (!isLandscapeDrawerActive() || event.changedTouches.length !== 1) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - touchStartX;
+    const dy = Math.abs(touch.clientY - touchStartY);
+    const drawerIsOpen = layoutEl.classList.contains('drawer-open');
+
+    if (!drawerIsOpen && touchStartX < 36 && dx > 70 && dy < 60) {
+      setDrawerOpen(true);
+    } else if (drawerIsOpen && dx < -70 && dy < 60) {
+      setDrawerOpen(false);
+    }
+  }, { passive: true });
+
+  landscapeDrawerQuery.addEventListener('change', () => setDrawerOpen(false));
+
   let appView = null;
   const player = createPlayer(videoEl);
   player.onError((err) => {
@@ -47,6 +90,9 @@ async function main() {
     statusEl.hidden = true;
     setLastWatched(window.localStorage, channel.url);
     appView?.setNowPlaying(channel.url);
+    if (isLandscapeDrawerActive()) {
+      setDrawerOpen(false);
+    }
     player.play(channel.url);
   }
 
