@@ -33,6 +33,7 @@ export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChan
   const categorySelect = root.querySelector('#category-filter');
   const favoritesToggle = root.querySelector('#favorites-toggle');
   const listEl = root.querySelector('#channel-list');
+  let nowPlayingUrl = null;
 
   const countryCounts = channels.reduce((counts, channel) => {
     counts[channel.country] = (counts[channel.country] || 0) + 1;
@@ -84,7 +85,21 @@ export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChan
     for (const channel of list) {
       const item = document.createElement('li');
       item.className = 'channel-item';
-      item.textContent = channel.name;
+      item.dataset.channelUrl = channel.url;
+
+      const name = document.createElement('span');
+      name.className = 'channel-name';
+      name.textContent = channel.name;
+
+      const badge = document.createElement('span');
+      badge.className = 'now-playing-badge';
+      badge.textContent = 'Now playing';
+
+      const meta = document.createElement('span');
+      meta.className = 'channel-meta';
+      meta.append(name, badge);
+
+      item.appendChild(meta);
 
       const favButton = document.createElement('button');
       favButton.type = 'button';
@@ -97,9 +112,27 @@ export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChan
       });
 
       item.appendChild(favButton);
-      item.addEventListener('click', () => onSelectChannel(channel));
+      item.addEventListener('click', () => {
+        setNowPlaying(channel.url);
+        onSelectChannel(channel);
+      });
       listEl.appendChild(item);
     }
+
+    updateNowPlayingMarkers();
+  }
+
+  function updateNowPlayingMarkers() {
+    for (const item of listEl.querySelectorAll('.channel-item')) {
+      const isPlaying = item.dataset.channelUrl === nowPlayingUrl;
+      item.classList.toggle('now-playing', isPlaying);
+      item.setAttribute('aria-current', isPlaying ? 'true' : 'false');
+    }
+  }
+
+  function setNowPlaying(url) {
+    nowPlayingUrl = url;
+    updateNowPlayingMarkers();
   }
 
   searchBox.addEventListener('input', applyFilters);
@@ -111,5 +144,5 @@ export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChan
 
   applyFilters();
 
-  return { refresh: applyFilters };
+  return { refresh: applyFilters, setNowPlaying };
 }

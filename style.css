@@ -14,6 +14,7 @@
   --line: #2a2d38;
   --field: #10131a;
   --danger: #ff6b6b;
+  --panel-transparent: rgba(27, 30, 39, 0.68);
 }
 
 :root[data-theme="light"] {
@@ -27,6 +28,7 @@
   --line: #d5dde5;
   --field: #ffffff;
   --danger: #b3261e;
+  --panel-transparent: rgba(255, 255, 255, 0.72);
 }
 
 * {
@@ -114,7 +116,9 @@ body {
 }
 
 #channel-list {
+  flex: 1 1 auto;
   list-style: none;
+  min-height: 0;
   margin: 0;
   padding: 0;
   overflow-y: auto;
@@ -127,6 +131,39 @@ body {
   padding: 0.5rem;
   cursor: pointer;
   border-bottom: 1px solid var(--line);
+}
+
+.channel-name {
+  overflow-wrap: anywhere;
+}
+
+.channel-meta {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.now-playing-badge {
+  display: none;
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.channel-item.now-playing {
+  background: var(--panel-strong);
+  border-left: 4px solid var(--accent-strong);
+  padding-left: calc(0.5rem - 4px);
+}
+
+.channel-item.now-playing .channel-name {
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.channel-item.now-playing .now-playing-badge {
+  display: inline;
 }
 
 .channel-item:hover {
@@ -171,23 +208,85 @@ body {
   color: var(--danger);
 }
 
-@media (max-width: 780px) {
+@media (max-width: 780px) and (orientation: portrait) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
   .layout {
-    flex-direction: column-reverse;
-    height: auto;
-    min-height: 100vh;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .sidebar-column {
+    flex: 1 1 auto;
+    min-height: 0;
     width: 100%;
-    min-height: 44vh;
+    overflow: hidden;
+  }
+
+  .sidebar {
+    min-height: 0;
+    overflow: hidden;
   }
 
   .player-panel {
-    min-height: 36vh;
+    order: -1;
+    flex: 0 0 auto;
+    min-height: 0;
+    padding: 0.65rem;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--bg);
   }
 
   #video {
-    max-height: 34vh;
+    aspect-ratio: 16 / 9;
+    max-height: 32vh;
+    object-fit: contain;
+  }
+}
+
+@media (max-height: 540px) and (orientation: landscape) {
+  .layout {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sidebar-column {
+    height: 100%;
+    position: relative;
+    width: min(38vw, 340px);
+    z-index: 3;
+  }
+
+  .sidebar {
+    background: var(--panel-transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  .channel-item,
+  .channel-item:hover,
+  .channel-item.now-playing {
+    background-color: transparent;
+  }
+
+  .player-panel {
+    inset: 0;
+    padding: 0.5rem;
+    position: absolute;
+  }
+
+  #video {
+    max-width: none;
+    max-height: calc(100vh - 1rem);
   }
 }

@@ -36,6 +36,7 @@ async function main() {
 
   applyTheme(themeApi.get());
 
+  let appView = null;
   const player = createPlayer(videoEl);
   player.onError((err) => {
     statusEl.textContent = `Can't play this channel: ${err.message}`;
@@ -45,6 +46,7 @@ async function main() {
   function selectChannel(channel) {
     statusEl.hidden = true;
     setLastWatched(window.localStorage, channel.url);
+    appView?.setNowPlaying(channel.url);
     player.play(channel.url);
   }
 
@@ -58,7 +60,7 @@ async function main() {
         sessionStore: window.sessionStorage,
       });
 
-      renderApp({ root, channels, favoritesApi, themeApi, onSelectChannel: selectChannel });
+      appView = renderApp({ root, channels, favoritesApi, themeApi, onSelectChannel: selectChannel });
 
       const lastWatchedUrl = getLastWatched(window.localStorage);
       const lastChannel = channels.find((c) => c.url === lastWatchedUrl);
