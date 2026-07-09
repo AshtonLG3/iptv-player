@@ -1,5 +1,6 @@
-const FAVORITES_KEY = 'sadc-iptv:favorites';
-const LAST_WATCHED_KEY = 'sadc-iptv:last-watched';
+const FAVORITES_KEY = 'fta-iptv:favorites';
+const LAST_WATCHED_KEY = 'fta-iptv:last-watched';
+const THEME_KEY = 'fta-iptv:theme';
 
 export function loadFavorites(storage) {
   const raw = storage.getItem(FAVORITES_KEY);
@@ -33,4 +34,14 @@ export function getLastWatched(storage) {
 
 export function setLastWatched(storage, channelUrl) {
   storage.setItem(LAST_WATCHED_KEY, channelUrl);
+}
+
+export function getTheme(storage) {
+  return storage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
+}
+
+export function setTheme(storage, theme) {
+  const nextTheme = theme === 'light' ? 'light' : 'dark';
+  storage.setItem(THEME_KEY, nextTheme);
+  return nextTheme;
 }

@@ -1,4 +1,4 @@
-import { SADC_COUNTRIES } from './constants.js';
+import { FTA_COUNTRIES } from './constants.js';
 
 export function extractCountryCode(tvgId) {
   if (!tvgId) return null;
@@ -48,6 +48,6 @@ export function parseM3U(text) {
   return channels;
 }
 
-export function filterBySadc(channels) {
-  return channels.filter((channel) => channel.country && SADC_COUNTRIES[channel.country]);
+export function filterByFtaCountries(channels) {
+  return channels.filter((channel) => channel.country && FTA_COUNTRIES[channel.country]);
 }

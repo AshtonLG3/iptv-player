@@ -1,10 +1,32 @@
 :root {
-  color-scheme: dark;
+  color-scheme: dark light;
+  --radius: 8px;
+}
+
+:root[data-theme="dark"] {
   --bg: #12141a;
   --panel: #1b1e27;
+  --panel-strong: #242936;
   --accent: #4da3ff;
+  --accent-strong: #8fd14f;
   --text: #e6e6e6;
   --muted: #8a8f9c;
+  --line: #2a2d38;
+  --field: #10131a;
+  --danger: #ff6b6b;
+}
+
+:root[data-theme="light"] {
+  --bg: #f4f6f8;
+  --panel: #ffffff;
+  --panel-strong: #e8edf2;
+  --accent: #0b62b4;
+  --accent-strong: #2e7d32;
+  --text: #17202a;
+  --muted: #52606d;
+  --line: #d5dde5;
+  --field: #ffffff;
+  --danger: #b3261e;
 }
 
 * {
@@ -39,11 +61,48 @@ body {
   gap: 0.5rem;
 }
 
+.app-menu {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.app-menu h1 {
+  margin: 0.1rem 0 0.35rem;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.menu-kicker {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.version-pill {
+  display: inline-block;
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.theme-control {
+  color: var(--muted);
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  min-width: 96px;
+}
+
 .sidebar input[type="search"],
 .sidebar select {
   width: 100%;
   padding: 0.4rem;
-  background: var(--bg);
+  background: var(--field);
   color: var(--text);
   border: 1px solid var(--muted);
   border-radius: 4px;
@@ -67,11 +126,11 @@ body {
   align-items: center;
   padding: 0.5rem;
   cursor: pointer;
-  border-bottom: 1px solid #2a2d38;
+  border-bottom: 1px solid var(--line);
 }
 
 .channel-item:hover {
-  background: #262a35;
+  background: var(--panel-strong);
 }
 
 .favorite-btn {
@@ -80,6 +139,11 @@ body {
   color: var(--accent);
   cursor: pointer;
   font-size: 1.1rem;
+}
+
+.empty-state {
+  color: var(--muted);
+  padding: 0.75rem 0.5rem;
 }
 
 #retry-button {
@@ -104,5 +168,26 @@ body {
 }
 
 #player-status {
-  color: #ff6b6b;
+  color: var(--danger);
+}
+
+@media (max-width: 780px) {
+  .layout {
+    flex-direction: column-reverse;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .sidebar-column {
+    width: 100%;
+    min-height: 44vh;
+  }
+
+  .player-panel {
+    min-height: 36vh;
+  }
+
+  #video {
+    max-height: 34vh;
+  }
 }

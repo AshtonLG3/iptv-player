@@ -1,18 +1,11 @@
-export const SADC_COUNTRIES = {
-  ao: 'Angola',
-  bw: 'Botswana',
-  km: 'Comoros',
-  cd: 'DR Congo',
-  sz: 'Eswatini',
-  ls: 'Lesotho',
-  mg: 'Madagascar',
-  mw: 'Malawi',
-  mu: 'Mauritius',
-  mz: 'Mozambique',
-  na: 'Namibia',
-  sc: 'Seychelles',
-  za: 'South Africa',
-  tz: 'Tanzania',
-  zm: 'Zambia',
+export const APP_NAME = 'FTA IPTV Player';
+export const APP_VERSION = '1.1.0';
+
+export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
+  za: 'South Africa',
+  zm: 'Zambia',
+  bw: 'Botswana',
+  ke: 'Kenya',
+  uk: 'United Kingdom',
 };

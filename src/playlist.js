@@ -1,7 +1,7 @@
-import { parseM3U, filterBySadc } from './parser.js';
+import { parseM3U, filterByFtaCountries } from './parser.js';
 
 const PLAYLIST_URL = 'https://iptv-org.github.io/iptv/index.m3u';
-const CACHE_KEY = 'sadc-iptv:playlist-cache';
+const CACHE_KEY = 'fta-iptv:playlist-cache';
 
 export async function loadChannels({ fetchImpl, sessionStore }) {
   const cached = sessionStore.getItem(CACHE_KEY);
@@ -9,7 +9,7 @@ export async function loadChannels({ fetchImpl, sessionStore }) {
     try {
       return JSON.parse(cached);
     } catch {
-      // corrupted cache entry — fall through and fetch fresh
+      // Corrupted cache entry; fall through and fetch fresh.
     }
   }
 
@@ -19,7 +19,7 @@ export async function loadChannels({ fetchImpl, sessionStore }) {
   }
 
   const text = await response.text();
-  const channels = filterBySadc(parseM3U(text));
+  const channels = filterByFtaCountries(parseM3U(text));
   sessionStore.setItem(CACHE_KEY, JSON.stringify(channels));
   return channels;
 }

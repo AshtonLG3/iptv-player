@@ -6,6 +6,8 @@ import {
   isFavorite,
   getLastWatched,
   setLastWatched,
+  getTheme,
+  setTheme,
 } from '../src/storage.js';
 
 function createFakeStorage() {
@@ -41,4 +43,14 @@ test('getLastWatched is null until setLastWatched is called', () => {
 
   setLastWatched(storage, 'https://example.com/nbc1.m3u8');
   assert.equal(getLastWatched(storage), 'https://example.com/nbc1.m3u8');
+});
+
+test('theme storage defaults to dark and persists light mode', () => {
+  const storage = createFakeStorage();
+
+  assert.equal(getTheme(storage), 'dark');
+  assert.equal(setTheme(storage, 'light'), 'light');
+  assert.equal(getTheme(storage), 'light');
+  assert.equal(setTheme(storage, 'unexpected'), 'dark');
+  assert.equal(getTheme(storage), 'dark');
 });

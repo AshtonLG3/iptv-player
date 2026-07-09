@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseM3U, extractCountryCode, filterBySadc } from '../src/parser.js';
+import { parseM3U, extractCountryCode, filterByFtaCountries } from '../src/parser.js';
 
 const SAMPLE = `#EXTM3U
 #EXTINF:-1 tvg-id="NBC1.na@SD" tvg-logo="https://example.com/nbc.png" group-title="General",NBC1 (720p)
@@ -12,6 +12,14 @@ https://example.com/2m.m3u8
 https://example.com/unknown.m3u8
 #EXTINF:-1 tvg-id="CapeTownTV.za@SD" tvg-logo="" group-title="Entertainment;Family",Cape Town TV
 https://example.com/capetown.m3u8
+#EXTINF:-1 tvg-id="KBC.ke@SD" tvg-logo="" group-title="News",KBC
+https://example.com/kbc.m3u8
+#EXTINF:-1 tvg-id="ZNBC.zm@SD" tvg-logo="" group-title="General",ZNBC
+https://example.com/znbc.m3u8
+#EXTINF:-1 tvg-id="BTV.bw@SD" tvg-logo="" group-title="General",BTV
+https://example.com/btv.m3u8
+#EXTINF:-1 tvg-id="BBCNews.uk@SD" tvg-logo="" group-title="News",BBC News
+https://example.com/bbc.m3u8
 `;
 
 test('extractCountryCode reads the country suffix from tvg-id', () => {
@@ -25,7 +33,7 @@ test('extractCountryCode reads the country suffix from tvg-id', () => {
 test('parseM3U extracts all channels, skipping #EXTVLCOPT lines', () => {
   const channels = parseM3U(SAMPLE);
 
-  assert.equal(channels.length, 4);
+  assert.equal(channels.length, 8);
   assert.deepEqual(channels[0], {
     name: 'NBC1 (720p)',
     tvgId: 'NBC1.na@SD',
@@ -38,15 +46,16 @@ test('parseM3U extracts all channels, skipping #EXTVLCOPT lines', () => {
   assert.equal(channels[1].country, 'ma');
   assert.equal(channels[2].country, null);
   assert.equal(channels[3].category, 'Entertainment;Family');
+  assert.equal(channels[7].country, 'uk');
 });
 
-test('filterBySadc keeps only SADC-country channels', () => {
+test('filterByFtaCountries keeps only selected FTA country channels', () => {
   const channels = parseM3U(SAMPLE);
-  const filtered = filterBySadc(channels);
+  const filtered = filterByFtaCountries(channels);
 
-  assert.equal(filtered.length, 2);
+  assert.equal(filtered.length, 5);
   assert.deepEqual(
     filtered.map((c) => c.name),
-    ['NBC1 (720p)', 'Cape Town TV'],
+    ['Cape Town TV', 'KBC', 'ZNBC', 'BTV', 'BBC News'],
   );
 });

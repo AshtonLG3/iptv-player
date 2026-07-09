@@ -2,7 +2,9 @@ import { loadChannels } from './src/playlist.js';
 import { renderApp } from './src/ui.js';
 import { createPlayer } from './src/player.js';
 import {
+  getTheme,
   isFavorite,
+  setTheme,
   toggleFavorite,
   getLastWatched,
   setLastWatched,
@@ -14,10 +16,25 @@ async function main() {
   const statusEl = document.getElementById('player-status');
   const retryButton = document.getElementById('retry-button');
 
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+  }
+
   const favoritesApi = {
     isFavorite: (url) => isFavorite(window.localStorage, url),
     toggle: (url) => toggleFavorite(window.localStorage, url),
   };
+
+  const themeApi = {
+    get: () => getTheme(window.localStorage),
+    set: (theme) => {
+      const nextTheme = setTheme(window.localStorage, theme);
+      applyTheme(nextTheme);
+      return nextTheme;
+    },
+  };
+
+  applyTheme(themeApi.get());
 
   const player = createPlayer(videoEl);
   player.onError((err) => {
@@ -33,7 +50,7 @@ async function main() {
 
   async function boot() {
     retryButton.hidden = true;
-    root.textContent = 'Loading channels...';
+    root.textContent = 'Loading FTA channels...';
 
     try {
       const channels = await loadChannels({
@@ -41,7 +58,7 @@ async function main() {
         sessionStore: window.sessionStorage,
       });
 
-      renderApp({ root, channels, favoritesApi, onSelectChannel: selectChannel });
+      renderApp({ root, channels, favoritesApi, themeApi, onSelectChannel: selectChannel });
 
       const lastWatchedUrl = getLastWatched(window.localStorage);
       const lastChannel = channels.find((c) => c.url === lastWatchedUrl);

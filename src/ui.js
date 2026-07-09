@@ -1,8 +1,22 @@
-import { SADC_COUNTRIES } from './constants.js';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js';
 
-export function renderApp({ root, channels, favoritesApi, onSelectChannel }) {
+export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChannel }) {
   root.innerHTML = `
     <aside class="sidebar">
+      <header class="app-menu">
+        <div>
+          <p class="menu-kicker">Player</p>
+          <h1>${APP_NAME}</h1>
+          <span class="version-pill">v${APP_VERSION}</span>
+        </div>
+        <label class="theme-control" for="theme-select">
+          <span>Theme</span>
+          <select id="theme-select">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+        </label>
+      </header>
       <input type="search" id="search-box" placeholder="Search channels..." />
       <select id="country-filter"><option value="">All countries</option></select>
       <select id="category-filter"><option value="">All categories</option></select>
@@ -14,16 +28,21 @@ export function renderApp({ root, channels, favoritesApi, onSelectChannel }) {
   `;
 
   const searchBox = root.querySelector('#search-box');
+  const themeSelect = root.querySelector('#theme-select');
   const countrySelect = root.querySelector('#country-filter');
   const categorySelect = root.querySelector('#category-filter');
   const favoritesToggle = root.querySelector('#favorites-toggle');
   const listEl = root.querySelector('#channel-list');
 
-  const countries = [...new Set(channels.map((c) => c.country))].sort();
-  for (const code of countries) {
+  const countryCounts = channels.reduce((counts, channel) => {
+    counts[channel.country] = (counts[channel.country] || 0) + 1;
+    return counts;
+  }, {});
+
+  for (const [code, name] of Object.entries(FTA_COUNTRIES)) {
     const opt = document.createElement('option');
     opt.value = code;
-    opt.textContent = SADC_COUNTRIES[code] || code;
+    opt.textContent = `${name} (${countryCounts[code] || 0})`;
     countrySelect.appendChild(opt);
   }
 
@@ -54,6 +73,14 @@ export function renderApp({ root, channels, favoritesApi, onSelectChannel }) {
 
   function renderList(list) {
     listEl.innerHTML = '';
+    if (list.length === 0) {
+      const emptyItem = document.createElement('li');
+      emptyItem.className = 'empty-state';
+      emptyItem.textContent = 'No channels found for this filter.';
+      listEl.appendChild(emptyItem);
+      return;
+    }
+
     for (const channel of list) {
       const item = document.createElement('li');
       item.className = 'channel-item';
@@ -76,6 +103,8 @@ export function renderApp({ root, channels, favoritesApi, onSelectChannel }) {
   }
 
   searchBox.addEventListener('input', applyFilters);
+  themeSelect.value = themeApi.get();
+  themeSelect.addEventListener('change', () => themeApi.set(themeSelect.value));
   countrySelect.addEventListener('change', applyFilters);
   categorySelect.addEventListener('change', applyFilters);
   favoritesToggle.addEventListener('change', applyFilters);

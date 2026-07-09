@@ -5,6 +5,8 @@ import { loadChannels } from '../src/playlist.js';
 const SAMPLE = `#EXTM3U
 #EXTINF:-1 tvg-id="NBC1.na@SD" tvg-logo="" group-title="General",NBC1
 https://example.com/nbc1.m3u8
+#EXTINF:-1 tvg-id="KBC.ke@SD" tvg-logo="" group-title="News",KBC
+https://example.com/kbc.m3u8
 #EXTINF:-1 tvg-id="2MMonde.ma@SD" tvg-logo="" group-title="General",2M Monde
 https://example.com/2m.m3u8
 `;
@@ -18,7 +20,7 @@ function createFakeStore() {
   };
 }
 
-test('loadChannels fetches, parses, and filters to SADC channels on first call', async () => {
+test('loadChannels fetches, parses, and filters to selected FTA country channels on first call', async () => {
   let fetchCalls = 0;
   const fetchImpl = async () => {
     fetchCalls += 1;
@@ -30,8 +32,8 @@ test('loadChannels fetches, parses, and filters to SADC channels on first call',
 
   assert.equal(fetchCalls, 1);
   assert.equal(channels.length, 1);
-  assert.equal(channels[0].name, 'NBC1');
-  assert.equal(channels[0].country, 'na');
+  assert.equal(channels[0].name, 'KBC');
+  assert.equal(channels[0].country, 'ke');
 });
 
 test('loadChannels reuses the cached result on a second call without re-fetching', async () => {
@@ -47,7 +49,7 @@ test('loadChannels reuses the cached result on a second call without re-fetching
 
   assert.equal(fetchCalls, 1);
   assert.equal(second.length, 1);
-  assert.equal(second[0].name, 'NBC1');
+  assert.equal(second[0].name, 'KBC');
 });
 
 test('loadChannels throws and does not cache when the fetch response is not ok', async () => {
@@ -58,7 +60,7 @@ test('loadChannels throws and does not cache when the fetch response is not ok',
     () => loadChannels({ fetchImpl, sessionStore }),
     /Failed to fetch playlist: 500/,
   );
-  assert.equal(sessionStore.getItem('sadc-iptv:playlist-cache'), null);
+  assert.equal(sessionStore.getItem('fta-iptv:playlist-cache'), null);
 });
 
 test('loadChannels recovers from corrupted cache by fetching fresh', async () => {
@@ -70,12 +72,12 @@ test('loadChannels recovers from corrupted cache by fetching fresh', async () =>
   const sessionStore = createFakeStore();
 
   // seed cache with corrupted (non-JSON) data
-  sessionStore.setItem('sadc-iptv:playlist-cache', 'corrupted{][}invalid');
+  sessionStore.setItem('fta-iptv:playlist-cache', 'corrupted{][}invalid');
 
   const channels = await loadChannels({ fetchImpl, sessionStore });
 
   assert.equal(fetchCalls, 1);
   assert.equal(channels.length, 1);
-  assert.equal(channels[0].name, 'NBC1');
-  assert.equal(channels[0].country, 'na');
+  assert.equal(channels[0].name, 'KBC');
+  assert.equal(channels[0].country, 'ke');
 });
