@@ -1,4 +1,5 @@
 import { loadChannels } from './src/playlist.js';
+import { OFFICIAL_SERVICES } from './src/constants.js';
 import { renderApp } from './src/ui.js';
 import { createPlayer } from './src/player.js';
 import {
@@ -18,6 +19,7 @@ async function main() {
   const layoutEl = document.querySelector('.layout');
   const drawerHandle = document.getElementById('drawer-handle');
   const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
+  const officialServiceById = Object.fromEntries(OFFICIAL_SERVICES.map((service) => [service.id, service]));
   let touchStartX = 0;
   let touchStartY = 0;
 
@@ -80,13 +82,43 @@ async function main() {
   landscapeDrawerQuery.addEventListener('change', () => setDrawerOpen(false));
 
   let appView = null;
+  let currentChannel = null;
   const player = createPlayer(videoEl);
   player.onError((err) => {
-    statusEl.textContent = `Can't play this channel: ${err.message}`;
+    renderPlayerError(err);
     statusEl.hidden = false;
   });
 
+  function getOfficialFallback(channel) {
+    if (!channel) return null;
+    const name = channel.name.toLowerCase();
+    if (name.includes('sabc sport')) return officialServiceById['sabc-sport'];
+    if (name.includes('sabc')) return officialServiceById['sabc-plus'];
+    if (name.includes('zbc')) return officialServiceById.zplus;
+    if (name.includes('e.tv') || name.includes('etv') || name.includes('evod') || name.includes('emovies') || name.includes('eextra')) {
+      return officialServiceById.evod;
+    }
+    return null;
+  }
+
+  function renderPlayerError(err) {
+    statusEl.textContent = '';
+    statusEl.append(document.createTextNode(`Can't play this channel: ${err.message}`));
+
+    const fallback = getOfficialFallback(currentChannel);
+    if (!fallback) return;
+
+    const link = document.createElement('a');
+    link.href = fallback.url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = `Open ${fallback.name}`;
+    statusEl.append(document.createTextNode('  '));
+    statusEl.appendChild(link);
+  }
+
   function selectChannel(channel) {
+    currentChannel = channel;
     statusEl.hidden = true;
     setLastWatched(window.localStorage, channel.url);
     appView?.setNowPlaying(channel.url);

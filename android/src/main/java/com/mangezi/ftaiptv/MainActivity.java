@@ -1,6 +1,8 @@
 package com.mangezi.ftaiptv;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
@@ -14,6 +16,7 @@ import android.webkit.WebViewClient;
 import androidx.webkit.WebViewAssetLoader;
 
 public final class MainActivity extends Activity {
+    private static final String APP_ASSET_HOST = "appassets.androidplatform.net";
     private WebView webView;
 
     @Override
@@ -52,7 +55,20 @@ public final class MainActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri url = request.getUrl();
                 String scheme = url.getScheme();
-                return !("http".equals(scheme) || "https".equals(scheme));
+                if (!("http".equals(scheme) || "https".equals(scheme))) {
+                    return true;
+                }
+
+                if (APP_ASSET_HOST.equals(url.getHost())) {
+                    return false;
+                }
+
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, url));
+                    return true;
+                } catch (ActivityNotFoundException ignored) {
+                    return false;
+                }
             }
         });
 

@@ -122,9 +122,52 @@ body {
   border-radius: 4px;
 }
 
-.favorites-label {
+.favorites-label,
+.blocked-label {
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.official-services {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  padding: 0.35rem 0;
+}
+
+.official-services summary {
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.official-service-list {
+  display: grid;
+  gap: 0.35rem;
+  padding-top: 0.5rem;
+}
+
+.official-service-link {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.45rem;
+  text-decoration: none;
+}
+
+.official-service-link:hover {
+  border-color: var(--accent);
+}
+
+.official-service-name {
+  font-weight: 700;
+}
+
+.official-service-meta {
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 #channel-list {
@@ -156,6 +199,26 @@ body {
   display: grid;
   gap: 0.15rem;
   min-width: 0;
+}
+
+.channel-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.channel-flag {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.05rem 0.35rem;
+  text-transform: uppercase;
+}
+
+.channel-flag.warning {
+  color: var(--danger);
 }
 
 .now-playing-badge {
@@ -221,6 +284,11 @@ body {
 
 #player-status {
   color: var(--danger);
+}
+
+#player-status a {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 @media (max-width: 780px) and (orientation: portrait) {
