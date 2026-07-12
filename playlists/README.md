@@ -16,11 +16,12 @@
 
 ### South Africa: SABC channels ([ZA IP only])
 
-SABC 1, SABC 2, SABC News, and SABC Lehae have public HLS feeds on SABC's own
-CDN (`*.cdn.mangomolo.com`), but they are geo-locked to South African IP
-addresses. They are included in the playlist tagged `[ZA IP only]` — from
-inside South Africa they play in VLC/TiviMate; from anywhere else they will
-error. SABC 3 has no public HLS feed; it is only on SABC+ (DRM).
+SABC News and SABC Lehae have public HLS feeds on SABC's own CDN
+(`*.cdn.mangomolo.com`), geo-locked to South African IP addresses. They are
+included tagged `[ZA IP only]` and are confirmed working from inside South
+Africa (tested 2026-07-12). SABC 1 and SABC 2 had public URLs in the same
+family, but they turned out to be dead even from a ZA IP and were removed;
+SABC 1, 2, and 3 are otherwise only on SABC+ (DRM).
 
 ### eTV and ZBC/ZTV: why they are not in the M3U
 
@@ -32,8 +33,24 @@ error. SABC 3 has no public HLS feed; it is only on SABC+ (DRM).
   (https://zbc.ottplatform.com/) and on ZBC's YouTube live streams
   (https://www.youtube.com/@zbcentertainment/streams). Neither is a raw HLS
   feed: Z+ is app-gated and YouTube URLs do not play in standard M3U players
-  (TiviMate/VLC need a plain stream URL). The only zw entry in iptv-org
-  (Yadah TV) is flagged `Not 24/7`, so it was left out.
+  (TiviMate/VLC need a plain stream URL).
+
+### Zimbabwe, Zambia, Botswana: what exists
+
+Both major community stream databases (iptv-org and Free-TV) were checked on
+2026-07-12:
+
+- **Zimbabwe**: exactly one public stream exists — Yadah TV, flagged
+  `Not 24/7`. It is now included under `Zimbabwe - Religious` as the sole zw
+  entry. ZBC/ZTV: see above (Z+ app or YouTube only).
+- **Zambia**: zero public streams in either database. ZNBC and the private
+  channels (Diamond TV, KBN TV, etc.) stream via their own sites, apps, and
+  YouTube live channels — none expose a plain HLS URL.
+- **Botswana**: zero public streams in either database. Btv/DBS is
+  app/YouTube only.
+
+This is a supply problem, not a playlist problem: if a working public feed
+for these countries appears upstream, it can be added on the next refresh.
 
 ### Sky channels
 
@@ -59,6 +76,10 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-12 (2nd update): removed SABC 1 and SABC 2 (dead even from a ZA
+  IP; SABC News and Lehae confirmed working). Removed duplicate FIFA+ and
+  NOW Rock entries. Added Yadah TV (Zimbabwe, `Not 24/7`). Documented the
+  Zimbabwe/Zambia/Botswana public-stream situation.
 - 2026-07-12: added South Africa block (SABC 1 / SABC 2 / SABC News /
   SABC Lehae `[ZA IP only]`, GNF TV, Homebase TV, Redemption TV Ministry) and
   UK official free feeds (GB News, Bloomberg TV Europe, FIFA+, GREAT! movies,
