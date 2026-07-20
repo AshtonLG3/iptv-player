@@ -8,9 +8,18 @@
   - Generated: 2026-07-12.
   - Verification: each included URL responded during generation.
   - Excluded: entries marked `Geo-blocked` or `Not 24/7`.
+- `sports-africa-uk-us-verified.m3u`
+  - Source: `https://iptv-org.github.io/iptv/categories/sports.m3u`.
+  - Focus: sports channels for English-speaking African countries, UK, and USA.
+  - Generated: 2026-07-20.
+  - Verification: each included URL responded during generation.
+  - Excluded: entries marked `Geo-blocked`, `Not 24/7`, or `Offline`, plus obvious premium/pay-TV mirrors.
+  - Current result: the source had verified UK/USA entries only; no English-speaking African-country sports streams were present.
 
 This is still a public-stream playlist. It is suitable for VLC or TiviMate, but
 it should be refreshed periodically because public broadcaster URLs can change.
+The `categories/sports.m3u` source is live-channel only; it does not include
+VOD entries.
 
 ## OTT and App Sources
 
