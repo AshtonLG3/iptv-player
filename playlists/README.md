@@ -18,7 +18,7 @@
   - Focus: sports channels for English-speaking African countries, UK, and USA.
   - Generated: 2026-07-20.
   - Verification: each included URL responded during generation.
-  - Excluded: entries marked `Geo-blocked`, `Not 24/7`, or `Offline`, plus obvious premium/pay-TV mirrors.
+  - Excluded: only entries that did not respond during generation.
   - Current result: the source had verified UK/USA entries only; no English-speaking African-country sports streams were present.
 
 This is still a public-stream playlist. It is suitable for VLC or TiviMate, but
@@ -88,6 +88,9 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-20 (2nd update): regenerated `sports-africa-uk-us-verified.m3u`
+  without name-based exclusions. If a target-country stream from iptv-org's
+  sports category responded, it is included. Result: 92 entries.
 - 2026-07-20: added `sports-africa-uk-us-verified.m3u` from iptv-org's sports
   category. Tested 109 target-country sports candidates; 92 responded, then
   obvious premium/pay-TV mirrors were excluded, leaving 60 curated sports
