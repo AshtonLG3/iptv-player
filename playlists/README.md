@@ -5,21 +5,23 @@
 - `english-africa-uk-us-verified.m3u`
   - Source: `iptv-org` public playlist and streams database.
   - Focus: English-speaking African countries, UK, and USA.
-  - Generated: 2026-07-12. Last updated: 2026-07-12.
-  - Verification: each URL responded during the original generation. Entries
-    added in the 2026-07-12 update come from the iptv-org streams database
-    (which is continuously health-checked upstream) but could not be
-    re-verified from the update environment because its network egress is
-    restricted; report any dead entries and they will be swapped or removed.
-  - Excluded: entries marked `Not 24/7`, and `Geo-blocked` entries **except**
-    the SABC channels described below.
+  - Generated: 2026-07-12. Last updated: 2026-07-20.
+  - Current result: 297 entries.
+  - Verification: original base entries responded during their generation.
+    The 2026-07-20 sports additions responded during the sports refresh.
+  - Excluded: dead/non-responding entries, plus `Geo-blocked` entries
+    **except** the SABC channels described below. FIFA/FIFA+ entries were
+    removed because that content has moved to DAZN.
+  - Use this as the main TiviMate/VLC playlist.
 - `sports-africa-uk-us-verified.m3u`
   - Source: `https://iptv-org.github.io/iptv/categories/sports.m3u`.
   - Focus: sports channels for English-speaking African countries, UK, and USA.
   - Generated: 2026-07-20.
   - Verification: each included URL responded during generation.
-  - Excluded: only entries that did not respond during generation.
-  - Current result: the source had verified UK/USA entries only; no English-speaking African-country sports streams were present.
+  - Excluded: entries that did not respond during generation, plus
+    FIFA/FIFA+ channels.
+  - Current result: 83 entries.
+  - Country coverage: the source had verified UK/USA entries only; no English-speaking African-country sports streams were present.
 
 This is still a public-stream playlist. It is suitable for VLC or TiviMate, but
 it should be refreshed periodically because public broadcaster URLs can change.
@@ -88,6 +90,11 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-20 (3rd update): corrected the main playlist behavior. The main
+  `english-africa-uk-us-verified.m3u` now keeps the 226-channel base, removes
+  9 FIFA/FIFA+ entries, and adds 80 unique responding sports streams, for 297
+  entries total. The separate sports playlist remains available for
+  sports-only use at 83 entries after the same FIFA/FIFA+ removal.
 - 2026-07-20 (2nd update): regenerated `sports-africa-uk-us-verified.m3u`
   without name-based exclusions. If a target-country stream from iptv-org's
   sports category responded, it is included. Result: 92 entries.

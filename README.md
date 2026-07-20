@@ -27,6 +27,16 @@ The Android app loads the same local player UI and fetches public playlist data
 at runtime. HTTP streams are allowed because some public IPTV sources still use
 cleartext URLs.
 
+## M3U Playlists
+
+Main combined playlist for TiviMate/VLC:
+
+    https://raw.githubusercontent.com/AshtonLG3/iptv-player/refs/heads/master/playlists/english-africa-uk-us-verified.m3u
+
+Sports-only playlist:
+
+    https://raw.githubusercontent.com/AshtonLG3/iptv-player/refs/heads/master/playlists/sports-africa-uk-us-verified.m3u
+
 ## Official fallbacks
 
 The in-app channel list is still sourced from public `iptv-org` streams, but
