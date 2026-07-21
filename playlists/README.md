@@ -9,10 +9,11 @@
   - Focus: English-language channels from English-speaking African countries,
     UK, USA, plus verified English FAST/cue-sports channels.
   - Generated: 2026-07-12. Last updated: 2026-07-21.
-  - Current result: 235 entries.
+  - Current result: 234 entries.
   - Verification: original base entries responded during their generation.
     The 2026-07-20 sports additions responded during the sports refresh.
-    WirelessHack-listed additions responded on 2026-07-21.
+    WirelessHack-listed additions, Al Jazeera English, and France 24 English
+    responded on 2026-07-21.
   - Excluded: dead/non-responding entries, geo-locked entries, religious
     channels, FIFA/FIFA+ channels, and obvious non-English variants.
   - Folders: reduced to `Africa`, `UK`, `USA`, `Sports`, `Cue Sports`, and
@@ -96,6 +97,10 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-21 (3rd update): removed remaining non-English regional entries from
+  the main `UK` folder: Afghanistan International, BBC News Latin America, and
+  Brit Asia TV. Added verified Al Jazeera English and France 24 English to the
+  `International` folder. Result: 234 main entries and 75 sports-only entries.
 - 2026-07-21 (2nd update): removed religious channels and the remaining
   geo-locked SABC entries. Added 18 verified English FAST channels from
   WirelessHack-listed no-geo/multiple-region playlists, including Billiards TV
