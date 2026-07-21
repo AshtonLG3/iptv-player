@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-07-21T18:43:24.642Z",
+  "updated": "2026-07-21T19:06:54.633Z",
   "rules": {
     "allowedGroups": [
       "Africa",
@@ -77,7 +77,20 @@
       "Magna Vision",
       "BBC Earth Greece",
       "^Channel S(?:\\s|$|\\()",
-      "DAZN Combat"
+      "DAZN Combat",
+      "\\bOTV\\b",
+      "Resurrection TV",
+      "News Central",
+      "BCS StarCross",
+      "Bride TV",
+      "Qausain",
+      "Salvation TV",
+      "Sunna TV",
+      "Synagogue TV",
+      "Wazobia Max",
+      "ROV TV",
+      "GNF TV",
+      "Homebase TV"
     ]
   },
   "outputs": {
@@ -117,38 +130,12 @@
       "notes": ""
     },
     {
-      "id": "OTV.gh@SD",
-      "name": "OTV (720p)",
-      "group": "Africa",
-      "logo": "https://pbs.twimg.com/profile_images/1034118312437919744/emeWo-ag_400x400.jpg",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://5dcabf026b188.streamlock.net/OceansTV/livestream/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
       "id": "AdinkraTV.gh@SD",
       "name": "Adinkra TV (1080p)",
       "group": "Africa",
       "logo": "https://i.imgur.com/uwuSXJ8.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://59d39900ebfb8.streamlock.net/adinkratvny/adinkratvny/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "ResurrectionTV.gh@SD",
-      "name": "Resurrection TV (720p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/IncyJW8.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://1681360479.rsc.cdn77.org/1681360479/index.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
@@ -182,38 +169,12 @@
       "notes": ""
     },
     {
-      "id": "NewsCentral.ng@SD",
-      "name": "News Central",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/qvCgI8N.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://wf.newscentral.ng:8443/hls/stream.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
       "id": "AdvocateBroadcastingNetwork.ng@SD",
       "name": "Advocate Broadcasting Network (576p)",
       "group": "Africa",
       "logo": "https://i.imgur.com/ZkBEAp7.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_045/Stream/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "BCSStarCrossTV.ng@SD",
-      "name": "BCS StarCross TV (576p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/VKv1Y6p.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_001/Stream/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
@@ -247,45 +208,6 @@
       "notes": ""
     },
     {
-      "id": "WazobiaMaxTVNigeria.ng@SD",
-      "name": "Wazobia Max TV Nigeria (720p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/IeioxBp.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://wazobia.live:8333/channel/wmax.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "BrideTV.ng@SD",
-      "name": "Bride TV (576p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/snZMucg.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_013/Stream/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "QausainTV.ng@SD",
-      "name": "Qausain TV (720p)",
-      "group": "Africa",
-      "logo": "https://i.ibb.co/N70QyQ7/Qausain-TV-logo.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://acasmedia3.acangroup.org/qausaintv/qausaintv_output/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
       "id": "RaveTV.ng@SD",
       "name": "Rave TV (576p)",
       "group": "Africa",
@@ -299,77 +221,12 @@
       "notes": ""
     },
     {
-      "id": "SalvationTV.ng@SD",
-      "name": "Salvation TV (576p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/Nb08dfK.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_017/Stream/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "SunnaTV.ng@SD",
-      "name": "Sunna TV (576p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/K2Snk2T.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_015/Stream/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
       "id": "SuperscreenTV.ng@SD",
       "name": "Superscreen TV (412p)",
       "group": "Africa",
       "logo": "https://i.imgur.com/uTNmSWE.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://video1.getstreamhosting.com:1936/8398/8398/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "SynagogueTV.ng@SD",
-      "name": "Synagogue TV (576p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/MOaBr9M.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_038/Stream/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "WazobiaMaxTVAbuja.ng@SD",
-      "name": "Wazobia Max TV Abuja (720p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/XYMKPPT.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://wazobia.live:8333/channel/wmaxabuja.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "WazobiaMaxTVPortHarcourt.ng@SD",
-      "name": "Wazobia Max TV Port Harcourt (720p)",
-      "group": "Africa",
-      "logo": "https://rndcdn.dstv.com/dstvcms/2016/10/20/WazobiaMaz_new4-4logo_001_xlrg.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://wazobia.live:8333/channel/wmaxph.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
@@ -1321,45 +1178,6 @@
       "logo": "https://i.imgur.com/Vhv5gjN.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://dqga3jatxofgx.cloudfront.net/WildEarth.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "ROVTV.za@SD",
-      "name": "ROV TV (576p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/sbeuEYY.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_012/Stream/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "GNFTV.za@SD",
-      "name": "GNF TV (576p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/vCB7u0e.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://oqgdrb8my4rm-hls-live.5centscdn.com/GNF02/bcea197d8b00f79cb716c6288a861000.sdp/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "HomebaseTV.za@SD",
-      "name": "Homebase TV (480p)",
-      "group": "Africa",
-      "logo": "https://i.imgur.com/MaLNfJG.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_022/Stream/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"

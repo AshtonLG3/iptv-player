@@ -55,6 +55,9 @@ Track repeated failures locally while verifying:
 
     npm run playlists:verify -- --update-health
 
+The verifier only reports health. It never removes or blocks a channel, and a
+later healthy response resets that channel's consecutive failure count.
+
 Create a dated restore snapshot before risky refreshes:
 
     npm run playlists:archive
