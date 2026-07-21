@@ -14,6 +14,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import androidx.webkit.WebViewAssetLoader;
+import java.net.URISyntaxException;
 
 public final class MainActivity extends Activity {
     private static final String APP_ASSET_HOST = "appassets.androidplatform.net";
@@ -55,6 +56,10 @@ public final class MainActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri url = request.getUrl();
                 String scheme = url.getScheme();
+                if ("intent".equals(scheme)) {
+                    return openIntentUrl(url.toString());
+                }
+
                 if (!("http".equals(scheme) || "https".equals(scheme))) {
                     return true;
                 }
@@ -74,6 +79,22 @@ public final class MainActivity extends Activity {
 
         setContentView(webView);
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
+    }
+
+    private boolean openIntentUrl(String url) {
+        try {
+            Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException missingApp) {
+                String fallbackUrl = intent.getStringExtra("browser_fallback_url");
+                if (fallbackUrl == null) return true;
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(fallbackUrl)));
+            }
+        } catch (ActivityNotFoundException | URISyntaxException ignored) {
+            return true;
+        }
+        return true;
     }
 
     @Override

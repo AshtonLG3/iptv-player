@@ -8,7 +8,14 @@ function isIntermittentChannel(channel) {
   return /\[not 24\/7\]/i.test(channel.name);
 }
 
-export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChannel }) {
+export function renderApp({
+  root,
+  channels,
+  favoritesApi,
+  themeApi,
+  playlistAccessApi = null,
+  onSelectChannel,
+}) {
   root.innerHTML = `
     <aside class="sidebar">
       <header class="app-menu">
@@ -34,6 +41,12 @@ export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChan
       <label class="favorites-label">
         <input type="checkbox" id="favorites-toggle" /> Favorites only
       </label>
+      <details class="playlist-access">
+        <summary>Playlist links</summary>
+        <div id="playlist-link-list" class="playlist-link-list"></div>
+        <p id="playlist-action-status" class="playlist-action-status" role="status"></p>
+        <div id="compatible-player-list" class="compatible-player-list"></div>
+      </details>
       <details class="official-services">
         <summary>Official sources</summary>
         <div id="official-service-list" class="official-service-list"></div>
@@ -48,6 +61,9 @@ export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChan
   const categorySelect = root.querySelector('#category-filter');
   const hideBlockedToggle = root.querySelector('#hide-blocked-toggle');
   const favoritesToggle = root.querySelector('#favorites-toggle');
+  const playlistLinkList = root.querySelector('#playlist-link-list');
+  const playlistActionStatus = root.querySelector('#playlist-action-status');
+  const compatiblePlayerList = root.querySelector('#compatible-player-list');
   const officialServiceList = root.querySelector('#official-service-list');
   const listEl = root.querySelector('#channel-list');
   let nowPlayingUrl = null;
@@ -89,6 +105,10 @@ export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChan
 
     link.append(name, meta);
     officialServiceList.appendChild(link);
+  }
+
+  if (playlistAccessApi) {
+    renderPlaylistAccess();
   }
 
   function applyFilters() {
@@ -189,6 +209,102 @@ export function renderApp({ root, channels, favoritesApi, themeApi, onSelectChan
   function setNowPlaying(url) {
     nowPlayingUrl = url;
     updateNowPlayingMarkers();
+  }
+
+  function renderPlaylistAccess() {
+    playlistLinkList.innerHTML = '';
+    compatiblePlayerList.innerHTML = '';
+
+    for (const playlist of playlistAccessApi.playlists) {
+      const url = playlistAccessApi.resolveUrl(playlist);
+      const row = document.createElement('section');
+      row.className = 'playlist-link-row';
+
+      const text = document.createElement('div');
+      text.className = 'playlist-link-text';
+
+      const name = document.createElement('strong');
+      name.textContent = playlist.name;
+
+      const description = document.createElement('span');
+      description.textContent = playlist.description;
+
+      text.append(name, description);
+
+      const actions = document.createElement('div');
+      actions.className = 'playlist-actions';
+
+      const openLink = document.createElement('a');
+      openLink.href = url;
+      openLink.target = '_blank';
+      openLink.rel = 'noopener';
+      openLink.className = 'playlist-action';
+      openLink.textContent = 'Open M3U';
+
+      const copyButton = document.createElement('button');
+      copyButton.type = 'button';
+      copyButton.className = 'playlist-action';
+      copyButton.textContent = 'Copy URL';
+      copyButton.addEventListener('click', async () => {
+        try {
+          await playlistAccessApi.copyUrl(url);
+          setPlaylistStatus(`${playlist.name} URL copied.`);
+        } catch (err) {
+          setPlaylistStatus(`Copy failed: ${err.message}`);
+        }
+      });
+
+      actions.append(openLink, copyButton);
+
+      if (playlistAccessApi.canShare()) {
+        const shareButton = document.createElement('button');
+        shareButton.type = 'button';
+        shareButton.className = 'playlist-action';
+        shareButton.textContent = 'Share';
+        shareButton.addEventListener('click', async () => {
+          try {
+            await playlistAccessApi.sharePlaylist({ name: playlist.name, url });
+            setPlaylistStatus(`${playlist.name} shared.`);
+          } catch (err) {
+            if (err.name !== 'AbortError') setPlaylistStatus(`Share failed: ${err.message}`);
+          }
+        });
+        actions.appendChild(shareButton);
+      }
+
+      if (playlistAccessApi.canOpenInApp()) {
+        const appButton = document.createElement('button');
+        appButton.type = 'button';
+        appButton.className = 'playlist-action primary';
+        appButton.textContent = 'Open app';
+        appButton.addEventListener('click', () => {
+          setPlaylistStatus(`Opening ${playlist.name} in a compatible app.`);
+          playlistAccessApi.openInApp(url);
+        });
+        actions.appendChild(appButton);
+      }
+
+      row.append(text, actions);
+      playlistLinkList.appendChild(row);
+    }
+
+    const installTitle = document.createElement('strong');
+    installTitle.textContent = 'Compatible players';
+    compatiblePlayerList.appendChild(installTitle);
+
+    for (const playerLink of playlistAccessApi.compatiblePlayers) {
+      const link = document.createElement('a');
+      link.href = playerLink.url;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.className = 'compatible-player-link';
+      link.textContent = `${playerLink.name} - ${playerLink.platform}`;
+      compatiblePlayerList.appendChild(link);
+    }
+  }
+
+  function setPlaylistStatus(message) {
+    playlistActionStatus.textContent = message;
   }
 
   searchBox.addEventListener('input', applyFilters);

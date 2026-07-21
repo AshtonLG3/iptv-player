@@ -1,10 +1,17 @@
+import { CURATED_PLAYLISTS } from './constants.js';
 import { parseM3U, filterByFtaCountries } from './parser.js';
 
-const PLAYLIST_URL = 'https://iptv-org.github.io/iptv/index.m3u';
-const CACHE_KEY = 'fta-iptv:playlist-cache';
+const DEFAULT_PLAYLIST_URL = CURATED_PLAYLISTS[0].url;
+const CACHE_KEY_PREFIX = 'fta-iptv:playlist-cache:';
 
-export async function loadChannels({ fetchImpl, sessionStore }) {
-  const cached = sessionStore.getItem(CACHE_KEY);
+export async function loadChannels({
+  fetchImpl,
+  sessionStore,
+  playlistUrl = DEFAULT_PLAYLIST_URL,
+  filterCountries = false,
+}) {
+  const cacheKey = `${CACHE_KEY_PREFIX}${playlistUrl}`;
+  const cached = sessionStore.getItem(cacheKey);
   if (cached) {
     try {
       return JSON.parse(cached);
@@ -13,13 +20,14 @@ export async function loadChannels({ fetchImpl, sessionStore }) {
     }
   }
 
-  const response = await fetchImpl(PLAYLIST_URL);
+  const response = await fetchImpl(playlistUrl);
   if (!response.ok) {
     throw new Error(`Failed to fetch playlist: ${response.status}`);
   }
 
   const text = await response.text();
-  const channels = filterByFtaCountries(parseM3U(text));
-  sessionStore.setItem(CACHE_KEY, JSON.stringify(channels));
+  const parsedChannels = parseM3U(text);
+  const channels = filterCountries ? filterByFtaCountries(parsedChannels) : parsedChannels;
+  sessionStore.setItem(cacheKey, JSON.stringify(channels));
   return channels;
 }

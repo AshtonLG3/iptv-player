@@ -1,5 +1,5 @@
 export const APP_NAME = 'FTA IPTV Player';
-export const APP_VERSION = '1.2.2';
+export const APP_VERSION = '1.2.3';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -7,8 +7,49 @@ export const FTA_COUNTRIES = {
   zm: 'Zambia',
   bw: 'Botswana',
   ke: 'Kenya',
+  gh: 'Ghana',
+  ng: 'Nigeria',
   uk: 'United Kingdom',
+  us: 'United States',
 };
+
+export const CURATED_PLAYLISTS = [
+  {
+    id: 'main',
+    name: 'Main M3U',
+    description: 'English Africa, UK, USA',
+    url: 'playlists/english-africa-uk-us-verified.m3u',
+    publicUrl: 'https://raw.githubusercontent.com/AshtonLG3/iptv-player/refs/heads/master/playlists/english-africa-uk-us-verified.m3u',
+  },
+  {
+    id: 'sports',
+    name: 'Sports M3U',
+    description: 'Sports and cue sports',
+    url: 'playlists/sports-africa-uk-us-verified.m3u',
+    publicUrl: 'https://raw.githubusercontent.com/AshtonLG3/iptv-player/refs/heads/master/playlists/sports-africa-uk-us-verified.m3u',
+  },
+];
+
+export const COMPATIBLE_PLAYERS = [
+  {
+    id: 'vlc-android',
+    name: 'VLC Android',
+    platform: 'Android / Google TV',
+    url: 'https://play.google.com/store/apps/details?id=org.videolan.vlc',
+  },
+  {
+    id: 'vlc-desktop',
+    name: 'VLC desktop',
+    platform: 'Windows / macOS / Linux',
+    url: 'https://www.videolan.org/vlc/',
+  },
+  {
+    id: 'tivimate',
+    name: 'TiviMate',
+    platform: 'Android TV',
+    url: 'https://tivimate.com/',
+  },
+];
 
 export const OFFICIAL_SERVICES = [
   {
