@@ -137,7 +137,8 @@ be opened in their official apps or sites.
 
 - 2026-07-21 (hosting update): updated the web player to load the curated main
   M3U by default and added menu actions for opening, copying, sharing, or
-  handing the playlist to compatible Android apps.
+  handing the playlist to compatible Android apps. Added a direct Z+ / ZBC
+  shortcut in the playlist links menu.
 - 2026-07-21 (6th update): removed OTV, Resurrection TV, News Central, BCS
   StarCross TV, Bride TV, Qausain TV, Salvation TV, Sunna TV, Synagogue TV,
   all Wazobia Max local variants, ROV TV, GNF TV, and Homebase TV. Documented

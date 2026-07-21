@@ -42,7 +42,8 @@ Sports-only playlist:
 The static app can be hosted as-is. The browser player loads the local curated
 main playlist from `playlists/english-africa-uk-us-verified.m3u`, and the menu
 includes direct M3U links, copy/share actions, Android app handoff, and links
-for compatible players such as VLC and TiviMate.
+for compatible players such as VLC and TiviMate. The same menu also includes a
+direct Z+ / ZBC shortcut for Zimbabwe OTT viewing.
 
 Browser playback uses HLS.js where possible. VLC/TiviMate will still be more
 reliable for streams that fail browser CORS, referrer, geo, or DRM checks.
