@@ -37,6 +37,35 @@ it should be refreshed periodically because public broadcaster URLs can change.
 The `categories/sports.m3u` source is live-channel only; it does not include
 VOD entries.
 
+## Maintenance and Restore
+
+`channels.json` is the curated source of truth. The `.m3u` files are generated
+from it, so a broken manual edit can be repaired with:
+
+```powershell
+npm run playlists:generate
+```
+
+Useful checks:
+
+```powershell
+npm run playlists:generate:check
+npm run playlists:verify -- --report playlist-health-report.md --json playlist-health-report.json
+npm run playlists:verify -- --update-health
+```
+
+Before a large refresh, create a dated snapshot:
+
+```powershell
+npm run playlists:archive
+```
+
+The verifier flags dead links, repeated failures, redirects, backup candidates,
+unexpected folders, religious channels, non-English regional feeds, geo-lock
+labels, SABC 1/2/3, and ABC/CBS metro variants. A weekly GitHub Action runs the
+same checks, keeps failure history, and opens or updates a `playlist-health`
+issue if something needs work.
+
 ### South Africa: SABC channels
 
 SABC News and SABC Lehae have public HLS feeds on SABC's own CDN
@@ -97,6 +126,9 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-21 (5th update): added `channels.json` as the curated source of
+  truth plus generator, verifier, archive tooling, and a weekly GitHub Action
+  that reports link/policy failures without auto-deleting channels.
 - 2026-07-21 (4th update): removed Estrella News, ENT Family, Magna Vision,
   BBC Earth Greece, Channel S, and DAZN Combat. Trimmed ABC/CBS to national
   feeds only: kept ABC News Live and CBS News 24/7, removed ABC/CBS metro and

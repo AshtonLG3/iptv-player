@@ -1,0 +1,134 @@
+name: Playlist health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * 1'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Restore playlist health history
+        uses: actions/cache/restore@v4
+        with:
+          path: playlists/health.json
+          key: playlist-health-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: playlist-health-
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check generated playlists
+        run: npm run playlists:generate:check
+
+      - name: Verify playlist streams
+        run: >
+          npm run playlists:verify --
+          --report playlist-health-report.md
+          --json playlist-health-report.json
+          --timeout 12000
+          --concurrency 12
+          --failure-threshold 3
+          --update-health
+          --no-fail-on-policy
+
+      - name: Save playlist health history
+        if: always() && hashFiles('playlists/health.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: playlists/health.json
+          key: playlist-health-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Upload playlist health report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playlist-health-report
+          path: |
+            playlist-health-report.md
+            playlist-health-report.json
+
+      - name: Open or update playlist health issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- playlist-health-report -->';
+            const title = 'Playlist health failures';
+            const summary = JSON.parse(fs.readFileSync('playlist-health-report.json', 'utf8'));
+            const report = fs.readFileSync('playlist-health-report.md', 'utf8');
+            const hasProblems =
+              summary.unhealthyCount > 0 ||
+              summary.policyViolationCount > 0 ||
+              summary.backupRecoverableCount > 0;
+
+            const { owner, repo } = context.repo;
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              labels: 'playlist-health',
+              per_page: 100,
+            });
+            const existing = issues.find((issue) => issue.title === title);
+
+            if (!hasProblems) {
+              if (existing) {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: existing.number,
+                  body: `${marker}\nPlaylist health is clear as of ${summary.checkedAt}. Closing this issue.`,
+                });
+                await github.rest.issues.update({
+                  owner,
+                  repo,
+                  issue_number: existing.number,
+                  state: 'closed',
+                });
+              }
+              return;
+            }
+
+            try {
+              await github.rest.issues.getLabel({ owner, repo, name: 'playlist-health' });
+            } catch {
+              await github.rest.issues.createLabel({
+                owner,
+                repo,
+                name: 'playlist-health',
+                color: 'D73A4A',
+                description: 'Automated playlist stream health reports',
+              });
+            }
+
+            const body = `${marker}\n${report}`;
+            if (existing) {
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: existing.number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner,
+                repo,
+                title,
+                labels: ['playlist-health'],
+                body,
+              });
+            }

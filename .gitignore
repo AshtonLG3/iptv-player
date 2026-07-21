@@ -7,3 +7,5 @@ local.properties
 *.iml
 .idea/
 .DS_Store
+playlist-health-report.*
+playlists/health.json
