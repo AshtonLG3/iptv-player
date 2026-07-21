@@ -4,23 +4,26 @@
 
 - `english-africa-uk-us-verified.m3u`
   - Source: `iptv-org` public playlist and streams database.
-  - Focus: English-speaking African countries, UK, and USA.
-  - Generated: 2026-07-12. Last updated: 2026-07-20.
-  - Current result: 297 entries.
+  - Focus: English-language channels from English-speaking African countries,
+    UK, USA, plus verified English billiards.
+  - Generated: 2026-07-12. Last updated: 2026-07-21.
+  - Current result: 248 entries.
   - Verification: original base entries responded during their generation.
     The 2026-07-20 sports additions responded during the sports refresh.
+    World Billiards TV responded on 2026-07-21.
   - Excluded: dead/non-responding entries, plus `Geo-blocked` entries
-    **except** the SABC channels described below. FIFA/FIFA+ entries were
-    removed because that content has moved to DAZN.
+    **except** the SABC channels described below. FIFA/FIFA+ and obvious
+    non-English variants were removed.
   - Use this as the main TiviMate/VLC playlist.
 - `sports-africa-uk-us-verified.m3u`
   - Source: `https://iptv-org.github.io/iptv/categories/sports.m3u`.
-  - Focus: sports channels for English-speaking African countries, UK, and USA.
+  - Focus: English-language sports channels for English-speaking African
+    countries, UK, USA, plus verified English billiards.
   - Generated: 2026-07-20.
   - Verification: each included URL responded during generation.
   - Excluded: entries that did not respond during generation, plus
-    FIFA/FIFA+ channels.
-  - Current result: 83 entries.
+    FIFA/FIFA+ channels and obvious non-English variants.
+  - Current result: 68 entries.
   - Country coverage: the source had verified UK/USA entries only; no English-speaking African-country sports streams were present.
 
 This is still a public-stream playlist. It is suitable for VLC or TiviMate, but
@@ -90,6 +93,11 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-21: filtered both playable M3U files to English-language entries by
+  removing obvious non-English country/feed variants. Added verified World
+  Billiards TV; Billiard TV itself is present in iptv-org's English playlist
+  but was not added because it returned 403/geo-blocked during verification.
+  Result: 248 main entries and 68 sports-only entries.
 - 2026-07-20 (3rd update): corrected the main playlist behavior. The main
   `english-africa-uk-us-verified.m3u` now keeps the 226-channel base, removes
   9 FIFA/FIFA+ entries, and adds 80 unique responding sports streams, for 297
