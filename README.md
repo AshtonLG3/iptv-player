@@ -50,6 +50,10 @@ When hosting outside GitHub, serve `.m3u` as `audio/x-mpegurl` or
 `application/vnd.apple.mpegurl` so mobile browsers have a better chance of
 offering compatible player apps.
 
+On Android/WebView, the player tries native HLS before HLS.js. This avoids some
+`manifestLoadError` failures on streams that block browser JavaScript manifest
+fetches but still play through the device media stack.
+
 ## Playlist maintenance
 
 The source of truth is `playlists/channels.json`. Edit that file, then rebuild:
