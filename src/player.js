@@ -22,6 +22,11 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
     destroy();
     videoEl.removeAttribute('src');
 
+    if (canPlayNativeHls()) {
+      playNative(url);
+      return;
+    }
+
     if (HlsCtor && HlsCtor.isSupported()) {
       hls = new HlsCtor();
       hls.on(HlsCtor.Events.ERROR, (_event, data) => {
@@ -37,15 +42,19 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
       return;
     }
 
-    if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-      videoEl.src = url;
-      nativeErrorListener = () => errorHandler(new Error('Playback failed'));
-      videoEl.addEventListener('error', nativeErrorListener, { once: true });
-      videoEl.play().catch((err) => errorHandler(err));
-      return;
-    }
-
     errorHandler(new Error('HLS playback is not supported in this browser'));
+  }
+
+  function canPlayNativeHls() {
+    return ['application/vnd.apple.mpegurl', 'application/x-mpegURL', 'audio/x-mpegurl']
+      .some((type) => Boolean(videoEl.canPlayType(type)));
+  }
+
+  function playNative(url) {
+    videoEl.src = url;
+    nativeErrorListener = () => errorHandler(new Error('Playback failed'));
+    videoEl.addEventListener('error', nativeErrorListener, { once: true });
+    videoEl.play().catch((err) => errorHandler(err));
   }
 
   return { play, onError, destroy };

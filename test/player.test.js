@@ -117,6 +117,18 @@ test('play() falls back to native playback when Hls.js is unsupported', () => {
   assert.equal(video.src, 'https://example.com/stream.m3u8');
 });
 
+test('play() prefers native HLS when browser support is available', () => {
+  FakeHls.supported = true;
+  FakeHls.instances = [];
+  const video = createFakeVideo({ canPlayHls: true });
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+
+  player.play('https://example.com/stream.m3u8');
+
+  assert.equal(video.src, 'https://example.com/stream.m3u8');
+  assert.equal(FakeHls.instances.length, 0);
+});
+
 test('play() reports an error when neither Hls.js nor native HLS is available', () => {
   FakeHls.supported = false;
   const video = createFakeVideo({ canPlayHls: false });
