@@ -1,8 +1,6 @@
 #EXTM3U
-# Generated 2026-07-20 from https://iptv-org.github.io/iptv/categories/sports.m3u.
-# Updated 2026-07-21: removed religious entries if present, added verified English non-geolocked sports streams from WirelessHack-listed sources, and flattened folders.
-# Focus: English-language sports and cue-sports channels.
-# Included: streams that responded during generation, excluding FIFA/FIFA+, geo-blocked, religious, and obvious non-English variants.
+# Generated from playlists/channels.json.
+# Guardrails: English sports only, no religious channels, no geo-locked channels, no FIFA/FIFA+ or DAZN Combat.
 #EXTINF:-1 tvg-id="StrongmanChampionsLeague.uk@SD" tvg-logo="https://images-0.rakuten.tv/storage/global-live-channel/translation/artwork/30ccc088-dca7-4458-ad5a-328fef06e1ca-width200-quality90.png" group-title="Sports",Strongman Champions League (720p)
 https://rightsboosterltd-scl-1-be.samsung.wurl.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="talkSPORT.uk@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/en/9/9d/Talksport_logo.png" group-title="Sports",talkSPORT (1080p)

@@ -1,8 +1,7 @@
 #EXTM3U
-# Generated 2026-07-12 from iptv-org public streams.
-# Updated 2026-07-21: removed remaining non-English UK/news entries and ABC/CBS metro channels, kept national ABC/CBS news, restored SABC News and SABC Lehae.
-# FIFA/FIFA+ channels removed 2026-07-20 because that content has moved to DAZN.
-# SABC News and SABC Lehae restored 2026-07-21 after direct HLS verification; SABC 1/2/3 remain excluded.
+# Generated from playlists/channels.json.
+# Guardrails: English only, no religious channels, no geo-locked channels, no ABC/CBS metro variants.
+# SABC News and SABC Lehae are restored after direct HLS verification; SABC 1/2/3 remain excluded.
 # Folders intentionally reduced to: Africa, UK, USA, Sports, Cue Sports, International.
 #EXTINF:-1 tvg-id="APTV.gh@SD" tvg-logo="https://i.imgur.com/Oky18bX.png" group-title="Africa",AP TV
 https://59nyqg8elwap-hls-live.5centscdn.com/APTV/85c20905211659d143febd7c32592ee0.sdp/playlist.m3u8

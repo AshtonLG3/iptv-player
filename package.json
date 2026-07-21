@@ -1,9 +1,14 @@
 {
   "name": "fta-iptv-player",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": true,
   "type": "module",
   "scripts": {
+    "playlists:archive": "node scripts/archive-playlists.mjs",
+    "playlists:export": "node scripts/export-playlist-registry.mjs",
+    "playlists:generate": "node scripts/generate-playlists.mjs",
+    "playlists:generate:check": "node scripts/generate-playlists.mjs --check",
+    "playlists:verify": "node scripts/verify-playlists.mjs",
     "test": "node --test test/*.test.js"
   }
 }

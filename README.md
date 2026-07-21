@@ -37,6 +37,28 @@ Sports-only playlist:
 
     https://raw.githubusercontent.com/AshtonLG3/iptv-player/refs/heads/master/playlists/sports-africa-uk-us-verified.m3u
 
+## Playlist maintenance
+
+The source of truth is `playlists/channels.json`. Edit that file, then rebuild:
+
+    npm run playlists:generate
+
+Check that the generated `.m3u` files still match the registry:
+
+    npm run playlists:generate:check
+
+Verify stream health and policy rules:
+
+    npm run playlists:verify -- --report playlist-health-report.md --json playlist-health-report.json
+
+Track repeated failures locally while verifying:
+
+    npm run playlists:verify -- --update-health
+
+Create a dated restore snapshot before risky refreshes:
+
+    npm run playlists:archive
+
 ## Official fallbacks
 
 The in-app channel list is still sourced from public `iptv-org` streams, but
