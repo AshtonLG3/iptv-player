@@ -20,9 +20,11 @@ function createFakeStore() {
   };
 }
 
-test('loadChannels fetches, parses, and filters to selected FTA country channels on first call', async () => {
+test('loadChannels fetches and parses the curated playlist on first call', async () => {
   let fetchCalls = 0;
-  const fetchImpl = async () => {
+  let requestedUrl = '';
+  const fetchImpl = async (url) => {
+    requestedUrl = url;
     fetchCalls += 1;
     return { ok: true, status: 200, text: async () => SAMPLE };
   };
@@ -31,9 +33,19 @@ test('loadChannels fetches, parses, and filters to selected FTA country channels
   const channels = await loadChannels({ fetchImpl, sessionStore });
 
   assert.equal(fetchCalls, 1);
+  assert.equal(requestedUrl, 'playlists/english-africa-uk-us-verified.m3u');
+  assert.equal(channels.length, 3);
+  assert.deepEqual(channels.map((channel) => channel.name), ['NBC1', 'KBC', '2M Monde']);
+});
+
+test('loadChannels can still filter to selected FTA countries', async () => {
+  const fetchImpl = async () => ({ ok: true, status: 200, text: async () => SAMPLE });
+  const sessionStore = createFakeStore();
+
+  const channels = await loadChannels({ fetchImpl, sessionStore, filterCountries: true });
+
   assert.equal(channels.length, 1);
   assert.equal(channels[0].name, 'KBC');
-  assert.equal(channels[0].country, 'ke');
 });
 
 test('loadChannels reuses the cached result on a second call without re-fetching', async () => {
@@ -48,8 +60,8 @@ test('loadChannels reuses the cached result on a second call without re-fetching
   const second = await loadChannels({ fetchImpl, sessionStore });
 
   assert.equal(fetchCalls, 1);
-  assert.equal(second.length, 1);
-  assert.equal(second[0].name, 'KBC');
+  assert.equal(second.length, 3);
+  assert.equal(second[0].name, 'NBC1');
 });
 
 test('loadChannels throws and does not cache when the fetch response is not ok', async () => {
@@ -60,7 +72,7 @@ test('loadChannels throws and does not cache when the fetch response is not ok',
     () => loadChannels({ fetchImpl, sessionStore }),
     /Failed to fetch playlist: 500/,
   );
-  assert.equal(sessionStore.getItem('fta-iptv:playlist-cache'), null);
+  assert.equal(sessionStore.getItem('fta-iptv:playlist-cache:playlists/english-africa-uk-us-verified.m3u'), null);
 });
 
 test('loadChannels recovers from corrupted cache by fetching fresh', async () => {
@@ -72,12 +84,11 @@ test('loadChannels recovers from corrupted cache by fetching fresh', async () =>
   const sessionStore = createFakeStore();
 
   // seed cache with corrupted (non-JSON) data
-  sessionStore.setItem('fta-iptv:playlist-cache', 'corrupted{][}invalid');
+  sessionStore.setItem('fta-iptv:playlist-cache:playlists/english-africa-uk-us-verified.m3u', 'corrupted{][}invalid');
 
   const channels = await loadChannels({ fetchImpl, sessionStore });
 
   assert.equal(fetchCalls, 1);
-  assert.equal(channels.length, 1);
-  assert.equal(channels[0].name, 'KBC');
-  assert.equal(channels[0].country, 'ke');
+  assert.equal(channels.length, 3);
+  assert.equal(channels[1].name, 'KBC');
 });

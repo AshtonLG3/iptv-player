@@ -37,6 +37,19 @@ Sports-only playlist:
 
     https://raw.githubusercontent.com/AshtonLG3/iptv-player/refs/heads/master/playlists/sports-africa-uk-us-verified.m3u
 
+## Website hosting
+
+The static app can be hosted as-is. The browser player loads the local curated
+main playlist from `playlists/english-africa-uk-us-verified.m3u`, and the menu
+includes direct M3U links, copy/share actions, Android app handoff, and links
+for compatible players such as VLC and TiviMate.
+
+Browser playback uses HLS.js where possible. VLC/TiviMate will still be more
+reliable for streams that fail browser CORS, referrer, geo, or DRM checks.
+When hosting outside GitHub, serve `.m3u` as `audio/x-mpegurl` or
+`application/vnd.apple.mpegurl` so mobile browsers have a better chance of
+offering compatible player apps.
+
 ## Playlist maintenance
 
 The source of truth is `playlists/channels.json`. Edit that file, then rebuild:

@@ -1,5 +1,10 @@
 import { loadChannels } from './src/playlist.js';
-import { OFFICIAL_SERVICES } from './src/constants.js';
+import { COMPATIBLE_PLAYERS, CURATED_PLAYLISTS, OFFICIAL_SERVICES } from './src/constants.js';
+import {
+  createAndroidIntentUrl,
+  isAndroidUserAgent,
+  resolveShareablePlaylistUrl,
+} from './src/playlistAccess.js';
 import { renderApp } from './src/ui.js';
 import { createPlayer } from './src/player.js';
 import {
@@ -20,6 +25,7 @@ async function main() {
   const drawerHandle = document.getElementById('drawer-handle');
   const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
   const officialServiceById = Object.fromEntries(OFFICIAL_SERVICES.map((service) => [service.id, service]));
+  const vlcAndroid = COMPATIBLE_PLAYERS.find((playerLink) => playerLink.id === 'vlc-android');
   let touchStartX = 0;
   let touchStartY = 0;
 
@@ -38,6 +44,23 @@ async function main() {
       const nextTheme = setTheme(window.localStorage, theme);
       applyTheme(nextTheme);
       return nextTheme;
+    },
+  };
+
+  const playlistAccessApi = {
+    playlists: CURATED_PLAYLISTS,
+    compatiblePlayers: COMPATIBLE_PLAYERS,
+    resolveUrl: (playlist) => resolveShareablePlaylistUrl(playlist, window.location.href),
+    canShare: () => Boolean(navigator.share),
+    canOpenInApp: () => isAndroidUserAgent(navigator.userAgent),
+    copyUrl: copyText,
+    sharePlaylist: ({ name, url }) => navigator.share({
+      title: name,
+      text: `${name} playlist`,
+      url,
+    }),
+    openInApp: (url) => {
+      window.location.href = createAndroidIntentUrl(url, vlcAndroid.url);
     },
   };
 
@@ -138,7 +161,14 @@ async function main() {
         sessionStore: window.sessionStorage,
       });
 
-      appView = renderApp({ root, channels, favoritesApi, themeApi, onSelectChannel: selectChannel });
+      appView = renderApp({
+        root,
+        channels,
+        favoritesApi,
+        themeApi,
+        playlistAccessApi,
+        onSelectChannel: selectChannel,
+      });
 
       const lastWatchedUrl = getLastWatched(window.localStorage);
       const lastChannel = channels.find((c) => c.url === lastWatchedUrl);
@@ -153,6 +183,23 @@ async function main() {
 
   retryButton.addEventListener('click', boot);
   boot();
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.setAttribute('readonly', '');
+  textArea.style.position = 'fixed';
+  textArea.style.opacity = '0';
+  document.body.appendChild(textArea);
+  textArea.select();
+  document.execCommand('copy');
+  textArea.remove();
 }
 
 main();

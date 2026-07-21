@@ -38,6 +38,10 @@ it should be refreshed periodically because public broadcaster URLs can change.
 The `categories/sports.m3u` source is live-channel only; it does not include
 VOD entries.
 
+The website player loads the main curated playlist directly from this folder.
+On mobile, the player page can share/copy the M3U URL or hand it to an Android
+app chooser; if no compatible app is installed, use VLC or TiviMate.
+
 ## Maintenance and Restore
 
 `channels.json` is the curated source of truth. The `.m3u` files are generated
@@ -131,6 +135,9 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-21 (hosting update): updated the web player to load the curated main
+  M3U by default and added menu actions for opening, copying, sharing, or
+  handing the playlist to compatible Android apps.
 - 2026-07-21 (6th update): removed OTV, Resurrection TV, News Central, BCS
   StarCross TV, Bride TV, Qausain TV, Salvation TV, Sunna TV, Synagogue TV,
   all Wazobia Max local variants, ROV TV, GNF TV, and Homebase TV. Documented
