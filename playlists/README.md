@@ -9,11 +9,12 @@
   - Focus: English-language channels from English-speaking African countries,
     UK, USA, plus verified English FAST/cue-sports channels.
   - Generated: 2026-07-12. Last updated: 2026-07-21.
-  - Current result: 234 entries.
+  - Current result: 184 entries.
   - Verification: original base entries responded during their generation.
     The 2026-07-20 sports additions responded during the sports refresh.
     WirelessHack-listed additions, Al Jazeera English, and France 24 English
     responded on 2026-07-21.
+    SABC News and SABC Lehae responded directly on 2026-07-21.
   - Excluded: dead/non-responding entries, geo-locked entries, religious
     channels, FIFA/FIFA+ channels, and obvious non-English variants.
   - Folders: reduced to `Africa`, `UK`, `USA`, `Sports`, `Cue Sports`, and
@@ -28,7 +29,7 @@
   - Excluded: entries that did not respond during generation, plus
     FIFA/FIFA+ channels, religious channels, geo-locked entries, and obvious
     non-English variants.
-  - Current result: 75 entries.
+  - Current result: 74 entries.
   - Country coverage: the source had verified UK/USA entries only; no English-speaking African-country sports streams were present.
 
 This is still a public-stream playlist. It is suitable for VLC or TiviMate, but
@@ -39,10 +40,9 @@ VOD entries.
 ### South Africa: SABC channels
 
 SABC News and SABC Lehae have public HLS feeds on SABC's own CDN
-(`*.cdn.mangomolo.com`), but they are geo-locked to South African IP
-addresses. They were removed from the playable M3U on 2026-07-21 under the
-current no-geo-locked rule. SABC 1, 2, and 3 are otherwise only on SABC+
-(DRM).
+(`*.cdn.mangomolo.com`) and were restored to the playable M3U on 2026-07-21
+after direct HLS verification. SABC 1, 2, and 3 remain excluded because those
+channels are geo-locked/DRM-only in the public-stream context.
 
 ### eTV and ZBC/ZTV: why they are not in the M3U
 
@@ -97,6 +97,11 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-21 (4th update): removed Estrella News, ENT Family, Magna Vision,
+  BBC Earth Greece, Channel S, and DAZN Combat. Trimmed ABC/CBS to national
+  feeds only: kept ABC News Live and CBS News 24/7, removed ABC/CBS metro and
+  local station variants. Restored verified SABC News and SABC Lehae. Result:
+  184 main entries and 74 sports-only entries.
 - 2026-07-21 (3rd update): removed remaining non-English regional entries from
   the main `UK` folder: Afghanistan International, BBC News Latin America, and
   Brit Asia TV. Added verified Al Jazeera English and France 24 English to the
