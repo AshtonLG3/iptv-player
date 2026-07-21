@@ -288,6 +288,36 @@ export function renderApp({
       playlistLinkList.appendChild(row);
     }
 
+    const zplusService = OFFICIAL_SERVICES.find((service) => service.id === 'zplus');
+    if (zplusService) {
+      const row = document.createElement('section');
+      row.className = 'playlist-link-row';
+
+      const text = document.createElement('div');
+      text.className = 'playlist-link-text';
+
+      const name = document.createElement('strong');
+      name.textContent = zplusService.name;
+
+      const description = document.createElement('span');
+      description.textContent = `${zplusService.country} - ${zplusService.note}`;
+
+      const actions = document.createElement('div');
+      actions.className = 'playlist-actions';
+
+      const openLink = document.createElement('a');
+      openLink.href = zplusService.url;
+      openLink.target = '_blank';
+      openLink.rel = 'noopener';
+      openLink.className = 'playlist-action primary';
+      openLink.textContent = 'Open Z+';
+
+      text.append(name, description);
+      actions.appendChild(openLink);
+      row.append(text, actions);
+      playlistLinkList.appendChild(row);
+    }
+
     const installTitle = document.createElement('strong');
     installTitle.textContent = 'Compatible players';
     compatiblePlayerList.appendChild(installTitle);
