@@ -151,6 +151,8 @@ function buildReport({ registry, streamResults, policyResults, health, failureTh
   const lines = [
     '# Playlist Health Report',
     '',
+    'Mode: report-only; channels are never disabled automatically, and a later healthy response resets consecutive failures.',
+    '',
     `Checked: ${new Date().toISOString()}`,
     `Registry channels: ${registry.channels.length}`,
     `Active channels checked: ${streamResults.length}`,

@@ -9,14 +9,15 @@
   - Focus: English-language channels from English-speaking African countries,
     UK, USA, plus verified English FAST/cue-sports channels.
   - Generated: 2026-07-12. Last updated: 2026-07-21.
-  - Current result: 184 entries.
+  - Current result: 169 entries.
   - Verification: original base entries responded during their generation.
     The 2026-07-20 sports additions responded during the sports refresh.
     WirelessHack-listed additions, Al Jazeera English, and France 24 English
     responded on 2026-07-21.
     SABC News and SABC Lehae responded directly on 2026-07-21.
-  - Excluded: dead/non-responding entries, geo-locked entries, religious
-    channels, FIFA/FIFA+ channels, and obvious non-English variants.
+  - Excluded: dead/non-responding entries, buffering entries, geo-locked
+    entries, religious channels, FIFA/FIFA+ channels, local Wazobia Max
+    variants, and obvious non-English variants.
   - Folders: reduced to `Africa`, `UK`, `USA`, `Sports`, `Cue Sports`, and
     `International`.
   - Use this as the main TiviMate/VLC playlist.
@@ -65,6 +66,10 @@ unexpected folders, religious channels, non-English regional feeds, geo-lock
 labels, SABC 1/2/3, and ABC/CBS metro variants. A weekly GitHub Action runs the
 same checks, keeps failure history, and opens or updates a `playlist-health`
 issue if something needs work.
+
+The Action is report-only. It never disables or removes channels automatically,
+and a stream that later returns a valid 200 playlist resets its consecutive
+failure count back to zero.
 
 ### South Africa: SABC channels
 
@@ -126,6 +131,11 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-21 (6th update): removed OTV, Resurrection TV, News Central, BCS
+  StarCross TV, Bride TV, Qausain TV, Salvation TV, Sunna TV, Synagogue TV,
+  all Wazobia Max local variants, ROV TV, GNF TV, and Homebase TV. Documented
+  that health checks are report-only and do not permanently block streams that
+  later recover. Result: 169 main entries and 74 sports-only entries.
 - 2026-07-21 (5th update): added `channels.json` as the curated source of
   truth plus generator, verifier, archive tooling, and a weekly GitHub Action
   that reports link/policy failures without auto-deleting channels.
