@@ -3,17 +3,20 @@
 ## Playable M3U
 
 - `english-africa-uk-us-verified.m3u`
-  - Source: `iptv-org` public playlist and streams database.
+  - Source: `iptv-org` public playlist and streams database, plus selected
+    responding channels from WirelessHack-listed DistroTV, Xiaomi, Vidaa, and
+    Rakuten UK playlists.
   - Focus: English-language channels from English-speaking African countries,
-    UK, USA, plus verified English billiards.
+    UK, USA, plus verified English FAST/cue-sports channels.
   - Generated: 2026-07-12. Last updated: 2026-07-21.
-  - Current result: 248 entries.
+  - Current result: 235 entries.
   - Verification: original base entries responded during their generation.
     The 2026-07-20 sports additions responded during the sports refresh.
-    World Billiards TV responded on 2026-07-21.
-  - Excluded: dead/non-responding entries, plus `Geo-blocked` entries
-    **except** the SABC channels described below. FIFA/FIFA+ and obvious
-    non-English variants were removed.
+    WirelessHack-listed additions responded on 2026-07-21.
+  - Excluded: dead/non-responding entries, geo-locked entries, religious
+    channels, FIFA/FIFA+ channels, and obvious non-English variants.
+  - Folders: reduced to `Africa`, `UK`, `USA`, `Sports`, `Cue Sports`, and
+    `International`.
   - Use this as the main TiviMate/VLC playlist.
 - `sports-africa-uk-us-verified.m3u`
   - Source: `https://iptv-org.github.io/iptv/categories/sports.m3u`.
@@ -22,8 +25,9 @@
   - Generated: 2026-07-20.
   - Verification: each included URL responded during generation.
   - Excluded: entries that did not respond during generation, plus
-    FIFA/FIFA+ channels and obvious non-English variants.
-  - Current result: 68 entries.
+    FIFA/FIFA+ channels, religious channels, geo-locked entries, and obvious
+    non-English variants.
+  - Current result: 75 entries.
   - Country coverage: the source had verified UK/USA entries only; no English-speaking African-country sports streams were present.
 
 This is still a public-stream playlist. It is suitable for VLC or TiviMate, but
@@ -31,14 +35,13 @@ it should be refreshed periodically because public broadcaster URLs can change.
 The `categories/sports.m3u` source is live-channel only; it does not include
 VOD entries.
 
-### South Africa: SABC channels ([ZA IP only])
+### South Africa: SABC channels
 
 SABC News and SABC Lehae have public HLS feeds on SABC's own CDN
-(`*.cdn.mangomolo.com`), geo-locked to South African IP addresses. They are
-included tagged `[ZA IP only]` and are confirmed working from inside South
-Africa (tested 2026-07-12). SABC 1 and SABC 2 had public URLs in the same
-family, but they turned out to be dead even from a ZA IP and were removed;
-SABC 1, 2, and 3 are otherwise only on SABC+ (DRM).
+(`*.cdn.mangomolo.com`), but they are geo-locked to South African IP
+addresses. They were removed from the playable M3U on 2026-07-21 under the
+current no-geo-locked rule. SABC 1, 2, and 3 are otherwise only on SABC+
+(DRM).
 
 ### eTV and ZBC/ZTV: why they are not in the M3U
 
@@ -58,8 +61,8 @@ Both major community stream databases (iptv-org and Free-TV) were checked on
 2026-07-12:
 
 - **Zimbabwe**: exactly one public stream exists -- Yadah TV, flagged
-  `Not 24/7`. It is now included under `Zimbabwe - Religious` as the sole zw
-  entry. ZBC/ZTV: see above (Z+ app or YouTube only).
+  `Not 24/7`. It was removed on 2026-07-21 because the current playlist
+  excludes religious channels. ZBC/ZTV: see above (Z+ app or YouTube only).
 - **Zambia**: zero public streams in either database. ZNBC and the private
   channels (Diamond TV, KBN TV, etc.) stream via their own sites, apps, and
   YouTube live channels -- none expose a plain HLS URL.
@@ -93,6 +96,12 @@ be opened in their official apps or sites.
 
 ## Update log
 
+- 2026-07-21 (2nd update): removed religious channels and the remaining
+  geo-locked SABC entries. Added 18 verified English FAST channels from
+  WirelessHack-listed no-geo/multiple-region playlists, including Billiards TV
+  (EU), Sports First TV, Africanews, Bloomberg Originals, Wild Nature, and
+  Autentic Travel. Reduced main playlist folders to six broad groups. Result:
+  235 main entries and 75 sports-only entries.
 - 2026-07-21: filtered both playable M3U files to English-language entries by
   removing obvious non-English country/feed variants. Added verified World
   Billiards TV; Billiard TV itself is present in iptv-org's English playlist
