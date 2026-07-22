@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-07-21T19:06:54.633Z",
+  "updated": "2026-07-22T05:36:19.123Z",
   "rules": {
     "allowedGroups": [
       "Africa",
@@ -234,6 +234,32 @@
       "notes": ""
     },
     {
+      "id": "FortisTV.ng@SD",
+      "name": "Fortis TV",
+      "group": "Africa",
+      "logo": "https://i.imgur.com/HoO9Urd.jpg",
+      "source": "iptv-org curated source",
+      "primaryUrl": "https://stream.fortistv.com/hls/fortis-news/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "Added from current iptv-org/Free-Codecs discovery after direct HLS verification."
+    },
+    {
+      "id": "SilverbirdNews24.ng@SD",
+      "name": "Silverbird News 24 (576p)",
+      "group": "Africa",
+      "logo": "https://i.imgur.com/9jcV9oG.png",
+      "source": "iptv-org curated source",
+      "primaryUrl": "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_029/Stream/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "Added from current iptv-org/Free-Codecs discovery after direct HLS verification."
+    },
+    {
       "id": "TV10.rw@SD",
       "name": "TV10 (720p)",
       "group": "Africa",
@@ -457,6 +483,20 @@
       "notes": ""
     },
     {
+      "id": "RugbyPassTV.uk@SD",
+      "name": "Rugby Pass TV (720p)",
+      "group": "Sports",
+      "logo": "",
+      "source": "iptv-org curated source",
+      "primaryUrl": "https://jmp2.uk/plu-66f137cb483d460008ece053.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Added from current iptv-org/Free-Codecs discovery after direct HLS verification."
+    },
+    {
       "id": "Teletubbies.uk@SD",
       "name": "Teletubbies (720p)",
       "group": "UK",
@@ -507,6 +547,71 @@
         "main"
       ],
       "notes": ""
+    },
+    {
+      "id": "TalkTV.uk@SD",
+      "name": "TalkTV (1080p)",
+      "group": "UK",
+      "logo": "https://i.imgur.com/KxHWpQB.png",
+      "source": "iptv-org curated source",
+      "primaryUrl": "https://488f4ce4.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/TEctZ2JfVGFsa19ITFM/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "Added from current iptv-org/Free-Codecs discovery after direct HLS verification."
+    },
+    {
+      "id": "TheChatShowChannel.uk@SD",
+      "name": "The Chat Show Channel (1080p)",
+      "group": "UK",
+      "logo": "https://yt3.googleusercontent.com/aQ_vvywmcBt4X1SmeEMgT3uf7bb1Z__I9XVwabeg7RrSSEuIhswMlvwhyi0Wl4PlLHwXufLgOg=s900-c-k-c0x00ffffff-no-rj",
+      "source": "iptv-org curated source",
+      "primaryUrl": "https://amg00426-littledotstudio-thechatshow-samsungnz-uqmtt.amagi.tv/playlist/amg00426-littledotstudio-thechatshow-samsungnz/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "Added from current iptv-org/Free-Codecs discovery after direct HLS verification."
+    },
+    {
+      "id": "TrueCrime.uk@SD",
+      "name": "True Crime UK (1080p)",
+      "group": "UK",
+      "logo": "https://i.imgur.com/LK2NFst.png",
+      "source": "iptv-org curated source",
+      "primaryUrl": "https://b6cca454.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/U2Ftc3VuZy1nYl9UcnVlQ3JpbWVVS2Zyb21DQlNSZWFsaXR5X0hMUw/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "Added from current iptv-org/Free-Codecs discovery after direct HLS verification."
+    },
+    {
+      "id": "Wonder.uk@SD",
+      "name": "Wonder (1080p)",
+      "group": "UK",
+      "logo": "https://i.imgur.com/LquGNbh.png",
+      "source": "iptv-org curated source",
+      "primaryUrl": "https://lds-wonder-rakuten.amagi.tv/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "Added from current iptv-org/Free-Codecs discovery after direct HLS verification."
+    },
+    {
+      "id": "NOWRock.uk@SD",
+      "name": "NOW Rock (1080p)",
+      "group": "UK",
+      "logo": "https://i.imgur.com/GuM4GnX.png",
+      "source": "iptv-org curated source",
+      "primaryUrl": "https://lightning-now90s-samsungnz.amagi.tv/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "Added from current iptv-org/Free-Codecs discovery after direct HLS verification."
     },
     {
       "id": "TopGear.uk@SD",
