@@ -157,11 +157,11 @@ async function main() {
     setLastWatched(window.localStorage, channel.url);
     appView?.setNowPlaying(channel.url);
     updateChannelNavButtons();
-    syncMediaSession();
     if (isLandscapeDrawerActive()) {
       setDrawerOpen(false);
     }
     player.play([channel.url, ...(channel.backupUrls || [])]);
+    syncMediaSession(true);
   }
 
   function setVisibleChannels(channels) {
@@ -208,15 +208,38 @@ async function main() {
     }, CHANNEL_NAV_AUTO_HIDE_MS);
   }
 
-  function syncMediaSession() {
+  function isPlaybackActive(forcePlaying = false) {
+    return Boolean(currentChannel) && (forcePlaying || (!videoEl.paused && !videoEl.ended));
+  }
+
+  function syncMediaSession(forcePlaying = false) {
     updateMediaSession({
       mediaSession: navigator.mediaSession,
       MediaMetadataCtor: window.MediaMetadata,
       channel: currentChannel,
       canNavigate: visibleChannels.length > 1,
+      isPlaying: isPlaybackActive(forcePlaying),
       onPrevious: () => navigateChannel(-1),
       onNext: () => navigateChannel(1),
     });
+  }
+
+  function playCurrentVideo() {
+    void videoEl.play();
+    syncMediaSession(true);
+  }
+
+  function pauseCurrentVideo() {
+    videoEl.pause();
+    syncMediaSession(false);
+  }
+
+  function toggleCurrentVideo() {
+    if (videoEl.paused) {
+      playCurrentVideo();
+      return;
+    }
+    pauseCurrentVideo();
   }
 
   async function boot() {
@@ -256,6 +279,15 @@ async function main() {
   playerPanelEl.addEventListener('click', showChannelNavTemporarily);
   previousChannelButton.addEventListener('click', () => navigateChannel(-1));
   nextChannelButton.addEventListener('click', () => navigateChannel(1));
+  videoEl.addEventListener('playing', () => syncMediaSession(true));
+  videoEl.addEventListener('play', () => syncMediaSession(true));
+  videoEl.addEventListener('pause', () => syncMediaSession(false));
+  videoEl.addEventListener('ended', () => syncMediaSession(false));
+  window.__ftaIptvPreviousChannel = () => navigateChannel(-1);
+  window.__ftaIptvNextChannel = () => navigateChannel(1);
+  window.__ftaIptvPlay = playCurrentVideo;
+  window.__ftaIptvPause = pauseCurrentVideo;
+  window.__ftaIptvTogglePlayback = toggleCurrentVideo;
   boot();
 }
 
