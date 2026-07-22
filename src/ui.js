@@ -24,13 +24,30 @@ export function renderApp({
           <h1>${APP_NAME}</h1>
           <span class="version-pill">v${APP_VERSION}</span>
         </div>
-        <label class="theme-control" for="theme-select">
-          <span>Theme</span>
-          <select id="theme-select">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-          </select>
-        </label>
+        <details class="overflow-menu" id="overflow-menu">
+          <summary class="overflow-menu-button" aria-label="Open menu">
+            <span aria-hidden="true">...</span>
+          </summary>
+          <div class="overflow-menu-panel">
+            <label class="theme-control" for="theme-select">
+              <span>Theme</span>
+              <select id="theme-select">
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+              </select>
+            </label>
+            <details class="playlist-access">
+              <summary>Playlist links</summary>
+              <div id="playlist-link-list" class="playlist-link-list"></div>
+              <p id="playlist-action-status" class="playlist-action-status" role="status"></p>
+              <div id="compatible-player-list" class="compatible-player-list"></div>
+            </details>
+            <details class="official-services">
+              <summary>Official sources</summary>
+              <div id="official-service-list" class="official-service-list"></div>
+            </details>
+          </div>
+        </details>
       </header>
       <input type="search" id="search-box" placeholder="Search channels..." />
       <select id="country-filter"><option value="">All countries</option></select>
@@ -41,16 +58,6 @@ export function renderApp({
       <label class="favorites-label">
         <input type="checkbox" id="favorites-toggle" /> Favorites only
       </label>
-      <details class="playlist-access">
-        <summary>Playlist links</summary>
-        <div id="playlist-link-list" class="playlist-link-list"></div>
-        <p id="playlist-action-status" class="playlist-action-status" role="status"></p>
-        <div id="compatible-player-list" class="compatible-player-list"></div>
-      </details>
-      <details class="official-services">
-        <summary>Official sources</summary>
-        <div id="official-service-list" class="official-service-list"></div>
-      </details>
       <ul id="channel-list"></ul>
     </aside>
   `;
@@ -61,6 +68,8 @@ export function renderApp({
   const categorySelect = root.querySelector('#category-filter');
   const hideBlockedToggle = root.querySelector('#hide-blocked-toggle');
   const favoritesToggle = root.querySelector('#favorites-toggle');
+  const overflowMenu = root.querySelector('#overflow-menu');
+  const overflowMenuButton = root.querySelector('.overflow-menu-button');
   const playlistLinkList = root.querySelector('#playlist-link-list');
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
@@ -336,6 +345,17 @@ export function renderApp({
   function setPlaylistStatus(message) {
     playlistActionStatus.textContent = message;
   }
+
+  root.addEventListener('click', (event) => {
+    if (!overflowMenu.contains(event.target)) overflowMenu.removeAttribute('open');
+  });
+
+  overflowMenu.addEventListener('toggle', () => {
+    overflowMenuButton.setAttribute(
+      'aria-label',
+      overflowMenu.open ? 'Close menu' : 'Open menu',
+    );
+  });
 
   searchBox.addEventListener('input', applyFilters);
   themeSelect.value = themeApi.get();
