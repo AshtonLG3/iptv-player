@@ -25,12 +25,15 @@ async function main() {
   const previousChannelButton = document.getElementById('previous-channel-button');
   const nextChannelButton = document.getElementById('next-channel-button');
   const layoutEl = document.querySelector('.layout');
+  const playerPanelEl = document.querySelector('.player-panel');
   const drawerHandle = document.getElementById('drawer-handle');
   const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
   const officialServiceById = Object.fromEntries(OFFICIAL_SERVICES.map((service) => [service.id, service]));
   const vlcAndroid = COMPATIBLE_PLAYERS.find((playerLink) => playerLink.id === 'vlc-android');
+  const CHANNEL_NAV_AUTO_HIDE_MS = 2600;
   let touchStartX = 0;
   let touchStartY = 0;
+  let channelNavHideTimer = null;
 
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
@@ -73,6 +76,7 @@ async function main() {
     layoutEl.classList.toggle('drawer-open', isOpen);
     drawerHandle.setAttribute('aria-expanded', String(isOpen));
     drawerHandle.setAttribute('aria-label', isOpen ? 'Hide channels' : 'Show channels');
+    if (isOpen) setChannelNavVisible(false);
   }
 
   function isLandscapeDrawerActive() {
@@ -105,7 +109,10 @@ async function main() {
     }
   }, { passive: true });
 
-  landscapeDrawerQuery.addEventListener('change', () => setDrawerOpen(false));
+  landscapeDrawerQuery.addEventListener('change', () => {
+    setDrawerOpen(false);
+    setChannelNavVisible(false);
+  });
 
   let appView = null;
   let currentChannel = null;
@@ -180,6 +187,25 @@ async function main() {
     const disabled = visibleChannels.length < 2;
     previousChannelButton.disabled = disabled;
     nextChannelButton.disabled = disabled;
+    if (disabled) setChannelNavVisible(false);
+  }
+
+  function setChannelNavVisible(isVisible) {
+    clearTimeout(channelNavHideTimer);
+    channelNavHideTimer = null;
+    layoutEl.classList.toggle(
+      'channel-nav-visible',
+      isVisible && isLandscapeDrawerActive() && visibleChannels.length > 1,
+    );
+  }
+
+  function showChannelNavTemporarily() {
+    if (!isLandscapeDrawerActive() || visibleChannels.length < 2) return;
+
+    setChannelNavVisible(true);
+    channelNavHideTimer = window.setTimeout(() => {
+      setChannelNavVisible(false);
+    }, CHANNEL_NAV_AUTO_HIDE_MS);
   }
 
   function syncMediaSession() {
@@ -225,6 +251,9 @@ async function main() {
   }
 
   retryButton.addEventListener('click', boot);
+  playerPanelEl.addEventListener('touchstart', showChannelNavTemporarily, { passive: true });
+  playerPanelEl.addEventListener('mousemove', showChannelNavTemporarily);
+  playerPanelEl.addEventListener('click', showChannelNavTemporarily);
   previousChannelButton.addEventListener('click', () => navigateChannel(-1));
   nextChannelButton.addEventListener('click', () => navigateChannel(1));
   boot();

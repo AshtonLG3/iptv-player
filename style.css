@@ -721,9 +721,23 @@ body {
   .landscape-channel-nav {
     display: block;
     inset: 0;
+    opacity: 0;
     position: absolute;
     pointer-events: none;
+    transition: opacity 160ms ease, visibility 160ms ease;
+    visibility: hidden;
     z-index: 5;
+  }
+
+  .layout.channel-nav-visible .landscape-channel-nav,
+  .landscape-channel-nav:focus-within {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .layout.drawer-open .landscape-channel-nav {
+    opacity: 0;
+    visibility: hidden;
   }
 
   .channel-nav-button {
