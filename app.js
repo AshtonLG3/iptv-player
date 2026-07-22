@@ -7,6 +7,7 @@ import {
 } from './src/playlistAccess.js';
 import { renderApp } from './src/ui.js';
 import { createPlayer } from './src/player.js';
+import { updateMediaSession } from './src/mediaSession.js';
 import {
   getTheme,
   isFavorite,
@@ -21,6 +22,8 @@ async function main() {
   const videoEl = document.getElementById('video');
   const statusEl = document.getElementById('player-status');
   const retryButton = document.getElementById('retry-button');
+  const previousChannelButton = document.getElementById('previous-channel-button');
+  const nextChannelButton = document.getElementById('next-channel-button');
   const layoutEl = document.querySelector('.layout');
   const drawerHandle = document.getElementById('drawer-handle');
   const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
@@ -106,6 +109,7 @@ async function main() {
 
   let appView = null;
   let currentChannel = null;
+  let visibleChannels = [];
   const player = createPlayer(videoEl);
   player.onError((err) => {
     renderPlayerError(err);
@@ -145,10 +149,48 @@ async function main() {
     statusEl.hidden = true;
     setLastWatched(window.localStorage, channel.url);
     appView?.setNowPlaying(channel.url);
+    updateChannelNavButtons();
+    syncMediaSession();
     if (isLandscapeDrawerActive()) {
       setDrawerOpen(false);
     }
     player.play([channel.url, ...(channel.backupUrls || [])]);
+  }
+
+  function setVisibleChannels(channels) {
+    visibleChannels = channels;
+    updateChannelNavButtons();
+    syncMediaSession();
+  }
+
+  function navigateChannel(direction) {
+    if (!visibleChannels.length) return;
+
+    const currentIndex = currentChannel
+      ? visibleChannels.findIndex((channel) => channel.url === currentChannel.url)
+      : -1;
+    const nextIndex = currentIndex === -1
+      ? (direction > 0 ? 0 : visibleChannels.length - 1)
+      : (currentIndex + direction + visibleChannels.length) % visibleChannels.length;
+
+    selectChannel(visibleChannels[nextIndex]);
+  }
+
+  function updateChannelNavButtons() {
+    const disabled = visibleChannels.length < 2;
+    previousChannelButton.disabled = disabled;
+    nextChannelButton.disabled = disabled;
+  }
+
+  function syncMediaSession() {
+    updateMediaSession({
+      mediaSession: navigator.mediaSession,
+      MediaMetadataCtor: window.MediaMetadata,
+      channel: currentChannel,
+      canNavigate: visibleChannels.length > 1,
+      onPrevious: () => navigateChannel(-1),
+      onNext: () => navigateChannel(1),
+    });
   }
 
   async function boot() {
@@ -168,6 +210,7 @@ async function main() {
         themeApi,
         playlistAccessApi,
         onSelectChannel: selectChannel,
+        onVisibleChannelsChange: setVisibleChannels,
       });
 
       const lastWatchedUrl = getLastWatched(window.localStorage);
@@ -182,6 +225,8 @@ async function main() {
   }
 
   retryButton.addEventListener('click', boot);
+  previousChannelButton.addEventListener('click', () => navigateChannel(-1));
+  nextChannelButton.addEventListener('click', () => navigateChannel(1));
   boot();
 }
 

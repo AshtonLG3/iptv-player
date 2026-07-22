@@ -8,6 +8,41 @@ function isIntermittentChannel(channel) {
   return /\[not 24\/7\]/i.test(channel.name);
 }
 
+export function getCategoryNames(category) {
+  return String(category || '')
+    .split(/[;,|]/)
+    .map((name) => name.trim())
+    .filter(Boolean);
+}
+
+export function channelMatchesCategory(channel, category) {
+  if (!category) return true;
+  return getCategoryNames(channel.category).includes(category);
+}
+
+export function filterChannelsForUi(
+  channels,
+  {
+    search = '',
+    country = '',
+    category = '',
+    hideGeoBlocked = true,
+    favoritesOnly = false,
+    isFavorite = () => false,
+  } = {},
+) {
+  const normalizedSearch = search.trim().toLowerCase();
+
+  return channels.filter((channel) => {
+    if (normalizedSearch && !channel.name.toLowerCase().includes(normalizedSearch)) return false;
+    if (country && channel.country !== country) return false;
+    if (!channelMatchesCategory(channel, category)) return false;
+    if (hideGeoBlocked && isGeoBlockedChannel(channel)) return false;
+    if (favoritesOnly && !isFavorite(channel.url)) return false;
+    return true;
+  });
+}
+
 export function renderApp({
   root,
   channels,
@@ -15,6 +50,7 @@ export function renderApp({
   themeApi,
   playlistAccessApi = null,
   onSelectChannel,
+  onVisibleChannelsChange = null,
 }) {
   root.innerHTML = `
     <aside class="sidebar">
@@ -81,6 +117,7 @@ export function renderApp({
   const officialServiceList = root.querySelector('#official-service-list');
   const listEl = root.querySelector('#channel-list');
   let nowPlayingUrl = null;
+  let visibleChannels = [];
 
   const countryCounts = channels.reduce((counts, channel) => {
     counts[channel.country] = (counts[channel.country] || 0) + 1;
@@ -94,7 +131,7 @@ export function renderApp({
     countrySelect.appendChild(opt);
   }
 
-  const categories = [...new Set(channels.map((c) => c.category).filter(Boolean))].sort();
+  const categories = [...new Set(channels.flatMap((c) => getCategoryNames(c.category)))].sort();
   for (const category of categories) {
     const opt = document.createElement('option');
     opt.value = category;
@@ -125,23 +162,33 @@ export function renderApp({
     renderPlaylistAccess();
   }
 
-  function applyFilters() {
-    const search = searchBox.value.trim().toLowerCase();
-    const country = countrySelect.value;
-    const category = categorySelect.value;
-    const hideGeoBlocked = hideBlockedToggle.checked;
-    const favoritesOnly = favoritesToggle.checked;
+  function applyFilters({ relaxCountryWhenCategoryEmpty = false } = {}) {
+    const filters = {
+      search: searchBox.value,
+      country: countrySelect.value,
+      category: categorySelect.value,
+      hideGeoBlocked: hideBlockedToggle.checked,
+      favoritesOnly: favoritesToggle.checked,
+      isFavorite: (url) => favoritesApi.isFavorite(url),
+    };
 
-    const filtered = channels.filter((channel) => {
-      if (search && !channel.name.toLowerCase().includes(search)) return false;
-      if (country && channel.country !== country) return false;
-      if (category && channel.category !== category) return false;
-      if (hideGeoBlocked && isGeoBlockedChannel(channel)) return false;
-      if (favoritesOnly && !favoritesApi.isFavorite(channel.url)) return false;
-      return true;
-    });
+    let filtered = filterChannelsForUi(channels, filters);
+    if (
+      relaxCountryWhenCategoryEmpty
+      && filters.country
+      && filters.category
+      && filtered.length === 0
+    ) {
+      const categoryFiltered = filterChannelsForUi(channels, { ...filters, country: '' });
+      if (categoryFiltered.length > 0) {
+        countrySelect.value = '';
+        filtered = categoryFiltered;
+      }
+    }
 
+    visibleChannels = filtered;
     renderList(filtered);
+    onVisibleChannelsChange?.(visibleChannels);
   }
 
   function renderList(list) {
@@ -366,11 +413,15 @@ export function renderApp({
   themeSelect.value = themeApi.get();
   themeSelect.addEventListener('change', () => themeApi.set(themeSelect.value));
   countrySelect.addEventListener('change', applyFilters);
-  categorySelect.addEventListener('change', applyFilters);
+  categorySelect.addEventListener('change', () => applyFilters({ relaxCountryWhenCategoryEmpty: true }));
   hideBlockedToggle.addEventListener('change', applyFilters);
   favoritesToggle.addEventListener('change', applyFilters);
 
   applyFilters();
 
-  return { refresh: applyFilters, setNowPlaying };
+  return {
+    refresh: applyFilters,
+    setNowPlaying,
+    getVisibleChannels: () => visibleChannels.slice(),
+  };
 }

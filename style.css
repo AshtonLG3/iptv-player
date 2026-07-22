@@ -459,6 +459,82 @@ body {
   gap: 0.75rem;
 }
 
+.landscape-channel-nav {
+  display: none;
+}
+
+.channel-nav-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  justify-content: center;
+  letter-spacing: 0;
+  line-height: 1;
+  height: 60px;
+  min-height: 60px;
+  min-width: 72px;
+  padding: 0;
+  position: relative;
+  width: 72px;
+}
+
+.channel-nav-button:hover,
+.channel-nav-button:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--accent);
+  outline: none;
+}
+
+.channel-nav-button::before,
+.channel-nav-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+}
+
+.channel-nav-button::before {
+  background: currentColor;
+  border-radius: 2px;
+  height: 32px;
+  width: 5px;
+}
+
+#previous-channel-button::before {
+  left: 20px;
+  transform: translateY(-50%);
+}
+
+#previous-channel-button::after {
+  border-bottom: 18px solid transparent;
+  border-right: 28px solid currentColor;
+  border-top: 18px solid transparent;
+  left: 30px;
+  transform: translateY(-50%);
+}
+
+#next-channel-button::before {
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+#next-channel-button::after {
+  border-bottom: 18px solid transparent;
+  border-left: 28px solid currentColor;
+  border-top: 18px solid transparent;
+  right: 30px;
+  transform: translateY(-50%);
+}
+
+.channel-nav-button:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
 #video {
   width: 100%;
   max-width: 960px;
@@ -640,6 +716,30 @@ body {
     inset: 0;
     padding: 0.5rem;
     position: absolute;
+  }
+
+  .landscape-channel-nav {
+    display: block;
+    inset: 0;
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .channel-nav-button {
+    color: #fff;
+    pointer-events: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  #previous-channel-button {
+    left: 3rem;
+  }
+
+  #next-channel-button {
+    right: 1rem;
   }
 
   #video {
