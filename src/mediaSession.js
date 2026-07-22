@@ -1,8 +1,38 @@
 export function updateMediaSession({
   mediaSession,
   MediaMetadataCtor,
+  nativeBridge = globalThis.AndroidMediaSession,
   channel,
   canNavigate,
+  isPlaying = Boolean(channel),
+  onPrevious,
+  onNext,
+}) {
+  const browserUpdated = updateBrowserMediaSession({
+    mediaSession,
+    MediaMetadataCtor,
+    channel,
+    canNavigate,
+    isPlaying,
+    onPrevious,
+    onNext,
+  });
+  const nativeUpdated = updateNativeMediaSession({
+    nativeBridge,
+    channel,
+    canNavigate,
+    isPlaying,
+  });
+
+  return browserUpdated || nativeUpdated;
+}
+
+function updateBrowserMediaSession({
+  mediaSession,
+  MediaMetadataCtor,
+  channel,
+  canNavigate,
+  isPlaying,
   onPrevious,
   onNext,
 }) {
@@ -26,10 +56,38 @@ export function updateMediaSession({
   }
 
   if ('playbackState' in mediaSession && channel) {
-    mediaSession.playbackState = 'playing';
+    mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
   }
 
   return true;
+}
+
+function updateNativeMediaSession({
+  nativeBridge,
+  channel,
+  canNavigate,
+  isPlaying,
+}) {
+  if (!nativeBridge) return false;
+
+  try {
+    if (!channel) {
+      nativeBridge.clear?.();
+      return typeof nativeBridge.clear === 'function';
+    }
+
+    if (typeof nativeBridge.update !== 'function') return false;
+    nativeBridge.update(
+      channel.name || '',
+      'FTA IPTV Player',
+      channel.logo || '',
+      Boolean(canNavigate),
+      Boolean(isPlaying),
+    );
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function setMediaActionHandler(mediaSession, action, handler) {

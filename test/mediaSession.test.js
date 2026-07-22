@@ -49,6 +49,53 @@ test('updateMediaSession publishes channel metadata and track navigation handler
   assert.equal(nextCalls, 1);
 });
 
+test('updateMediaSession forwards metadata to the native Android bridge', () => {
+  const calls = [];
+  const nativeBridge = {
+    update(...args) {
+      calls.push(args);
+    },
+  };
+
+  const updated = updateMediaSession({
+    mediaSession: null,
+    nativeBridge,
+    channel: {
+      name: 'Total Music Concerts',
+      logo: 'https://example.com/music.png',
+    },
+    canNavigate: true,
+    isPlaying: true,
+  });
+
+  assert.equal(updated, true);
+  assert.deepEqual(calls, [[
+    'Total Music Concerts',
+    'FTA IPTV Player',
+    'https://example.com/music.png',
+    true,
+    true,
+  ]]);
+});
+
+test('updateMediaSession clears the native Android bridge without a channel', () => {
+  let clearCalls = 0;
+  const nativeBridge = {
+    clear() {
+      clearCalls += 1;
+    },
+  };
+
+  const updated = updateMediaSession({
+    mediaSession: null,
+    nativeBridge,
+    channel: null,
+  });
+
+  assert.equal(updated, true);
+  assert.equal(clearCalls, 1);
+});
+
 test('updateMediaSession clears track handlers when there is one visible channel', () => {
   const mediaSession = createFakeMediaSession();
 
