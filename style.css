@@ -79,7 +79,7 @@ body {
 .app-menu {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.75rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--line);
@@ -104,6 +104,17 @@ body {
   color: var(--accent-strong);
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.menu-panel-title {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.55rem;
+}
+
+.menu-panel-title h1 {
+  margin: 0.1rem 0 0.35rem;
+  font-size: 1rem;
+  line-height: 1.2;
 }
 
 .overflow-menu {
@@ -133,8 +144,37 @@ body {
   justify-content: center;
   letter-spacing: 0;
   line-height: 1;
-  padding: 0 0 0.35rem;
+  padding: 0;
   width: 40px;
+}
+
+.hamburger-icon,
+.hamburger-icon::before,
+.hamburger-icon::after {
+  background: currentColor;
+  border-radius: 999px;
+  content: "";
+  display: block;
+  height: 2px;
+  width: 18px;
+}
+
+.hamburger-icon {
+  position: relative;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+  left: 0;
+  position: absolute;
+}
+
+.hamburger-icon::before {
+  top: -6px;
+}
+
+.hamburger-icon::after {
+  top: 6px;
 }
 
 .overflow-menu[open] .overflow-menu-button,
@@ -154,7 +194,7 @@ body {
   overflow-y: auto;
   padding: 0.75rem;
   position: absolute;
-  right: 0;
+  left: 0;
   top: calc(100% + 0.5rem);
   width: min(320px, calc(100vw - 2rem));
   z-index: 8;
@@ -427,6 +467,11 @@ body {
 
 #player-status {
   color: var(--danger);
+  font-size: 0.9rem;
+  line-height: 1.3;
+  margin: 0;
+  max-width: 960px;
+  width: 100%;
 }
 
 #player-status a {
@@ -464,17 +509,42 @@ body {
   }
 
   .app-menu {
-    padding-bottom: 0.55rem;
+    background: transparent;
+    border: 0;
+    left: max(0.5rem, env(safe-area-inset-left));
+    padding: 0;
+    position: fixed;
+    top: max(0.5rem, env(safe-area-inset-top));
+    z-index: 12;
+  }
+
+  .app-title {
+    display: none;
+  }
+
+  .overflow-menu-button {
+    background: rgba(16, 19, 26, 0.78);
+    border-color: rgba(230, 230, 230, 0.34);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  }
+
+  :root[data-theme="light"] .overflow-menu-button {
+    background: rgba(255, 255, 255, 0.84);
   }
 
   .overflow-menu-panel {
-    max-height: min(56vh, 460px);
-    width: calc(100vw - 1.5rem);
+    left: max(0.75rem, env(safe-area-inset-left));
+    max-height: calc(100dvh - 4.5rem);
+    position: fixed;
+    right: max(0.75rem, env(safe-area-inset-right));
+    top: calc(max(0.5rem, env(safe-area-inset-top)) + 3rem);
+    width: auto;
   }
 
   .player-panel {
     order: -1;
     flex: 0 0 auto;
+    gap: 0.35rem;
     min-height: 0;
     padding: 0.65rem;
     position: sticky;
@@ -487,6 +557,12 @@ body {
     aspect-ratio: 16 / 9;
     max-height: 32vh;
     object-fit: contain;
+  }
+
+  #player-status {
+    font-size: 0.8rem;
+    max-height: 2.4rem;
+    overflow-y: auto;
   }
 }
 
