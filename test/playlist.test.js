@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadChannels } from '../src/playlist.js';
+import { APP_VERSION } from '../src/constants.js';
 
 const SAMPLE = `#EXTM3U
 #EXTINF:-1 tvg-id="NBC1.na@SD" tvg-logo="" group-title="General",NBC1
@@ -10,6 +11,7 @@ https://example.com/kbc.m3u8
 #EXTINF:-1 tvg-id="2MMonde.ma@SD" tvg-logo="" group-title="General",2M Monde
 https://example.com/2m.m3u8
 `;
+const DEFAULT_CACHE_KEY = `fta-iptv:playlist-cache:${APP_VERSION}:playlists/english-africa-uk-us-verified.m3u`;
 
 function createFakeStore() {
   const map = new Map();
@@ -72,7 +74,7 @@ test('loadChannels throws and does not cache when the fetch response is not ok',
     () => loadChannels({ fetchImpl, sessionStore }),
     /Failed to fetch playlist: 500/,
   );
-  assert.equal(sessionStore.getItem('fta-iptv:playlist-cache:playlists/english-africa-uk-us-verified.m3u'), null);
+  assert.equal(sessionStore.getItem(DEFAULT_CACHE_KEY), null);
 });
 
 test('loadChannels recovers from corrupted cache by fetching fresh', async () => {
@@ -84,7 +86,7 @@ test('loadChannels recovers from corrupted cache by fetching fresh', async () =>
   const sessionStore = createFakeStore();
 
   // seed cache with corrupted (non-JSON) data
-  sessionStore.setItem('fta-iptv:playlist-cache:playlists/english-africa-uk-us-verified.m3u', 'corrupted{][}invalid');
+  sessionStore.setItem(DEFAULT_CACHE_KEY, 'corrupted{][}invalid');
 
   const channels = await loadChannels({ fetchImpl, sessionStore });
 

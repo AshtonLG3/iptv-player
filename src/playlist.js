@@ -1,4 +1,4 @@
-import { CURATED_PLAYLISTS } from './constants.js';
+import { APP_VERSION, CURATED_PLAYLISTS } from './constants.js';
 import { parseM3U, filterByFtaCountries } from './parser.js';
 
 const DEFAULT_PLAYLIST_URL = CURATED_PLAYLISTS[0].url;
@@ -10,7 +10,7 @@ export async function loadChannels({
   playlistUrl = DEFAULT_PLAYLIST_URL,
   filterCountries = false,
 }) {
-  const cacheKey = `${CACHE_KEY_PREFIX}${playlistUrl}`;
+  const cacheKey = `${CACHE_KEY_PREFIX}${APP_VERSION}:${playlistUrl}`;
   const cached = sessionStore.getItem(cacheKey);
   if (cached) {
     try {
