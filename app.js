@@ -148,7 +148,7 @@ async function main() {
     if (isLandscapeDrawerActive()) {
       setDrawerOpen(false);
     }
-    player.play(channel.url);
+    player.play([channel.url, ...(channel.backupUrls || [])]);
   }
 
   async function boot() {

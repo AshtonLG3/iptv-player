@@ -19,16 +19,25 @@ export function renderApp({
   root.innerHTML = `
     <aside class="sidebar">
       <header class="app-menu">
-        <div>
-          <p class="menu-kicker">Player</p>
-          <h1>${APP_NAME}</h1>
-          <span class="version-pill">v${APP_VERSION}</span>
-        </div>
         <details class="overflow-menu" id="overflow-menu">
           <summary class="overflow-menu-button" aria-label="Open menu">
-            <span aria-hidden="true">...</span>
+            <span class="hamburger-icon" aria-hidden="true"></span>
           </summary>
           <div class="overflow-menu-panel">
+            <div class="menu-panel-title">
+              <p class="menu-kicker">Player</p>
+              <h1>${APP_NAME}</h1>
+              <span class="version-pill">v${APP_VERSION}</span>
+            </div>
+            <input type="search" id="search-box" placeholder="Search channels..." />
+            <select id="country-filter"><option value="">All countries</option></select>
+            <select id="category-filter"><option value="">All categories</option></select>
+            <label class="blocked-label">
+              <input type="checkbox" id="hide-blocked-toggle" checked /> Hide geo-blocked
+            </label>
+            <label class="favorites-label">
+              <input type="checkbox" id="favorites-toggle" /> Favorites only
+            </label>
             <label class="theme-control" for="theme-select">
               <span>Theme</span>
               <select id="theme-select">
@@ -48,16 +57,12 @@ export function renderApp({
             </details>
           </div>
         </details>
+        <div class="app-title">
+          <p class="menu-kicker">Player</p>
+          <h1>${APP_NAME}</h1>
+          <span class="version-pill">v${APP_VERSION}</span>
+        </div>
       </header>
-      <input type="search" id="search-box" placeholder="Search channels..." />
-      <select id="country-filter"><option value="">All countries</option></select>
-      <select id="category-filter"><option value="">All categories</option></select>
-      <label class="blocked-label">
-        <input type="checkbox" id="hide-blocked-toggle" checked /> Hide geo-blocked
-      </label>
-      <label class="favorites-label">
-        <input type="checkbox" id="favorites-toggle" /> Favorites only
-      </label>
       <ul id="channel-list"></ul>
     </aside>
   `;

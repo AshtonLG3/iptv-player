@@ -129,6 +129,40 @@ test('play() prefers native HLS when browser support is available', () => {
   assert.equal(FakeHls.instances.length, 0);
 });
 
+test('play() retries with Hls.js when native HLS fails', () => {
+  FakeHls.supported = true;
+  FakeHls.instances = [];
+  const video = createFakeVideo({ canPlayHls: true });
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+
+  let receivedError = null;
+  player.onError((err) => { receivedError = err; });
+  player.play('https://example.com/stream.m3u8');
+
+  video.triggerError();
+
+  assert.equal(receivedError, null);
+  assert.equal(FakeHls.instances.length, 1);
+  assert.equal(FakeHls.instances[0].loadSourceCalls[0], 'https://example.com/stream.m3u8');
+});
+
+test('play() tries the next source after a fatal Hls.js failure', () => {
+  FakeHls.supported = true;
+  FakeHls.instances = [];
+  const video = createFakeVideo();
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+
+  let receivedError = null;
+  player.onError((err) => { receivedError = err; });
+  player.play(['https://example.com/bad.m3u8', 'https://example.com/good.m3u8']);
+
+  FakeHls.instances[0].trigger('error', { fatal: true, details: 'manifestLoadError' });
+
+  assert.equal(receivedError, null);
+  assert.equal(FakeHls.instances.length, 2);
+  assert.equal(FakeHls.instances[1].loadSourceCalls[0], 'https://example.com/good.m3u8');
+});
+
 test('play() reports an error when neither Hls.js nor native HLS is available', () => {
   FakeHls.supported = false;
   const video = createFakeVideo({ canPlayHls: false });
