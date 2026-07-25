@@ -5,20 +5,26 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.media.MediaMetadata;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -42,11 +48,14 @@ public final class MainActivity extends Activity {
     private String currentArtworkUrl = "";
     private boolean currentCanNavigate;
     private boolean currentIsPlaying;
+    private boolean isTelevisionDevice;
+    private volatile boolean tvPanelOpen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.app_name));
+        isTelevisionDevice = detectTelevisionDevice();
         createMediaSession();
 
         WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
@@ -58,6 +67,12 @@ public final class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
+        webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        webView.setFocusable(true);
+        webView.setFocusableInTouchMode(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            webView.setRendererPriorityPolicy(WebView.RENDERER_PRIORITY_IMPORTANT, true);
+        }
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -71,6 +86,7 @@ public final class MainActivity extends Activity {
 
         webView.setWebChromeClient(new WebChromeClient());
         webView.addJavascriptInterface(new AndroidMediaBridge(), "AndroidMediaSession");
+        webView.addJavascriptInterface(new AndroidDeviceBridge(), "AndroidDevice");
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
@@ -100,10 +116,63 @@ public final class MainActivity extends Activity {
                     return false;
                 }
             }
+
+            @Override
+            public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
+                if (view != webView) return false;
+
+                ViewGroup parent = (ViewGroup) view.getParent();
+                if (parent != null) parent.removeView(view);
+                view.destroy();
+                webView = null;
+                tvPanelOpen = false;
+                if (!isFinishing() && !isDestroyed()) {
+                    getWindow().getDecorView().post(MainActivity.this::recreate);
+                }
+                return true;
+            }
         });
 
         setContentView(webView);
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
+    }
+
+    private boolean detectTelevisionDevice() {
+        UiModeManager uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
+        boolean televisionMode = uiModeManager != null
+                && uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
+        PackageManager packageManager = getPackageManager();
+        return televisionMode
+                || packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
+                || packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (!isTelevisionDevice || event.getAction() != KeyEvent.ACTION_DOWN) {
+            return super.dispatchKeyEvent(event);
+        }
+
+        switch (event.getKeyCode()) {
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                evaluatePlayerCommand("__ftaIptvTvOpenChannels");
+                return true;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+            case KeyEvent.KEYCODE_MENU:
+                evaluatePlayerCommand("__ftaIptvTvOpenMenu");
+                return true;
+            case KeyEvent.KEYCODE_CHANNEL_UP:
+                evaluatePlayerCommand("__ftaIptvNextChannel");
+                return true;
+            case KeyEvent.KEYCODE_CHANNEL_DOWN:
+                evaluatePlayerCommand("__ftaIptvPreviousChannel");
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                handleMediaAction(ACTION_TOGGLE_PLAYBACK);
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
     }
 
     private void createMediaSession() {
@@ -372,6 +441,11 @@ public final class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+        if (isTelevisionDevice && tvPanelOpen) {
+            tvPanelOpen = false;
+            evaluatePlayerCommand("__ftaIptvTvClosePanel");
+            return;
+        }
         if (webView != null && webView.canGoBack()) {
             webView.goBack();
             return;
@@ -414,6 +488,18 @@ public final class MainActivity extends Activity {
         @JavascriptInterface
         public void clear() {
             runOnUiThread(MainActivity.this::clearNativeMediaSession);
+        }
+    }
+
+    private final class AndroidDeviceBridge {
+        @JavascriptInterface
+        public boolean isTelevision() {
+            return isTelevisionDevice;
+        }
+
+        @JavascriptInterface
+        public void setPanelOpen(boolean isOpen) {
+            tvPanelOpen = isOpen;
         }
     }
 }

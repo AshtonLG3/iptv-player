@@ -8,6 +8,7 @@ import {
 import { renderApp } from './src/ui.js';
 import { createPlayer } from './src/player.js';
 import { updateMediaSession } from './src/mediaSession.js';
+import { detectTelevision, getGlobalTvRemoteAction } from './src/tvRemote.js';
 import {
   getTheme,
   isFavorite,
@@ -27,6 +28,7 @@ async function main() {
   const layoutEl = document.querySelector('.layout');
   const playerPanelEl = document.querySelector('.player-panel');
   const drawerHandle = document.getElementById('drawer-handle');
+  const settingsHandle = document.getElementById('settings-handle');
   const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
   const officialServiceById = Object.fromEntries(OFFICIAL_SERVICES.map((service) => [service.id, service]));
   const vlcAndroid = COMPATIBLE_PLAYERS.find((playerLink) => playerLink.id === 'vlc-android');
@@ -34,6 +36,24 @@ async function main() {
   let touchStartX = 0;
   let touchStartY = 0;
   let channelNavHideTimer = null;
+  let channelTuneTimer = null;
+  let appView = null;
+  let currentChannel = null;
+  let visibleChannels = [];
+  let tvPanel = 'none';
+  let syncingTvPanel = false;
+  const androidDeviceBridge = globalThis.AndroidDevice;
+  const isTvMode = detectTelevision({
+    bridge: androidDeviceBridge,
+    userAgent: navigator.userAgent,
+  });
+
+  document.documentElement.classList.toggle('tv-mode', isTvMode);
+  if (isTvMode) {
+    videoEl.controls = false;
+    videoEl.tabIndex = -1;
+    playerPanelEl.tabIndex = -1;
+  }
 
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
@@ -80,14 +100,54 @@ async function main() {
   }
 
   function isLandscapeDrawerActive() {
-    return landscapeDrawerQuery.matches;
+    return isTvMode || landscapeDrawerQuery.matches;
+  }
+
+  function notifyNativeTvPanelState() {
+    try {
+      androidDeviceBridge?.setPanelOpen?.(tvPanel !== 'none');
+    } catch {
+      // The browser build has no native Android TV state bridge.
+    }
+  }
+
+  function setTvPanel(panel, { focus = true } = {}) {
+    if (!isTvMode) return;
+
+    const nextPanel = panel === 'channels' || panel === 'settings' ? panel : 'none';
+    tvPanel = nextPanel;
+    syncingTvPanel = true;
+    setDrawerOpen(nextPanel === 'channels');
+    appView?.setMenuOpen(nextPanel === 'settings');
+    syncingTvPanel = false;
+    layoutEl.classList.toggle('settings-open', nextPanel === 'settings');
+    settingsHandle.setAttribute('aria-expanded', String(nextPanel === 'settings'));
+    settingsHandle.setAttribute('aria-label', nextPanel === 'settings' ? 'Hide settings' : 'Show settings');
+    notifyNativeTvPanelState();
+
+    if (!focus) return;
+    window.requestAnimationFrame(() => {
+      if (nextPanel === 'channels') appView?.focusChannel(currentChannel?.url);
+      if (nextPanel === 'settings') appView?.focusMenu();
+      if (nextPanel === 'none') playerPanelEl.focus({ preventScroll: true });
+    });
+  }
+
+  function toggleTvPanel(panel) {
+    setTvPanel(tvPanel === panel ? 'none' : panel);
   }
 
   drawerHandle.addEventListener('click', () => {
+    if (isTvMode) {
+      toggleTvPanel('channels');
+      return;
+    }
     if (isLandscapeDrawerActive()) {
       setDrawerOpen(!layoutEl.classList.contains('drawer-open'));
     }
   });
+
+  settingsHandle.addEventListener('click', () => toggleTvPanel('settings'));
 
   layoutEl.addEventListener('touchstart', (event) => {
     if (!isLandscapeDrawerActive() || event.touches.length !== 1) return;
@@ -110,13 +170,11 @@ async function main() {
   }, { passive: true });
 
   landscapeDrawerQuery.addEventListener('change', () => {
+    if (isTvMode) return;
     setDrawerOpen(false);
     setChannelNavVisible(false);
   });
 
-  let appView = null;
-  let currentChannel = null;
-  let visibleChannels = [];
   const player = createPlayer(videoEl);
   player.onError((err) => {
     renderPlayerError(err);
@@ -157,11 +215,22 @@ async function main() {
     setLastWatched(window.localStorage, channel.url);
     appView?.setNowPlaying(channel.url);
     updateChannelNavButtons();
-    if (isLandscapeDrawerActive()) {
+    if (isTvMode) {
+      setTvPanel('none');
+    } else if (isLandscapeDrawerActive()) {
       setDrawerOpen(false);
     }
-    player.play([channel.url, ...(channel.backupUrls || [])]);
-    syncMediaSession(true);
+
+    clearTimeout(channelTuneTimer);
+    const startPlayback = () => {
+      player.play([channel.url, ...(channel.backupUrls || [])]);
+      syncMediaSession(true);
+    };
+    if (isTvMode) {
+      channelTuneTimer = window.setTimeout(startPlayback, 180);
+    } else {
+      startPlayback();
+    }
   }
 
   function setVisibleChannels(channels) {
@@ -195,12 +264,12 @@ async function main() {
     channelNavHideTimer = null;
     layoutEl.classList.toggle(
       'channel-nav-visible',
-      isVisible && isLandscapeDrawerActive() && visibleChannels.length > 1,
+      isVisible && !isTvMode && isLandscapeDrawerActive() && visibleChannels.length > 1,
     );
   }
 
   function showChannelNavTemporarily() {
-    if (!isLandscapeDrawerActive() || visibleChannels.length < 2) return;
+    if (isTvMode || !isLandscapeDrawerActive() || visibleChannels.length < 2) return;
 
     setChannelNavVisible(true);
     channelNavHideTimer = window.setTimeout(() => {
@@ -242,6 +311,58 @@ async function main() {
     pauseCurrentVideo();
   }
 
+  function handleTvRemoteAction(action) {
+    switch (action) {
+      case 'channels':
+        toggleTvPanel('channels');
+        return true;
+      case 'settings':
+        toggleTvPanel('settings');
+        return true;
+      case 'channel-next':
+        navigateChannel(1);
+        return true;
+      case 'channel-previous':
+        navigateChannel(-1);
+        return true;
+      case 'play-pause':
+        if (currentChannel) toggleCurrentVideo();
+        return true;
+      case 'close':
+        if (tvPanel === 'none') return false;
+        setTvPanel('none');
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  function handleTvKeydown(event) {
+    if (!isTvMode) return;
+
+    const action = getGlobalTvRemoteAction(event);
+    if (action && handleTvRemoteAction(action)) {
+      event.preventDefault();
+      return;
+    }
+
+    const direction = event.key === 'ArrowUp' ? -1 : event.key === 'ArrowDown' ? 1 : 0;
+    if (direction && tvPanel === 'channels' && appView?.moveChannelFocus(direction)) {
+      event.preventDefault();
+      return;
+    }
+    if (direction && tvPanel === 'settings' && appView?.moveMenuFocus(direction)) {
+      event.preventDefault();
+      return;
+    }
+
+    if ((event.key === 'Enter' || event.key === ' ') && tvPanel === 'none') {
+      event.preventDefault();
+      if (currentChannel) toggleCurrentVideo();
+      else setTvPanel('channels');
+    }
+  }
+
   async function boot() {
     retryButton.hidden = true;
     root.textContent = 'Loading FTA channels...';
@@ -260,12 +381,21 @@ async function main() {
         playlistAccessApi,
         onSelectChannel: selectChannel,
         onVisibleChannelsChange: setVisibleChannels,
+        onMenuOpenChange: (isOpen) => {
+          if (!isTvMode || syncingTvPanel) return;
+          if (isOpen && tvPanel !== 'settings') setTvPanel('settings');
+          if (!isOpen && tvPanel === 'settings') setTvPanel('none');
+        },
       });
+
+      if (isTvMode) setTvPanel('none');
 
       const lastWatchedUrl = getLastWatched(window.localStorage);
       const lastChannel = channels.find((c) => c.url === lastWatchedUrl);
       if (lastChannel) {
         selectChannel(lastChannel);
+      } else if (isTvMode) {
+        setTvPanel('channels');
       }
     } catch (err) {
       root.textContent = `Failed to load channel list: ${err.message}`;
@@ -283,11 +413,20 @@ async function main() {
   videoEl.addEventListener('play', () => syncMediaSession(true));
   videoEl.addEventListener('pause', () => syncMediaSession(false));
   videoEl.addEventListener('ended', () => syncMediaSession(false));
+  document.addEventListener('keydown', handleTvKeydown);
   window.__ftaIptvPreviousChannel = () => navigateChannel(-1);
   window.__ftaIptvNextChannel = () => navigateChannel(1);
   window.__ftaIptvPlay = playCurrentVideo;
   window.__ftaIptvPause = pauseCurrentVideo;
   window.__ftaIptvTogglePlayback = toggleCurrentVideo;
+  window.__ftaIptvTvOpenChannels = () => setTvPanel('channels');
+  window.__ftaIptvTvOpenMenu = () => setTvPanel('settings');
+  window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
+  window.addEventListener('pagehide', () => {
+    clearTimeout(channelTuneTimer);
+    clearTimeout(channelNavHideTimer);
+    player.destroy();
+  }, { once: true });
   boot();
 }
 
