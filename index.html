@@ -10,12 +10,15 @@
 <body>
   <main class="layout">
     <button id="drawer-handle" class="drawer-handle" type="button" aria-label="Show channels" aria-expanded="false"></button>
+    <button id="settings-handle" class="settings-handle" type="button" aria-label="Show settings" aria-expanded="false">
+      <span class="hamburger-icon" aria-hidden="true"></span>
+    </button>
     <div class="sidebar-column">
       <div id="app">Loading FTA channels...</div>
       <button id="retry-button" type="button" hidden>Retry loading channels</button>
     </div>
     <section class="player-panel">
-      <video id="video" controls></video>
+      <video id="video" controls playsinline></video>
       <div class="landscape-channel-nav" aria-label="Channel navigation">
         <button id="previous-channel-button" class="channel-nav-button" type="button" aria-label="Previous channel" disabled></button>
         <button id="next-channel-button" class="channel-nav-button" type="button" aria-label="Next channel" disabled></button>

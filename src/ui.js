@@ -1,4 +1,5 @@
 import { APP_NAME, APP_VERSION, FTA_COUNTRIES, OFFICIAL_SERVICES } from './constants.js';
+import { getWrappedFocusIndex } from './tvRemote.js';
 
 function isGeoBlockedChannel(channel) {
   return /\[geo-blocked\]/i.test(channel.name);
@@ -51,6 +52,7 @@ export function renderApp({
   playlistAccessApi = null,
   onSelectChannel,
   onVisibleChannelsChange = null,
+  onMenuOpenChange = null,
 }) {
   root.innerHTML = `
     <aside class="sidebar">
@@ -61,9 +63,12 @@ export function renderApp({
           </summary>
           <div class="overflow-menu-panel">
             <div class="menu-panel-title">
-              <p class="menu-kicker">Player</p>
-              <h1>${APP_NAME}</h1>
-              <span class="version-pill">v${APP_VERSION}</span>
+              <div>
+                <p class="menu-kicker">Player</p>
+                <h1>${APP_NAME}</h1>
+                <span class="version-pill">v${APP_VERSION}</span>
+              </div>
+              <button class="menu-close-button" type="button" aria-label="Close settings"></button>
             </div>
             <input type="search" id="search-box" placeholder="Search channels..." />
             <select id="country-filter"><option value="">All countries</option></select>
@@ -111,6 +116,7 @@ export function renderApp({
   const favoritesToggle = root.querySelector('#favorites-toggle');
   const overflowMenu = root.querySelector('#overflow-menu');
   const overflowMenuButton = root.querySelector('.overflow-menu-button');
+  const menuCloseButton = root.querySelector('.menu-close-button');
   const playlistLinkList = root.querySelector('#playlist-link-list');
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
@@ -192,6 +198,9 @@ export function renderApp({
   }
 
   function renderList(list) {
+    const focusedChannelUrl = document.activeElement
+      ?.closest?.('.channel-item')
+      ?.dataset.channelUrl;
     listEl.innerHTML = '';
     if (list.length === 0) {
       const emptyItem = document.createElement('li');
@@ -205,6 +214,11 @@ export function renderApp({
       const item = document.createElement('li');
       item.className = 'channel-item';
       item.dataset.channelUrl = channel.url;
+
+      const selectButton = document.createElement('button');
+      selectButton.type = 'button';
+      selectButton.className = 'channel-select-button';
+      selectButton.setAttribute('aria-label', `Play ${channel.name}`);
 
       const name = document.createElement('span');
       name.className = 'channel-name';
@@ -236,12 +250,15 @@ export function renderApp({
         meta.appendChild(flags);
       }
 
-      item.appendChild(meta);
+      selectButton.appendChild(meta);
+      item.appendChild(selectButton);
 
       const favButton = document.createElement('button');
       favButton.type = 'button';
       favButton.className = 'favorite-btn';
       favButton.textContent = favoritesApi.isFavorite(channel.url) ? '★' : '☆';
+      favButton.setAttribute('aria-label', `Toggle favorite for ${channel.name}`);
+      if (document.documentElement.classList.contains('tv-mode')) favButton.tabIndex = -1;
       favButton.addEventListener('click', (event) => {
         event.stopPropagation();
         favoritesApi.toggle(channel.url);
@@ -249,7 +266,7 @@ export function renderApp({
       });
 
       item.appendChild(favButton);
-      item.addEventListener('click', () => {
+      selectButton.addEventListener('click', () => {
         setNowPlaying(channel.url);
         onSelectChannel(channel);
       });
@@ -257,6 +274,7 @@ export function renderApp({
     }
 
     updateNowPlayingMarkers();
+    if (focusedChannelUrl) focusChannel(focusedChannelUrl);
   }
 
   function updateNowPlayingMarkers() {
@@ -270,6 +288,57 @@ export function renderApp({
   function setNowPlaying(url) {
     nowPlayingUrl = url;
     updateNowPlayingMarkers();
+  }
+
+  function setMenuOpen(isOpen) {
+    overflowMenu.open = Boolean(isOpen);
+  }
+
+  function focusChannel(url = nowPlayingUrl) {
+    const items = [...listEl.querySelectorAll('.channel-item')];
+    const target = items.find((item) => item.dataset.channelUrl === url) || items[0];
+    const button = target?.querySelector('.channel-select-button');
+    if (!button) return false;
+    button.focus({ preventScroll: true });
+    target.scrollIntoView({ block: 'nearest' });
+    return true;
+  }
+
+  function moveChannelFocus(direction) {
+    const buttons = [...listEl.querySelectorAll('.channel-select-button')];
+    const currentIndex = buttons.indexOf(document.activeElement);
+    if (!buttons.length) return false;
+    const nextIndex = getWrappedFocusIndex(buttons.length, currentIndex, direction);
+    const button = buttons[nextIndex];
+    button.focus({ preventScroll: true });
+    button.closest('.channel-item')?.scrollIntoView({ block: 'nearest' });
+    return true;
+  }
+
+  function getMenuFocusables() {
+    return [...root.querySelectorAll(
+      '.overflow-menu-panel button, .overflow-menu-panel input, .overflow-menu-panel select, '
+      + '.overflow-menu-panel summary, .overflow-menu-panel a',
+    )].filter((element) => !element.disabled && element.getClientRects().length > 0);
+  }
+
+  function focusMenu() {
+    const target = countrySelect || getMenuFocusables()[0];
+    if (!target) return false;
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({ block: 'nearest' });
+    return true;
+  }
+
+  function moveMenuFocus(direction) {
+    const focusables = getMenuFocusables();
+    if (!focusables.length) return false;
+    const currentIndex = focusables.indexOf(document.activeElement);
+    const nextIndex = getWrappedFocusIndex(focusables.length, currentIndex, direction);
+    const target = focusables[nextIndex];
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({ block: 'nearest' });
+    return true;
   }
 
   function renderPlaylistAccess() {
@@ -407,7 +476,9 @@ export function renderApp({
       'aria-label',
       overflowMenu.open ? 'Close menu' : 'Open menu',
     );
+    onMenuOpenChange?.(overflowMenu.open);
   });
+  menuCloseButton.addEventListener('click', () => setMenuOpen(false));
 
   searchBox.addEventListener('input', applyFilters);
   themeSelect.value = themeApi.get();
@@ -422,6 +493,11 @@ export function renderApp({
   return {
     refresh: applyFilters,
     setNowPlaying,
+    setMenuOpen,
+    focusChannel,
+    moveChannelFocus,
+    focusMenu,
+    moveMenuFocus,
     getVisibleChannels: () => visibleChannels.slice(),
   };
 }
