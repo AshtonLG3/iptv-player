@@ -47,8 +47,7 @@ body {
   height: 100vh;
 }
 
-.drawer-handle,
-.settings-handle {
+.drawer-handle {
   display: none;
 }
 
@@ -976,9 +975,7 @@ html.tv-mode .overflow-menu-panel button:focus-visible,
 html.tv-mode .overflow-menu-panel input:focus-visible,
 html.tv-mode .overflow-menu-panel select:focus-visible,
 html.tv-mode .overflow-menu-panel summary:focus-visible,
-html.tv-mode .overflow-menu-panel a:focus-visible,
-html.tv-mode .drawer-handle:focus-visible,
-html.tv-mode .settings-handle:focus-visible {
+html.tv-mode .overflow-menu-panel a:focus-visible {
   background: var(--panel-strong);
   outline: 4px solid var(--accent);
   outline-offset: -4px;
@@ -1007,61 +1004,18 @@ html.tv-mode #video {
   width: 100%;
 }
 
+html.tv-mode #video::-webkit-media-controls,
+html.tv-mode #video::-webkit-media-controls-enclosure,
+html.tv-mode #video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
 html.tv-mode .landscape-channel-nav {
   display: none;
 }
 
-html.tv-mode .drawer-handle,
-html.tv-mode .settings-handle {
-  align-items: center;
-  background: rgba(27, 30, 39, 0.92);
-  border: 1px solid var(--line);
-  color: var(--text);
-  cursor: pointer;
-  display: flex;
-  height: 112px;
-  justify-content: center;
-  padding: 0;
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 58px;
-  z-index: 40;
-}
-
 html.tv-mode .drawer-handle {
-  border-left: 0;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  left: 0;
-}
-
-html.tv-mode .settings-handle {
-  border-radius: var(--radius) 0 0 var(--radius);
-  border-right: 0;
-  right: 0;
-}
-
-html.tv-mode .settings-handle .hamburger-icon,
-html.tv-mode .settings-handle .hamburger-icon::before,
-html.tv-mode .settings-handle .hamburger-icon::after {
-  height: 4px;
-  width: 28px;
-}
-
-html.tv-mode .settings-handle .hamburger-icon::before {
-  top: -9px;
-}
-
-html.tv-mode .settings-handle .hamburger-icon::after {
-  top: 9px;
-}
-
-html.tv-mode .layout.drawer-open .drawer-handle {
-  left: min(42vw, 500px);
-}
-
-html.tv-mode .layout.settings-open .settings-handle {
-  right: min(44vw, 520px);
+  display: none;
 }
 
 html.tv-mode #player-status {

@@ -1,5 +1,5 @@
 export const APP_NAME = 'FTA IPTV Player';
-export const APP_VERSION = '1.3.0';
+export const APP_VERSION = '1.3.1';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',

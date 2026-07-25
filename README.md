@@ -55,11 +55,11 @@ On Android/WebView, the player tries native HLS before HLS.js. This avoids some
 `manifestLoadError` failures on streams that block browser JavaScript manifest
 fetches but still play through the device media stack.
 
-Android TV uses a remote-first layout. Left opens the channel list, Right or
-Menu opens settings, Up/Down moves focus one channel at a time, OK plays the
-focused channel, Back closes the open panel, and Channel Up/Down switches the
-current channel directly. Native video controls and favorite buttons are kept
-out of TV focus navigation.
+Android TV uses a remote-first layout. Left toggles the channel list, Right or
+Menu toggles settings, Up/Down moves focus one channel at a time, OK plays the
+focused channel and closes the list, and Channel Up/Down switches the current
+channel directly. TV playback has no persistent edge buttons or native video
+control frame, and favorite buttons are kept out of TV focus navigation.
 
 ## Playlist maintenance
 

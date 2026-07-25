@@ -8,7 +8,11 @@ import {
 import { renderApp } from './src/ui.js';
 import { createPlayer } from './src/player.js';
 import { updateMediaSession } from './src/mediaSession.js';
-import { detectTelevision, getGlobalTvRemoteAction } from './src/tvRemote.js';
+import {
+  detectTelevision,
+  getGlobalTvRemoteAction,
+  getToggledTvPanel,
+} from './src/tvRemote.js';
 import {
   getTheme,
   isFavorite,
@@ -28,7 +32,6 @@ async function main() {
   const layoutEl = document.querySelector('.layout');
   const playerPanelEl = document.querySelector('.player-panel');
   const drawerHandle = document.getElementById('drawer-handle');
-  const settingsHandle = document.getElementById('settings-handle');
   const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
   const officialServiceById = Object.fromEntries(OFFICIAL_SERVICES.map((service) => [service.id, service]));
   const vlcAndroid = COMPATIBLE_PLAYERS.find((playerLink) => playerLink.id === 'vlc-android');
@@ -50,7 +53,9 @@ async function main() {
 
   document.documentElement.classList.toggle('tv-mode', isTvMode);
   if (isTvMode) {
+    videoEl.removeAttribute('controls');
     videoEl.controls = false;
+    videoEl.disablePictureInPicture = true;
     videoEl.tabIndex = -1;
     playerPanelEl.tabIndex = -1;
   }
@@ -120,9 +125,6 @@ async function main() {
     setDrawerOpen(nextPanel === 'channels');
     appView?.setMenuOpen(nextPanel === 'settings');
     syncingTvPanel = false;
-    layoutEl.classList.toggle('settings-open', nextPanel === 'settings');
-    settingsHandle.setAttribute('aria-expanded', String(nextPanel === 'settings'));
-    settingsHandle.setAttribute('aria-label', nextPanel === 'settings' ? 'Hide settings' : 'Show settings');
     notifyNativeTvPanelState();
 
     if (!focus) return;
@@ -134,7 +136,7 @@ async function main() {
   }
 
   function toggleTvPanel(panel) {
-    setTvPanel(tvPanel === panel ? 'none' : panel);
+    setTvPanel(getToggledTvPanel(tvPanel, panel));
   }
 
   drawerHandle.addEventListener('click', () => {
@@ -146,8 +148,6 @@ async function main() {
       setDrawerOpen(!layoutEl.classList.contains('drawer-open'));
     }
   });
-
-  settingsHandle.addEventListener('click', () => toggleTvPanel('settings'));
 
   layoutEl.addEventListener('touchstart', (event) => {
     if (!isLandscapeDrawerActive() || event.touches.length !== 1) return;
@@ -419,8 +419,8 @@ async function main() {
   window.__ftaIptvPlay = playCurrentVideo;
   window.__ftaIptvPause = pauseCurrentVideo;
   window.__ftaIptvTogglePlayback = toggleCurrentVideo;
-  window.__ftaIptvTvOpenChannels = () => setTvPanel('channels');
-  window.__ftaIptvTvOpenMenu = () => setTvPanel('settings');
+  window.__ftaIptvTvToggleChannels = () => toggleTvPanel('channels');
+  window.__ftaIptvTvToggleMenu = () => toggleTvPanel('settings');
   window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
   window.addEventListener('pagehide', () => {
     clearTimeout(channelTuneTimer);

@@ -155,11 +155,11 @@ public final class MainActivity extends Activity {
 
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                evaluatePlayerCommand("__ftaIptvTvOpenChannels");
+                evaluatePlayerCommand("__ftaIptvTvToggleChannels");
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
             case KeyEvent.KEYCODE_MENU:
-                evaluatePlayerCommand("__ftaIptvTvOpenMenu");
+                evaluatePlayerCommand("__ftaIptvTvToggleMenu");
                 return true;
             case KeyEvent.KEYCODE_CHANNEL_UP:
                 evaluatePlayerCommand("__ftaIptvNextChannel");
