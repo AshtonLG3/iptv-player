@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
+  getToggledTvPanel,
   getWrappedFocusIndex,
 } from '../src/tvRemote.js';
 
@@ -26,4 +27,11 @@ test('getWrappedFocusIndex wraps remote focus through a list', () => {
   assert.equal(getWrappedFocusIndex(3, -1, 1), 0);
   assert.equal(getWrappedFocusIndex(3, 2, 1), 0);
   assert.equal(getWrappedFocusIndex(3, 0, -1), 2);
+});
+
+test('getToggledTvPanel closes a panel when its remote key is pressed again', () => {
+  assert.equal(getToggledTvPanel('none', 'channels'), 'channels');
+  assert.equal(getToggledTvPanel('channels', 'channels'), 'none');
+  assert.equal(getToggledTvPanel('settings', 'settings'), 'none');
+  assert.equal(getToggledTvPanel('channels', 'settings'), 'settings');
 });

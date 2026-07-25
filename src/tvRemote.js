@@ -34,3 +34,7 @@ export function getWrappedFocusIndex(length, currentIndex, direction) {
   if (currentIndex < 0 || currentIndex >= length) return direction < 0 ? length - 1 : 0;
   return (currentIndex + direction + length) % length;
 }
+
+export function getToggledTvPanel(currentPanel, requestedPanel) {
+  return currentPanel === requestedPanel ? 'none' : requestedPanel;
+}
