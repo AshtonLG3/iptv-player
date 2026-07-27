@@ -204,6 +204,7 @@ async function main() {
     link.href = fallback.url;
     link.target = '_blank';
     link.rel = 'noopener';
+    link.dataset.inAppBrowser = 'true';
     link.textContent = `Open ${fallback.name}`;
     statusEl.append(document.createTextNode('  '));
     statusEl.appendChild(link);

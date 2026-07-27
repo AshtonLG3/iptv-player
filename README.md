@@ -61,6 +61,12 @@ focused channel and closes the list, and Channel Up/Down switches the current
 channel directly. TV playback has no persistent edge buttons or native video
 control frame, and favorite buttons are kept out of TV focus navigation.
 
+Official broadcaster and YouTube links open in an isolated in-app browser, so
+the channel player remains loaded behind them. Specific YouTube video and live
+links use YouTube's embedded player. On TV, press Menu to toggle the browser
+toolbar; Back leaves fullscreen video, navigates back, or returns to the player.
+The toolbar also provides an explicit option to hand the page to another app.
+
 ## Playlist maintenance
 
 The source of truth is `playlists/channels.json`. Edit that file, then rebuild:
