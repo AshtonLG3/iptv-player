@@ -151,6 +151,7 @@ export function renderApp({
     link.target = '_blank';
     link.rel = 'noopener';
     link.className = 'official-service-link';
+    link.dataset.inAppBrowser = 'true';
 
     const name = document.createElement('span');
     name.className = 'official-service-name';
@@ -440,6 +441,7 @@ export function renderApp({
       openLink.target = '_blank';
       openLink.rel = 'noopener';
       openLink.className = 'playlist-action primary';
+      openLink.dataset.inAppBrowser = 'true';
       openLink.textContent = 'Open Z+';
 
       text.append(name, description);
@@ -468,6 +470,11 @@ export function renderApp({
   }
 
   root.addEventListener('click', (event) => {
+    const inAppLink = event.target.closest?.('a[data-in-app-browser="true"]');
+    if (inAppLink && typeof window.AndroidDevice?.openOfficialUrl === 'function') {
+      event.preventDefault();
+      window.AndroidDevice.openOfficialUrl(inAppLink.href);
+    }
     if (!overflowMenu.contains(event.target)) overflowMenu.removeAttribute('open');
   });
 

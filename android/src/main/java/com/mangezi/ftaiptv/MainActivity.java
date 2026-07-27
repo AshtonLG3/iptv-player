@@ -1,12 +1,12 @@
 package com.mangezi.ftaiptv;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.UiModeManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,6 +35,7 @@ public final class MainActivity extends Activity {
     private static final String APP_ASSET_HOST = "appassets.androidplatform.net";
     private static final String MEDIA_NOTIFICATION_CHANNEL_ID = "playback";
     private static final int MEDIA_NOTIFICATION_ID = 1001;
+    private static final int NOTIFICATION_PERMISSION_REQUEST = 1002;
     private static final String ACTION_PREVIOUS = "com.mangezi.ftaiptv.action.PREVIOUS";
     private static final String ACTION_NEXT = "com.mangezi.ftaiptv.action.NEXT";
     private static final String ACTION_PLAY = "com.mangezi.ftaiptv.action.PLAY";
@@ -49,6 +50,7 @@ public final class MainActivity extends Activity {
     private boolean currentCanNavigate;
     private boolean currentIsPlaying;
     private boolean isTelevisionDevice;
+    private boolean notificationPermissionRequested;
     private volatile boolean tvPanelOpen;
 
     @Override
@@ -95,10 +97,19 @@ public final class MainActivity extends Activity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Uri url = request.getUrl();
+                return handleNavigation(request.getUrl());
+            }
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return handleNavigation(Uri.parse(url));
+            }
+
+            private boolean handleNavigation(Uri url) {
                 String scheme = url.getScheme();
                 if ("intent".equals(scheme)) {
-                    return openIntentUrl(url.toString());
+                    return openIntentUrlInApp(url.toString());
                 }
 
                 if (!("http".equals(scheme) || "https".equals(scheme))) {
@@ -109,12 +120,9 @@ public final class MainActivity extends Activity {
                     return false;
                 }
 
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, url));
-                    return true;
-                } catch (ActivityNotFoundException ignored) {
-                    return false;
-                }
+                handleMediaAction(ACTION_PAUSE);
+                InAppBrowserActivity.open(MainActivity.this, url.toString());
+                return true;
             }
 
             @Override
@@ -248,7 +256,22 @@ public final class MainActivity extends Activity {
         mediaSession.setMetadata(metadata.build());
         updatePlaybackState();
         mediaSession.setActive(true);
+        requestNotificationPermissionIfNeeded();
         updateMediaNotification();
+    }
+
+    private void requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+                || notificationPermissionRequested
+                || checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        notificationPermissionRequested = true;
+        requestPermissions(
+                new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                NOTIFICATION_PERMISSION_REQUEST
+        );
     }
 
     private void clearNativeMediaSession() {
@@ -287,6 +310,11 @@ public final class MainActivity extends Activity {
 
     private void updateMediaNotification() {
         if (notificationManager == null || mediaSession == null || currentTitle.isEmpty()) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
 
         Notification.Builder builder = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                 ? new Notification.Builder(this, MEDIA_NOTIFICATION_CHANNEL_ID)
@@ -416,17 +444,15 @@ public final class MainActivity extends Activity {
         return trimmed.isEmpty() ? fallback : trimmed;
     }
 
-    private boolean openIntentUrl(String url) {
+    private boolean openIntentUrlInApp(String url) {
         try {
             Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
-            try {
-                startActivity(intent);
-            } catch (ActivityNotFoundException missingApp) {
-                String fallbackUrl = intent.getStringExtra("browser_fallback_url");
-                if (fallbackUrl == null) return true;
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(fallbackUrl)));
+            String fallbackUrl = intent.getStringExtra("browser_fallback_url");
+            if (fallbackUrl != null) {
+                handleMediaAction(ACTION_PAUSE);
+                InAppBrowserActivity.open(this, fallbackUrl);
             }
-        } catch (ActivityNotFoundException | URISyntaxException ignored) {
+        } catch (URISyntaxException ignored) {
             return true;
         }
         return true;
@@ -437,6 +463,32 @@ public final class MainActivity extends Activity {
         super.onNewIntent(intent);
         setIntent(intent);
         if (intent != null && handleMediaAction(intent.getAction())) return;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String[] permissions,
+            int[] grantResults
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST
+                && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            updateMediaNotification();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (webView != null) webView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (webView != null) webView.onResume();
     }
 
     @Override
@@ -500,6 +552,14 @@ public final class MainActivity extends Activity {
         @JavascriptInterface
         public void setPanelOpen(boolean isOpen) {
             tvPanelOpen = isOpen;
+        }
+
+        @JavascriptInterface
+        public void openOfficialUrl(String url) {
+            runOnUiThread(() -> {
+                handleMediaAction(ACTION_PAUSE);
+                InAppBrowserActivity.open(MainActivity.this, url);
+            });
         }
     }
 }
