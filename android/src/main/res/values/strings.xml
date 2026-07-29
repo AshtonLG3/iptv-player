@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FTA IPTV Player</string>
+    <string name="app_name">Rugare TV</string>
     <string name="app_version">1.5.0</string>
     <string name="official_stream">Official stream</string>
     <string name="page_failed_to_load">This page could not be loaded</string>

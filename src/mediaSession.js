@@ -45,7 +45,7 @@ function updateBrowserMediaSession({
 
     mediaSession.metadata = new MediaMetadataCtor({
       title: channel.name,
-      artist: 'FTA IPTV Player',
+      artist: 'Rugare TV',
       artwork,
     });
   }
@@ -79,7 +79,7 @@ function updateNativeMediaSession({
     if (typeof nativeBridge.update !== 'function') return false;
     nativeBridge.update(
       channel.name || '',
-      'FTA IPTV Player',
+      'Rugare TV',
       channel.logo || '',
       Boolean(canNavigate),
       Boolean(isPlaying),

@@ -38,7 +38,7 @@ test('updateMediaSession publishes channel metadata and track navigation handler
 
   assert.equal(updated, true);
   assert.equal(mediaSession.metadata.title, 'AP TV');
-  assert.equal(mediaSession.metadata.artist, 'FTA IPTV Player');
+  assert.equal(mediaSession.metadata.artist, 'Rugare TV');
   assert.equal(mediaSession.metadata.artwork[0].src, 'https://example.com/logo.png');
   assert.equal(mediaSession.playbackState, 'playing');
 
@@ -71,7 +71,7 @@ test('updateMediaSession forwards metadata to the native Android bridge', () => 
   assert.equal(updated, true);
   assert.deepEqual(calls, [[
     'Total Music Concerts',
-    'FTA IPTV Player',
+    'Rugare TV',
     'https://example.com/music.png',
     true,
     true,
