@@ -1,4 +1,4 @@
-# FTA IPTV Player
+# Rugare TV
 
 Browse and watch free-to-air channels from Zimbabwe, South Africa, Zambia,
 Botswana, Kenya, and the UK, sourced live

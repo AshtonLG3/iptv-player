@@ -1,4 +1,4 @@
-export const APP_NAME = 'FTA IPTV Player';
+export const APP_NAME = 'Rugare TV';
 export const APP_VERSION = '1.5.0';
 
 export const FTA_COUNTRIES = {
