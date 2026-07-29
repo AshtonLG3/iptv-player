@@ -5,7 +5,7 @@ import {
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
 } from './src/playlistAccess.js';
-import { renderApp } from './src/ui.js';
+import { getCategoryNames, getChannelInitials, renderApp } from './src/ui.js';
 import { createPlayer } from './src/player.js';
 import { updateMediaSession } from './src/mediaSession.js';
 import {
@@ -31,15 +31,32 @@ async function main() {
   const nextChannelButton = document.getElementById('next-channel-button');
   const layoutEl = document.querySelector('.layout');
   const playerPanelEl = document.querySelector('.player-panel');
+  const playerFrameEl = document.querySelector('.player-frame');
   const drawerHandle = document.getElementById('drawer-handle');
+  const nowPlayingSummary = document.getElementById('now-playing-summary');
+  const nowPlayingLogo = document.getElementById('now-playing-logo');
+  const nowPlayingFallback = document.getElementById('now-playing-fallback');
+  const nowPlayingState = document.getElementById('now-playing-state');
+  const nowPlayingTitle = document.getElementById('now-playing-title');
+  const nowPlayingCategory = document.getElementById('now-playing-category');
+  const nowPlayingFavorite = document.getElementById('now-playing-favorite');
+  const settingsToggle = document.getElementById('settings-toggle');
+  const playerOrientationToggle = document.getElementById('player-orientation-toggle');
+  const playerHud = document.getElementById('player-hud');
+  const playerHudLogo = document.getElementById('player-hud-logo');
+  const playerHudFallback = document.getElementById('player-hud-fallback');
+  const playerHudTitle = document.getElementById('player-hud-title');
+  const playerHudMeta = document.getElementById('player-hud-meta');
   const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
   const officialServiceById = Object.fromEntries(OFFICIAL_SERVICES.map((service) => [service.id, service]));
   const vlcAndroid = COMPATIBLE_PLAYERS.find((playerLink) => playerLink.id === 'vlc-android');
   const CHANNEL_NAV_AUTO_HIDE_MS = 2600;
   let touchStartX = 0;
   let touchStartY = 0;
+  let channelDrawerGestureStarted = false;
   let channelNavHideTimer = null;
   let channelTuneTimer = null;
+  let playerHudHideTimer = null;
   let appView = null;
   let currentChannel = null;
   let visibleChannels = [];
@@ -52,6 +69,7 @@ async function main() {
   });
 
   document.documentElement.classList.toggle('tv-mode', isTvMode);
+  document.documentElement.classList.toggle('android-app', Boolean(androidDeviceBridge));
   if (isTvMode) {
     videoEl.removeAttribute('controls');
     videoEl.controls = false;
@@ -150,10 +168,27 @@ async function main() {
   });
 
   layoutEl.addEventListener('touchstart', (event) => {
-    if (!isLandscapeDrawerActive() || event.touches.length !== 1) return;
+    if (event.touches.length !== 1) return;
     touchStartX = event.touches[0].clientX;
     touchStartY = event.touches[0].clientY;
-  }, { passive: true });
+    const playerBounds = playerFrameEl.getBoundingClientRect();
+    const touchIsInsidePlayer = touchStartX >= playerBounds.left
+      && touchStartX <= playerBounds.right
+      && touchStartY >= playerBounds.top
+      && touchStartY <= playerBounds.bottom;
+    if (touchIsInsidePlayer) showChannelNavTemporarily();
+    if (!isLandscapeDrawerActive()) return;
+    if (!isTvMode) {
+      const videoBounds = videoEl.getBoundingClientRect();
+      const swipeZoneWidth = Math.min(Math.max(videoBounds.width * 0.28, 96), 260);
+      channelDrawerGestureStarted = !layoutEl.classList.contains('drawer-open')
+        && !layoutEl.classList.contains('settings-open')
+        && touchStartX >= videoBounds.right - swipeZoneWidth
+        && touchStartX <= videoBounds.right
+        && touchStartY >= videoBounds.top
+        && touchStartY <= videoBounds.bottom;
+    }
+  }, { capture: true, passive: true });
 
   layoutEl.addEventListener('touchend', (event) => {
     if (!isLandscapeDrawerActive() || event.changedTouches.length !== 1) return;
@@ -162,12 +197,17 @@ async function main() {
     const dy = Math.abs(touch.clientY - touchStartY);
     const drawerIsOpen = layoutEl.classList.contains('drawer-open');
 
-    if (!drawerIsOpen && touchStartX < 36 && dx > 70 && dy < 60) {
+    if (!drawerIsOpen && !isTvMode && channelDrawerGestureStarted && dx < -70 && dy < 60) {
       setDrawerOpen(true);
-    } else if (drawerIsOpen && dx < -70 && dy < 60) {
+    } else if (!drawerIsOpen && isTvMode && touchStartX < 36 && dx > 70 && dy < 60) {
+      setDrawerOpen(true);
+    } else if (drawerIsOpen && !isTvMode && dx > 70 && dy < 60) {
+      setDrawerOpen(false);
+    } else if (drawerIsOpen && isTvMode && dx < -70 && dy < 60) {
       setDrawerOpen(false);
     }
-  }, { passive: true });
+    channelDrawerGestureStarted = false;
+  }, { capture: true, passive: true });
 
   landscapeDrawerQuery.addEventListener('change', () => {
     if (isTvMode) return;
@@ -194,6 +234,7 @@ async function main() {
   }
 
   function renderPlayerError(err) {
+    updatePlaybackLabel('Unavailable');
     statusEl.textContent = '';
     statusEl.append(document.createTextNode(`Can't play this channel: ${err.message}`));
 
@@ -210,9 +251,69 @@ async function main() {
     statusEl.appendChild(link);
   }
 
+  function getChannelCategory(channel) {
+    return getCategoryNames(channel?.category)[0] || 'Live TV';
+  }
+
+  function updateArtwork(image, fallback, channel) {
+    fallback.textContent = getChannelInitials(channel?.name);
+    fallback.hidden = Boolean(channel?.logo);
+    image.hidden = !channel?.logo;
+    image.onload = () => {
+      image.hidden = false;
+      fallback.hidden = true;
+    };
+    image.onerror = () => {
+      image.hidden = true;
+      fallback.hidden = false;
+    };
+    image.src = channel?.logo || '';
+  }
+
+  function updateNowPlayingSummary(channel) {
+    if (!channel) {
+      nowPlayingSummary.hidden = true;
+      return;
+    }
+    nowPlayingSummary.hidden = false;
+    nowPlayingTitle.textContent = channel.name;
+    nowPlayingCategory.textContent = getChannelCategory(channel);
+    updateArtwork(nowPlayingLogo, nowPlayingFallback, channel);
+    const favorite = favoritesApi.isFavorite(channel.url);
+    nowPlayingFavorite.textContent = favorite ? '★' : '☆';
+    nowPlayingFavorite.classList.toggle('selected', favorite);
+    nowPlayingFavorite.setAttribute(
+      'aria-label',
+      `${favorite ? 'Remove' : 'Add'} ${channel.name} ${favorite ? 'from' : 'to'} favorites`,
+    );
+  }
+
+  function updatePlaybackLabel(label) {
+    nowPlayingState.textContent = label;
+  }
+
+  function showPlayerHud(channel) {
+    if (!isTvMode || !channel) return;
+    clearTimeout(playerHudHideTimer);
+    updateArtwork(playerHudLogo, playerHudFallback, channel);
+    playerHudTitle.textContent = channel.name;
+    playerHudMeta.textContent = `${getChannelCategory(channel)} · Live`;
+    playerHud.hidden = false;
+    window.requestAnimationFrame(() => playerHud.classList.add('visible'));
+    playerHudHideTimer = window.setTimeout(() => {
+      playerHud.classList.remove('visible');
+      window.setTimeout(() => {
+        if (!playerHud.classList.contains('visible')) playerHud.hidden = true;
+      }, 180);
+    }, 3200);
+  }
+
   function selectChannel(channel) {
     currentChannel = channel;
     statusEl.hidden = true;
+    updateNowPlayingSummary(channel);
+    updatePlaybackLabel('Tuning');
+    showPlayerHud(channel);
     setLastWatched(window.localStorage, channel.url);
     appView?.setNowPlaying(channel.url);
     updateChannelNavButtons();
@@ -265,12 +366,12 @@ async function main() {
     channelNavHideTimer = null;
     layoutEl.classList.toggle(
       'channel-nav-visible',
-      isVisible && !isTvMode && isLandscapeDrawerActive() && visibleChannels.length > 1,
+      isVisible && !isTvMode && visibleChannels.length > 1,
     );
   }
 
   function showChannelNavTemporarily() {
-    if (isTvMode || !isLandscapeDrawerActive() || visibleChannels.length < 2) return;
+    if (isTvMode || visibleChannels.length < 2) return;
 
     setChannelNavVisible(true);
     channelNavHideTimer = window.setTimeout(() => {
@@ -383,6 +484,7 @@ async function main() {
         onSelectChannel: selectChannel,
         onVisibleChannelsChange: setVisibleChannels,
         onMenuOpenChange: (isOpen) => {
+          layoutEl.classList.toggle('settings-open', isOpen);
           if (!isTvMode || syncingTvPanel) return;
           if (isOpen && tvPanel !== 'settings') setTvPanel('settings');
           if (!isOpen && tvPanel === 'settings') setTvPanel('none');
@@ -395,6 +497,7 @@ async function main() {
       const lastChannel = channels.find((c) => c.url === lastWatchedUrl);
       if (lastChannel) {
         selectChannel(lastChannel);
+        window.requestAnimationFrame(() => appView?.scrollToChannel(lastChannel.url));
       } else if (isTvMode) {
         setTvPanel('channels');
       }
@@ -404,28 +507,76 @@ async function main() {
     }
   }
 
+  nowPlayingFavorite.addEventListener('click', () => {
+    if (!currentChannel) return;
+    favoritesApi.toggle(currentChannel.url);
+    updateNowPlayingSummary(currentChannel);
+    appView?.refresh();
+  });
+
+  settingsToggle.addEventListener('click', () => appView?.setMenuOpen(true));
+
+  function updateOrientationButton() {
+    const landscape = window.matchMedia('(orientation: landscape)').matches;
+    const label = landscape ? 'Switch to portrait' : 'Switch to landscape';
+    playerOrientationToggle.setAttribute('aria-label', label);
+  }
+
+  playerOrientationToggle.addEventListener('click', () => {
+    try {
+      androidDeviceBridge?.toggleOrientation?.();
+    } catch {
+      // The hosted browser build does not control device orientation.
+    }
+  });
+  window.matchMedia('(orientation: landscape)').addEventListener('change', updateOrientationButton);
+  updateOrientationButton();
+
   retryButton.addEventListener('click', boot);
-  playerPanelEl.addEventListener('touchstart', showChannelNavTemporarily, { passive: true });
   playerPanelEl.addEventListener('mousemove', showChannelNavTemporarily);
   playerPanelEl.addEventListener('click', showChannelNavTemporarily);
   previousChannelButton.addEventListener('click', () => navigateChannel(-1));
   nextChannelButton.addEventListener('click', () => navigateChannel(1));
-  videoEl.addEventListener('playing', () => syncMediaSession(true));
+  videoEl.addEventListener('playing', () => {
+    updatePlaybackLabel('Now playing');
+    syncMediaSession(true);
+  });
   videoEl.addEventListener('play', () => syncMediaSession(true));
-  videoEl.addEventListener('pause', () => syncMediaSession(false));
-  videoEl.addEventListener('ended', () => syncMediaSession(false));
+  videoEl.addEventListener('pause', () => {
+    if (currentChannel) updatePlaybackLabel('Paused');
+    syncMediaSession(false);
+  });
+  videoEl.addEventListener('ended', () => {
+    if (currentChannel) updatePlaybackLabel('Ended');
+    syncMediaSession(false);
+  });
   document.addEventListener('keydown', handleTvKeydown);
   window.__ftaIptvPreviousChannel = () => navigateChannel(-1);
   window.__ftaIptvNextChannel = () => navigateChannel(1);
   window.__ftaIptvPlay = playCurrentVideo;
   window.__ftaIptvPause = pauseCurrentVideo;
   window.__ftaIptvTogglePlayback = toggleCurrentVideo;
+  window.__ftaIptvShowControlsAt = (relativeX, relativeY) => {
+    const playerBounds = playerFrameEl.getBoundingClientRect();
+    const touchX = Number(relativeX) * window.innerWidth;
+    const touchY = Number(relativeY) * window.innerHeight;
+    if (touchX >= playerBounds.left && touchX <= playerBounds.right
+      && touchY >= playerBounds.top && touchY <= playerBounds.bottom) {
+      showChannelNavTemporarily();
+    }
+  };
+  window.__ftaIptvOpenChannels = () => {
+    if (isTvMode || !isLandscapeDrawerActive()) return;
+    appView?.setMenuOpen(false);
+    setDrawerOpen(true);
+  };
   window.__ftaIptvTvToggleChannels = () => toggleTvPanel('channels');
   window.__ftaIptvTvToggleMenu = () => toggleTvPanel('settings');
   window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
   window.addEventListener('pagehide', () => {
     clearTimeout(channelTuneTimer);
     clearTimeout(channelNavHideTimer);
+    clearTimeout(playerHudHideTimer);
     player.destroy();
   }, { once: true });
   boot();

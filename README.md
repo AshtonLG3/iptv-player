@@ -61,6 +61,11 @@ focused channel and closes the list, and Channel Up/Down switches the current
 channel directly. TV playback has no persistent edge buttons or native video
 control frame, and favorite buttons are kept out of TV focus navigation.
 
+The mobile layout keeps the player first, followed by a persistent now-playing
+row, quick category filters, and artwork-rich channel rows. On TV, the same
+channel metadata appears in the remote drawer and as a short-lived overlay when
+changing channels; normal playback remains full-screen and unobstructed.
+
 Official broadcaster and YouTube links open in an isolated in-app browser, so
 the channel player remains loaded behind them. Specific YouTube video and live
 links use YouTube's embedded player. On TV, press Menu to toggle the browser
