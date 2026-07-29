@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>FTA IPTV Player</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
@@ -15,11 +15,47 @@
       <button id="retry-button" type="button" hidden>Retry loading channels</button>
     </div>
     <section class="player-panel">
-      <video id="video" controls playsinline></video>
-      <div class="landscape-channel-nav" aria-label="Channel navigation">
-        <button id="previous-channel-button" class="channel-nav-button" type="button" aria-label="Previous channel" disabled></button>
-        <button id="next-channel-button" class="channel-nav-button" type="button" aria-label="Next channel" disabled></button>
+      <div class="player-frame">
+        <video id="video" controls playsinline></video>
+        <div class="landscape-channel-nav" aria-label="Channel navigation">
+          <button id="previous-channel-button" class="channel-nav-button" type="button" aria-label="Previous channel" disabled></button>
+          <button id="next-channel-button" class="channel-nav-button" type="button" aria-label="Next channel" disabled></button>
+        </div>
+        <button id="player-orientation-toggle" class="orientation-toggle player-orientation-toggle" type="button" aria-label="Switch to landscape" title="Rotate player">
+          <span class="orientation-glyph" aria-hidden="true">
+            <span class="orientation-device"></span>
+            <span class="orientation-arc orientation-arc-top"></span>
+            <span class="orientation-arc orientation-arc-bottom"></span>
+          </span>
+        </button>
+        <div id="player-hud" class="player-hud" aria-live="polite" hidden>
+          <span class="player-hud-artwork">
+            <img id="player-hud-logo" alt="" />
+            <span id="player-hud-fallback" aria-hidden="true">TV</span>
+          </span>
+          <span class="player-hud-copy">
+            <strong id="player-hud-title">Choose a channel</strong>
+            <span id="player-hud-meta">Live TV</span>
+          </span>
+        </div>
       </div>
+      <section id="now-playing-summary" class="now-playing-summary" aria-live="polite" hidden>
+        <span class="now-playing-artwork">
+          <img id="now-playing-logo" alt="" />
+          <span id="now-playing-fallback" aria-hidden="true">TV</span>
+        </span>
+        <span class="now-playing-copy">
+          <span id="now-playing-state" class="now-playing-state">Now playing</span>
+          <strong id="now-playing-title">Choose a channel</strong>
+          <span id="now-playing-category" class="now-playing-category">Live TV</span>
+        </span>
+        <span class="now-playing-actions">
+          <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Open settings" title="Settings">
+            <span class="hamburger-icon" aria-hidden="true"></span>
+          </button>
+          <button id="now-playing-favorite" class="now-playing-favorite" type="button" aria-label="Add current channel to favorites">☆</button>
+        </span>
+      </section>
       <p id="player-status" hidden></p>
     </section>
   </main>

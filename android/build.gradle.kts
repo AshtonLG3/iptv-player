@@ -4,8 +4,8 @@ plugins {
     id("com.android.application")
 }
 
-val appVersionCode = 16
-val appVersionName = "1.4.0"
+val appVersionCode = 17
+val appVersionName = "1.5.0"
 val generatedWebAssetsDir = layout.buildDirectory.dir("generated/web-assets")
 
 val syncWebAssets by tasks.registering(Sync::class) {

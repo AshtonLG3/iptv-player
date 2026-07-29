@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.media.MediaMetadata;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -51,6 +53,9 @@ public final class MainActivity extends Activity {
     private boolean currentIsPlaying;
     private boolean isTelevisionDevice;
     private boolean notificationPermissionRequested;
+    private float playerGestureStartX;
+    private float playerGestureStartY;
+    private boolean playerChannelSwipeCandidate;
     private volatile boolean tvPanelOpen;
 
     @Override
@@ -142,6 +147,7 @@ public final class MainActivity extends Activity {
         });
 
         setContentView(webView);
+        updateSystemUiForOrientation(getResources().getConfiguration().orientation);
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
     }
 
@@ -153,6 +159,72 @@ public final class MainActivity extends Activity {
         return televisionMode
                 || packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
                 || packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION);
+    }
+
+    private void updateSystemUiForOrientation(int orientation) {
+        View decorView = getWindow().getDecorView();
+        if (isTelevisionDevice || orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            );
+            return;
+        }
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateSystemUiForOrientation(newConfig.orientation);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            updateSystemUiForOrientation(getResources().getConfiguration().orientation);
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (!isTelevisionDevice && webView != null) {
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    playerGestureStartX = event.getX();
+                    playerGestureStartY = event.getY();
+                    evaluatePlayerTouch(
+                            playerGestureStartX / Math.max(1f, webView.getWidth()),
+                            playerGestureStartY / Math.max(1f, webView.getHeight())
+                    );
+                    playerChannelSwipeCandidate = getResources().getConfiguration().orientation
+                            == Configuration.ORIENTATION_LANDSCAPE
+                            && playerGestureStartX >= webView.getWidth() * 0.70f;
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (playerChannelSwipeCandidate) {
+                        float density = getResources().getDisplayMetrics().density;
+                        float horizontalTravel = event.getX() - playerGestureStartX;
+                        float verticalTravel = Math.abs(event.getY() - playerGestureStartY);
+                        if (horizontalTravel <= -72f * density && verticalTravel < 90f * density) {
+                            evaluatePlayerCommand("__ftaIptvOpenChannels");
+                        }
+                    }
+                    playerChannelSwipeCandidate = false;
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    playerChannelSwipeCandidate = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -438,6 +510,13 @@ public final class MainActivity extends Activity {
         ));
     }
 
+    private void evaluatePlayerTouch(float relativeX, float relativeY) {
+        if (webView == null) return;
+        String script = "if(window.__ftaIptvShowControlsAt){window.__ftaIptvShowControlsAt("
+                + Float.toString(relativeX) + "," + Float.toString(relativeY) + ");}";
+        webView.post(() -> webView.evaluateJavascript(script, null));
+    }
+
     private String nonEmpty(String value, String fallback) {
         if (value == null) return fallback;
         String trimmed = value.trim();
@@ -559,6 +638,19 @@ public final class MainActivity extends Activity {
             runOnUiThread(() -> {
                 handleMediaAction(ACTION_PAUSE);
                 InAppBrowserActivity.open(MainActivity.this, url);
+            });
+        }
+
+        @JavascriptInterface
+        public void toggleOrientation() {
+            if (isTelevisionDevice) return;
+            runOnUiThread(() -> {
+                int currentOrientation = getResources().getConfiguration().orientation;
+                setRequestedOrientation(
+                        currentOrientation == Configuration.ORIENTATION_LANDSCAPE
+                                ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                                : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                );
             });
         }
     }

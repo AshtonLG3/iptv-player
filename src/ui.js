@@ -9,6 +9,43 @@ function isIntermittentChannel(channel) {
   return /\[not 24\/7\]/i.test(channel.name);
 }
 
+export function getChannelInitials(name) {
+  const words = String(name || '')
+    .replace(/\([^)]*\)|\[[^\]]*\]/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (!words.length) return 'TV';
+  return words.slice(0, 2).map((word) => word[0]).join('').toUpperCase();
+}
+
+function getPrimaryCategory(channel) {
+  return getCategoryNames(channel.category)[0] || 'Live TV';
+}
+
+function createChannelArtwork(channel) {
+  const artwork = document.createElement('span');
+  artwork.className = 'channel-artwork';
+
+  const fallback = document.createElement('span');
+  fallback.className = 'channel-artwork-fallback';
+  fallback.textContent = getChannelInitials(channel.name);
+  fallback.setAttribute('aria-hidden', 'true');
+  artwork.appendChild(fallback);
+
+  if (channel.logo) {
+    const image = document.createElement('img');
+    image.src = channel.logo;
+    image.alt = '';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.addEventListener('error', () => image.remove(), { once: true });
+    artwork.appendChild(image);
+  }
+
+  return artwork;
+}
+
 export function getCategoryNames(category) {
   return String(category || '')
     .split(/[;,|]/)
@@ -104,6 +141,16 @@ export function renderApp({
           <span class="version-pill">v${APP_VERSION}</span>
         </div>
       </header>
+      <section class="channel-browser-header" aria-label="Channel browser">
+        <div class="channel-list-heading">
+          <div>
+            <span class="channel-list-kicker">Browse</span>
+            <strong id="channel-list-title">All channels</strong>
+          </div>
+          <span id="channel-count" class="channel-count">0</span>
+        </div>
+        <div id="category-strip" class="category-strip" aria-label="Quick categories"></div>
+      </section>
       <ul id="channel-list"></ul>
     </aside>
   `;
@@ -121,6 +168,9 @@ export function renderApp({
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
   const officialServiceList = root.querySelector('#official-service-list');
+  const categoryStrip = root.querySelector('#category-strip');
+  const channelListTitle = root.querySelector('#channel-list-title');
+  const channelCount = root.querySelector('#channel-count');
   const listEl = root.querySelector('#channel-list');
   let nowPlayingUrl = null;
   let visibleChannels = [];
@@ -144,6 +194,8 @@ export function renderApp({
     opt.textContent = category;
     categorySelect.appendChild(opt);
   }
+
+  renderCategoryStrip();
 
   for (const service of OFFICIAL_SERVICES) {
     const link = document.createElement('a');
@@ -194,6 +246,9 @@ export function renderApp({
     }
 
     visibleChannels = filtered;
+    syncCategoryStrip();
+    channelListTitle.textContent = filters.category || (filters.favoritesOnly ? 'Favorites' : 'All channels');
+    channelCount.textContent = String(filtered.length);
     renderList(filtered);
     onVisibleChannelsChange?.(visibleChannels);
   }
@@ -221,6 +276,8 @@ export function renderApp({
       selectButton.className = 'channel-select-button';
       selectButton.setAttribute('aria-label', `Play ${channel.name}`);
 
+      const artwork = createChannelArtwork(channel);
+
       const name = document.createElement('span');
       name.className = 'channel-name';
       name.textContent = channel.name;
@@ -231,7 +288,11 @@ export function renderApp({
 
       const meta = document.createElement('span');
       meta.className = 'channel-meta';
-      meta.append(name, badge);
+      const detail = document.createElement('span');
+      detail.className = 'channel-detail';
+      const countryName = FTA_COUNTRIES[channel.country] || channel.country?.toUpperCase();
+      detail.textContent = [getPrimaryCategory(channel), countryName].filter(Boolean).join(' · ');
+      meta.append(name, detail, badge);
 
       if (isGeoBlockedChannel(channel) || isIntermittentChannel(channel)) {
         const flags = document.createElement('span');
@@ -251,7 +312,7 @@ export function renderApp({
         meta.appendChild(flags);
       }
 
-      selectButton.appendChild(meta);
+      selectButton.append(artwork, meta);
       item.appendChild(selectButton);
 
       const favButton = document.createElement('button');
@@ -286,6 +347,30 @@ export function renderApp({
     }
   }
 
+  function renderCategoryStrip() {
+    categoryStrip.innerHTML = '';
+    for (const category of ['', ...categories]) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'category-chip';
+      button.dataset.category = category;
+      button.textContent = category || 'All';
+      button.addEventListener('click', () => {
+        categorySelect.value = category;
+        applyFilters({ relaxCountryWhenCategoryEmpty: true });
+      });
+      categoryStrip.appendChild(button);
+    }
+  }
+
+  function syncCategoryStrip() {
+    for (const button of categoryStrip.querySelectorAll('.category-chip')) {
+      const selected = button.dataset.category === categorySelect.value;
+      button.classList.toggle('selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    }
+  }
+
   function setNowPlaying(url) {
     nowPlayingUrl = url;
     updateNowPlayingMarkers();
@@ -302,6 +387,14 @@ export function renderApp({
     if (!button) return false;
     button.focus({ preventScroll: true });
     target.scrollIntoView({ block: 'nearest' });
+    return true;
+  }
+
+  function scrollToChannel(url = nowPlayingUrl) {
+    const target = [...listEl.querySelectorAll('.channel-item')]
+      .find((item) => item.dataset.channelUrl === url);
+    if (!target) return false;
+    listEl.scrollTop = Math.max(0, target.offsetTop - listEl.offsetTop);
     return true;
   }
 
@@ -502,6 +595,7 @@ export function renderApp({
     setNowPlaying,
     setMenuOpen,
     focusChannel,
+    scrollToChannel,
     moveChannelFocus,
     focusMenu,
     moveMenuFocus,

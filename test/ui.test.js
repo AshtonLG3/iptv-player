@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { filterChannelsForUi, getCategoryNames } from '../src/ui.js';
+import { filterChannelsForUi, getCategoryNames, getChannelInitials } from '../src/ui.js';
 
 const CHANNELS = [
   {
@@ -30,6 +30,12 @@ test('getCategoryNames splits multi-folder M3U group labels', () => {
     'UK',
     'International',
   ]);
+});
+
+test('getChannelInitials ignores quality labels and limits artwork fallback to two letters', () => {
+  assert.equal(getChannelInitials('SABC News (1080p)'), 'SN');
+  assert.equal(getChannelInitials('K24'), 'K');
+  assert.equal(getChannelInitials(''), 'TV');
 });
 
 test('filterChannelsForUi matches a selected folder by category token', () => {
