@@ -55,6 +55,7 @@ export const OFFICIAL_SERVICES = [
   {
     id: 'sabc-plus',
     name: 'SABC+',
+    shortLabel: 'SABC+',
     country: 'South Africa',
     url: 'https://sabc-plus.com/',
     note: 'SABC live TV, radio, sport',
@@ -69,6 +70,7 @@ export const OFFICIAL_SERVICES = [
   {
     id: 'evod',
     name: 'eVOD / e.tv',
+    shortLabel: 'e+',
     country: 'South Africa',
     url: 'https://watch.evod.co.za/live-tv',
     note: 'e.tv and eMedia streaming',
@@ -76,6 +78,7 @@ export const OFFICIAL_SERVICES = [
   {
     id: 'afree-tv',
     name: 'Afree TV',
+    shortLabel: 'AfreeTV',
     country: 'South Africa',
     url: 'https://afreetv.net/',
     note: 'African live TV and on-demand',
@@ -83,6 +86,7 @@ export const OFFICIAL_SERVICES = [
   {
     id: 'zplus',
     name: 'Z+ / ZBC',
+    shortLabel: 'Z+',
     country: 'Zimbabwe',
     url: 'https://zbc.ottplatform.com/',
     note: 'ZBC TV, News 24, Jive TV',
@@ -101,4 +105,11 @@ export const OFFICIAL_SERVICES = [
     url: 'https://www.openview.co.za/',
     note: 'Free satellite channels',
   },
+];
+
+export const FEATURED_OFFICIAL_SERVICE_IDS = [
+  'afree-tv',
+  'evod',
+  'sabc-plus',
+  'zplus',
 ];
