@@ -4,6 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Rugare TV</title>
+  <base id="player-base" href="./" />
+  <script>
+    if (/\/tv\/[a-z0-9-]+\/?$/i.test(window.location.pathname)) {
+      document.getElementById('player-base').href = '/tv/';
+    } else if (/^\/[a-z0-9-]+\/?$/i.test(window.location.pathname)
+      && window.location.pathname !== '/tv/') {
+      document.getElementById('player-base').href = '/';
+    }
+  </script>
   <link rel="icon" href="https://mangezi.xyz/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css?v=20260730b" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
@@ -65,6 +74,6 @@
       <p id="player-status" hidden></p>
     </section>
   </main>
-  <script type="module" src="app.js?v=20260730b"></script>
+  <script type="module" src="app.js?v=20260730c"></script>
 </body>
 </html>
