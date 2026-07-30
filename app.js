@@ -13,6 +13,13 @@ import {
 import { getCategoryNames, getChannelInitials, renderApp } from './src/ui.js?v=20260730b';
 import { createPlayer } from './src/player.js';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
+import {
+  createChannelRouteIndex,
+  getChannelPath,
+  getPlayerBasePath,
+  getRequestedChannelSlug,
+  supportsChannelRoutes,
+} from './src/channelRoute.js?v=20260730c';
 import { updateMediaSession } from './src/mediaSession.js';
 import {
   detectTelevision,
@@ -69,12 +76,18 @@ async function main() {
   let appView = null;
   let currentChannel = null;
   let visibleChannels = [];
+  let channelRoutes = createChannelRouteIndex([]);
   let tvPanel = 'none';
   let syncingTvPanel = false;
   const androidDeviceBridge = globalThis.AndroidDevice;
   const isTvMode = detectTelevision({
     bridge: androidDeviceBridge,
     userAgent: navigator.userAgent,
+  });
+  const channelRouteBase = getPlayerBasePath(window.location.pathname);
+  const channelRoutingEnabled = supportsChannelRoutes({
+    locationObj: window.location,
+    hasAndroidBridge: Boolean(androidDeviceBridge),
   });
 
   document.documentElement.classList.toggle('tv-mode', isTvMode);
@@ -383,7 +396,20 @@ async function main() {
     }, 3200);
   }
 
-  function selectChannel(channel) {
+  function syncChannelRoute(channel, historyMode) {
+    if (!channelRoutingEnabled) return;
+    const slug = channelRoutes.slugByUrl.get(channel.url);
+    if (!slug) return;
+    document.title = `${channel.name.replace(/\s*\(\d{3,4}[pi]\)\s*$/i, '')} - Rugare TV`;
+    if (historyMode === 'none') return;
+    const channelPath = getChannelPath(channelRouteBase, slug);
+    const historyMethod = historyMode === 'replace' ? 'replaceState' : 'pushState';
+    if (window.location.pathname !== channelPath) {
+      window.history[historyMethod]({ channelSlug: slug }, '', channelPath);
+    }
+  }
+
+  function selectChannel(channel, { historyMode = 'push' } = {}) {
     currentChannel = channel;
     statusEl.hidden = true;
     updateNowPlayingSummary(channel);
@@ -391,6 +417,7 @@ async function main() {
     showPlayerHud(channel);
     setLastWatched(window.localStorage, channel.url);
     appView?.setNowPlaying(channel.url);
+    syncChannelRoute(channel, historyMode);
     updateChannelNavButtons();
     if (isTvMode) {
       setTvPanel('none');
@@ -549,6 +576,7 @@ async function main() {
         fetchImpl: window.fetch.bind(window),
         sessionStore: window.sessionStorage,
       });
+      channelRoutes = createChannelRouteIndex(channels);
 
       appView = renderApp({
         root,
@@ -568,10 +596,29 @@ async function main() {
 
       if (isTvMode) setTvPanel('none');
 
+      const requestedSlug = channelRoutingEnabled
+        ? getRequestedChannelSlug(window.location.pathname, channelRouteBase)
+        : '';
+      const requestedChannel = requestedSlug
+        ? channelRoutes.channelBySlug.get(requestedSlug)
+        : null;
+      if (requestedChannel) {
+        selectChannel(requestedChannel, { historyMode: 'replace' });
+        window.requestAnimationFrame(() => appView?.scrollToChannel(requestedChannel.url));
+        return;
+      }
+
+      if (requestedSlug) {
+        statusEl.textContent = `Channel “${requestedSlug.replace(/-/g, ' ')}” was not found. Choose another channel.`;
+        statusEl.hidden = false;
+        if (isTvMode) setTvPanel('channels');
+        return;
+      }
+
       const lastWatchedUrl = getLastWatched(window.localStorage);
       const lastChannel = channels.find((c) => c.url === lastWatchedUrl);
       if (lastChannel) {
-        selectChannel(lastChannel);
+        selectChannel(lastChannel, { historyMode: 'replace' });
         window.requestAnimationFrame(() => appView?.scrollToChannel(lastChannel.url));
       } else if (isTvMode) {
         setTvPanel('channels');
@@ -626,6 +673,13 @@ async function main() {
     syncMediaSession(false);
   });
   document.addEventListener('keydown', handleTvKeydown);
+  window.addEventListener('popstate', () => {
+    const slug = getRequestedChannelSlug(window.location.pathname, channelRouteBase);
+    const channel = channelRoutes.channelBySlug.get(slug);
+    if (channel && channel.url !== currentChannel?.url) {
+      selectChannel(channel, { historyMode: 'none' });
+    }
+  });
   window.__ftaIptvPreviousChannel = () => navigateChannel(-1);
   window.__ftaIptvNextChannel = () => navigateChannel(1);
   window.__ftaIptvPlay = playCurrentVideo;
