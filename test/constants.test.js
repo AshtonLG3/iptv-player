@@ -18,7 +18,22 @@ test('featured official services keep the requested direct-button order and labe
     featured.slice(0, 4).every((service) => service.logo.startsWith('assets/services/')),
     true,
   );
+  assert.deepEqual(
+    featured.slice(1).map((service) => service.androidPackage),
+    [
+      'com.brightcove.evod',
+      'tv.sabcplus.vod',
+      'com.zbc.ottapp',
+      'com.sporty.android',
+    ],
+  );
+  assert.equal(
+    featured.slice(1).every((service) => service.androidStoreUrl.includes(service.androidPackage)),
+    true,
+  );
+  assert.equal(featured[0].androidPackage, undefined);
   assert.equal(featured[4].androidPackage, 'com.sporty.android');
+  assert.equal(featured[4].androidOnly, true);
   assert.equal(
     featured[4].androidDeepLink,
     'sporty-com://com.sporty.android/channel-247',

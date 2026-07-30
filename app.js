@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260730e';
+} from './src/constants.js?v=20260730f';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -98,7 +98,7 @@ async function main() {
   document.documentElement.classList.toggle('tv-mode', isTvMode);
   document.documentElement.classList.toggle('android-app', Boolean(androidDeviceBridge));
 
-  function openWithAndroidBrowser(event) {
+  function openWithAndroidExternalApp(event) {
     if (typeof androidDeviceBridge?.openOfficialUrl !== 'function') return;
     event.preventDefault();
     androidDeviceBridge.openOfficialUrl(event.currentTarget.href);
@@ -107,7 +107,7 @@ async function main() {
   for (const serviceId of FEATURED_OFFICIAL_SERVICE_IDS) {
     const service = officialServiceById[serviceId];
     if (!service) continue;
-    if (service.androidPackage && !androidDeviceBridge) continue;
+    if (service.androidOnly && !androidDeviceBridge) continue;
     const link = document.createElement('a');
     link.href = service.url;
     link.target = '_blank';
@@ -142,16 +142,16 @@ async function main() {
         event.preventDefault();
         androidDeviceBridge.openOfficialApp(
           service.androidPackage,
-          service.url,
+          service.androidStoreUrl || service.url,
           service.androidDeepLink || '',
         );
         return;
       }
-      openWithAndroidBrowser(event);
+      openWithAndroidExternalApp(event);
     });
     featuredServiceList.appendChild(link);
   }
-  websiteLink.addEventListener('click', openWithAndroidBrowser);
+  websiteLink.addEventListener('click', openWithAndroidExternalApp);
 
   const fullscreenController = createFullscreenController({
     documentObj: document,

@@ -109,9 +109,11 @@ The in-app channel list uses curated public streams. Geo-blocked general
 channels are hidden by default, while Sports and Cue Sports may retain clearly
 labeled region-limited feeds without attempting a proxy or geo-bypass. The menu
 also includes official fallbacks such as SABC+, eVOD/e.tv, Afree TV, Z+/ZBC,
-ZBC YouTube, SABC Sport, and Openview. On Android, the SportyTV button launches
-the installed official app directly in its 24/7 player (or opens its Play Store
-page when missing) after pausing Rugare TV.
+ZBC YouTube, SABC Sport, and Openview. On Android, the SABC+, eVOD/e+, Z+, and
+SportyTV buttons launch their installed official apps after pausing Rugare TV,
+with Play Store fallback when an app is missing. SportyTV opens directly in its
+24/7 player. AfreeTV, which does not currently expose a verified Play Store
+package, opens outside Rugare in the device browser or its installed PWA.
 
 ## Run the tests
 
