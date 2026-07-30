@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260730b';
+} from './src/constants.js?v=20260730e';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -107,6 +107,7 @@ async function main() {
   for (const serviceId of FEATURED_OFFICIAL_SERVICE_IDS) {
     const service = officialServiceById[serviceId];
     if (!service) continue;
+    if (service.androidPackage && !androidDeviceBridge) continue;
     const link = document.createElement('a');
     link.href = service.url;
     link.target = '_blank';
@@ -115,20 +116,39 @@ async function main() {
     link.setAttribute('aria-label', `Open ${service.name}`);
     link.title = `${service.name} - ${service.note}`;
 
-    const logo = document.createElement('img');
-    logo.src = service.logo;
-    logo.alt = '';
-    logo.className = 'featured-service-logo';
-    logo.loading = 'eager';
-    logo.decoding = 'async';
-    logo.addEventListener('error', () => logo.remove(), { once: true });
+    if (service.logo) {
+      const logo = document.createElement('img');
+      logo.src = service.logo;
+      logo.alt = '';
+      logo.className = 'featured-service-logo';
+      logo.loading = 'eager';
+      logo.decoding = 'async';
+      logo.addEventListener('error', () => logo.remove(), { once: true });
+      link.appendChild(logo);
+    } else {
+      link.classList.add('text-only');
+    }
 
     const label = document.createElement('span');
     label.className = 'featured-service-label';
     label.textContent = service.shortLabel || service.name;
 
-    link.append(logo, label);
-    link.addEventListener('click', openWithAndroidBrowser);
+    link.appendChild(label);
+    link.addEventListener('click', (event) => {
+      if (
+        service.androidPackage
+        && typeof androidDeviceBridge?.openOfficialApp === 'function'
+      ) {
+        event.preventDefault();
+        androidDeviceBridge.openOfficialApp(
+          service.androidPackage,
+          service.url,
+          service.androidDeepLink || '',
+        );
+        return;
+      }
+      openWithAndroidBrowser(event);
+    });
     featuredServiceList.appendChild(link);
   }
   websiteLink.addEventListener('click', openWithAndroidBrowser);
