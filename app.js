@@ -4,15 +4,15 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js';
+} from './src/constants.js?v=20260730b';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
 } from './src/playlistAccess.js';
-import { getCategoryNames, getChannelInitials, renderApp } from './src/ui.js';
+import { getCategoryNames, getChannelInitials, renderApp } from './src/ui.js?v=20260730b';
 import { createPlayer } from './src/player.js';
-import { createFullscreenController } from './src/fullscreen.js';
+import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import { updateMediaSession } from './src/mediaSession.js';
 import {
   detectTelevision,
@@ -94,8 +94,22 @@ async function main() {
     link.target = '_blank';
     link.rel = 'noopener';
     link.className = 'featured-service-link';
-    link.textContent = service.shortLabel || service.name;
+    link.setAttribute('aria-label', `Open ${service.name}`);
     link.title = `${service.name} - ${service.note}`;
+
+    const logo = document.createElement('img');
+    logo.src = service.logo;
+    logo.alt = '';
+    logo.className = 'featured-service-logo';
+    logo.loading = 'eager';
+    logo.decoding = 'async';
+    logo.addEventListener('error', () => logo.remove(), { once: true });
+
+    const label = document.createElement('span');
+    label.className = 'featured-service-label';
+    label.textContent = service.shortLabel || service.name;
+
+    link.append(logo, label);
     link.addEventListener('click', openWithAndroidBrowser);
     featuredServiceList.appendChild(link);
   }
