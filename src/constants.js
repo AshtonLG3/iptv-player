@@ -59,7 +59,9 @@ export const OFFICIAL_SERVICES = [
     logo: 'assets/services/sabc-plus.png',
     country: 'South Africa',
     url: 'https://sabc-plus.com/',
-    note: 'SABC live TV, radio, sport',
+    androidPackage: 'tv.sabcplus.vod',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=tv.sabcplus.vod',
+    note: 'Official SABC+ app for live TV, radio, sport',
   },
   {
     id: 'sabc-sport',
@@ -75,7 +77,9 @@ export const OFFICIAL_SERVICES = [
     logo: 'assets/services/evod.svg',
     country: 'South Africa',
     url: 'https://watch.evod.co.za/live-tv',
-    note: 'e.tv and eMedia streaming',
+    androidPackage: 'com.brightcove.evod',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.brightcove.evod',
+    note: 'Official eVOD app for e.tv and eMedia streaming',
   },
   {
     id: 'afree-tv',
@@ -93,7 +97,9 @@ export const OFFICIAL_SERVICES = [
     logo: 'assets/services/zplus.png',
     country: 'Zimbabwe',
     url: 'https://zbc.ottplatform.com/',
-    note: 'ZBC TV, News 24, Jive TV',
+    androidPackage: 'com.zbc.ottapp',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.zbc.ottapp',
+    note: 'Official Z+ app for ZBC TV, News 24, Jive TV',
   },
   {
     id: 'zbc-youtube',
@@ -116,7 +122,9 @@ export const OFFICIAL_SERVICES = [
     country: 'Africa',
     url: 'https://play.google.com/store/apps/details?id=com.sporty.android',
     androidPackage: 'com.sporty.android',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.sporty.android',
     androidDeepLink: 'sporty-com://com.sporty.android/channel-247',
+    androidOnly: true,
     note: 'Official SportyTV Android app 24/7 player',
   },
 ];
