@@ -112,6 +112,13 @@ export function compilePolicyPatterns(registry) {
   }));
 }
 
+export function compileGeoRestrictionPatterns(registry) {
+  return (registry.rules?.geoRestrictedTitlePatterns || []).map((pattern) => ({
+    pattern,
+    regex: new RegExp(pattern, 'i'),
+  }));
+}
+
 export function findPolicyViolations(channel, registry) {
   const violations = [];
   const allowedGroups = registry.rules?.allowedGroups || [];
@@ -129,6 +136,13 @@ export function findPolicyViolations(channel, registry) {
 
   for (const { pattern, regex } of compilePolicyPatterns(registry)) {
     if (regex.test(haystack)) violations.push(`matches excluded pattern: ${pattern}`);
+  }
+
+  const geoExemptGroups = registry.rules?.geoRestrictionExemptGroups || [];
+  if (!geoExemptGroups.includes(channel.group)) {
+    for (const { pattern, regex } of compileGeoRestrictionPatterns(registry)) {
+      if (regex.test(haystack)) violations.push(`matches geo-restriction pattern: ${pattern}`);
+    }
   }
 
   return violations;

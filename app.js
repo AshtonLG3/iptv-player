@@ -10,7 +10,12 @@ import {
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
 } from './src/playlistAccess.js';
-import { getCategoryNames, getChannelInitials, renderApp } from './src/ui.js?v=20260730b';
+import {
+  getCategoryNames,
+  getChannelInitials,
+  renderApp,
+  resolveChannelLogoUrl,
+} from './src/ui.js?v=20260730d';
 import { createPlayer } from './src/player.js';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import {
@@ -355,7 +360,7 @@ async function main() {
       image.hidden = true;
       fallback.hidden = false;
     };
-    image.src = channel?.logo || '';
+    image.src = resolveChannelLogoUrl(channel?.logo);
   }
 
   function updateNowPlayingSummary(channel) {

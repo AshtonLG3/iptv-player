@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-07-22T05:36:19.123Z",
+  "updated": "2026-07-30T17:47:20.911Z",
   "rules": {
     "allowedGroups": [
       "Africa",
@@ -66,10 +66,6 @@
       "SABC 1",
       "SABC 2",
       "SABC 3",
-      "Geo-blocked",
-      "Geo locked",
-      "Geo-locked",
-      "ZA IP only",
       "\\bABC\\s+(?!News Live\\b)",
       "\\bCBS\\s+(?!News 24/7\\b)",
       "Estrella News",
@@ -91,6 +87,16 @@
       "ROV TV",
       "GNF TV",
       "Homebase TV"
+    ],
+    "geoRestrictedTitlePatterns": [
+      "Geo-blocked",
+      "Geo locked",
+      "Geo-locked",
+      "ZA IP only"
+    ],
+    "geoRestrictionExemptGroups": [
+      "Sports",
+      "Cue Sports"
     ]
   },
   "outputs": {
@@ -100,7 +106,7 @@
       "header": [
         "#EXTM3U",
         "# Generated from playlists/channels.json.",
-        "# Guardrails: English only, no religious channels, no geo-locked channels, no ABC/CBS metro variants.",
+        "# Guardrails: English only, no religious channels, no ABC/CBS metro variants. Geo-restricted sports may be included and labeled.",
         "# SABC News and SABC Lehae are restored after direct HLS verification; SABC 1/2/3 remain excluded.",
         "# Folders intentionally reduced to: Africa, UK, USA, Sports, Cue Sports, International."
       ]
@@ -111,7 +117,7 @@
       "header": [
         "#EXTM3U",
         "# Generated from playlists/channels.json.",
-        "# Guardrails: English sports only, no religious channels, no geo-locked channels, no FIFA/FIFA+ or DAZN Combat."
+        "# Guardrails: English sports only, no religious channels, no FIFA/FIFA+ or DAZN Combat. Region-limited public sports feeds may be included and labeled."
       ]
     }
   },
@@ -2491,6 +2497,132 @@
         "main"
       ],
       "notes": ""
+    },
+    {
+      "id": "NeoTVPlus.FiteTV",
+      "name": "Fite TV",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/fite-tv.png",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-FiteTV_Khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/228def88-9b48-48ce-8382-1a39fe995936/manifest.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+    },
+    {
+      "id": "NeoTVPlus.FightTV",
+      "name": "Fight TV",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/fight-tv.jpg",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-FIGHT-TV-ENG_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/ffaa5cb7-7af7-4b01-85fc-6f903abcb0d0/manifest.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+    },
+    {
+      "id": "NeoTVPlus.CricketGold",
+      "name": "Cricket Gold",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/cricket-gold.jpg",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://d17d533u08po4z.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/Khabriya-MuxIP-CricketGold/418.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+    },
+    {
+      "id": "NeoTVPlus.GoalTV",
+      "name": "Goal TV",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/goal-tv.jpg",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-Goal_TV_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/42c099e0-2600-480e-827e-f0a2439d43ba/master.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+    },
+    {
+      "id": "NeoTVPlus.GolfNetwork",
+      "name": "Golf Network",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/golf-network.png",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-Khabriya/title-Golf_Network_Khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/0b044301-f965-424d-afed-41501b417c00/manifest.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+    },
+    {
+      "id": "NeoTVPlus.XtremSports",
+      "name": "Xtrem Sports",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/xtrem-sports.png",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-XTREM-SPORTS-ENG_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/ab466b54-5b37-480a-9e53-9d9c4aaf19bc/manifest.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+    },
+    {
+      "id": "NeoTVPlus.Nautical",
+      "name": "Nautical",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/nautical.jpg",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-Nautical_TV_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/d5a335b7-6a60-4347-b9b7-f8f3ec07b9e4/index.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+    },
+    {
+      "id": "NeoTVPlus.SportFishingTV",
+      "name": "Sport Fishing TV",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/sport-fishing-tv.jpg",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-Khabriya/title-SPORT-FISHING-TV-ENG_Khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/dacf70d3-e385-46d2-8c33-2bdc5b729b38/manifest.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+    },
+    {
+      "id": "NeoTVPlus.KozoomBilliards",
+      "name": "Kozoom Billiards",
+      "group": "Cue Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/kozoom-billiards.jpg",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-KOZOOM-ENG_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/482137f9-5790-4ef7-ae49-aa759c70beeb/manifest.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
     }
   ]
 }

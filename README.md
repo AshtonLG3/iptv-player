@@ -1,8 +1,9 @@
 # Rugare TV
 
-Browse and watch free-to-air channels from Zimbabwe, South Africa, Zambia,
-Botswana, Kenya, and the UK, sourced live
-from the [iptv-org/iptv](https://github.com/iptv-org/iptv) playlist.
+Browse and watch free-to-air and public FAST channels from Zimbabwe, South
+Africa, Zambia, Botswana, Kenya, the UK, and worldwide providers. Sources
+include [iptv-org/iptv](https://github.com/iptv-org/iptv) and selected public,
+ad-supported NeoTV+ sports feeds.
 
 ## Run it
 
@@ -66,17 +67,22 @@ row, quick category filters, and artwork-rich channel rows. On TV, the same
 channel metadata appears in the remote drawer and as a short-lived overlay when
 changing channels; normal playback remains full-screen and unobstructed.
 
-Official broadcaster and YouTube links open in an isolated in-app browser, so
-the channel player remains loaded behind them. Specific YouTube video and live
-links use YouTube's embedded player. On TV, press Menu to toggle the browser
-toolbar; Back leaves fullscreen video, navigates back, or returns to the player.
-The toolbar also provides an explicit option to hand the page to another app.
+Official broadcaster and YouTube links open in an isolated in-app browser after
+the channel player pauses and its Android media session clears. Specific YouTube
+video and live links use YouTube's embedded player. On TV, press Menu to toggle
+the browser toolbar; Back leaves fullscreen video, navigates back, or returns to
+the paused player. The toolbar also provides an explicit option to hand the page
+to another app.
 
 ## Playlist maintenance
 
 The source of truth is `playlists/channels.json`. Edit that file, then rebuild:
 
     npm run playlists:generate
+
+Refresh the approved NeoTV+ sports subset and its locally hosted logos:
+
+    npm run playlists:import:neotv-sports
 
 Check that the generated `.m3u` files still match the registry:
 
@@ -99,10 +105,11 @@ Create a dated restore snapshot before risky refreshes:
 
 ## Official fallbacks
 
-The in-app channel list is still sourced from public `iptv-org` streams, but
-geo-blocked entries are hidden by default and the menu includes official legal
-fallbacks for services such as SABC+, eVOD/e.tv, Afree TV, Z+/ZBC, ZBC YouTube,
-SABC Sport, and Openview.
+The in-app channel list uses curated public streams. Geo-blocked general
+channels are hidden by default, while Sports and Cue Sports may retain clearly
+labeled region-limited feeds without attempting a proxy or geo-bypass. The menu
+also includes official fallbacks such as SABC+, eVOD/e.tv, Afree TV, Z+/ZBC,
+ZBC YouTube, SABC Sport, and Openview.
 
 ## Run the tests
 
