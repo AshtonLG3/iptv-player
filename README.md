@@ -63,16 +63,16 @@ channel directly. TV playback has no persistent edge buttons or native video
 control frame, and favorite buttons are kept out of TV focus navigation.
 
 The mobile layout keeps the player first, followed by a persistent now-playing
-row, quick category filters, and artwork-rich channel rows. On TV, the same
+row, conventional content filters for News, Sports, Movies, Entertainment,
+Wildlife, Documentary, Kids, Music, Lifestyle, and General channels, plus
+artwork-rich channel rows. Country remains a separate filter. On TV, the same
 channel metadata appears in the remote drawer and as a short-lived overlay when
 changing channels; normal playback remains full-screen and unobstructed.
 
-Official broadcaster and YouTube links open in an isolated in-app browser after
-the channel player pauses and its Android media session clears. Specific YouTube
-video and live links use YouTube's embedded player. On TV, press Menu to toggle
-the browser toolbar; Back leaves fullscreen video, navigates back, or returns to
-the paused player. The toolbar also provides an explicit option to hand the page
-to another app.
+On Android, the official SABC+, eVOD/e+, Z+, and SportyTV shortcuts open their
+native apps after the channel player pauses and its media session clears. Missing
+apps route to Google Play, while AfreeTV opens in the external browser or its
+installed PWA instead of Rugare's WebView.
 
 ## Playlist maintenance
 

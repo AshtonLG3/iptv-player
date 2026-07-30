@@ -1,9 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  CONTENT_CATEGORIES,
   filterChannelsForUi,
   getCategoryNames,
   getChannelInitials,
+  getContentCategory,
   resolveChannelLogoUrl,
 } from '../src/ui.js';
 
@@ -55,6 +57,26 @@ test('getChannelInitials ignores quality labels and limits artwork fallback to t
   assert.equal(getChannelInitials(''), 'TV');
 });
 
+test('getContentCategory maps channels into conventional browsing categories', () => {
+  assert.deepEqual(CONTENT_CATEGORIES.slice(0, 5), [
+    'News',
+    'Sports',
+    'Movies',
+    'Entertainment',
+    'Wildlife',
+  ]);
+  assert.equal(getContentCategory({ name: 'SABC News', category: 'Africa' }), 'News');
+  assert.equal(getContentCategory({ name: 'NBC 3 Las Vegas NV (KSNV)', category: 'USA' }), 'News');
+  assert.equal(getContentCategory({ name: 'Cricket Gold', category: 'Sports' }), 'Sports');
+  assert.equal(getContentCategory({ name: 'MyTime Movie Network', category: 'UK' }), 'Movies');
+  assert.equal(getContentCategory({ name: 'BBC Earth', category: 'UK' }), 'Wildlife');
+  assert.equal(getContentCategory({ name: 'Moonbug Kids', category: 'UK' }), 'Kids');
+  assert.equal(getContentCategory({ name: 'NOW Rock', category: 'UK' }), 'Music');
+  assert.equal(getContentCategory({ name: 'Autentic History', category: 'International' }), 'Documentary');
+  assert.equal(getContentCategory({ name: 'Autentic Travel', category: 'UK' }), 'Lifestyle');
+  assert.equal(getContentCategory({ name: 'Cape Town TV', category: 'Africa' }), 'General');
+});
+
 test('resolveChannelLogoUrl uses bundled artwork inside the Android app', () => {
   const publicUrl = 'https://mangezi.xyz/tv/assets/channels/neotv/cricket-gold.jpg';
 
@@ -65,17 +87,17 @@ test('resolveChannelLogoUrl uses bundled artwork inside the Android app', () => 
   assert.equal(resolveChannelLogoUrl(publicUrl, { hostname: 'mangezi.xyz' }), publicUrl);
 });
 
-test('filterChannelsForUi matches a selected folder by category token', () => {
-  const filtered = filterChannelsForUi(CHANNELS, { category: 'Cue Sports' });
+test('filterChannelsForUi matches a conventional content category', () => {
+  const filtered = filterChannelsForUi(CHANNELS, { category: 'Sports' });
 
   assert.deepEqual(
     filtered.map((channel) => channel.name),
-    ['Pluto TV Snooker 900', 'World Billiards TV'],
+    ['Pluto TV Snooker 900', 'World Billiards TV', 'Regional Sports [Geo-blocked]'],
   );
 });
 
 test('filterChannelsForUi still narrows folders by country when both filters match', () => {
-  const filtered = filterChannelsForUi(CHANNELS, { category: 'Cue Sports', country: 'us' });
+  const filtered = filterChannelsForUi(CHANNELS, { category: 'Sports', country: 'us' });
 
   assert.deepEqual(
     filtered.map((channel) => channel.name),
