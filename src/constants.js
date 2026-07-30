@@ -109,6 +109,16 @@ export const OFFICIAL_SERVICES = [
     url: 'https://www.openview.co.za/',
     note: 'Free satellite channels',
   },
+  {
+    id: 'sportytv-app',
+    name: 'SportyTV',
+    shortLabel: 'SportyTV',
+    country: 'Africa',
+    url: 'https://play.google.com/store/apps/details?id=com.sporty.android',
+    androidPackage: 'com.sporty.android',
+    androidDeepLink: 'sporty-com://com.sporty.android/channel-247',
+    note: 'Official SportyTV Android app 24/7 player',
+  },
 ];
 
 export const FEATURED_OFFICIAL_SERVICE_IDS = [
@@ -116,4 +126,5 @@ export const FEATURED_OFFICIAL_SERVICE_IDS = [
   'evod',
   'sabc-plus',
   'zplus',
+  'sportytv-app',
 ];

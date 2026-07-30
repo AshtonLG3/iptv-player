@@ -7,6 +7,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.UiModeManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -59,6 +60,7 @@ public final class MainActivity extends Activity {
     private boolean currentIsPlaying;
     private boolean isTelevisionDevice;
     private boolean notificationPermissionRequested;
+    private boolean suppressMediaSessionUpdates;
     private float playerGestureStartX;
     private float playerGestureStartY;
     private boolean playerChannelSwipeCandidate;
@@ -362,6 +364,7 @@ public final class MainActivity extends Activity {
         currentIsPlaying = false;
         if (mediaSession != null) {
             updatePlaybackState();
+            mediaSession.setMetadata(null);
             mediaSession.setActive(false);
         }
         if (notificationManager != null) {
@@ -545,6 +548,7 @@ public final class MainActivity extends Activity {
     }
 
     private void pausePlayerThen(Runnable nextAction) {
+        suppressMediaSessionUpdates = true;
         currentIsPlaying = false;
         clearNativeMediaSession();
         if (webView == null) {
@@ -559,6 +563,36 @@ public final class MainActivity extends Activity {
         };
         webView.evaluateJavascript(PAUSE_WEB_MEDIA_SCRIPT, ignored -> continueOnce.run());
         webView.postDelayed(continueOnce, 350);
+    }
+
+    private void openInstalledApp(String packageName, String fallbackUrl, String deepLinkUrl) {
+        if (packageName == null || !packageName.matches("[A-Za-z0-9_.]+")) return;
+
+        if (deepLinkUrl != null && !deepLinkUrl.trim().isEmpty()) {
+            Intent deepLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(deepLinkUrl));
+            deepLinkIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+            deepLinkIntent.setPackage(packageName);
+            if (deepLinkIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(deepLinkIntent);
+                return;
+            }
+        }
+
+        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        if (launchIntent != null) {
+            launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(launchIntent);
+            return;
+        }
+
+        try {
+            startActivity(new Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=" + packageName)
+            ));
+        } catch (ActivityNotFoundException ignored) {
+            InAppBrowserActivity.open(this, fallbackUrl);
+        }
     }
 
     @Override
@@ -584,13 +618,19 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
-        if (webView != null) webView.onPause();
+        suppressMediaSessionUpdates = true;
+        if (webView != null) {
+            webView.evaluateJavascript(PAUSE_WEB_MEDIA_SCRIPT, ignored -> clearNativeMediaSession());
+            webView.onPause();
+        }
+        clearNativeMediaSession();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        suppressMediaSessionUpdates = false;
         if (webView != null) webView.onResume();
     }
 
@@ -631,13 +671,19 @@ public final class MainActivity extends Activity {
                 boolean canNavigate,
                 boolean isPlaying
         ) {
-            runOnUiThread(() -> updateNativeMediaSession(
-                    title,
-                    artist,
-                    artworkUrl,
-                    canNavigate,
-                    isPlaying
-            ));
+            runOnUiThread(() -> {
+                if (suppressMediaSessionUpdates) {
+                    clearNativeMediaSession();
+                    return;
+                }
+                updateNativeMediaSession(
+                        title,
+                        artist,
+                        artworkUrl,
+                        canNavigate,
+                        isPlaying
+                );
+            });
         }
 
         @JavascriptInterface
@@ -661,6 +707,13 @@ public final class MainActivity extends Activity {
         public void openOfficialUrl(String url) {
             runOnUiThread(() -> pausePlayerThen(
                     () -> InAppBrowserActivity.open(MainActivity.this, url)
+            ));
+        }
+
+        @JavascriptInterface
+        public void openOfficialApp(String packageName, String fallbackUrl, String deepLinkUrl) {
+            runOnUiThread(() -> pausePlayerThen(
+                    () -> openInstalledApp(packageName, fallbackUrl, deepLinkUrl)
             ));
         }
 
