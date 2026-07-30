@@ -77,10 +77,6 @@ const RULES = {
     'SABC 1',
     'SABC 2',
     'SABC 3',
-    'Geo-blocked',
-    'Geo locked',
-    'Geo-locked',
-    'ZA IP only',
     '\\bABC\\s+(?!News Live\\b)',
     '\\bCBS\\s+(?!News 24/7\\b)',
     'Estrella News',
@@ -90,20 +86,22 @@ const RULES = {
     '^Channel S(?:\\s|$|\\()',
     'DAZN Combat',
   ],
+  geoRestrictedTitlePatterns: ['Geo-blocked', 'Geo locked', 'Geo-locked', 'ZA IP only'],
+  geoRestrictionExemptGroups: ['Sports', 'Cue Sports'],
 };
 
 const HEADER_OVERRIDES = {
   main: [
     '#EXTM3U',
     '# Generated from playlists/channels.json.',
-    '# Guardrails: English only, no religious channels, no geo-locked channels, no ABC/CBS metro variants.',
+    '# Guardrails: English only, no religious channels, no ABC/CBS metro variants. Geo-restricted sports may be included and labeled.',
     '# SABC News and SABC Lehae are restored after direct HLS verification; SABC 1/2/3 remain excluded.',
     '# Folders intentionally reduced to: Africa, UK, USA, Sports, Cue Sports, International.',
   ],
   sports: [
     '#EXTM3U',
     '# Generated from playlists/channels.json.',
-    '# Guardrails: English sports only, no religious channels, no geo-locked channels, no FIFA/FIFA+ or DAZN Combat.',
+    '# Guardrails: English sports only, no religious channels, no FIFA/FIFA+ or DAZN Combat. Region-limited public sports feeds may be included and labeled.',
   ],
 };
 
@@ -155,6 +153,7 @@ console.log(
 );
 
 function inferSource(entry) {
+  if (/^NeoTVPlus\./i.test(entry.id)) return 'NeoTV+ public FAST catalog';
   if (/^(wh\.|RakutenTV-UK_)/i.test(entry.id)) return 'WirelessHack-listed FAST playlist';
   if (/^(AlJazeera|France24|SABC)/i.test(entry.id)) return 'Direct verified public HLS';
   return 'iptv-org curated source';
