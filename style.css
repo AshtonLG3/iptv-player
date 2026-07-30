@@ -266,14 +266,12 @@ body {
   font-size: 0.9rem;
 }
 
-.official-services,
 .playlist-access {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 0.5rem;
 }
 
-.official-services summary,
 .playlist-access summary {
   color: var(--text);
   cursor: pointer;
@@ -360,35 +358,6 @@ body {
   font-size: 0.8rem;
   padding: 0.4rem;
   text-decoration: none;
-}
-
-.official-service-list {
-  display: grid;
-  gap: 0.35rem;
-  padding-top: 0.5rem;
-}
-
-.official-service-link {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  color: var(--text);
-  display: grid;
-  gap: 0.15rem;
-  padding: 0.45rem;
-  text-decoration: none;
-}
-
-.official-service-link:hover {
-  border-color: var(--accent);
-}
-
-.official-service-name {
-  font-weight: 700;
-}
-
-.official-service-meta {
-  color: var(--muted);
-  font-size: 0.78rem;
 }
 
 #channel-list {
@@ -1075,6 +1044,13 @@ html.tv-mode #player-status {
   width: 42px;
 }
 
+.fullscreen-toggle img {
+  filter: invert(1);
+  height: 24px;
+  pointer-events: none;
+  width: 24px;
+}
+
 .fullscreen-toggle[hidden],
 html.tv-mode .player-website-link,
 html.tv-mode .fullscreen-toggle {
@@ -1109,11 +1085,12 @@ html.tv-mode .fullscreen-toggle {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   display: flex;
-  gap: 0.5rem;
+  gap: 0.55rem;
   max-width: 960px;
+  min-height: 52px;
   overflow-x: auto;
-  padding: 0.55rem 0.65rem;
-  scrollbar-width: thin;
+  padding: 0.45rem 0.65rem;
+  scrollbar-width: none;
   width: 100%;
 }
 
@@ -1127,15 +1104,20 @@ html.tv-mode .fullscreen-toggle {
 }
 
 .featured-service-link {
-  background: var(--panel-strong);
+  align-items: center;
+  background: #111318;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--text);
-  flex: 0 0 auto;
+  border-radius: 6px;
+  color: #fff;
+  display: inline-flex;
+  flex: 1 1 0;
   font-size: 0.8rem;
   font-weight: 800;
-  min-height: 38px;
-  padding: 0.55rem 0.85rem;
+  gap: 0.45rem;
+  justify-content: center;
+  min-height: 40px;
+  min-width: 92px;
+  padding: 0.35rem 0.65rem;
   text-decoration: none;
 }
 
@@ -1144,6 +1126,18 @@ html.tv-mode .fullscreen-toggle {
   border-color: var(--accent);
   color: var(--accent);
   outline: none;
+}
+
+.featured-service-logo {
+  height: 28px;
+  max-width: 68px;
+  object-fit: contain;
+  width: auto;
+}
+
+.featured-service-label {
+  color: #fff;
+  white-space: nowrap;
 }
 
 .now-playing-summary {
@@ -1594,6 +1588,16 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
     border-right: 0;
     justify-content: flex-start;
     padding: 0.4rem 0.7rem;
+  }
+
+  .featured-service-label {
+    display: none;
+  }
+
+  .featured-service-link {
+    min-width: 58px;
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
   }
 
   .now-playing-artwork {

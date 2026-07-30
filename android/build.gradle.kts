@@ -13,6 +13,7 @@ val syncWebAssets by tasks.registering(Sync::class) {
         include("index.html")
         include("style.css")
         include("app.js")
+        include("assets/**")
         include("src/**")
         include("playlists/**")
     }
