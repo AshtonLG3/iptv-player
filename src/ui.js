@@ -1,4 +1,4 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES, OFFICIAL_SERVICES } from './constants.js';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js';
 import { getWrappedFocusIndex } from './tvRemote.js';
 
 function isGeoBlockedChannel(channel) {
@@ -129,10 +129,6 @@ export function renderApp({
               <p id="playlist-action-status" class="playlist-action-status" role="status"></p>
               <div id="compatible-player-list" class="compatible-player-list"></div>
             </details>
-            <details class="official-services">
-              <summary>Official sources</summary>
-              <div id="official-service-list" class="official-service-list"></div>
-            </details>
           </div>
         </details>
         <div class="app-title">
@@ -167,7 +163,6 @@ export function renderApp({
   const playlistLinkList = root.querySelector('#playlist-link-list');
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
-  const officialServiceList = root.querySelector('#official-service-list');
   const categoryStrip = root.querySelector('#category-strip');
   const channelListTitle = root.querySelector('#channel-list-title');
   const channelCount = root.querySelector('#channel-count');
@@ -196,26 +191,6 @@ export function renderApp({
   }
 
   renderCategoryStrip();
-
-  for (const service of OFFICIAL_SERVICES) {
-    const link = document.createElement('a');
-    link.href = service.url;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.className = 'official-service-link';
-    link.dataset.inAppBrowser = 'true';
-
-    const name = document.createElement('span');
-    name.className = 'official-service-name';
-    name.textContent = service.name;
-
-    const meta = document.createElement('span');
-    meta.className = 'official-service-meta';
-    meta.textContent = `${service.country} - ${service.note}`;
-
-    link.append(name, meta);
-    officialServiceList.appendChild(link);
-  }
 
   if (playlistAccessApi) {
     renderPlaylistAccess();
@@ -508,37 +483,6 @@ export function renderApp({
         actions.appendChild(appButton);
       }
 
-      row.append(text, actions);
-      playlistLinkList.appendChild(row);
-    }
-
-    const zplusService = OFFICIAL_SERVICES.find((service) => service.id === 'zplus');
-    if (zplusService) {
-      const row = document.createElement('section');
-      row.className = 'playlist-link-row';
-
-      const text = document.createElement('div');
-      text.className = 'playlist-link-text';
-
-      const name = document.createElement('strong');
-      name.textContent = zplusService.name;
-
-      const description = document.createElement('span');
-      description.textContent = `${zplusService.country} - ${zplusService.note}`;
-
-      const actions = document.createElement('div');
-      actions.className = 'playlist-actions';
-
-      const openLink = document.createElement('a');
-      openLink.href = zplusService.url;
-      openLink.target = '_blank';
-      openLink.rel = 'noopener';
-      openLink.className = 'playlist-action primary';
-      openLink.dataset.inAppBrowser = 'true';
-      openLink.textContent = 'Open Z+';
-
-      text.append(name, description);
-      actions.appendChild(openLink);
       row.append(text, actions);
       playlistLinkList.appendChild(row);
     }

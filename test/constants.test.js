@@ -14,4 +14,5 @@ test('featured official services keep the requested direct-button order and labe
     ['AfreeTV', 'e+', 'SABC+', 'Z+'],
   );
   assert.equal(featured.every((service) => service.url.startsWith('https://')), true);
+  assert.equal(featured.every((service) => service.logo.startsWith('assets/services/')), true);
 });
