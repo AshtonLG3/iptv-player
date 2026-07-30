@@ -1043,6 +1043,109 @@ html.tv-mode #player-status {
   width: 100%;
 }
 
+.player-website-link,
+.fullscreen-toggle {
+  align-items: center;
+  background: rgba(13, 15, 18, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  min-height: 42px;
+  position: absolute;
+  top: 0.75rem;
+  z-index: 7;
+}
+
+.player-website-link {
+  left: 0.75rem;
+  padding: 0 0.9rem;
+  text-decoration: none;
+}
+
+.fullscreen-toggle {
+  cursor: pointer;
+  font-size: 1.35rem;
+  justify-content: center;
+  padding: 0;
+  right: 0.75rem;
+  width: 42px;
+}
+
+.fullscreen-toggle[hidden],
+html.tv-mode .player-website-link,
+html.tv-mode .fullscreen-toggle {
+  display: none;
+}
+
+.player-website-link:hover,
+.player-website-link:focus-visible,
+.fullscreen-toggle:hover,
+.fullscreen-toggle:focus-visible {
+  background: rgba(13, 15, 18, 0.96);
+  border-color: var(--accent);
+  color: #fff;
+  outline: none;
+}
+
+.player-frame.is-fullscreen {
+  height: 100%;
+  max-width: none;
+}
+
+.player-frame.is-fullscreen #video {
+  height: 100%;
+  max-height: none;
+  max-width: none;
+  object-fit: contain;
+}
+
+.featured-service-list {
+  align-items: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: flex;
+  gap: 0.5rem;
+  max-width: 960px;
+  overflow-x: auto;
+  padding: 0.55rem 0.65rem;
+  scrollbar-width: thin;
+  width: 100%;
+}
+
+.featured-service-list::before {
+  color: var(--muted);
+  content: "Official";
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.featured-service-link {
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 0.55rem 0.85rem;
+  text-decoration: none;
+}
+
+.featured-service-link:hover,
+.featured-service-link:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
 .now-playing-summary {
   align-items: center;
   background: var(--panel);
@@ -1456,7 +1559,7 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
     max-height: none;
     padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
     right: 0;
-    top: calc(env(safe-area-inset-top) + min(31vh, 56.25vw) + 70px);
+    top: calc(env(safe-area-inset-top) + min(31vh, 56.25vw) + 116px);
     width: auto;
   }
 
@@ -1483,6 +1586,14 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
     gap: 0.65rem;
     grid-template-columns: 48px minmax(0, 1fr) auto;
     padding: 0.65rem 0.8rem;
+  }
+
+  .featured-service-list {
+    border-left: 0;
+    border-radius: 0;
+    border-right: 0;
+    justify-content: flex-start;
+    padding: 0.4rem 0.7rem;
   }
 
   .now-playing-artwork {
@@ -1544,6 +1655,10 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
 }
 
 @media (max-height: 540px) and (orientation: landscape) {
+  .featured-service-list {
+    display: none;
+  }
+
   html:not(.tv-mode) .drawer-handle {
     display: none;
   }
@@ -1626,6 +1741,10 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
 html.tv-mode .player-frame {
   height: 100%;
   max-width: none;
+}
+
+html.tv-mode .featured-service-list {
+  display: none;
 }
 
 html.tv-mode .now-playing-summary {

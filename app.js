@@ -1,5 +1,10 @@
 import { loadChannels } from './src/playlist.js';
-import { COMPATIBLE_PLAYERS, CURATED_PLAYLISTS, OFFICIAL_SERVICES } from './src/constants.js';
+import {
+  COMPATIBLE_PLAYERS,
+  CURATED_PLAYLISTS,
+  FEATURED_OFFICIAL_SERVICE_IDS,
+  OFFICIAL_SERVICES,
+} from './src/constants.js';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -7,6 +12,7 @@ import {
 } from './src/playlistAccess.js';
 import { getCategoryNames, getChannelInitials, renderApp } from './src/ui.js';
 import { createPlayer } from './src/player.js';
+import { createFullscreenController } from './src/fullscreen.js';
 import { updateMediaSession } from './src/mediaSession.js';
 import {
   detectTelevision,
@@ -32,6 +38,9 @@ async function main() {
   const layoutEl = document.querySelector('.layout');
   const playerPanelEl = document.querySelector('.player-panel');
   const playerFrameEl = document.querySelector('.player-frame');
+  const websiteLink = document.getElementById('website-link');
+  const fullscreenToggle = document.getElementById('fullscreen-toggle');
+  const featuredServiceList = document.getElementById('featured-service-list');
   const drawerHandle = document.getElementById('drawer-handle');
   const nowPlayingSummary = document.getElementById('now-playing-summary');
   const nowPlayingLogo = document.getElementById('now-playing-logo');
@@ -70,6 +79,58 @@ async function main() {
 
   document.documentElement.classList.toggle('tv-mode', isTvMode);
   document.documentElement.classList.toggle('android-app', Boolean(androidDeviceBridge));
+
+  function openWithAndroidBrowser(event) {
+    if (typeof androidDeviceBridge?.openOfficialUrl !== 'function') return;
+    event.preventDefault();
+    androidDeviceBridge.openOfficialUrl(event.currentTarget.href);
+  }
+
+  for (const serviceId of FEATURED_OFFICIAL_SERVICE_IDS) {
+    const service = officialServiceById[serviceId];
+    if (!service) continue;
+    const link = document.createElement('a');
+    link.href = service.url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.className = 'featured-service-link';
+    link.textContent = service.shortLabel || service.name;
+    link.title = `${service.name} - ${service.note}`;
+    link.addEventListener('click', openWithAndroidBrowser);
+    featuredServiceList.appendChild(link);
+  }
+  websiteLink.addEventListener('click', openWithAndroidBrowser);
+
+  const fullscreenController = createFullscreenController({
+    documentObj: document,
+    playerElement: playerFrameEl,
+    videoElement: videoEl,
+  });
+
+  function updateFullscreenControl() {
+    const active = fullscreenController.isActive();
+    fullscreenToggle.setAttribute('aria-label', active ? 'Exit full screen' : 'Enter full screen');
+    fullscreenToggle.setAttribute('aria-pressed', String(active));
+    fullscreenToggle.title = active ? 'Exit full screen' : 'Full screen';
+    playerFrameEl.classList.toggle('is-fullscreen', active);
+  }
+
+  fullscreenToggle.hidden = isTvMode
+    || Boolean(androidDeviceBridge)
+    || !fullscreenController.isSupported();
+  fullscreenToggle.addEventListener('click', async () => {
+    try {
+      await fullscreenController.toggle();
+      updateFullscreenControl();
+    } catch {
+      statusEl.textContent = 'Full screen is not available in this browser.';
+      statusEl.hidden = false;
+    }
+  });
+  document.addEventListener('fullscreenchange', updateFullscreenControl);
+  document.addEventListener('webkitfullscreenchange', updateFullscreenControl);
+  updateFullscreenControl();
+
   if (isTvMode) {
     videoEl.removeAttribute('controls');
     videoEl.controls = false;
