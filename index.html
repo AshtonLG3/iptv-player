@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Rugare TV</title>
+  <link rel="icon" href="https://mangezi.xyz/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
 </head>
@@ -17,6 +18,10 @@
     <section class="player-panel">
       <div class="player-frame">
         <video id="video" controls playsinline></video>
+        <a id="website-link" class="player-website-link" href="https://mangezi.xyz/" data-in-app-browser="true" title="Back to mangezi.xyz">Website</a>
+        <button id="fullscreen-toggle" class="fullscreen-toggle" type="button" aria-label="Enter full screen" aria-pressed="false" title="Full screen">
+          <span aria-hidden="true">⛶</span>
+        </button>
         <div class="landscape-channel-nav" aria-label="Channel navigation">
           <button id="previous-channel-button" class="channel-nav-button" type="button" aria-label="Previous channel" disabled></button>
           <button id="next-channel-button" class="channel-nav-button" type="button" aria-label="Next channel" disabled></button>
@@ -39,6 +44,7 @@
           </span>
         </div>
       </div>
+      <nav id="featured-service-list" class="featured-service-list" aria-label="Official TV services"></nav>
       <section id="now-playing-summary" class="now-playing-summary" aria-live="polite" hidden>
         <span class="now-playing-artwork">
           <img id="now-playing-logo" alt="" />
