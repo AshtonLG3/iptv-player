@@ -1,56 +1,54 @@
-# Rugare TV control refinement QA
+# Rugare TV in-app browser header QA
 
 ## Visual truth and rendered evidence
 
-- Header source: `C:\Users\mangezi\AppData\Local\Temp\codex-clipboard-091f0cba-4124-49d4-adbc-b34a94fef47e.png` (1330 x 537 px).
-- Player source: `C:\Users\mangezi\AppData\Local\Temp\codex-clipboard-da0bf027-f529-432c-8721-a8349f4dc493.png` (1356 x 594 px).
-- Header implementation: `build/browser-refined-header.png` (1265 x 712 px).
-- Player implementation: `build/browser-refined-player.png` (1365 x 768 px).
-- Combined comparisons: `build/design-qa-header-comparison.png` and `build/design-qa-player-comparison.png`.
-- CSS viewport target: desktop 1365 x 768 at device scale factor 1. The header capture reflects the in-app browser's 1265 x 712 content area; comparisons use matching top-left crops and do not treat the browser chrome difference as product drift.
-- State: dark theme, desktop layout, player loaded with the initial channel browser state.
+- Source visual truth: `C:\Users\mangezi\iptv-player\.codex-remote-attachments\019fad02-aaf9-7db1-884c-85cee43f5e00\b865aa2f-f4df-41d4-9b8a-7858221469ee\1-Photo-1.jpg` and `2-Photo-2.jpg` (592 x 1280 px each).
+- Intended implementation capture: connected Samsung SM-A165F in portrait at 945 x 2048 device pixels.
+- Implementation screenshot: blocked because the phone disconnected from Wireless debugging after the APK build and before installation.
+- State: official SABC+ or Z+ page opened from the Rugare TV portrait service row.
+- Density normalization: the 945 x 2048 device capture will be normalized to 592 x 1280 for the combined comparison.
 
 ## Full-view comparison
 
-- The homepage retains the existing header hierarchy, spacing, type, colors, and controls. `Watch TV` now uses the same plain navigation treatment, hover behavior, and click highlight as Projects, Workbench, Media, and Contact. The prior gold pill is intentionally removed.
-- The player retains the existing sidebar/player proportions. The former empty `Official` strip now contains four balanced branded links without displacing the now-playing region.
+- Source evidence shows the custom browser controls sharing the status-bar region, producing a crowded row of oversized back, forward, reload, title, share, and close controls.
+- The implementation replaces that row with a 48 dp safe-area-aware header containing only `Done`, the centered page title, and `Open`.
+- Visual comparison is pending an installed-device capture.
 
 ## Focused-region comparison
 
-- Header: the user-identified special pill treatment is removed; label baseline, weight, color, and spacing now match adjacent navigation items.
-- Official bar: AfreeTV, eVOD/e+, SABC+, and Z+ use locally hosted official brand artwork, remain readable against the dark strip, and retain accessible link labels.
-- Fullscreen: the custom control uses a Material fullscreen icon and changes from `Enter full screen` / `aria-pressed=false` to `Exit full screen` / `aria-pressed=true`, then returns to the initial state.
+- Required focus region: the status bar and app-owned browser header at the top of the official-service page.
+- The implementation capture is not available, so the top-region comparison cannot yet pass.
 
 ## Required fidelity surfaces
 
-- Fonts and typography: existing app and site font families, weights, sizes, line heights, and hierarchy are preserved; new service labels use the existing compact control weight.
-- Spacing and layout rhythm: the header returns to the shared navigation rhythm; the Official bar has consistent 40 px controls, centered logos, and responsive compact labels.
-- Colors and visual tokens: existing dark/light tokens remain intact. Branded assets use a stable dark tile for reliable contrast in both themes.
-- Image quality and asset fidelity: official source logos are stored locally as SVG/PNG assets without placeholders, CSS drawings, or text-only substitutes.
-- Copy and content: `Watch TV`, `Official`, `AfreeTV`, `e+`, `SABC+`, `Z+`, and `Website` match the requested labels and destinations.
+- Fonts and typography: implemented with Android sans, 15 dp bold actions and a 16 dp bold single-line title; visual confirmation pending.
+- Spacing and layout rhythm: implemented at 48 dp with equal-width actions and status-bar inset padding; visual confirmation pending.
+- Colors and visual tokens: uses the existing dark Rugare TV system-bar color, white title, and blue actions; visual confirmation pending.
+- Image quality and asset fidelity: no image assets are added or changed by this header refinement.
+- Copy and content: controls are reduced to `Done`, the live page title, and `Open`.
 
 ## Interaction and runtime checks
 
-- `Watch TV` opens `/tv/` in a separate tab with the Rugare TV title and mangezi.xyz favicon.
-- Fullscreen enter and exit were clicked in the browser and both state transitions passed.
-- The Official bar exposes four unique links and `Official sources` no longer appears in the settings menu.
-- Browser console error check: none.
-- Automated checks: 43 tests passed; generated playlists match; Android debug assembly passed.
+- Automated tests: 48 passed.
+- Android debug assembly: passed.
+- Device installation and interaction checks: blocked by the disconnected SM-A165F.
 
 ## Comparison history
 
-1. P0: deployed HTML was newer than the cached JavaScript, leaving the Official strip empty and fullscreen unbound. Fixed with explicit asset revisions and a TV-specific no-cache rule.
-2. P0: the first local refinement left a stale `OFFICIAL_SERVICES` reference in playlist rendering. Removed the old menu-only Z+ block; the next browser render loaded 177 channels without an error.
-3. P1: `Watch TV` looked unlike the other header links. Removed the special pill CSS and applied the shared navigation classes and click behavior.
-4. P1: requested service shortcuts were not visually discoverable. Replaced the empty strip with four official branded links and confirmed them in the browser.
-5. Post-fix evidence: both combined comparison images show the corrected header and player regions; browser interaction confirms fullscreen enter/exit and new-tab navigation.
+1. P1 source finding: six app-owned controls collide visually with Android status indicators and dominate the page header.
+2. Fix implemented: removed forward, reload, share, and oversized icon buttons; retained an explicit exit and external-open path with Android Back handling page history.
+3. Fix implemented: applied the status-bar inset so app-owned content no longer draws under system indicators.
+4. Post-fix evidence: pending device reconnection and capture.
 
 ## Findings
 
-- No actionable P0, P1, or P2 findings remain.
+- P1: visual verification is incomplete because the rebuilt APK could not be installed after Wireless debugging disconnected.
 
-## Follow-up polish
+## Implementation checklist
 
-- None required for this refinement.
+- Reconnect the SM-A165F.
+- Install the rebuilt APK.
+- Open one official service and capture the portrait header.
+- Create the normalized combined comparison and resolve any remaining P0/P1/P2 differences.
 
-final result: passed
+final result: blocked

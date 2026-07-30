@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.PermissionRequest;
@@ -27,7 +29,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -82,85 +83,87 @@ public final class InAppBrowserActivity extends Activity {
     private void buildLayout() {
         root = new FrameLayout(this);
         root.setBackgroundColor(Color.BLACK);
+        getWindow().setStatusBarColor(Color.rgb(18, 20, 26));
+        getWindow().setNavigationBarColor(Color.rgb(18, 20, 26));
 
         browserShell = new LinearLayout(this);
         browserShell.setOrientation(LinearLayout.VERTICAL);
         browserShell.setBackgroundColor(Color.BLACK);
         root.addView(browserShell, matchParentLayoutParams());
+        root.setOnApplyWindowInsetsListener((view, insets) -> {
+            browserShell.setPadding(0, getTopInset(insets), 0, 0);
+            return insets;
+        });
 
         toolbar = new LinearLayout(this);
         toolbar.setOrientation(LinearLayout.HORIZONTAL);
         toolbar.setGravity(Gravity.CENTER_VERTICAL);
-        toolbar.setPadding(dp(4), dp(4), dp(4), dp(4));
-        toolbar.setBackgroundColor(Color.rgb(24, 27, 34));
+        toolbar.setPadding(dp(4), 0, dp(4), 0);
+        toolbar.setBackgroundColor(Color.rgb(18, 20, 26));
+        toolbar.setElevation(dp(3));
         browserShell.addView(toolbar, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                dp(52)
+                dp(48)
         ));
 
-        toolbar.addView(createToolbarButton(
-                android.R.drawable.ic_media_previous,
-                "Back",
-                view -> navigateBack()
-        ));
-        toolbar.addView(createToolbarButton(
-                android.R.drawable.ic_media_next,
-                "Forward",
-                view -> {
-                    if (webView != null && webView.canGoForward()) webView.goForward();
-                }
-        ));
-        toolbar.addView(createToolbarButton(
-                android.R.drawable.ic_popup_sync,
-                "Reload",
-                view -> {
-                    if (webView != null) webView.reload();
-                }
-        ));
+        toolbar.addView(createToolbarAction("Done", "Close official service", view -> finish()));
 
         titleView = new TextView(this);
         titleView.setText(getString(R.string.official_stream));
-        titleView.setTextColor(Color.WHITE);
-        titleView.setTextSize(17);
+        titleView.setTextColor(Color.rgb(238, 241, 246));
+        titleView.setTextSize(16);
+        titleView.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        titleView.setGravity(Gravity.CENTER);
         titleView.setSingleLine(true);
         titleView.setEllipsize(android.text.TextUtils.TruncateAt.END);
         titleView.setPadding(dp(8), 0, dp(8), 0);
-        toolbar.addView(titleView, new LinearLayout.LayoutParams(0, dp(44), 1));
+        toolbar.addView(titleView, new LinearLayout.LayoutParams(0, dp(48), 1));
 
-        toolbar.addView(createToolbarButton(
-                android.R.drawable.ic_menu_share,
-                "Open in another app",
+        toolbar.addView(createToolbarAction(
+                "Open",
+                "Open official service in another app",
                 view -> openExternally()
-        ));
-        toolbar.addView(createToolbarButton(
-                android.R.drawable.ic_menu_close_clear_cancel,
-                "Close",
-                view -> finish()
         ));
 
         progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
         progressBar.setMax(100);
         browserShell.addView(progressBar, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                dp(3)
+                dp(2)
         ));
         setToolbarVisible(toolbarVisible);
         setContentView(root);
     }
 
-    private ImageButton createToolbarButton(int icon, String description, View.OnClickListener listener) {
-        ImageButton button = new ImageButton(this);
-        button.setImageResource(icon);
-        button.setContentDescription(description);
-        button.setBackgroundColor(Color.TRANSPARENT);
-        button.setColorFilter(Color.WHITE);
-        button.setPadding(dp(12), dp(10), dp(12), dp(10));
-        button.setOnClickListener(listener);
-        button.setFocusable(true);
+    private TextView createToolbarAction(
+            String label,
+            String description,
+            View.OnClickListener listener
+    ) {
+        TextView action = new TextView(this);
+        action.setText(label);
+        action.setTextColor(Color.rgb(91, 183, 255));
+        action.setTextSize(15);
+        action.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        action.setGravity(Gravity.CENTER);
+        action.setMinWidth(dp(64));
+        action.setPadding(dp(12), 0, dp(12), 0);
+        action.setContentDescription(description);
+        action.setBackgroundResource(android.R.drawable.list_selector_background);
+        action.setOnClickListener(listener);
+        action.setFocusable(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            button.setTooltipText(description);
+            action.setTooltipText(description);
         }
-        return button;
+        return action;
+    }
+
+    @SuppressWarnings("deprecation")
+    private int getTopInset(WindowInsets insets) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return insets.getInsets(WindowInsets.Type.statusBars()).top;
+        }
+        return insets.getSystemWindowInsetTop();
     }
 
     private void createWebView() {
