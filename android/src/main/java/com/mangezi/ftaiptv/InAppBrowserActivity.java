@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.net.URISyntaxException;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Isolated browser for official broadcaster and YouTube pages. */
 public final class InAppBrowserActivity extends Activity {
@@ -42,6 +43,12 @@ public final class InAppBrowserActivity extends Activity {
     private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
     private static final String YOUTUBE_PLAYLIST =
             "https://www.youtube.com/embed/videoseries?playsinline=1&autoplay=1&list=";
+    private static final String PAUSE_WEB_MEDIA_SCRIPT =
+            "(function(){try{"
+                    + "document.querySelectorAll('video,audio').forEach(function(media){"
+                    + "media.pause();media.muted=true;"
+                    + "});"
+                    + "}catch(error){}return true;})()";
 
     private FrameLayout root;
     private LinearLayout browserShell;
@@ -353,11 +360,32 @@ public final class InAppBrowserActivity extends Activity {
 
     private void openExternally() {
         if (!isHttpUrl(externalUrl)) return;
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(externalUrl)));
-        } catch (ActivityNotFoundException ignored) {
-            Toast.makeText(this, getString(R.string.no_compatible_app), Toast.LENGTH_SHORT).show();
+        pauseWebMediaThen(() -> {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(externalUrl)));
+                finish();
+            } catch (ActivityNotFoundException ignored) {
+                Toast.makeText(this, getString(R.string.no_compatible_app), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void pauseWebMediaThen(Runnable nextAction) {
+        if (webView == null) {
+            nextAction.run();
+            return;
         }
+
+        AtomicBoolean completed = new AtomicBoolean(false);
+        Runnable continueOnce = () -> {
+            if (completed.compareAndSet(false, true)) nextAction.run();
+        };
+        webView.evaluateJavascript(PAUSE_WEB_MEDIA_SCRIPT, ignored -> continueOnce.run());
+        webView.postDelayed(continueOnce, 350);
+    }
+
+    private void pauseWebMedia() {
+        if (webView != null) webView.evaluateJavascript(PAUSE_WEB_MEDIA_SCRIPT, null);
     }
 
     private void navigateBack() {
@@ -394,6 +422,7 @@ public final class InAppBrowserActivity extends Activity {
 
     @Override
     protected void onPause() {
+        pauseWebMedia();
         if (webView != null) webView.onPause();
         super.onPause();
     }
