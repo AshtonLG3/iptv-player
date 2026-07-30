@@ -1,14 +1,36 @@
 import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js';
 import { getWrappedFocusIndex } from './tvRemote.js';
 
+export const CONTENT_CATEGORIES = Object.freeze([
+  'News',
+  'Sports',
+  'Movies',
+  'Entertainment',
+  'Wildlife',
+  'Documentary',
+  'Kids',
+  'Music',
+  'Lifestyle',
+  'General',
+]);
+
+const CONTENT_CATEGORY_RULES = [
+  ['News', /\b(news|newsy|newsmax|newsnet|cnbc|bloomberg|al jazeera|france 24|talktv|ln24sa|k24|africanews|tv brics|knbc|wxii|ksnv|kcra|kob|ksby)\b/i],
+  ['Movies', /(movie|film|cinema|flix|romance)/i],
+  ['Wildlife', /\b(bbc earth|wild(?:earth| nature| tv)?|nature time|adventure earth|animal|zoo|safari)\b/i],
+  ['Kids', /\b(kids?|moonbug|teletubbies|tiny pop|cartoons?|toon|baby|junior)\b/i],
+  ['Music', /\b(afrobeats?|music|rock|concerts?|dance|trace uk|totalmusic)\b|that's (?:70s|80s)/i],
+  ['Documentary', /\b(history|true crime|jail|wonder|space live|documentar|bloomberg originals)\b/i],
+  ['Lifestyle', /\b(travel|top gear|hobby maker|gems tv|qvc|horse & country|english club|food|cook|home|garden|fashion|health|fitness)\b/i],
+  ['Entertainment', /\b(ent channel|mr bean|graham norton|chat show|pop|competition|game show|reality|comedy)\b/i],
+];
+
 function isGeoBlockedChannel(channel) {
   return /\[geo-blocked\]/i.test(channel.name);
 }
 
 function isSportsChannel(channel) {
-  return getCategoryNames(channel.category).some(
-    (category) => category === 'Sports' || category === 'Cue Sports',
-  );
+  return getContentCategory(channel) === 'Sports';
 }
 
 function isIntermittentChannel(channel) {
@@ -44,7 +66,7 @@ export function resolveChannelLogoUrl(logoUrl, locationObj = globalThis.location
 }
 
 function getPrimaryCategory(channel) {
-  return getCategoryNames(channel.category)[0] || 'Live TV';
+  return getContentCategory(channel);
 }
 
 function createChannelArtwork(channel) {
@@ -77,9 +99,20 @@ export function getCategoryNames(category) {
     .filter(Boolean);
 }
 
+export function getContentCategory(channel) {
+  const sourceCategories = getCategoryNames(channel?.category);
+  if (sourceCategories.some((category) => category === 'Sports' || category === 'Cue Sports')) {
+    return 'Sports';
+  }
+
+  const name = String(channel?.name || '').trim();
+  const matchingRule = CONTENT_CATEGORY_RULES.find(([, pattern]) => pattern.test(name));
+  return matchingRule?.[0] || 'General';
+}
+
 export function channelMatchesCategory(channel, category) {
   if (!category) return true;
-  return getCategoryNames(channel.category).includes(category);
+  return getContentCategory(channel) === category;
 }
 
 export function filterChannelsForUi(
@@ -206,7 +239,8 @@ export function renderApp({
     countrySelect.appendChild(opt);
   }
 
-  const categories = [...new Set(channels.flatMap((c) => getCategoryNames(c.category)))].sort();
+  const availableCategories = new Set(channels.map((channel) => getContentCategory(channel)));
+  const categories = CONTENT_CATEGORIES.filter((category) => availableCategories.has(category));
   for (const category of categories) {
     const opt = document.createElement('option');
     opt.value = category;

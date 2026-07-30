@@ -509,11 +509,17 @@ body {
   width: 72px;
 }
 
-.channel-nav-button:hover,
 .channel-nav-button:focus-visible {
   background: rgba(255, 255, 255, 0.12);
   color: var(--accent);
   outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .channel-nav-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--accent);
+  }
 }
 
 .channel-nav-button::before,

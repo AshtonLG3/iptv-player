@@ -15,7 +15,7 @@ import {
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20260730d';
+} from './src/ui.js?v=20260730e';
 import { createPlayer } from './src/player.js';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import {
@@ -481,6 +481,13 @@ async function main() {
     selectChannel(visibleChannels[nextIndex]);
   }
 
+  function navigateChannelFromButton(event, direction) {
+    event.stopPropagation();
+    navigateChannel(direction);
+    event.currentTarget.blur();
+    setChannelNavVisible(false);
+  }
+
   function updateChannelNavButtons() {
     const disabled = visibleChannels.length < 2;
     previousChannelButton.disabled = disabled;
@@ -680,10 +687,16 @@ async function main() {
   updateOrientationButton();
 
   retryButton.addEventListener('click', boot);
-  playerPanelEl.addEventListener('mousemove', showChannelNavTemporarily);
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    playerPanelEl.addEventListener('mousemove', showChannelNavTemporarily);
+  }
   playerPanelEl.addEventListener('click', showChannelNavTemporarily);
-  previousChannelButton.addEventListener('click', () => navigateChannel(-1));
-  nextChannelButton.addEventListener('click', () => navigateChannel(1));
+  previousChannelButton.addEventListener('click', (event) => {
+    navigateChannelFromButton(event, -1);
+  });
+  nextChannelButton.addEventListener('click', (event) => {
+    navigateChannelFromButton(event, 1);
+  });
   videoEl.addEventListener('playing', () => {
     updatePlaybackLabel('Now playing');
     syncMediaSession(true);
