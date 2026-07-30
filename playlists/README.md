@@ -3,35 +3,42 @@
 ## Playable M3U
 
 - `english-africa-uk-us-verified.m3u`
-  - Source: `iptv-org` public playlist and streams database, plus selected
-    responding channels from WirelessHack-listed DistroTV, Xiaomi, Vidaa, and
-    Rakuten UK playlists.
+  - Source: `iptv-org` public playlist and streams database, selected responding
+    channels from WirelessHack-listed FAST playlists, and an approved subset of
+    NeoTV+'s public worldwide sports catalog.
   - Focus: English-language channels from English-speaking African countries,
     UK, USA, plus verified English FAST/cue-sports channels.
-  - Generated: 2026-07-12. Last updated: 2026-07-21.
-  - Current result: 169 entries.
+  - Generated: 2026-07-12. Last updated: 2026-07-30.
+  - Current result: 186 entries.
   - Verification: original base entries responded during their generation.
     The 2026-07-20 sports additions responded during the sports refresh.
     WirelessHack-listed additions, Al Jazeera English, and France 24 English
     responded on 2026-07-21.
-    SABC News and SABC Lehae responded directly on 2026-07-21.
+    SABC News and SABC Lehae responded directly on 2026-07-21. Nine distinct
+    NeoTV+ sports feeds returned valid CORS-enabled HLS manifests from South
+    Africa on 2026-07-30.
   - Excluded: dead/non-responding entries, buffering entries, geo-locked
-    entries, religious channels, FIFA/FIFA+ channels, local Wazobia Max
-    variants, and obvious non-English variants.
+    general channels, religious channels, FIFA/FIFA+ channels, local Wazobia
+    Max variants, and obvious non-English variants. Region-limited public feeds
+    are allowed only in `Sports` and `Cue Sports`, remain labeled, and are not
+    routed through a geo-bypass.
   - Folders: reduced to `Africa`, `UK`, `USA`, `Sports`, `Cue Sports`, and
     `International`.
   - Use this as the main TiviMate/VLC playlist.
 - `sports-africa-uk-us-verified.m3u`
-  - Source: `https://iptv-org.github.io/iptv/categories/sports.m3u`.
+  - Source: `https://iptv-org.github.io/iptv/categories/sports.m3u`, selected
+    FAST playlists, and the approved NeoTV+ worldwide sports subset.
   - Focus: English-language sports channels for English-speaking African
     countries, UK, USA, plus verified English billiards.
-  - Generated: 2026-07-20.
-  - Verification: each included URL responded during generation.
+  - Generated: 2026-07-20. Last updated: 2026-07-30.
+  - Verification: each included URL responded during its most recent curated
+    refresh; the NeoTV+ additions also returned browser-compatible CORS headers.
   - Excluded: entries that did not respond during generation, plus
-    FIFA/FIFA+ channels, religious channels, geo-locked entries, and obvious
-    non-English variants.
-  - Current result: 74 entries.
-  - Country coverage: the source had verified UK/USA entries only; no English-speaking African-country sports streams were present.
+    FIFA/FIFA+ channels, religious channels, and obvious non-English variants.
+    Region-limited public sports feeds may be retained and labeled.
+  - Current result: 84 entries.
+  - Country coverage: the playlist now includes global public FAST sports feeds
+    in addition to the verified UK/USA entries.
 
 This is still a public-stream playlist. It is suitable for VLC or TiviMate, but
 it should be refreshed periodically because public broadcaster URLs can change.
@@ -51,6 +58,13 @@ from it, so a broken manual edit can be repaired with:
 npm run playlists:generate
 ```
 
+Refresh only the approved NeoTV+ sports subset and its locally hosted logos:
+
+```powershell
+npm run playlists:import:neotv-sports
+npm run playlists:generate
+```
+
 Useful checks:
 
 ```powershell
@@ -66,10 +80,11 @@ npm run playlists:archive
 ```
 
 The verifier flags dead links, repeated failures, redirects, backup candidates,
-unexpected folders, religious channels, non-English regional feeds, geo-lock
-labels, SABC 1/2/3, and ABC/CBS metro variants. A weekly GitHub Action runs the
-same checks, keeps failure history, and opens or updates a `playlist-health`
-issue if something needs work.
+unexpected folders, religious channels, non-English regional feeds, disallowed
+geo-lock labels, SABC 1/2/3, and ABC/CBS metro variants. Geo-lock labels are
+allowed only in `Sports` and `Cue Sports`. A weekly GitHub Action runs the same
+checks, keeps failure history, and opens or updates a `playlist-health` issue if
+something needs work.
 
 The Action is report-only. It never disables or removes channels automatically,
 and a stream that later returns a valid 200 playlist resets its consecutive
@@ -133,7 +148,28 @@ be opened in their official apps or sites.
 - Afree TV: https://afreetv.net/
 - Openview: https://www.openview.co.za/
 
+### NeoTV+ sports subset
+
+NeoTV+ describes its worldwide service as free, ad-supported television. On
+2026-07-30 its public worldwide Sports catalog exposed 12 HLS feeds. Rugare TV
+already carried beIN SPORTS XTRA, Sports First TV, and Trace Sports Stars from
+other curated sources, so those three were not duplicated. The nine distinct
+imports are Fite TV, Fight TV, Cricket Gold, Goal TV, Golf Network, Xtrem
+Sports, Nautical, Sport Fishing TV, and Kozoom Billiards. Their source URLs and
+ads are preserved, and their logos are cached locally under
+`assets/channels/neotv/`.
+
+The sports territory exception does not defeat broadcaster controls: Rugare TV
+does not proxy, restream, or alter these feeds. A region-limited channel can
+still refuse playback outside its permitted market.
+
 ## Update log
+
+- 2026-07-30: added nine distinct public NeoTV+ FAST sports feeds and locally
+  hosted their logos. The worldwide catalog had 12 sports feeds; three existing
+  equivalents were skipped. Sports and Cue Sports are now exempt from the
+  playlist's geo-label exclusion, while general channels remain filtered and no
+  geo-bypass is attempted. Result: 186 main entries and 84 sports-only entries.
 
 - 2026-07-21 (hosting update): updated the web player to load the curated main
   M3U by default and added menu actions for opening, copying, sharing, or

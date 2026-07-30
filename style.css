@@ -1052,6 +1052,7 @@ html.tv-mode #player-status {
 }
 
 .fullscreen-toggle[hidden],
+html.android-app .player-website-link,
 html.tv-mode .player-website-link,
 html.tv-mode .fullscreen-toggle {
   display: none;

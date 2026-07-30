@@ -8,6 +8,7 @@
     "playlists:export": "node scripts/export-playlist-registry.mjs",
     "playlists:generate": "node scripts/generate-playlists.mjs",
     "playlists:generate:check": "node scripts/generate-playlists.mjs --check",
+    "playlists:import:neotv-sports": "node scripts/import-neotv-sports.mjs",
     "playlists:verify": "node scripts/verify-playlists.mjs",
     "test": "node --test test/*.test.js"
   }

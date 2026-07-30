@@ -1,6 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { filterChannelsForUi, getCategoryNames, getChannelInitials } from '../src/ui.js';
+import {
+  filterChannelsForUi,
+  getCategoryNames,
+  getChannelInitials,
+  resolveChannelLogoUrl,
+} from '../src/ui.js';
 
 const CHANNELS = [
   {
@@ -21,6 +26,18 @@ const CHANNELS = [
     country: 'za',
     url: 'https://example.com/cape-town.m3u8',
   },
+  {
+    name: 'Regional Sports [Geo-blocked]',
+    category: 'Sports',
+    country: 'au',
+    url: 'https://example.com/regional-sports.m3u8',
+  },
+  {
+    name: 'Regional News [Geo-blocked]',
+    category: 'International',
+    country: 'au',
+    url: 'https://example.com/regional-news.m3u8',
+  },
 ];
 
 test('getCategoryNames splits multi-folder M3U group labels', () => {
@@ -36,6 +53,16 @@ test('getChannelInitials ignores quality labels and limits artwork fallback to t
   assert.equal(getChannelInitials('SABC News (1080p)'), 'SN');
   assert.equal(getChannelInitials('K24'), 'K');
   assert.equal(getChannelInitials(''), 'TV');
+});
+
+test('resolveChannelLogoUrl uses bundled artwork inside the Android app', () => {
+  const publicUrl = 'https://mangezi.xyz/tv/assets/channels/neotv/cricket-gold.jpg';
+
+  assert.equal(
+    resolveChannelLogoUrl(publicUrl, { hostname: 'appassets.androidplatform.net' }),
+    'https://appassets.androidplatform.net/assets/assets/channels/neotv/cricket-gold.jpg',
+  );
+  assert.equal(resolveChannelLogoUrl(publicUrl, { hostname: 'mangezi.xyz' }), publicUrl);
 });
 
 test('filterChannelsForUi matches a selected folder by category token', () => {
@@ -54,4 +81,11 @@ test('filterChannelsForUi still narrows folders by country when both filters mat
     filtered.map((channel) => channel.name),
     ['Pluto TV Snooker 900'],
   );
+});
+
+test('filterChannelsForUi keeps geo-restricted sports visible while hiding other blocked channels', () => {
+  const filtered = filterChannelsForUi(CHANNELS, { hideGeoBlocked: true });
+
+  assert.equal(filtered.some((channel) => channel.name === 'Regional Sports [Geo-blocked]'), true);
+  assert.equal(filtered.some((channel) => channel.name === 'Regional News [Geo-blocked]'), false);
 });

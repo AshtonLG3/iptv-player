@@ -5,6 +5,12 @@ function isGeoBlockedChannel(channel) {
   return /\[geo-blocked\]/i.test(channel.name);
 }
 
+function isSportsChannel(channel) {
+  return getCategoryNames(channel.category).some(
+    (category) => category === 'Sports' || category === 'Cue Sports',
+  );
+}
+
 function isIntermittentChannel(channel) {
   return /\[not 24\/7\]/i.test(channel.name);
 }
@@ -17,6 +23,24 @@ export function getChannelInitials(name) {
     .filter(Boolean);
   if (!words.length) return 'TV';
   return words.slice(0, 2).map((word) => word[0]).join('').toUpperCase();
+}
+
+export function resolveChannelLogoUrl(logoUrl, locationObj = globalThis.location) {
+  const originalUrl = String(logoUrl || '');
+  if (!originalUrl || locationObj?.hostname !== 'appassets.androidplatform.net') {
+    return originalUrl;
+  }
+
+  try {
+    const parsedUrl = new URL(originalUrl);
+    if (parsedUrl.hostname !== 'mangezi.xyz' || !parsedUrl.pathname.startsWith('/tv/assets/')) {
+      return originalUrl;
+    }
+
+    return `https://appassets.androidplatform.net/assets${parsedUrl.pathname.slice('/tv'.length)}${parsedUrl.search}`;
+  } catch {
+    return originalUrl;
+  }
 }
 
 function getPrimaryCategory(channel) {
@@ -35,7 +59,7 @@ function createChannelArtwork(channel) {
 
   if (channel.logo) {
     const image = document.createElement('img');
-    image.src = channel.logo;
+    image.src = resolveChannelLogoUrl(channel.logo);
     image.alt = '';
     image.loading = 'lazy';
     image.decoding = 'async';
@@ -75,7 +99,7 @@ export function filterChannelsForUi(
     if (normalizedSearch && !channel.name.toLowerCase().includes(normalizedSearch)) return false;
     if (country && channel.country !== country) return false;
     if (!channelMatchesCategory(channel, category)) return false;
-    if (hideGeoBlocked && isGeoBlockedChannel(channel)) return false;
+    if (hideGeoBlocked && isGeoBlockedChannel(channel) && !isSportsChannel(channel)) return false;
     if (favoritesOnly && !isFavorite(channel.url)) return false;
     return true;
   });
@@ -111,7 +135,7 @@ export function renderApp({
             <select id="country-filter"><option value="">All countries</option></select>
             <select id="category-filter"><option value="">All categories</option></select>
             <label class="blocked-label">
-              <input type="checkbox" id="hide-blocked-toggle" checked /> Hide geo-blocked
+              <input type="checkbox" id="hide-blocked-toggle" checked /> Hide geo-blocked (except sports)
             </label>
             <label class="favorites-label">
               <input type="checkbox" id="favorites-toggle" /> Favorites only
