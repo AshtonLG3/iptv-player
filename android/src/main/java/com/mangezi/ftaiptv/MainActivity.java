@@ -539,7 +539,7 @@ public final class MainActivity extends Activity {
             Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             String fallbackUrl = intent.getStringExtra("browser_fallback_url");
             if (fallbackUrl != null) {
-                pausePlayerThen(() -> InAppBrowserActivity.open(this, fallbackUrl));
+                pausePlayerThen(() -> openExternalUrl(fallbackUrl));
             }
         } catch (URISyntaxException ignored) {
             return true;
@@ -586,12 +586,38 @@ public final class MainActivity extends Activity {
         }
 
         try {
+            Intent packageLauncher = new Intent(Intent.ACTION_MAIN);
+            packageLauncher.addCategory(Intent.CATEGORY_LAUNCHER);
+            packageLauncher.setPackage(packageName);
+            packageLauncher.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(packageLauncher);
+            return;
+        } catch (ActivityNotFoundException ignored) {
+            // Continue to the store when an installed launcher cannot be resolved.
+        }
+
+        try {
             startActivity(new Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse("market://details?id=" + packageName)
             ));
         } catch (ActivityNotFoundException ignored) {
-            InAppBrowserActivity.open(this, fallbackUrl);
+            openExternalUrl(fallbackUrl);
+        }
+    }
+
+    private void openExternalUrl(String url) {
+        if (url == null || url.trim().isEmpty()) return;
+        Uri uri = Uri.parse(url.trim());
+        String scheme = uri.getScheme();
+        if (!"https".equalsIgnoreCase(scheme) && !"http".equalsIgnoreCase(scheme)) return;
+
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+            startActivity(intent);
+        } catch (ActivityNotFoundException ignored) {
+            // No external browser or registered native app is available.
         }
     }
 
@@ -706,7 +732,7 @@ public final class MainActivity extends Activity {
         @JavascriptInterface
         public void openOfficialUrl(String url) {
             runOnUiThread(() -> pausePlayerThen(
-                    () -> InAppBrowserActivity.open(MainActivity.this, url)
+                    () -> openExternalUrl(url)
             ));
         }
 
