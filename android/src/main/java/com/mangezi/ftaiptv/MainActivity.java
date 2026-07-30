@@ -32,6 +32,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import androidx.webkit.WebViewAssetLoader;
 import java.net.URISyntaxException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class MainActivity extends Activity {
     private static final String APP_ASSET_HOST = "appassets.androidplatform.net";
@@ -43,6 +44,11 @@ public final class MainActivity extends Activity {
     private static final String ACTION_PLAY = "com.mangezi.ftaiptv.action.PLAY";
     private static final String ACTION_PAUSE = "com.mangezi.ftaiptv.action.PAUSE";
     private static final String ACTION_TOGGLE_PLAYBACK = "com.mangezi.ftaiptv.action.TOGGLE_PLAYBACK";
+    private static final String PAUSE_WEB_MEDIA_SCRIPT =
+            "(function(){try{"
+                    + "if(window.__ftaIptvPause){window.__ftaIptvPause();}"
+                    + "document.querySelectorAll('video,audio').forEach(function(media){media.pause();});"
+                    + "}catch(error){}return true;})()";
     private WebView webView;
     private MediaSession mediaSession;
     private NotificationManager notificationManager;
@@ -125,8 +131,10 @@ public final class MainActivity extends Activity {
                     return false;
                 }
 
-                handleMediaAction(ACTION_PAUSE);
-                InAppBrowserActivity.open(MainActivity.this, url.toString());
+                pausePlayerThen(() -> InAppBrowserActivity.open(
+                        MainActivity.this,
+                        url.toString()
+                ));
                 return true;
             }
 
@@ -528,13 +536,29 @@ public final class MainActivity extends Activity {
             Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             String fallbackUrl = intent.getStringExtra("browser_fallback_url");
             if (fallbackUrl != null) {
-                handleMediaAction(ACTION_PAUSE);
-                InAppBrowserActivity.open(this, fallbackUrl);
+                pausePlayerThen(() -> InAppBrowserActivity.open(this, fallbackUrl));
             }
         } catch (URISyntaxException ignored) {
             return true;
         }
         return true;
+    }
+
+    private void pausePlayerThen(Runnable nextAction) {
+        currentIsPlaying = false;
+        clearNativeMediaSession();
+        if (webView == null) {
+            nextAction.run();
+            return;
+        }
+
+        AtomicBoolean completed = new AtomicBoolean(false);
+        Runnable continueOnce = () -> {
+            clearNativeMediaSession();
+            if (completed.compareAndSet(false, true)) nextAction.run();
+        };
+        webView.evaluateJavascript(PAUSE_WEB_MEDIA_SCRIPT, ignored -> continueOnce.run());
+        webView.postDelayed(continueOnce, 350);
     }
 
     @Override
@@ -635,10 +659,9 @@ public final class MainActivity extends Activity {
 
         @JavascriptInterface
         public void openOfficialUrl(String url) {
-            runOnUiThread(() -> {
-                handleMediaAction(ACTION_PAUSE);
-                InAppBrowserActivity.open(MainActivity.this, url);
-            });
+            runOnUiThread(() -> pausePlayerThen(
+                    () -> InAppBrowserActivity.open(MainActivity.this, url)
+            ));
         }
 
         @JavascriptInterface

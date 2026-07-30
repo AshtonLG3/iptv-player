@@ -1,56 +1,63 @@
-# Rugare TV control refinement QA
+# Rugare TV in-app browser header QA
 
 ## Visual truth and rendered evidence
 
-- Header source: `C:\Users\mangezi\AppData\Local\Temp\codex-clipboard-091f0cba-4124-49d4-adbc-b34a94fef47e.png` (1330 x 537 px).
-- Player source: `C:\Users\mangezi\AppData\Local\Temp\codex-clipboard-da0bf027-f529-432c-8721-a8349f4dc493.png` (1356 x 594 px).
-- Header implementation: `build/browser-refined-header.png` (1265 x 712 px).
-- Player implementation: `build/browser-refined-player.png` (1365 x 768 px).
-- Combined comparisons: `build/design-qa-header-comparison.png` and `build/design-qa-player-comparison.png`.
-- CSS viewport target: desktop 1365 x 768 at device scale factor 1. The header capture reflects the in-app browser's 1265 x 712 content area; comparisons use matching top-left crops and do not treat the browser chrome difference as product drift.
-- State: dark theme, desktop layout, player loaded with the initial channel browser state.
-
-## Full-view comparison
-
-- The homepage retains the existing header hierarchy, spacing, type, colors, and controls. `Watch TV` now uses the same plain navigation treatment, hover behavior, and click highlight as Projects, Workbench, Media, and Contact. The prior gold pill is intentionally removed.
-- The player retains the existing sidebar/player proportions. The former empty `Official` strip now contains four balanced branded links without displacing the now-playing region.
-
-## Focused-region comparison
-
-- Header: the user-identified special pill treatment is removed; label baseline, weight, color, and spacing now match adjacent navigation items.
-- Official bar: AfreeTV, eVOD/e+, SABC+, and Z+ use locally hosted official brand artwork, remain readable against the dark strip, and retain accessible link labels.
-- Fullscreen: the custom control uses a Material fullscreen icon and changes from `Enter full screen` / `aria-pressed=false` to `Exit full screen` / `aria-pressed=true`, then returns to the initial state.
-
-## Required fidelity surfaces
-
-- Fonts and typography: existing app and site font families, weights, sizes, line heights, and hierarchy are preserved; new service labels use the existing compact control weight.
-- Spacing and layout rhythm: the header returns to the shared navigation rhythm; the Official bar has consistent 40 px controls, centered logos, and responsive compact labels.
-- Colors and visual tokens: existing dark/light tokens remain intact. Branded assets use a stable dark tile for reliable contrast in both themes.
-- Image quality and asset fidelity: official source logos are stored locally as SVG/PNG assets without placeholders, CSS drawings, or text-only substitutes.
-- Copy and content: `Watch TV`, `Official`, `AfreeTV`, `e+`, `SABC+`, `Z+`, and `Website` match the requested labels and destinations.
-
-## Interaction and runtime checks
-
-- `Watch TV` opens `/tv/` in a separate tab with the Rugare TV title and mangezi.xyz favicon.
-- Fullscreen enter and exit were clicked in the browser and both state transitions passed.
-- The Official bar exposes four unique links and `Official sources` no longer appears in the settings menu.
-- Browser console error check: none.
-- Automated checks: 43 tests passed; generated playlists match; Android debug assembly passed.
-
-## Comparison history
-
-1. P0: deployed HTML was newer than the cached JavaScript, leaving the Official strip empty and fullscreen unbound. Fixed with explicit asset revisions and a TV-specific no-cache rule.
-2. P0: the first local refinement left a stale `OFFICIAL_SERVICES` reference in playlist rendering. Removed the old menu-only Z+ block; the next browser render loaded 177 channels without an error.
-3. P1: `Watch TV` looked unlike the other header links. Removed the special pill CSS and applied the shared navigation classes and click behavior.
-4. P1: requested service shortcuts were not visually discoverable. Replaced the empty strip with four official branded links and confirmed them in the browser.
-5. Post-fix evidence: both combined comparison images show the corrected header and player regions; browser interaction confirms fullscreen enter/exit and new-tab navigation.
+- Source visual truth: `C:\Users\mangezi\iptv-player\.codex-remote-attachments\019fad02-aaf9-7db1-884c-85cee43f5e00\b865aa2f-f4df-41d4-9b8a-7858221469ee\1-Photo-1.jpg` and `2-Photo-2.jpg`.
+- Implementation screenshot: `C:\Users\mangezi\iptv-player\build\rugare-tv-browser-clean.png`.
+- Full-view comparison: `C:\Users\mangezi\iptv-player\build\design-qa-in-app-browser-comparison.png`.
+- Focused header comparison: `C:\Users\mangezi\iptv-player\build\design-qa-in-app-browser-header-comparison.png`.
+- Viewport: Samsung SM-A165F in portrait, 1080 x 2340 device pixels at Android override density 480 dpi.
+- Source pixels: 591 x 1280. Implementation pixels: 1080 x 2340. The implementation was downsampled to 591 x 1280 with Lanczos resampling before comparison; CSS size and browser device-scale factor are not applicable to this native Android capture.
+- State: the same SABC+ programme page opened from Rugare TV's portrait official-service row.
 
 ## Findings
 
-- No actionable P0, P1, or P2 findings remain.
+- No actionable P0, P1, or P2 differences remain in the app-owned header.
+- The external SABC+ page changed its responsive scale and live content spacing between captures. That page is publisher-owned and is excluded from app-header fidelity findings.
 
-## Follow-up polish
+## Full-view comparison
 
-- None required for this refinement.
+- The SABC+ page remains fully visible and scrollable below the app-owned chrome.
+- The replacement header consumes one compact row and does not obscure the broadcaster's install banner or programme content.
+- The status bar, header, publisher page, and Android navigation bar remain visually separated.
+
+## Focused-region comparison
+
+- The source shows oversized back, forward, reload, share, and close controls colliding with Android status indicators.
+- The implementation shows a clean status bar followed by a 48 dp header with `Done`, a centered ellipsized live page title, and `Open`.
+- The focused comparison confirms there is no overlap, clipped action text, or hidden primary control.
+
+## Required fidelity surfaces
+
+- Fonts and typography: Android sans is consistent with the platform; the 15 sp bold actions and 16 sp bold title remain legible, vertically centered, and correctly truncated.
+- Spacing and layout rhythm: the 48 dp toolbar, balanced 64 dp minimum action widths, 8-12 dp internal padding, and applied status-bar inset produce an even compact rhythm.
+- Colors and visual tokens: the existing near-black Rugare TV system-bar tone, white title, and blue actions preserve the app's dark interface and meet clear contrast expectations.
+- Image quality and asset fidelity: no app-owned raster assets were added or replaced. The external SABC+ logo and programme imagery remain sharp at the captured density.
+- Copy and content: `Done` clearly returns to Rugare TV, the live page title supplies context, and `Open` clearly hands the page to the device browser or installed app.
+
+## Interaction and runtime checks
+
+- Automated tests: 48 passed.
+- Android debug assembly: passed.
+- Installed package: `com.mangezi.ftaiptv`, versionName `1.5.0`, versionCode `17`, on Samsung SM-A165F over Wireless debugging.
+- Opening SABC+ pauses the active WildEarth player and leaves the Rugare TV media session inactive and paused.
+- `Done` closes the official-service page and returns to `MainActivity`; the player remains visibly paused.
+- `Open` launches the SABC+ URL in Chrome, stops and closes the in-app service page, and Android Back returns directly to Rugare TV with the player still paused.
+
+## Comparison history
+
+1. P1 source finding: six app-owned controls collided visually with Android status indicators and dominated the page header.
+2. Fix: replaced them with `Done`, a centered page title, and `Open`; added the status-bar inset.
+3. P1 runtime finding from follow-up: the Rugare TV stream could continue underneath an official service or external app.
+4. Fix: pause all main-player media and clear its native media session before opening an official service; pause and mute official-page media before external handoff, then close the wrapper.
+5. Post-fix evidence: the normalized full-view and focused comparisons show a clean non-overlapping header, while device checks confirm both return paths and stopped playback.
+
+## Implementation checklist
+
+- [x] Remove crowded browser controls.
+- [x] Respect the Android status-bar safe area.
+- [x] Keep explicit close and external-open actions.
+- [x] Stop playback before official-service and external-app handoffs.
+- [x] Verify the header and return paths on the connected phone.
 
 final result: passed
