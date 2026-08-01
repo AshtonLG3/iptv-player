@@ -500,12 +500,31 @@ body {
 }
 
 .landscape-channel-nav {
-  display: none;
+  display: block;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 160ms ease, visibility 160ms ease;
+  visibility: hidden;
+  z-index: 8;
+}
+
+.layout.channel-nav-visible .landscape-channel-nav,
+.landscape-channel-nav:focus-within {
+  opacity: 1;
+  visibility: visible;
+}
+
+.layout.drawer-open .landscape-channel-nav,
+.layout.settings-open .landscape-channel-nav {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .channel-nav-button {
   align-items: center;
-  background: transparent;
+  background: rgba(13, 15, 18, 0.7);
   border: 0;
   border-radius: 999px;
   color: var(--text);
@@ -519,7 +538,10 @@ body {
   min-height: 60px;
   min-width: 72px;
   padding: 0;
-  position: relative;
+  pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 72px;
 }
 
@@ -563,6 +585,10 @@ body {
   transform: translateY(-50%);
 }
 
+#previous-channel-button {
+  left: clamp(0.75rem, 7vw, 4rem);
+}
+
 #next-channel-button::before {
   right: 20px;
   transform: translateY(-50%);
@@ -574,6 +600,46 @@ body {
   border-top: 18px solid transparent;
   right: 30px;
   transform: translateY(-50%);
+}
+
+#next-channel-button {
+  right: clamp(0.75rem, 7vw, 4rem);
+}
+
+#play-pause-button {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#play-pause-button::before,
+#play-pause-button::after {
+  background: currentColor;
+  border: 0;
+  height: 32px;
+  transform: translateY(-50%);
+  width: 8px;
+}
+
+#play-pause-button::before {
+  left: 23px;
+}
+
+#play-pause-button::after {
+  right: 23px;
+}
+
+#play-pause-button[data-playing="false"]::before {
+  background: transparent;
+  border-bottom: 18px solid transparent;
+  border-left: 28px solid currentColor;
+  border-top: 18px solid transparent;
+  height: 0;
+  left: 25px;
+  width: 0;
+}
+
+#play-pause-button[data-playing="false"]::after {
+  display: none;
 }
 
 .channel-nav-button:disabled {
@@ -1007,7 +1073,7 @@ html.tv-mode #video::-webkit-media-controls-panel {
 }
 
 html.tv-mode .landscape-channel-nav {
-  display: none;
+  display: block;
 }
 
 html.tv-mode .drawer-handle {
@@ -1078,9 +1144,22 @@ html.tv-mode #player-status {
   font-size: 0.78rem;
   font-weight: 800;
   min-height: 42px;
+  opacity: 0;
+  pointer-events: none;
   position: absolute;
   top: 0.75rem;
+  transition: opacity 160ms ease, visibility 160ms ease;
+  visibility: hidden;
   z-index: 7;
+}
+
+.layout.channel-nav-visible .player-website-link,
+.layout.channel-nav-visible .fullscreen-toggle,
+.player-website-link:focus-visible,
+.fullscreen-toggle:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
 }
 
 .player-website-link {
@@ -1136,17 +1215,35 @@ html.tv-mode .fullscreen-toggle {
 
 .featured-service-list {
   align-items: center;
-  background: var(--panel);
+  background: rgba(13, 15, 18, 0.92);
   border: 1px solid var(--line);
   border-radius: var(--radius);
+  bottom: 0;
   display: flex;
   gap: 0.55rem;
-  max-width: 960px;
+  left: 0;
+  max-width: none;
   min-height: 52px;
+  opacity: 0;
   overflow-x: auto;
   padding: 0.45rem 0.65rem;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
   scrollbar-width: none;
+  transform: translateY(8px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+  visibility: hidden;
   width: 100%;
+  z-index: 9;
+}
+
+.layout.channel-nav-visible .featured-service-list,
+.featured-service-list:focus-within {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .featured-service-list::before {
@@ -1772,7 +1869,9 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
 
 @media (max-height: 540px) and (orientation: landscape) {
   .featured-service-list {
-    display: none;
+    display: flex;
+    min-height: 46px;
+    padding: 0.25rem 0.45rem;
   }
 
   html:not(.tv-mode) .drawer-handle {
@@ -1867,7 +1966,6 @@ html.tv-mode .featured-service-list {
   border-radius: 0;
   border-right: 0;
   display: flex;
-  flex: 0 0 auto;
   max-width: none;
   min-height: 70px;
   padding: 0.55rem 0.75rem;

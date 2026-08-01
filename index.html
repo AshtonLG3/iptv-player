@@ -14,7 +14,7 @@
     }
   </script>
   <link rel="icon" href="https://mangezi.xyz/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20260801b" />
+  <link rel="stylesheet" href="style.css?v=20260801d" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
     </div>
     <section class="player-panel">
       <div class="player-frame">
-        <video id="video" controls playsinline></video>
+        <video id="video" playsinline></video>
         <div id="player-placeholder" class="player-placeholder" role="status" aria-live="polite">
           <img class="player-placeholder-logo" src="assets/branding/rugare-tv-logo.png" alt="Rugare TV" />
           <span id="player-placeholder-label">Choose a channel</span>
@@ -37,8 +37,10 @@
         </button>
         <div class="landscape-channel-nav" aria-label="Channel navigation">
           <button id="previous-channel-button" class="channel-nav-button" type="button" aria-label="Previous channel" disabled></button>
+          <button id="play-pause-button" class="channel-nav-button" type="button" aria-label="Play" aria-pressed="false" data-playing="false" disabled></button>
           <button id="next-channel-button" class="channel-nav-button" type="button" aria-label="Next channel" disabled></button>
         </div>
+        <nav id="featured-service-list" class="featured-service-list" aria-label="Official TV services"></nav>
         <button id="player-orientation-toggle" class="orientation-toggle player-orientation-toggle" type="button" aria-label="Switch to landscape" title="Rotate player">
           <span class="orientation-glyph" aria-hidden="true">
             <span class="orientation-device"></span>
@@ -57,7 +59,6 @@
           </span>
         </div>
       </div>
-      <nav id="featured-service-list" class="featured-service-list" aria-label="Official TV services"></nav>
       <section id="now-playing-summary" class="now-playing-summary" aria-live="polite" hidden>
         <span class="now-playing-artwork">
           <img id="now-playing-logo" alt="" />
@@ -78,6 +79,6 @@
       <p id="player-status" hidden></p>
     </section>
   </main>
-  <script type="module" src="app.js?v=20260801c"></script>
+  <script type="module" src="app.js?v=20260801d"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260801c';
+} from './src/constants.js?v=20260801d';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -48,6 +48,7 @@ async function main() {
   const statusEl = document.getElementById('player-status');
   const retryButton = document.getElementById('retry-button');
   const previousChannelButton = document.getElementById('previous-channel-button');
+  const playPauseButton = document.getElementById('play-pause-button');
   const nextChannelButton = document.getElementById('next-channel-button');
   const layoutEl = document.querySelector('.layout');
   const playerPanelEl = document.querySelector('.player-panel');
@@ -188,11 +189,11 @@ async function main() {
   document.addEventListener('webkitfullscreenchange', updateFullscreenControl);
   updateFullscreenControl();
 
+  videoEl.removeAttribute('controls');
+  videoEl.controls = false;
+  videoEl.disablePictureInPicture = true;
+  videoEl.tabIndex = -1;
   if (isTvMode) {
-    videoEl.removeAttribute('controls');
-    videoEl.controls = false;
-    videoEl.disablePictureInPicture = true;
-    videoEl.tabIndex = -1;
     playerPanelEl.tabIndex = -1;
   }
 
@@ -259,13 +260,15 @@ async function main() {
   function setTvPanel(panel, { focus = true } = {}) {
     if (!isTvMode) return;
 
-    const nextPanel = ['channels', 'categories', 'settings', 'services'].includes(panel)
+    const nextPanel = ['channels', 'categories', 'settings', 'playback', 'services'].includes(panel)
       ? panel
       : 'none';
     tvPanel = nextPanel;
     syncingTvPanel = true;
     setDrawerOpen(nextPanel === 'channels' || nextPanel === 'categories');
     appView?.setMenuOpen(nextPanel === 'settings');
+    if (nextPanel === 'playback' || nextPanel === 'services') setChannelNavVisible(true);
+    if (nextPanel === 'none') setChannelNavVisible(false);
     syncingTvPanel = false;
     notifyNativeTvPanelState();
 
@@ -274,6 +277,7 @@ async function main() {
       if (nextPanel === 'channels') appView?.focusChannel(currentChannel?.url);
       if (nextPanel === 'categories') appView?.focusCategory();
       if (nextPanel === 'settings') appView?.focusMenu();
+      if (nextPanel === 'playback') focusPlayerControl();
       if (nextPanel === 'services') focusFeaturedService();
       if (nextPanel === 'none') playerPanelEl.focus({ preventScroll: true });
     });
@@ -523,15 +527,24 @@ async function main() {
   function navigateChannelFromButton(event, direction) {
     event.stopPropagation();
     navigateChannel(direction);
-    event.currentTarget.blur();
-    setChannelNavVisible(false);
+    if (!isTvMode) event.currentTarget.blur();
+    showChannelNavTemporarily();
+  }
+
+  function updatePlayPauseButton() {
+    const isPlaying = isPlaybackActive();
+    playPauseButton.disabled = !currentChannel;
+    playPauseButton.dataset.playing = String(isPlaying);
+    playPauseButton.setAttribute('aria-pressed', String(isPlaying));
+    playPauseButton.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+    playPauseButton.title = isPlaying ? 'Pause' : 'Play';
   }
 
   function updateChannelNavButtons() {
     const disabled = visibleChannels.length < 2;
     previousChannelButton.disabled = disabled;
     nextChannelButton.disabled = disabled;
-    if (disabled) setChannelNavVisible(false);
+    updatePlayPauseButton();
   }
 
   function setChannelNavVisible(isVisible) {
@@ -539,15 +552,14 @@ async function main() {
     channelNavHideTimer = null;
     layoutEl.classList.toggle(
       'channel-nav-visible',
-      isVisible && !isTvMode && visibleChannels.length > 1,
+      Boolean(isVisible),
     );
   }
 
   function showChannelNavTemporarily() {
-    if (isTvMode || visibleChannels.length < 2) return;
-
     setChannelNavVisible(true);
     channelNavHideTimer = window.setTimeout(() => {
+      if (isTvMode && tvPanel !== 'none') return;
       setChannelNavVisible(false);
     }, CHANNEL_NAV_AUTO_HIDE_MS);
   }
@@ -571,11 +583,13 @@ async function main() {
   function playCurrentVideo() {
     void videoEl.play();
     syncMediaSession(true);
+    updatePlayPauseButton();
   }
 
   function pauseCurrentVideo() {
     videoEl.pause();
     syncMediaSession(false);
+    updatePlayPauseButton();
   }
 
   function toggleCurrentVideo() {
@@ -588,6 +602,28 @@ async function main() {
 
   function getFeaturedServiceLinks() {
     return [...featuredServiceList.querySelectorAll('.featured-service-link')];
+  }
+
+  function getPlayerControlButtons() {
+    return [previousChannelButton, playPauseButton, nextChannelButton]
+      .filter((button) => !button.disabled);
+  }
+
+  function focusPlayerControl(index) {
+    const buttons = getPlayerControlButtons();
+    const preferred = playPauseButton.disabled ? buttons[0] : playPauseButton;
+    const target = Number.isInteger(index) ? buttons[index] : preferred;
+    if (!target) return false;
+    target.focus({ preventScroll: true });
+    return true;
+  }
+
+  function movePlayerControlFocus(direction) {
+    const buttons = getPlayerControlButtons();
+    if (!buttons.length) return false;
+    const currentIndex = buttons.indexOf(document.activeElement);
+    const nextIndex = getWrappedFocusIndex(buttons.length, currentIndex, direction);
+    return focusPlayerControl(nextIndex);
   }
 
   function focusFeaturedService(index = 0) {
@@ -637,6 +673,24 @@ async function main() {
   function handleTvKeydown(event) {
     if (!isTvMode) return;
 
+    if (tvPanel === 'playback') {
+      const horizontalDirection = event.key === 'ArrowLeft' ? -1 : event.key === 'ArrowRight' ? 1 : 0;
+      if (horizontalDirection && movePlayerControlFocus(horizontalDirection)) {
+        event.preventDefault();
+        return;
+      }
+      if (event.key === 'ArrowDown' && getFeaturedServiceLinks().length) {
+        event.preventDefault();
+        setTvPanel('services');
+        return;
+      }
+      if (event.key === 'ArrowUp' || event.key === 'Escape' || event.key === 'BrowserBack') {
+        event.preventDefault();
+        setTvPanel('none');
+        return;
+      }
+    }
+
     if (tvPanel === 'categories') {
       const horizontalDirection = event.key === 'ArrowLeft' ? -1 : event.key === 'ArrowRight' ? 1 : 0;
       if (horizontalDirection && appView?.moveCategoryFocus(horizontalDirection)) {
@@ -661,7 +715,12 @@ async function main() {
         event.preventDefault();
         return;
       }
-      if (event.key === 'ArrowUp' || event.key === 'Escape' || event.key === 'BrowserBack') {
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setTvPanel('playback');
+        return;
+      }
+      if (event.key === 'Escape' || event.key === 'BrowserBack') {
         event.preventDefault();
         setTvPanel('none');
         return;
@@ -689,16 +748,15 @@ async function main() {
       return;
     }
 
-    if (event.key === 'ArrowDown' && tvPanel === 'none' && getFeaturedServiceLinks().length) {
+    if (event.key === 'ArrowDown' && tvPanel === 'none') {
       event.preventDefault();
-      setTvPanel('services');
+      setTvPanel('playback');
       return;
     }
 
     if ((event.key === 'Enter' || event.key === ' ') && tvPanel === 'none') {
       event.preventDefault();
-      if (currentChannel) toggleCurrentVideo();
-      else setTvPanel('channels');
+      setTvPanel('playback');
     }
   }
 
@@ -793,9 +851,20 @@ async function main() {
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     playerPanelEl.addEventListener('mousemove', showChannelNavTemporarily);
   }
-  playerPanelEl.addEventListener('click', showChannelNavTemporarily);
+  videoEl.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    showChannelNavTemporarily();
+  });
   previousChannelButton.addEventListener('click', (event) => {
     navigateChannelFromButton(event, -1);
+  });
+  playPauseButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (currentChannel) toggleCurrentVideo();
+    if (!isTvMode) event.currentTarget.blur();
+    showChannelNavTemporarily();
   });
   nextChannelButton.addEventListener('click', (event) => {
     navigateChannelFromButton(event, 1);
@@ -803,15 +872,21 @@ async function main() {
   videoEl.addEventListener('playing', () => {
     updatePlaybackLabel('Now playing');
     syncMediaSession(true);
+    updatePlayPauseButton();
   });
-  videoEl.addEventListener('play', () => syncMediaSession(true));
+  videoEl.addEventListener('play', () => {
+    syncMediaSession(true);
+    updatePlayPauseButton();
+  });
   videoEl.addEventListener('pause', () => {
     if (currentChannel) updatePlaybackLabel('Paused');
     syncMediaSession(false);
+    updatePlayPauseButton();
   });
   videoEl.addEventListener('ended', () => {
     if (currentChannel) updatePlaybackLabel('Ended');
     syncMediaSession(false);
+    updatePlayPauseButton();
   });
   document.addEventListener('keydown', handleTvKeydown);
   window.addEventListener('popstate', () => {

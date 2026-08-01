@@ -205,28 +205,28 @@ public final class MainActivity extends Activity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        boolean revealPlayerControlsAfterDispatch = false;
         if (!isTelevisionDevice && webView != null) {
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     playerGestureStartX = event.getX();
                     playerGestureStartY = event.getY();
-                    evaluatePlayerTouch(
-                            playerGestureStartX / Math.max(1f, webView.getWidth()),
-                            playerGestureStartY / Math.max(1f, webView.getHeight())
-                    );
                     playerChannelSwipeCandidate = getResources().getConfiguration().orientation
                             == Configuration.ORIENTATION_LANDSCAPE
                             && playerGestureStartX >= webView.getWidth() * 0.70f;
                     break;
                 case MotionEvent.ACTION_UP:
+                    boolean openedChannelDrawer = false;
                     if (playerChannelSwipeCandidate) {
                         float density = getResources().getDisplayMetrics().density;
                         float horizontalTravel = event.getX() - playerGestureStartX;
                         float verticalTravel = Math.abs(event.getY() - playerGestureStartY);
                         if (horizontalTravel <= -72f * density && verticalTravel < 90f * density) {
                             evaluatePlayerCommand("__ftaIptvOpenChannels");
+                            openedChannelDrawer = true;
                         }
                     }
+                    revealPlayerControlsAfterDispatch = !openedChannelDrawer;
                     playerChannelSwipeCandidate = false;
                     break;
                 case MotionEvent.ACTION_CANCEL:
@@ -236,7 +236,14 @@ public final class MainActivity extends Activity {
                     break;
             }
         }
-        return super.dispatchTouchEvent(event);
+        boolean handled = super.dispatchTouchEvent(event);
+        if (revealPlayerControlsAfterDispatch && webView != null) {
+            evaluatePlayerTouch(
+                    event.getX() / Math.max(1f, webView.getWidth()),
+                    event.getY() / Math.max(1f, webView.getHeight())
+            );
+        }
+        return handled;
     }
 
     @Override
@@ -247,7 +254,9 @@ public final class MainActivity extends Activity {
 
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if ("services".equals(tvPanelState) || "categories".equals(tvPanelState)) {
+                if ("services".equals(tvPanelState)
+                        || "categories".equals(tvPanelState)
+                        || "playback".equals(tvPanelState)) {
                     return super.dispatchKeyEvent(event);
                 }
                 if ("settings".equals(tvPanelState)) {
@@ -257,7 +266,9 @@ public final class MainActivity extends Activity {
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if ("services".equals(tvPanelState) || "categories".equals(tvPanelState)) {
+                if ("services".equals(tvPanelState)
+                        || "categories".equals(tvPanelState)
+                        || "playback".equals(tvPanelState)) {
                     return super.dispatchKeyEvent(event);
                 }
                 if ("channels".equals(tvPanelState)) {
@@ -751,6 +762,7 @@ public final class MainActivity extends Activity {
             if (!("channels".equals(nextPanel)
                     || "categories".equals(nextPanel)
                     || "settings".equals(nextPanel)
+                    || "playback".equals(nextPanel)
                     || "services".equals(nextPanel))) {
                 nextPanel = "none";
             }
