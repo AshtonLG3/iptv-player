@@ -1432,6 +1432,49 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
   gap: 0.05rem;
 }
 
+.channel-search {
+  position: relative;
+}
+
+.channel-search input[type="search"] {
+  min-height: 42px;
+  padding: 0.5rem 2.75rem 0.5rem 0.7rem;
+}
+
+.channel-search input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+
+.channel-search-clear {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 1.35rem;
+  height: 36px;
+  justify-content: center;
+  line-height: 1;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  width: 36px;
+}
+
+.channel-search-clear[hidden] {
+  display: none;
+}
+
+.channel-search-clear:hover,
+.channel-search-clear:focus-visible {
+  background: var(--panel-strong);
+  color: var(--text);
+  outline: none;
+}
+
 .channel-list-kicker {
   color: var(--muted);
   font-size: 0.67rem;

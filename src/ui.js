@@ -15,7 +15,7 @@ export const CONTENT_CATEGORIES = Object.freeze([
 ]);
 
 const CONTENT_CATEGORY_RULES = [
-  ['News', /\b(news|newsy|newsmax|newsnet|cnbc|bloomberg|al jazeera|france 24|talktv|ln24sa|k24|africanews|tv brics|knbc|wxii|ksnv|kcra|kob|ksby)\b/i],
+  ['News', /\b(news|newsy|newsmax|newsnet|cnbc|bloomberg|al jazeera|france 24|talktv|ln24sa|k24|africanews|tv brics|knbc|wxii|ksnv|kcra|kob|ksby|lehae)\b/i],
   ['Movies', /(movie|film|cinema|flix|romance)/i],
   ['Wildlife', /\b(bbc earth|wild(?:earth| nature| tv)?|nature time|adventure earth|animal|zoo|safari)\b/i],
   ['Kids', /\b(kids?|moonbug|teletubbies|tiny pop|cartoons?|toon|baby|junior)\b/i],
@@ -24,6 +24,28 @@ const CONTENT_CATEGORY_RULES = [
   ['Lifestyle', /\b(travel|top gear|hobby maker|gems tv|qvc|horse & country|english club|food|cook|home|garden|fashion|health|fitness)\b/i],
   ['Entertainment', /\b(ent channel|mr bean|graham norton|chat show|pop|competition|game show|reality|comedy)\b/i],
 ];
+
+const CHANNEL_NAME_COLLATOR = new Intl.Collator('en', {
+  numeric: true,
+  sensitivity: 'base',
+});
+
+function getSortableChannelName(channel) {
+  return String(channel?.name || '')
+    .replace(/\([^)]*\)|\[[^\]]*\]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export function sortChannelsAlphabetically(channels) {
+  return [...channels].sort((left, right) => {
+    const primary = CHANNEL_NAME_COLLATOR.compare(
+      getSortableChannelName(left),
+      getSortableChannelName(right),
+    );
+    return primary || CHANNEL_NAME_COLLATOR.compare(left?.name || '', right?.name || '');
+  });
+}
 
 function isGeoBlockedChannel(channel) {
   return /\[geo-blocked\]/i.test(channel.name);
@@ -164,7 +186,6 @@ export function renderApp({
               </div>
               <button class="menu-close-button" type="button" aria-label="Close settings"></button>
             </div>
-            <input type="search" id="search-box" placeholder="Search channels..." />
             <select id="country-filter"><option value="">All countries</option></select>
             <select id="category-filter"><option value="">All categories</option></select>
             <label class="blocked-label">
@@ -202,6 +223,17 @@ export function renderApp({
           </div>
           <span id="channel-count" class="channel-count">0</span>
         </div>
+        <div class="channel-search">
+          <input
+            type="search"
+            id="search-box"
+            aria-label="Search channels"
+            placeholder="Search channels..."
+            autocomplete="off"
+            enterkeyhint="search"
+          />
+          <button id="search-clear" class="channel-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
+        </div>
         <div id="category-strip" class="category-strip" aria-label="Quick categories"></div>
       </section>
       <ul id="channel-list"></ul>
@@ -209,6 +241,7 @@ export function renderApp({
   `;
 
   const searchBox = root.querySelector('#search-box');
+  const searchClearButton = root.querySelector('#search-clear');
   const themeSelect = root.querySelector('#theme-select');
   const countrySelect = root.querySelector('#country-filter');
   const categorySelect = root.querySelector('#category-filter');
@@ -264,14 +297,16 @@ export function renderApp({
       isFavorite: (url) => favoritesApi.isFavorite(url),
     };
 
-    let filtered = filterChannelsForUi(channels, filters);
+    let filtered = sortChannelsAlphabetically(filterChannelsForUi(channels, filters));
     if (
       relaxCountryWhenCategoryEmpty
       && filters.country
       && filters.category
       && filtered.length === 0
     ) {
-      const categoryFiltered = filterChannelsForUi(channels, { ...filters, country: '' });
+      const categoryFiltered = sortChannelsAlphabetically(
+        filterChannelsForUi(channels, { ...filters, country: '' }),
+      );
       if (categoryFiltered.length > 0) {
         countrySelect.value = '';
         filtered = categoryFiltered;
@@ -279,8 +314,11 @@ export function renderApp({
     }
 
     visibleChannels = filtered;
+    searchClearButton.hidden = !filters.search.trim();
     syncCategoryStrip();
-    channelListTitle.textContent = filters.category || (filters.favoritesOnly ? 'Favorites' : 'All channels');
+    channelListTitle.textContent = filters.search.trim()
+      ? 'Search results'
+      : filters.category || (filters.favoritesOnly ? 'Favorites' : 'All channels');
     channelCount.textContent = String(filtered.length);
     renderList(filtered);
     onVisibleChannelsChange?.(visibleChannels);
@@ -389,6 +427,14 @@ export function renderApp({
       button.dataset.category = category;
       button.textContent = category || 'All';
       button.addEventListener('click', () => {
+        if (!category) {
+          searchBox.value = '';
+          countrySelect.value = '';
+          categorySelect.value = '';
+          favoritesToggle.checked = false;
+          applyFilters();
+          return;
+        }
         categorySelect.value = category;
         applyFilters({ relaxCountryWhenCategoryEmpty: true });
       });
@@ -582,7 +628,19 @@ export function renderApp({
   });
   menuCloseButton.addEventListener('click', () => setMenuOpen(false));
 
-  searchBox.addEventListener('input', applyFilters);
+  searchBox.addEventListener('input', () => applyFilters());
+  searchBox.addEventListener('search', () => applyFilters());
+  searchBox.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    searchBox.blur();
+    listEl.querySelector('.channel-item')?.scrollIntoView({ block: 'nearest' });
+  });
+  searchClearButton.addEventListener('click', () => {
+    searchBox.value = '';
+    applyFilters();
+    searchBox.focus({ preventScroll: true });
+  });
   themeSelect.value = themeApi.get();
   themeSelect.addEventListener('change', () => themeApi.set(themeSelect.value));
   countrySelect.addEventListener('change', applyFilters);

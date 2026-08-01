@@ -7,6 +7,7 @@ import {
   getChannelInitials,
   getContentCategory,
   resolveChannelLogoUrl,
+  sortChannelsAlphabetically,
 } from '../src/ui.js';
 
 const CHANNELS = [
@@ -66,6 +67,7 @@ test('getContentCategory maps channels into conventional browsing categories', (
     'Wildlife',
   ]);
   assert.equal(getContentCategory({ name: 'SABC News', category: 'Africa' }), 'News');
+  assert.equal(getContentCategory({ name: 'SABC Lehae', category: 'Africa' }), 'News');
   assert.equal(getContentCategory({ name: 'NBC 3 Las Vegas NV (KSNV)', category: 'USA' }), 'News');
   assert.equal(getContentCategory({ name: 'Cricket Gold', category: 'Sports' }), 'Sports');
   assert.equal(getContentCategory({ name: 'MyTime Movie Network', category: 'UK' }), 'Movies');
@@ -75,6 +77,22 @@ test('getContentCategory maps channels into conventional browsing categories', (
   assert.equal(getContentCategory({ name: 'Autentic History', category: 'International' }), 'Documentary');
   assert.equal(getContentCategory({ name: 'Autentic Travel', category: 'UK' }), 'Lifestyle');
   assert.equal(getContentCategory({ name: 'Cape Town TV', category: 'Africa' }), 'General');
+});
+
+test('sortChannelsAlphabetically sorts case-insensitively and understands channel numbers', () => {
+  const sorted = sortChannelsAlphabetically([
+    { name: 'ZBC News' },
+    { name: 'Channel 10 (1080p)' },
+    { name: 'al Jazeera' },
+    { name: 'Channel 2 [Geo-blocked]' },
+  ]);
+
+  assert.deepEqual(sorted.map((channel) => channel.name), [
+    'al Jazeera',
+    'Channel 2 [Geo-blocked]',
+    'Channel 10 (1080p)',
+    'ZBC News',
+  ]);
 });
 
 test('resolveChannelLogoUrl uses bundled artwork inside the Android app', () => {
