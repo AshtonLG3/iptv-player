@@ -1,3 +1,4 @@
+import java.util.Properties
 import org.gradle.api.tasks.Sync
 
 plugins {
@@ -7,6 +8,14 @@ plugins {
 val appVersionCode = 18
 val appVersionName = "1.5.1"
 val generatedWebAssetsDir = layout.buildDirectory.dir("generated/web-assets")
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.isFile) {
+        keystorePropertiesFile.inputStream().use(::load)
+    }
+}
+val releaseSigningKeys = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+val hasReleaseSigning = releaseSigningKeys.all { !keystoreProperties.getProperty(it).isNullOrBlank() }
 
 val syncWebAssets by tasks.registering(Sync::class) {
     from(rootProject.projectDir) {
@@ -32,6 +41,27 @@ android {
         versionName = appVersionName
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                enableV1Signing = true
+                enableV2Signing = true
+            }
+        }
+    }
+
+    buildTypes {
+        getByName("release") {
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+    }
+
     buildFeatures {
         buildConfig = true
     }
@@ -43,8 +73,20 @@ android {
     }
 }
 
+val verifyReleaseSigning by tasks.registering {
+    doLast {
+        check(hasReleaseSigning) {
+            "Release signing is not configured. Copy keystore.properties.example to keystore.properties and provide the private signing values."
+        }
+    }
+}
+
 tasks.named("preBuild") {
     dependsOn(syncWebAssets)
+}
+
+tasks.matching { it.name == "preReleaseBuild" }.configureEach {
+    dependsOn(verifyReleaseSigning)
 }
 
 dependencies {

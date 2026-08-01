@@ -181,7 +181,7 @@ export function renderApp({
             <div class="menu-panel-title">
               <div>
                 <p class="menu-kicker">Player</p>
-                <h1>${APP_NAME}</h1>
+                <img class="app-brand-logo" src="assets/branding/rugare-tv-logo.png" alt="${APP_NAME}" />
                 <span class="version-pill">v${APP_VERSION}</span>
               </div>
               <button class="menu-close-button" type="button" aria-label="Close settings"></button>
@@ -211,7 +211,7 @@ export function renderApp({
         </details>
         <div class="app-title">
           <p class="menu-kicker">Player</p>
-          <h1>${APP_NAME}</h1>
+          <img class="app-brand-logo" src="assets/branding/rugare-tv-logo.png" alt="${APP_NAME}" />
           <span class="version-pill">v${APP_VERSION}</span>
         </div>
       </header>
