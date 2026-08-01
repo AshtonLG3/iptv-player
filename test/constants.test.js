@@ -33,7 +33,8 @@ test('featured official services keep the requested direct-button order and labe
   );
   assert.equal(featured[0].androidPackage, undefined);
   assert.equal(featured[4].androidPackage, 'com.sporty.android');
-  assert.equal(featured[4].androidOnly, true);
+  assert.equal(featured[4].androidOnly, undefined);
+  assert.equal(featured[4].url, 'https://sporty.com/sporty-tv');
   assert.equal(
     featured[4].androidDeepLink,
     'sporty-com://com.sporty.android/channel-247',
