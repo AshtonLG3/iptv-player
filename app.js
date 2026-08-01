@@ -50,6 +50,8 @@ async function main() {
   const layoutEl = document.querySelector('.layout');
   const playerPanelEl = document.querySelector('.player-panel');
   const playerFrameEl = document.querySelector('.player-frame');
+  const playerPlaceholderEl = document.getElementById('player-placeholder');
+  const playerPlaceholderLabel = document.getElementById('player-placeholder-label');
   const websiteLink = document.getElementById('website-link');
   const fullscreenToggle = document.getElementById('fullscreen-toggle');
   const featuredServiceList = document.getElementById('featured-service-list');
@@ -77,6 +79,7 @@ async function main() {
   let channelDrawerGestureStarted = false;
   let channelNavHideTimer = null;
   let channelTuneTimer = null;
+  let playerPlaceholderTimer = null;
   let playerHudHideTimer = null;
   let appView = null;
   let currentChannel = null;
@@ -334,6 +337,30 @@ async function main() {
     statusEl.hidden = false;
   });
 
+  function showPlayerPlaceholder(label) {
+    clearTimeout(playerPlaceholderTimer);
+    playerPlaceholderLabel.textContent = label;
+    playerPlaceholderEl.hidden = false;
+  }
+
+  function hidePlayerPlaceholder() {
+    clearTimeout(playerPlaceholderTimer);
+    playerPlaceholderEl.hidden = true;
+  }
+
+  function scheduleWaitingPlaceholder() {
+    if (!currentChannel || !playerPlaceholderEl.hidden) return;
+    clearTimeout(playerPlaceholderTimer);
+    playerPlaceholderTimer = window.setTimeout(() => {
+      showPlayerPlaceholder('Loading channel…');
+    }, 250);
+  }
+
+  videoEl.addEventListener('playing', hidePlayerPlaceholder);
+  videoEl.addEventListener('waiting', scheduleWaitingPlaceholder);
+  videoEl.addEventListener('stalled', scheduleWaitingPlaceholder);
+  videoEl.addEventListener('ended', () => showPlayerPlaceholder('Channel ended'));
+
   function getOfficialFallback(channel) {
     if (!channel) return null;
     const name = channel.name.toLowerCase();
@@ -348,6 +375,7 @@ async function main() {
 
   function renderPlayerError(err) {
     updatePlaybackLabel('Unavailable');
+    showPlayerPlaceholder('Channel unavailable');
     statusEl.textContent = '';
     statusEl.append(document.createTextNode(`Can't play this channel: ${err.message}`));
 
@@ -437,6 +465,7 @@ async function main() {
   function selectChannel(channel, { historyMode = 'push' } = {}) {
     currentChannel = channel;
     statusEl.hidden = true;
+    showPlayerPlaceholder(`Loading ${channel.name.replace(/\s*\(\d{3,4}[pi]\)\s*$/i, '')}…`);
     updateNowPlayingSummary(channel);
     updatePlaybackLabel('Tuning');
     showPlayerHud(channel);
@@ -744,6 +773,7 @@ async function main() {
     clearTimeout(channelTuneTimer);
     clearTimeout(channelNavHideTimer);
     clearTimeout(playerHudHideTimer);
+    clearTimeout(playerPlaceholderTimer);
     player.destroy();
   }, { once: true });
   boot();

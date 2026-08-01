@@ -1032,6 +1032,38 @@ html.tv-mode #player-status {
   width: 100%;
 }
 
+.player-placeholder {
+  align-items: center;
+  background: #1d1d1d;
+  color: #f3f5f7;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  inset: 0;
+  justify-content: center;
+  pointer-events: none;
+  position: absolute;
+  z-index: 4;
+}
+
+.player-placeholder[hidden] {
+  display: none;
+}
+
+.player-placeholder-logo {
+  display: block;
+  height: clamp(64px, 20vw, 130px);
+  object-fit: cover;
+  object-position: center;
+  width: min(78%, 520px);
+}
+
+#player-placeholder-label {
+  color: #cbd1d8;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .player-website-link,
 .fullscreen-toggle {
   align-items: center;

@@ -14,7 +14,7 @@
     }
   </script>
   <link rel="icon" href="https://mangezi.xyz/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20260730f" />
+  <link rel="stylesheet" href="style.css?v=20260801a" />
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
 </head>
 <body>
@@ -27,6 +27,10 @@
     <section class="player-panel">
       <div class="player-frame">
         <video id="video" controls playsinline></video>
+        <div id="player-placeholder" class="player-placeholder" role="status" aria-live="polite">
+          <img class="player-placeholder-logo" src="assets/branding/rugare-tv-logo.png" alt="Rugare TV" />
+          <span id="player-placeholder-label">Choose a channel</span>
+        </div>
         <a id="website-link" class="player-website-link" href="https://mangezi.xyz/" data-in-app-browser="true" title="Back to mangezi.xyz">Website</a>
         <button id="fullscreen-toggle" class="fullscreen-toggle" type="button" aria-label="Enter full screen" aria-pressed="false" title="Full screen">
           <img src="assets/icons/fullscreen.svg" alt="" aria-hidden="true" />
@@ -74,6 +78,6 @@
       <p id="player-status" hidden></p>
     </section>
   </main>
-  <script type="module" src="app.js?v=20260730g"></script>
+  <script type="module" src="app.js?v=20260801a"></script>
 </body>
 </html>
