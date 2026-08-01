@@ -4,6 +4,7 @@ import {
   detectTelevision,
   getGlobalTvRemoteAction,
   getToggledTvPanel,
+  getTvHorizontalPanelAction,
   getWrappedFocusIndex,
 } from '../src/tvRemote.js';
 
@@ -16,11 +17,21 @@ test('detectTelevision falls back to common television user agents', () => {
   assert.equal(detectTelevision({ userAgent: 'Mozilla/5.0 (Linux; Android 14; SM-A165F)' }), false);
 });
 
-test('getGlobalTvRemoteAction keeps channels and settings on separate keys', () => {
-  assert.equal(getGlobalTvRemoteAction({ key: 'ArrowLeft' }), 'channels');
-  assert.equal(getGlobalTvRemoteAction({ key: 'ArrowRight' }), 'settings');
+test('getGlobalTvRemoteAction keeps horizontal remote directions distinct', () => {
+  assert.equal(getGlobalTvRemoteAction({ key: 'ArrowLeft' }), 'left');
+  assert.equal(getGlobalTvRemoteAction({ key: 'ArrowRight' }), 'right');
+  assert.equal(getGlobalTvRemoteAction({ key: 'ContextMenu' }), 'settings');
   assert.equal(getGlobalTvRemoteAction({ key: 'ChannelUp' }), 'channel-next');
   assert.equal(getGlobalTvRemoteAction({ key: 'ChannelDown' }), 'channel-previous');
+});
+
+test('getTvHorizontalPanelAction opens and exits side panels without looping', () => {
+  assert.equal(getTvHorizontalPanelAction('none', 'left'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
+  assert.equal(getTvHorizontalPanelAction('none', 'right'), 'settings');
+  assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'settings');
+  assert.equal(getTvHorizontalPanelAction('settings', 'left'), 'none');
 });
 
 test('getWrappedFocusIndex wraps remote focus through a list', () => {

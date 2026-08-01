@@ -980,7 +980,9 @@ html.tv-mode .channel-item.now-playing .channel-select-button:focus-visible {
 }
 
 html.tv-mode .player-panel {
+  gap: 0;
   inset: 0;
+  justify-content: flex-start;
   padding: 0;
   position: absolute;
 }
@@ -1853,11 +1855,35 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
 }
 
 html.tv-mode .player-frame {
-  height: 100%;
+  flex: 1 1 auto;
+  height: auto;
   max-width: none;
+  min-height: 0;
 }
 
 html.tv-mode .featured-service-list {
+  border-bottom: 0;
+  border-left: 0;
+  border-radius: 0;
+  border-right: 0;
+  display: flex;
+  flex: 0 0 auto;
+  max-width: none;
+  min-height: 70px;
+  padding: 0.55rem 0.75rem;
+}
+
+html.tv-mode .featured-service-link {
+  min-height: 52px;
+}
+
+html.tv-mode .featured-service-link:focus-visible {
+  background: var(--panel-strong);
+  outline: 4px solid var(--accent);
+  outline-offset: -4px;
+}
+
+html.tv-mode .channel-search {
   display: none;
 }
 
@@ -1878,7 +1904,20 @@ html.tv-mode .channel-browser-header {
 }
 
 html.tv-mode .category-strip {
-  display: none;
+  padding-bottom: 0.45rem;
+}
+
+html.tv-mode .category-chip:focus-visible {
+  background: var(--panel-strong);
+  border-color: var(--accent);
+  color: var(--text);
+  outline: 4px solid var(--accent);
+  outline-offset: -4px;
+}
+
+html.tv-mode .category-chip.selected:focus-visible {
+  background: var(--chip-selected-bg);
+  color: var(--chip-selected-text);
 }
 
 html.tv-mode .channel-list-heading {

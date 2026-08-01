@@ -1,5 +1,5 @@
 import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js';
-import { getWrappedFocusIndex } from './tvRemote.js';
+import { getWrappedFocusIndex } from './tvRemote.js?v=20260801b';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -257,6 +257,7 @@ export function renderApp({
   const channelListTitle = root.querySelector('#channel-list-title');
   const channelCount = root.querySelector('#channel-count');
   const listEl = root.querySelector('#channel-list');
+  const isTvMode = document.documentElement.classList.contains('tv-mode');
   let nowPlayingUrl = null;
   let visibleChannels = [];
 
@@ -400,6 +401,10 @@ export function renderApp({
 
       item.appendChild(favButton);
       selectButton.addEventListener('click', () => {
+        if (searchBox.value.trim()) {
+          searchBox.value = '';
+          applyFilters();
+        }
         setNowPlaying(channel.url);
         onSelectChannel(channel);
       });
@@ -486,6 +491,35 @@ export function renderApp({
     button.focus({ preventScroll: true });
     button.closest('.channel-item')?.scrollIntoView({ block: 'nearest' });
     return true;
+  }
+
+  function getCategoryButtons() {
+    return [...categoryStrip.querySelectorAll('.category-chip')];
+  }
+
+  function focusCategory() {
+    const buttons = getCategoryButtons();
+    const target = buttons.find((button) => button.classList.contains('selected')) || buttons[0];
+    if (!target) return false;
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    return true;
+  }
+
+  function moveCategoryFocus(direction) {
+    const buttons = getCategoryButtons();
+    if (!buttons.length) return false;
+    const currentIndex = buttons.indexOf(document.activeElement);
+    const nextIndex = getWrappedFocusIndex(buttons.length, currentIndex, direction);
+    const target = buttons[nextIndex];
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    return true;
+  }
+
+  function isFirstChannelFocused() {
+    const firstButton = listEl.querySelector('.channel-select-button');
+    return Boolean(firstButton && document.activeElement === firstButton);
   }
 
   function getMenuFocusables() {
@@ -634,12 +668,13 @@ export function renderApp({
     if (event.key !== 'Enter') return;
     event.preventDefault();
     searchBox.blur();
-    listEl.querySelector('.channel-item')?.scrollIntoView({ block: 'nearest' });
+    focusChannel();
   });
   searchClearButton.addEventListener('click', () => {
     searchBox.value = '';
     applyFilters();
-    searchBox.focus({ preventScroll: true });
+    if (isTvMode) focusChannel();
+    else searchBox.focus({ preventScroll: true });
   });
   themeSelect.value = themeApi.get();
   themeSelect.addEventListener('change', () => themeApi.set(themeSelect.value));
@@ -657,6 +692,9 @@ export function renderApp({
     focusChannel,
     scrollToChannel,
     moveChannelFocus,
+    focusCategory,
+    moveCategoryFocus,
+    isFirstChannelFocused,
     focusMenu,
     moveMenuFocus,
     getVisibleChannels: () => visibleChannels.slice(),

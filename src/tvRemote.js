@@ -13,15 +13,13 @@ export function detectTelevision({ bridge = null, userAgent = '' } = {}) {
 }
 
 export function getGlobalTvRemoteAction({ key = '', code = '', keyCode = 0 } = {}) {
-  if (key === 'ArrowLeft' || code === 'ArrowLeft' || keyCode === 37) return 'channels';
+  if (key === 'ArrowLeft' || code === 'ArrowLeft' || keyCode === 37) return 'left';
   if (
     key === 'ArrowRight'
     || code === 'ArrowRight'
-    || key === 'ContextMenu'
-    || code === 'ContextMenu'
     || keyCode === 39
-    || keyCode === 93
-  ) return 'settings';
+  ) return 'right';
+  if (key === 'ContextMenu' || code === 'ContextMenu' || keyCode === 93) return 'settings';
   if (key === 'ChannelUp' || code === 'ChannelUp' || keyCode === 166) return 'channel-next';
   if (key === 'ChannelDown' || code === 'ChannelDown' || keyCode === 167) return 'channel-previous';
   if (key === 'MediaPlayPause' || code === 'MediaPlayPause' || keyCode === 179) return 'play-pause';
@@ -37,4 +35,20 @@ export function getWrappedFocusIndex(length, currentIndex, direction) {
 
 export function getToggledTvPanel(currentPanel, requestedPanel) {
   return currentPanel === requestedPanel ? 'none' : requestedPanel;
+}
+
+export function getTvHorizontalPanelAction(currentPanel, direction) {
+  if (direction === 'left') {
+    if (currentPanel === 'none') return 'channels';
+    if (currentPanel === 'settings') return 'none';
+    return currentPanel;
+  }
+
+  if (direction === 'right') {
+    if (currentPanel === 'none') return 'settings';
+    if (currentPanel === 'channels') return 'none';
+    return currentPanel;
+  }
+
+  return currentPanel;
 }

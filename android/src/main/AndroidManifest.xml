@@ -8,6 +8,7 @@
         <package android:name="com.brightcove.evod" />
         <package android:name="com.sporty.android" />
         <package android:name="com.zbc.ottapp" />
+        <package android:name="com.k4aa1219e85c.app" />
         <package android:name="tv.sabcplus.vod" />
     </queries>
 

@@ -11,7 +11,7 @@ test('featured official services keep the requested direct-button order and labe
 
   assert.deepEqual(
     featured.map((service) => service.shortLabel),
-    ['AfreeTV', 'e+', 'SABC+', 'Z+', 'SportyTV'],
+    ['AfreeTV', 'e+', 'SABC+', 'Z+', 'SportyTV', 'ZTN Prime'],
   );
   assert.equal(featured.every((service) => service.url.startsWith('https://')), true);
   assert.equal(
@@ -25,6 +25,7 @@ test('featured official services keep the requested direct-button order and labe
       'tv.sabcplus.vod',
       'com.zbc.ottapp',
       'com.sporty.android',
+      'com.k4aa1219e85c.app',
     ],
   );
   assert.equal(
@@ -39,4 +40,6 @@ test('featured official services keep the requested direct-button order and labe
     featured[4].androidDeepLink,
     'sporty-com://com.sporty.android/channel-247',
   );
+  assert.equal(featured[5].androidPackage, 'com.k4aa1219e85c.app');
+  assert.equal(featured[5].url, 'https://www.ztnonline.co.zw/live-stream/');
 });

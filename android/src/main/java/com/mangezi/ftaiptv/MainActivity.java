@@ -65,6 +65,7 @@ public final class MainActivity extends Activity {
     private float playerGestureStartY;
     private boolean playerChannelSwipeCandidate;
     private volatile boolean tvPanelOpen;
+    private volatile String tvPanelState = "none";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +150,7 @@ public final class MainActivity extends Activity {
                 view.destroy();
                 webView = null;
                 tvPanelOpen = false;
+                tvPanelState = "none";
                 if (!isFinishing() && !isDestroyed()) {
                     getWindow().getDecorView().post(MainActivity.this::recreate);
                 }
@@ -245,9 +247,25 @@ public final class MainActivity extends Activity {
 
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                evaluatePlayerCommand("__ftaIptvTvToggleChannels");
+                if ("services".equals(tvPanelState) || "categories".equals(tvPanelState)) {
+                    return super.dispatchKeyEvent(event);
+                }
+                if ("settings".equals(tvPanelState)) {
+                    evaluatePlayerCommand("__ftaIptvTvClosePanel");
+                } else if ("none".equals(tvPanelState)) {
+                    evaluatePlayerCommand("__ftaIptvTvLeft");
+                }
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
+                if ("services".equals(tvPanelState) || "categories".equals(tvPanelState)) {
+                    return super.dispatchKeyEvent(event);
+                }
+                if ("channels".equals(tvPanelState)) {
+                    evaluatePlayerCommand("__ftaIptvTvClosePanel");
+                } else if ("none".equals(tvPanelState)) {
+                    evaluatePlayerCommand("__ftaIptvTvRight");
+                }
+                return true;
             case KeyEvent.KEYCODE_MENU:
                 evaluatePlayerCommand("__ftaIptvTvToggleMenu");
                 return true;
@@ -664,6 +682,7 @@ public final class MainActivity extends Activity {
     public void onBackPressed() {
         if (isTelevisionDevice && tvPanelOpen) {
             tvPanelOpen = false;
+            tvPanelState = "none";
             evaluatePlayerCommand("__ftaIptvTvClosePanel");
             return;
         }
@@ -727,6 +746,20 @@ public final class MainActivity extends Activity {
         @JavascriptInterface
         public void setPanelOpen(boolean isOpen) {
             tvPanelOpen = isOpen;
+            tvPanelState = isOpen ? "channels" : "none";
+        }
+
+        @JavascriptInterface
+        public void setPanel(String panel) {
+            String nextPanel = panel == null ? "none" : panel.trim().toLowerCase();
+            if (!("channels".equals(nextPanel)
+                    || "categories".equals(nextPanel)
+                    || "settings".equals(nextPanel)
+                    || "services".equals(nextPanel))) {
+                nextPanel = "none";
+            }
+            tvPanelState = nextPanel;
+            tvPanelOpen = !"none".equals(nextPanel);
         }
 
         @JavascriptInterface

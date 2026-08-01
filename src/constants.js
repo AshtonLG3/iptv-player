@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.5.1';
+export const APP_VERSION = '1.5.2';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -126,6 +126,17 @@ export const OFFICIAL_SERVICES = [
     androidDeepLink: 'sporty-com://com.sporty.android/channel-247',
     note: 'Official SportyTV 24/7 player',
   },
+  {
+    id: 'ztn-prime',
+    name: 'ZTN Prime',
+    shortLabel: 'ZTN Prime',
+    logo: 'assets/services/ztn-prime.png',
+    country: 'Zimbabwe',
+    url: 'https://www.ztnonline.co.zw/live-stream/',
+    androidPackage: 'com.k4aa1219e85c.app',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.k4aa1219e85c.app',
+    note: 'Official ZTN Prime app for live TV, news, shows, and sport',
+  },
 ];
 
 export const FEATURED_OFFICIAL_SERVICE_IDS = [
@@ -134,4 +145,5 @@ export const FEATURED_OFFICIAL_SERVICE_IDS = [
   'sabc-plus',
   'zplus',
   'sportytv-app',
+  'ztn-prime',
 ];
