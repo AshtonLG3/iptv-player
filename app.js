@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260801b';
+} from './src/constants.js?v=20260801c';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -147,7 +147,7 @@ async function main() {
         event.preventDefault();
         androidDeviceBridge.openOfficialApp(
           service.androidPackage,
-          service.androidStoreUrl || service.url,
+          service.url,
           service.androidDeepLink || '',
         );
         return;

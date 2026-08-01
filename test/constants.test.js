@@ -32,6 +32,10 @@ test('featured official services keep the requested direct-button order and labe
     featured.slice(1).every((service) => service.androidStoreUrl.includes(service.androidPackage)),
     true,
   );
+  assert.equal(
+    featured.slice(1).every((service) => !service.url.includes('play.google.com')),
+    true,
+  );
   assert.equal(featured[0].androidPackage, undefined);
   assert.equal(featured[4].androidPackage, 'com.sporty.android');
   assert.equal(featured[4].androidOnly, undefined);

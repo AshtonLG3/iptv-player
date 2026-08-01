@@ -584,7 +584,10 @@ public final class MainActivity extends Activity {
     }
 
     private void openInstalledApp(String packageName, String fallbackUrl, String deepLinkUrl) {
-        if (packageName == null || !packageName.matches("[A-Za-z0-9_.]+")) return;
+        if (packageName == null || !packageName.matches("[A-Za-z0-9_.]+")) {
+            openExternalUrl(fallbackUrl);
+            return;
+        }
 
         if (deepLinkUrl != null && !deepLinkUrl.trim().isEmpty()) {
             Intent deepLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(deepLinkUrl));
@@ -611,17 +614,10 @@ public final class MainActivity extends Activity {
             startActivity(packageLauncher);
             return;
         } catch (ActivityNotFoundException ignored) {
-            // Continue to the store when an installed launcher cannot be resolved.
+            // Continue to the official website when an installed launcher cannot be resolved.
         }
 
-        try {
-            startActivity(new Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=" + packageName)
-            ));
-        } catch (ActivityNotFoundException ignored) {
-            openExternalUrl(fallbackUrl);
-        }
+        openExternalUrl(fallbackUrl);
     }
 
     private void openExternalUrl(String url) {
