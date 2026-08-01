@@ -1581,6 +1581,96 @@ html.android-app:not(.tv-mode) .layout.channel-nav-visible .player-orientation-t
   position: relative;
 }
 
+.channel-search[hidden] {
+  display: none;
+}
+
+.channel-tools {
+  align-items: center;
+  display: flex;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.channel-featured-service-list {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  gap: 0.3rem;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+
+.channel-featured-service-list::-webkit-scrollbar {
+  display: none;
+}
+
+.channel-featured-service-list .featured-service-link {
+  flex: 1 0 46px;
+  min-height: 44px;
+  min-width: 46px;
+  padding: 0.25rem;
+}
+
+.channel-featured-service-list .featured-service-label {
+  display: none;
+}
+
+.channel-featured-service-list .featured-service-link.text-only .featured-service-label {
+  display: inline;
+  font-size: 0.62rem;
+}
+
+.channel-featured-service-list .featured-service-logo {
+  height: 30px;
+  max-width: 52px;
+  object-fit: contain;
+  width: auto;
+}
+
+.channel-search-toggle {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+  flex: 0 0 44px;
+  height: 44px;
+  position: relative;
+  width: 44px;
+}
+
+.channel-search-toggle::before {
+  border: 3px solid var(--text);
+  border-radius: 50%;
+  content: "";
+  height: 14px;
+  left: 11px;
+  position: absolute;
+  top: 9px;
+  width: 14px;
+}
+
+.channel-search-toggle::after {
+  background: var(--text);
+  content: "";
+  height: 3px;
+  left: 25px;
+  position: absolute;
+  top: 25px;
+  transform: rotate(45deg);
+  transform-origin: left center;
+  width: 10px;
+}
+
+.channel-search-toggle:hover,
+.channel-search-toggle:focus-visible,
+.channel-search-toggle[aria-expanded="true"] {
+  border-color: var(--accent);
+  outline: none;
+}
+
 .channel-search input[type="search"] {
   min-height: 42px;
   padding: 0.5rem 2.75rem 0.5rem 0.7rem;
@@ -1982,6 +2072,10 @@ html.tv-mode .featured-service-link:focus-visible {
 }
 
 html.tv-mode .channel-search {
+  display: none;
+}
+
+html.tv-mode .channel-search-toggle {
   display: none;
 }
 

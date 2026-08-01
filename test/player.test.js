@@ -5,6 +5,7 @@ import { createPlayer } from '../src/player.js';
 class FakeHls {
   static supported = true;
   static Events = { ERROR: 'error', MANIFEST_PARSED: 'manifest_parsed' };
+  static ErrorTypes = { NETWORK_ERROR: 'networkError', MEDIA_ERROR: 'mediaError' };
   static instances = [];
 
   static isSupported() {
@@ -16,6 +17,8 @@ class FakeHls {
     this.loadSourceCalls = [];
     this.attachMediaCalls = [];
     this.destroyed = false;
+    this.startLoadCalls = [];
+    this.stopLoadCalls = 0;
     FakeHls.instances.push(this);
   }
 
@@ -35,6 +38,14 @@ class FakeHls {
     this.destroyed = true;
   }
 
+  startLoad(position) {
+    this.startLoadCalls.push(position);
+  }
+
+  stopLoad() {
+    this.stopLoadCalls += 1;
+  }
+
   trigger(event, data) {
     this.handlers[event]?.(null, data);
   }
@@ -44,10 +55,21 @@ function createFakeVideo({ canPlayHls = false, playResolves = true } = {}) {
   const errorListeners = [];
   return {
     src: '',
+    muted: false,
+    volume: 1,
+    paused: false,
+    pauseCalls: 0,
+    playCalls: 0,
     removeAttribute() {},
     canPlayType: (type) => (canPlayHls && type === 'application/vnd.apple.mpegurl' ? 'maybe' : ''),
     play() {
+      this.paused = false;
+      this.playCalls += 1;
       return playResolves ? Promise.resolve() : Promise.reject(new Error('play failed'));
+    },
+    pause() {
+      this.paused = true;
+      this.pauseCalls += 1;
     },
     addEventListener(event, cb) {
       if (event === 'error') errorListeners.push(cb);
@@ -205,4 +227,29 @@ test('destroy() removes a registered native error listener', () => {
   video.triggerError();
 
   assert.equal(receivedError, null);
+});
+
+test('suspend() prevents delayed HLS autoplay and resume() restores playback explicitly', () => {
+  FakeHls.supported = true;
+  FakeHls.instances = [];
+  const video = createFakeVideo();
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+
+  player.play('https://example.com/stream.m3u8');
+  const instance = FakeHls.instances[0];
+  player.suspend();
+  instance.trigger('manifest_parsed');
+
+  assert.equal(video.pauseCalls, 1);
+  assert.equal(video.playCalls, 0);
+  assert.equal(video.muted, true);
+  assert.equal(video.volume, 0);
+  assert.equal(instance.stopLoadCalls, 1);
+
+  player.resume();
+
+  assert.equal(video.playCalls, 1);
+  assert.equal(video.muted, false);
+  assert.equal(video.volume, 1);
+  assert.deepEqual(instance.startLoadCalls, [-1]);
 });

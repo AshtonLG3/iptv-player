@@ -3,14 +3,32 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
   let nativeErrorListener = null;
   let errorHandler = () => {};
   let playSession = 0;
+  let suspended = false;
 
   function onError(handler) {
     errorHandler = handler;
   }
 
   function destroy() {
+    suspended = false;
     playSession += 1;
     cleanupPlayback();
+  }
+
+  function suspend() {
+    suspended = true;
+    videoEl.pause?.();
+    videoEl.muted = true;
+    videoEl.volume = 0;
+    hls?.stopLoad?.();
+  }
+
+  function resume() {
+    suspended = false;
+    videoEl.muted = false;
+    videoEl.volume = 1;
+    hls?.startLoad?.(-1);
+    return videoEl.play?.();
   }
 
   function cleanupPlayback() {
@@ -27,6 +45,9 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
   }
 
   function play(sources) {
+    suspended = false;
+    videoEl.muted = false;
+    videoEl.volume = 1;
     playSession += 1;
     const session = playSession;
     const urls = normalizeSources(sources);
@@ -41,7 +62,7 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
   }
 
   function trySource(urls, index, session, errors) {
-    if (session !== playSession) return;
+    if (session !== playSession || suspended) return;
     if (index >= urls.length) {
       const lastError = errors[errors.length - 1];
       errorHandler(lastError || new Error('No playable stream source was found'));
@@ -131,6 +152,7 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
       fail(new Error(data.details || 'HLS playback failed'));
     });
     hls.on(HlsCtor.Events.MANIFEST_PARSED, () => {
+      if (suspended) return;
       videoEl.play().catch(fail);
     });
     hls.loadSource(url);
@@ -150,5 +172,5 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
     return data.type === HlsCtor.ErrorTypes?.MEDIA_ERROR || data.type === 'mediaError';
   }
 
-  return { play, onError, destroy };
+  return { play, onError, destroy, suspend, resume };
 }

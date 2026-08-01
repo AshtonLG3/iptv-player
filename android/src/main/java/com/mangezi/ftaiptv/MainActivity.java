@@ -47,8 +47,11 @@ public final class MainActivity extends Activity {
     private static final String ACTION_TOGGLE_PLAYBACK = "com.mangezi.ftaiptv.action.TOGGLE_PLAYBACK";
     private static final String PAUSE_WEB_MEDIA_SCRIPT =
             "(function(){try{"
-                    + "if(window.__ftaIptvPause){window.__ftaIptvPause();}"
-                    + "document.querySelectorAll('video,audio').forEach(function(media){media.pause();});"
+                    + "if(window.__ftaIptvSuspendPlayback){window.__ftaIptvSuspendPlayback();}"
+                    + "else if(window.__ftaIptvPause){window.__ftaIptvPause();}"
+                    + "document.querySelectorAll('video,audio').forEach(function(media){"
+                    + "media.pause();media.muted=true;media.volume=0;"
+                    + "});"
                     + "}catch(error){}return true;})()";
     private WebView webView;
     private MediaSession mediaSession;
@@ -588,7 +591,10 @@ public final class MainActivity extends Activity {
         AtomicBoolean completed = new AtomicBoolean(false);
         Runnable continueOnce = () -> {
             clearNativeMediaSession();
-            if (completed.compareAndSet(false, true)) nextAction.run();
+            if (completed.compareAndSet(false, true)) {
+                if (webView != null) webView.onPause();
+                nextAction.run();
+            }
         };
         webView.evaluateJavascript(PAUSE_WEB_MEDIA_SCRIPT, ignored -> continueOnce.run());
         webView.postDelayed(continueOnce, 350);
@@ -671,8 +677,16 @@ public final class MainActivity extends Activity {
     protected void onPause() {
         suppressMediaSessionUpdates = true;
         if (webView != null) {
-            webView.evaluateJavascript(PAUSE_WEB_MEDIA_SCRIPT, ignored -> clearNativeMediaSession());
-            webView.onPause();
+            WebView pausingWebView = webView;
+            AtomicBoolean completed = new AtomicBoolean(false);
+            Runnable finishPause = () -> {
+                clearNativeMediaSession();
+                if (completed.compareAndSet(false, true) && webView == pausingWebView) {
+                    pausingWebView.onPause();
+                }
+            };
+            pausingWebView.evaluateJavascript(PAUSE_WEB_MEDIA_SCRIPT, ignored -> finishPause.run());
+            pausingWebView.postDelayed(finishPause, 350);
         }
         clearNativeMediaSession();
         super.onPause();

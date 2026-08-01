@@ -20,6 +20,13 @@ Then open http://localhost:8080 in a browser.
 
 ## Android
 
+The signed release APK is hosted directly by the website at:
+
+    https://mangezi.xyz/tv/rugare-tv.apk
+
+That URL is served by the website host and does not depend on a laptop or a
+local Downloads folder being online.
+
 Build the Android app with the Gradle wrapper:
 
     .\gradlew.bat :android:assembleDebug
@@ -71,8 +78,8 @@ changing channels; normal playback remains full-screen and unobstructed.
 
 On Android, the official SABC+, eVOD/e+, Z+, and SportyTV shortcuts open their
 native apps after the channel player pauses and its media session clears. Missing
-apps route to Google Play, while AfreeTV opens in the external browser or its
-installed PWA instead of Rugare's WebView.
+apps open their official websites in the external browser, while AfreeTV opens
+in the browser or its installed PWA instead of Rugare's WebView.
 
 ## Playlist maintenance
 
@@ -111,9 +118,9 @@ labeled region-limited feeds without attempting a proxy or geo-bypass. The menu
 also includes official fallbacks such as SABC+, eVOD/e.tv, Afree TV, Z+/ZBC,
 ZBC YouTube, SABC Sport, and Openview. On Android, the SABC+, eVOD/e+, Z+, and
 SportyTV buttons launch their installed official apps after pausing Rugare TV,
-with Play Store fallback when an app is missing. SportyTV opens directly in its
-24/7 player. AfreeTV, which does not currently expose a verified Play Store
-package, opens outside Rugare in the device browser or its installed PWA.
+with official-website fallback when an app is missing. SportyTV opens directly
+in its 24/7 player. AfreeTV, which does not currently expose a verified Play
+Store package, opens outside Rugare in the device browser or its installed PWA.
 
 ## Run the tests
 

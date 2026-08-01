@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.5.4';
+export const APP_VERSION = '1.5.5';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',

@@ -223,7 +223,11 @@ export function renderApp({
           </div>
           <span id="channel-count" class="channel-count">0</span>
         </div>
-        <div class="channel-search">
+        <div class="channel-tools">
+          <nav id="channel-featured-service-list" class="channel-featured-service-list" aria-label="Official TV services"></nav>
+          <button id="search-toggle" class="channel-search-toggle" type="button" aria-label="Search channels" aria-expanded="false"></button>
+        </div>
+        <div id="channel-search" class="channel-search" hidden>
           <input
             type="search"
             id="search-box"
@@ -241,6 +245,8 @@ export function renderApp({
   `;
 
   const searchBox = root.querySelector('#search-box');
+  const channelSearch = root.querySelector('#channel-search');
+  const searchToggleButton = root.querySelector('#search-toggle');
   const searchClearButton = root.querySelector('#search-clear');
   const themeSelect = root.querySelector('#theme-select');
   const countrySelect = root.querySelector('#country-filter');
@@ -325,6 +331,17 @@ export function renderApp({
     onVisibleChannelsChange?.(visibleChannels);
   }
 
+  function setSearchOpen(isOpen, { focus = false, clear = false } = {}) {
+    if (clear && searchBox.value) {
+      searchBox.value = '';
+      applyFilters();
+    }
+    channelSearch.hidden = !isOpen;
+    searchToggleButton.setAttribute('aria-expanded', String(isOpen));
+    searchToggleButton.setAttribute('aria-label', isOpen ? 'Close channel search' : 'Search channels');
+    if (isOpen && focus) searchBox.focus({ preventScroll: true });
+  }
+
   function renderList(list) {
     const focusedChannelUrl = document.activeElement
       ?.closest?.('.channel-item')
@@ -403,6 +420,7 @@ export function renderApp({
       selectButton.addEventListener('click', () => {
         if (searchBox.value.trim()) {
           searchBox.value = '';
+          setSearchOpen(false);
           applyFilters();
         }
         setNowPlaying(channel.url);
@@ -434,6 +452,7 @@ export function renderApp({
       button.addEventListener('click', () => {
         if (!category) {
           searchBox.value = '';
+          setSearchOpen(false);
           countrySelect.value = '';
           categorySelect.value = '';
           favoritesToggle.checked = false;
@@ -665,6 +684,12 @@ export function renderApp({
   searchBox.addEventListener('input', () => applyFilters());
   searchBox.addEventListener('search', () => applyFilters());
   searchBox.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setSearchOpen(false, { clear: true });
+      searchToggleButton.focus({ preventScroll: true });
+      return;
+    }
     if (event.key !== 'Enter') return;
     event.preventDefault();
     searchBox.blur();
@@ -674,7 +699,17 @@ export function renderApp({
     searchBox.value = '';
     applyFilters();
     if (isTvMode) focusChannel();
-    else searchBox.focus({ preventScroll: true });
+    else {
+      setSearchOpen(false);
+      searchToggleButton.focus({ preventScroll: true });
+    }
+  });
+  searchToggleButton.addEventListener('click', () => {
+    if (channelSearch.hidden) {
+      setSearchOpen(true, { focus: true });
+    } else {
+      setSearchOpen(false, { clear: true });
+    }
   });
   themeSelect.value = themeApi.get();
   themeSelect.addEventListener('change', () => themeApi.set(themeSelect.value));

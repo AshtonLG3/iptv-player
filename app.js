@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260801d';
+} from './src/constants.js?v=20260801f';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -15,8 +15,8 @@ import {
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20260801b';
-import { createPlayer } from './src/player.js';
+} from './src/ui.js?v=20260801f';
+import { createPlayer } from './src/player.js?v=20260801f';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import {
   createChannelRouteIndex,
@@ -83,6 +83,7 @@ async function main() {
   let channelNavHideTimer = null;
   let channelTuneTimer = null;
   let playerPlaceholderTimer = null;
+  let currentChannelHasPlayed = false;
   let playerHudHideTimer = null;
   let appView = null;
   let currentChannel = null;
@@ -105,58 +106,66 @@ async function main() {
   document.documentElement.classList.toggle('android-app', Boolean(androidDeviceBridge));
 
   function openWithAndroidExternalApp(event) {
+    suspendCurrentVideo();
     if (typeof androidDeviceBridge?.openOfficialUrl !== 'function') return;
     event.preventDefault();
     androidDeviceBridge.openOfficialUrl(event.currentTarget.href);
   }
 
-  for (const serviceId of FEATURED_OFFICIAL_SERVICE_IDS) {
-    const service = officialServiceById[serviceId];
-    if (!service) continue;
-    if (service.androidOnly && !androidDeviceBridge) continue;
-    const link = document.createElement('a');
-    link.href = service.url;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.className = 'featured-service-link';
-    link.setAttribute('aria-label', `Open ${service.name}`);
-    link.title = `${service.name} - ${service.note}`;
+  function renderFeaturedServices(container, { focusable = true } = {}) {
+    if (!container) return;
+    container.replaceChildren();
+    for (const serviceId of FEATURED_OFFICIAL_SERVICE_IDS) {
+      const service = officialServiceById[serviceId];
+      if (!service) continue;
+      if (service.androidOnly && !androidDeviceBridge) continue;
+      const link = document.createElement('a');
+      link.href = service.url;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.className = 'featured-service-link';
+      link.setAttribute('aria-label', `Open ${service.name}`);
+      link.title = `${service.name} - ${service.note}`;
+      if (!focusable) link.tabIndex = -1;
 
-    if (service.logo) {
-      const logo = document.createElement('img');
-      logo.src = service.logo;
-      logo.alt = '';
-      logo.className = 'featured-service-logo';
-      logo.loading = 'eager';
-      logo.decoding = 'async';
-      logo.addEventListener('error', () => logo.remove(), { once: true });
-      link.appendChild(logo);
-    } else {
-      link.classList.add('text-only');
-    }
-
-    const label = document.createElement('span');
-    label.className = 'featured-service-label';
-    label.textContent = service.shortLabel || service.name;
-
-    link.appendChild(label);
-    link.addEventListener('click', (event) => {
-      if (
-        service.androidPackage
-        && typeof androidDeviceBridge?.openOfficialApp === 'function'
-      ) {
-        event.preventDefault();
-        androidDeviceBridge.openOfficialApp(
-          service.androidPackage,
-          service.url,
-          service.androidDeepLink || '',
-        );
-        return;
+      if (service.logo) {
+        const logo = document.createElement('img');
+        logo.src = service.logo;
+        logo.alt = '';
+        logo.className = 'featured-service-logo';
+        logo.loading = 'eager';
+        logo.decoding = 'async';
+        logo.addEventListener('error', () => logo.remove(), { once: true });
+        link.appendChild(logo);
+      } else {
+        link.classList.add('text-only');
       }
-      openWithAndroidExternalApp(event);
-    });
-    featuredServiceList.appendChild(link);
+
+      const label = document.createElement('span');
+      label.className = 'featured-service-label';
+      label.textContent = service.shortLabel || service.name;
+
+      link.appendChild(label);
+      link.addEventListener('click', (event) => {
+        if (
+          service.androidPackage
+          && typeof androidDeviceBridge?.openOfficialApp === 'function'
+        ) {
+          event.preventDefault();
+          suspendCurrentVideo();
+          androidDeviceBridge.openOfficialApp(
+            service.androidPackage,
+            service.url,
+            service.androidDeepLink || '',
+          );
+          return;
+        }
+        openWithAndroidExternalApp(event);
+      });
+      container.appendChild(link);
+    }
   }
+  renderFeaturedServices(featuredServiceList);
   websiteLink.addEventListener('click', openWithAndroidExternalApp);
 
   const fullscreenController = createFullscreenController({
@@ -363,14 +372,25 @@ async function main() {
   }
 
   function scheduleWaitingPlaceholder() {
-    if (!currentChannel || !playerPlaceholderEl.hidden) return;
+    if (!currentChannel || !playerPlaceholderEl.hidden || currentChannelHasPlayed) return;
     clearTimeout(playerPlaceholderTimer);
     playerPlaceholderTimer = window.setTimeout(() => {
       showPlayerPlaceholder('Loading channel…');
     }, 250);
   }
 
-  videoEl.addEventListener('playing', hidePlayerPlaceholder);
+  function markCurrentChannelMediaReady() {
+    if (!currentChannel) return;
+    currentChannelHasPlayed = true;
+    hidePlayerPlaceholder();
+  }
+
+  videoEl.addEventListener('loadeddata', markCurrentChannelMediaReady);
+  videoEl.addEventListener('canplay', markCurrentChannelMediaReady);
+  videoEl.addEventListener('playing', markCurrentChannelMediaReady);
+  videoEl.addEventListener('timeupdate', () => {
+    if (!videoEl.paused && videoEl.currentTime > 0) markCurrentChannelMediaReady();
+  });
   videoEl.addEventListener('waiting', scheduleWaitingPlaceholder);
   videoEl.addEventListener('stalled', scheduleWaitingPlaceholder);
   videoEl.addEventListener('ended', () => showPlayerPlaceholder('Channel ended'));
@@ -477,7 +497,9 @@ async function main() {
   }
 
   function selectChannel(channel, { historyMode = 'push' } = {}) {
+    player.suspend();
     currentChannel = channel;
+    currentChannelHasPlayed = false;
     statusEl.hidden = true;
     showPlayerPlaceholder(`Loading ${channel.name.replace(/\s*\(\d{3,4}[pi]\)\s*$/i, '')}…`);
     updateNowPlayingSummary(channel);
@@ -581,13 +603,19 @@ async function main() {
   }
 
   function playCurrentVideo() {
-    void videoEl.play();
+    void player.resume();
     syncMediaSession(true);
     updatePlayPauseButton();
   }
 
   function pauseCurrentVideo() {
     videoEl.pause();
+    syncMediaSession(false);
+    updatePlayPauseButton();
+  }
+
+  function suspendCurrentVideo() {
+    player.suspend();
     syncMediaSession(false);
     updatePlayPauseButton();
   }
@@ -786,6 +814,10 @@ async function main() {
           if (!isOpen && tvPanel === 'settings') setTvPanel('none');
         },
       });
+      renderFeaturedServices(
+        document.getElementById('channel-featured-service-list'),
+        { focusable: !isTvMode },
+      );
 
       if (isTvMode) setTvPanel('none');
 
@@ -900,6 +932,7 @@ async function main() {
   window.__ftaIptvNextChannel = () => navigateChannel(1);
   window.__ftaIptvPlay = playCurrentVideo;
   window.__ftaIptvPause = pauseCurrentVideo;
+  window.__ftaIptvSuspendPlayback = suspendCurrentVideo;
   window.__ftaIptvTogglePlayback = toggleCurrentVideo;
   window.__ftaIptvShowControlsAt = (relativeX, relativeY) => {
     const playerBounds = playerFrameEl.getBoundingClientRect();
