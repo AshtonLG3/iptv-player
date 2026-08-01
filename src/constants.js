@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.5.0';
+export const APP_VERSION = '1.5.1';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -120,12 +120,11 @@ export const OFFICIAL_SERVICES = [
     name: 'SportyTV',
     shortLabel: 'SportyTV',
     country: 'Africa',
-    url: 'https://play.google.com/store/apps/details?id=com.sporty.android',
+    url: 'https://sporty.com/sporty-tv',
     androidPackage: 'com.sporty.android',
     androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.sporty.android',
     androidDeepLink: 'sporty-com://com.sporty.android/channel-247',
-    androidOnly: true,
-    note: 'Official SportyTV Android app 24/7 player',
+    note: 'Official SportyTV 24/7 player',
   },
 ];
 
