@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260803c';
+} from './src/constants.js?v=20260803d';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -15,7 +15,7 @@ import {
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20260803c';
+} from './src/ui.js?v=20260803d';
 import { createPlayer } from './src/player.js?v=20260801f';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import {
@@ -842,6 +842,7 @@ async function main() {
         document.getElementById('channel-featured-service-list'),
         { focusable: !isTvMode },
       );
+      window.__ftaIptvUpdateStatus = (message) => appView?.setUpdateStatus(message);
 
       if (isTvMode) setTvPanel('none');
 
@@ -978,6 +979,7 @@ async function main() {
   window.__ftaIptvTvToggleMenu = () => toggleTvPanel('settings');
   window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
   window.addEventListener('pagehide', () => {
+    delete window.__ftaIptvUpdateStatus;
     clearTimeout(channelTuneTimer);
     clearTimeout(channelNavHideTimer);
     clearTimeout(playerHudHideTimer);

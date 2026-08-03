@@ -5,8 +5,8 @@ plugins {
     id("com.android.application")
 }
 
-val appVersionCode = 25
-val appVersionName = "1.5.8"
+val appVersionCode = 26
+val appVersionName = "1.5.9"
 val generatedWebAssetsDir = layout.buildDirectory.dir("generated/web-assets")
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties().apply {
@@ -90,5 +90,6 @@ tasks.matching { it.name == "preReleaseBuild" }.configureEach {
 }
 
 dependencies {
+    implementation("androidx.core:core:1.13.1")
     implementation("androidx.webkit:webkit:1.6.1")
 }

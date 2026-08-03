@@ -264,6 +264,44 @@ body {
   min-width: 0;
 }
 
+.menu-update-control {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.menu-update-button {
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  min-height: 36px;
+  padding: 0.45rem 0.6rem;
+  text-align: center;
+}
+
+.menu-update-button[hidden] {
+  display: none;
+}
+
+.menu-update-button:hover {
+  border-color: var(--accent);
+}
+
+.menu-update-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.menu-update-status[hidden] {
+  display: none;
+}
+
 .sidebar input[type="search"],
 .sidebar select {
   width: 100%;

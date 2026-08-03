@@ -35,6 +35,14 @@ The Android app loads the same local player UI and fetches public playlist data
 at runtime. HTTP streams are allowed because some public IPTV sources still use
 cleartext URLs.
 
+Starting with v1.5.9, the Android app checks `https://mangezi.xyz/tv/update.json`
+on launch and exposes **Check for updates** in its settings menu. A newer signed
+APK is downloaded directly from mangezi.xyz, checked against the published
+SHA-256 hash, package name, version code, and installed signing certificate,
+then handed to Android's package installer. Android still requires the user to
+approve installation and may request **Install unknown apps** permission for
+Rugare TV the first time.
+
 ## M3U Playlists
 
 Main combined playlist for TiviMate/VLC:

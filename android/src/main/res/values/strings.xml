@@ -1,9 +1,28 @@
 <resources>
     <string name="app_name">Rugare TV</string>
-    <string name="app_version">1.5.8</string>
+    <string name="app_version">1.5.9</string>
     <string name="official_stream">Official stream</string>
     <string name="page_failed_to_load">This page could not be loaded</string>
     <string name="browser_closed_after_error">The web player stopped and was closed</string>
     <string name="no_compatible_app">No compatible app is installed</string>
     <string name="choose_browser">Choose browser</string>
+    <string name="update_already_checking">Rugare TV is already checking for an update.</string>
+    <string name="update_checking">Checking for updates…</string>
+    <string name="update_check_failed">Rugare TV could not check for updates. Check your connection and try again.</string>
+    <string name="update_up_to_date">Rugare TV %1$s is up to date.</string>
+    <string name="update_available">Rugare TV %1$s is available.</string>
+    <string name="update_dialog_title">Rugare TV %1$s available</string>
+    <string name="update_dialog_message">Download the signed update directly from mangezi.xyz?</string>
+    <string name="update_now">Update</string>
+    <string name="update_later">Later</string>
+    <string name="update_downloading">Downloading the Rugare TV update…</string>
+    <string name="update_download_title">Rugare TV %1$s</string>
+    <string name="update_download_description">Downloading a signed Rugare TV update</string>
+    <string name="update_download_failed">The Rugare TV update could not be downloaded.</string>
+    <string name="update_storage_unavailable">Storage is unavailable for the Rugare TV update.</string>
+    <string name="update_verification_failed">The downloaded update failed security verification and was removed.</string>
+    <string name="update_enable_permission">Allow Rugare TV to install updates, then return to the app.</string>
+    <string name="update_permission_not_enabled">Installation permission was not enabled. Choose Check for updates to try again.</string>
+    <string name="update_ready_to_install">The signed update is ready. Confirm installation in Android.</string>
+    <string name="update_installer_unavailable">Android could not open the package installer on this device.</string>
 </resources>

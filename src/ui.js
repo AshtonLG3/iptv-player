@@ -1,5 +1,5 @@
 import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js';
-import { getWrappedFocusIndex } from './tvRemote.js?v=20260803c';
+import { getWrappedFocusIndex } from './tvRemote.js?v=20260803d';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -29,6 +29,10 @@ const CHANNEL_NAME_COLLATOR = new Intl.Collator('en', {
   numeric: true,
   sensitivity: 'base',
 });
+
+export function supportsNativeUpdates(androidDevice) {
+  return typeof androidDevice?.checkForUpdate === 'function';
+}
 
 function getSortableChannelName(channel) {
   return String(channel?.name || '')
@@ -201,6 +205,12 @@ export function renderApp({
                 <option value="light">Light</option>
               </select>
             </label>
+            <div class="menu-update-control">
+              <button id="check-update-button" class="menu-update-button" type="button" hidden>
+                Check for updates
+              </button>
+              <p id="update-status" class="menu-update-status" role="status" hidden></p>
+            </div>
             <details class="playlist-access">
               <summary>Playlist links</summary>
               <div id="playlist-link-list" class="playlist-link-list"></div>
@@ -249,6 +259,8 @@ export function renderApp({
   const searchToggleButton = root.querySelector('#search-toggle');
   const searchClearButton = root.querySelector('#search-clear');
   const themeSelect = root.querySelector('#theme-select');
+  const checkUpdateButton = root.querySelector('#check-update-button');
+  const updateStatus = root.querySelector('#update-status');
   const countrySelect = root.querySelector('#country-filter');
   const categorySelect = root.querySelector('#category-filter');
   const hideBlockedToggle = root.querySelector('#hide-blocked-toggle');
@@ -266,6 +278,14 @@ export function renderApp({
   const isTvMode = document.documentElement.classList.contains('tv-mode');
   let nowPlayingUrl = null;
   let visibleChannels = [];
+
+  let canCheckForUpdates = false;
+  try {
+    canCheckForUpdates = supportsNativeUpdates(window.AndroidDevice);
+  } catch {
+    canCheckForUpdates = false;
+  }
+  checkUpdateButton.hidden = !canCheckForUpdates;
 
   const countryCounts = channels.reduce((counts, channel) => {
     counts[channel.country] = (counts[channel.country] || 0) + 1;
@@ -663,6 +683,12 @@ export function renderApp({
     playlistActionStatus.textContent = message;
   }
 
+  function setUpdateStatus(message) {
+    const nextMessage = String(message || '').trim();
+    updateStatus.textContent = nextMessage;
+    updateStatus.hidden = !nextMessage;
+  }
+
   root.addEventListener('click', (event) => {
     const inAppLink = event.target.closest?.('a[data-in-app-browser="true"]');
     if (inAppLink && typeof window.AndroidDevice?.openOfficialUrl === 'function') {
@@ -713,6 +739,15 @@ export function renderApp({
   });
   themeSelect.value = themeApi.get();
   themeSelect.addEventListener('change', () => themeApi.set(themeSelect.value));
+  checkUpdateButton.addEventListener('click', () => {
+    if (!canCheckForUpdates) return;
+    setUpdateStatus('Checking for updates…');
+    try {
+      window.AndroidDevice.checkForUpdate();
+    } catch {
+      setUpdateStatus('The update check could not start.');
+    }
+  });
   countrySelect.addEventListener('change', applyFilters);
   categorySelect.addEventListener('change', () => applyFilters({ relaxCountryWhenCategoryEmpty: true }));
   hideBlockedToggle.addEventListener('change', applyFilters);
@@ -732,6 +767,7 @@ export function renderApp({
     isFirstChannelFocused,
     focusMenu,
     moveMenuFocus,
+    setUpdateStatus,
     getVisibleChannels: () => visibleChannels.slice(),
   };
 }

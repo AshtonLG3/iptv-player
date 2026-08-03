@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "packageName": "com.mangezi.ftaiptv",
+  "versionCode": 26,
+  "versionName": "1.5.9",
+  "apkUrl": "https://mangezi.xyz/tv/rugare-tv.apk",
+  "sha256": "BC3B7E79C3BD536CFB2D9BF6F1C40CD05AC86CC27F7C5220DD8142F76764AFA7",
+  "releaseNotes": "Rugare TV can now check for updates, securely download the signed APK from mangezi.xyz, and open Android's installer without Downloader codes.",
+  "publishedAt": "2026-08-03T22:09:28+02:00"
+}

@@ -35,6 +35,7 @@ import androidx.webkit.WebViewAssetLoader;
 import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.json.JSONObject;
 
 public final class MainActivity extends Activity {
     private static final String APP_ASSET_HOST = "appassets.androidplatform.net";
@@ -57,6 +58,7 @@ public final class MainActivity extends Activity {
     private WebView webView;
     private MediaSession mediaSession;
     private NotificationManager notificationManager;
+    private UpdateManager updateManager;
     private String currentTitle = "";
     private String currentArtist = "";
     private String currentArtworkUrl = "";
@@ -77,6 +79,7 @@ public final class MainActivity extends Activity {
         setTitle(getString(R.string.app_name));
         isTelevisionDevice = detectTelevisionDevice();
         createMediaSession();
+        updateManager = new UpdateManager(this, this::sendUpdateStatus);
 
         WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
                 .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
@@ -165,6 +168,9 @@ public final class MainActivity extends Activity {
         setContentView(webView);
         updateSystemUiForOrientation(getResources().getConfiguration().orientation);
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
+        webView.postDelayed(() -> {
+            if (updateManager != null) updateManager.checkForUpdates(false);
+        }, 2500L);
     }
 
     private boolean detectTelevisionDevice() {
@@ -561,6 +567,16 @@ public final class MainActivity extends Activity {
         webView.post(() -> webView.evaluateJavascript(script, null));
     }
 
+    private void sendUpdateStatus(String message) {
+        if (webView == null || message == null) return;
+        String quotedMessage = JSONObject.quote(message);
+        webView.post(() -> webView.evaluateJavascript(
+                "if(window.__ftaIptvUpdateStatus){window.__ftaIptvUpdateStatus("
+                        + quotedMessage + ");}",
+                null
+        ));
+    }
+
     private String nonEmpty(String value, String fallback) {
         if (value == null) return fallback;
         String trimmed = value.trim();
@@ -703,6 +719,7 @@ public final class MainActivity extends Activity {
         super.onResume();
         suppressMediaSessionUpdates = false;
         if (webView != null) webView.onResume();
+        if (updateManager != null) updateManager.resumePendingInstall();
     }
 
     @Override
@@ -722,6 +739,10 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if (updateManager != null) {
+            updateManager.destroy();
+            updateManager = null;
+        }
         if (webView != null) {
             webView.destroy();
             webView = null;
@@ -802,6 +823,13 @@ public final class MainActivity extends Activity {
             runOnUiThread(() -> pausePlayerThen(
                     () -> openInstalledApp(packageName, fallbackUrl, deepLinkUrl)
             ));
+        }
+
+        @JavascriptInterface
+        public void checkForUpdate() {
+            runOnUiThread(() -> {
+                if (updateManager != null) updateManager.checkForUpdates(true);
+            });
         }
 
         @JavascriptInterface

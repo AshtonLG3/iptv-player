@@ -8,6 +8,7 @@ import {
   getContentCategory,
   resolveChannelLogoUrl,
   sortChannelsAlphabetically,
+  supportsNativeUpdates,
 } from '../src/ui.js';
 
 const CHANNELS = [
@@ -42,6 +43,12 @@ const CHANNELS = [
     url: 'https://example.com/regional-news.m3u8',
   },
 ];
+
+test('supportsNativeUpdates only enables the control for the Android bridge', () => {
+  assert.equal(supportsNativeUpdates({ checkForUpdate() {} }), true);
+  assert.equal(supportsNativeUpdates({}), false);
+  assert.equal(supportsNativeUpdates(null), false);
+});
 
 test('getCategoryNames splits multi-folder M3U group labels', () => {
   assert.deepEqual(getCategoryNames('Sports;Cue Sports|UK,International'), [
