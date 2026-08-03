@@ -1,11 +1,14 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 4;
+  var CONTROLLER_VERSION = 6;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
+  var activeSignature = '';
+  var activePoint = null;
   var sportyMode = false;
+  var unmuteMode = false;
   var refreshTimer = 0;
 
   if (window.__rugareTvRemote && window.__rugareTvRemote.version >= CONTROLLER_VERSION) {
@@ -90,10 +93,21 @@
       '[onclick]',
       '[style*="cursor"]',
       '[class*="cursor-pointer"]',
-      '[class*="clickable"]'
+      '[class*="clickable"]',
+      'img'
     ].join(',');
     return Array.prototype.filter.call(document.querySelectorAll(selector), function (element) {
       if (!isVisible(element)) return false;
+      if (element.closest && element.closest('svg')) return false;
+      if (element.tagName === 'IMG') {
+        var reactPropsKey = Object.keys(element).find(function (key) {
+          return key.indexOf('__reactProps') === 0;
+        });
+        var reactProps = reactPropsKey ? element[reactPropsKey] : null;
+        var imageIsInteractive = Boolean(element.onclick)
+          || Boolean(reactProps && reactProps.onClick);
+        if (!imageIsInteractive) return false;
+      }
       var tabindex = element.getAttribute('tabindex');
       return tabindex !== '-1'
         || element === activeElement
@@ -112,6 +126,8 @@
     if (!element || !isVisible(element)) return false;
     if (activeElement && activeElement !== element) activeElement.classList.remove(FOCUS_CLASS);
     activeElement = element;
+    activeSignature = elementSignature(element);
+    activePoint = elementCenter(element);
     activeElement.classList.add(FOCUS_CLASS);
     if (!activeElement.hasAttribute('tabindex')) {
       activeElement.setAttribute('tabindex', '-1');
@@ -124,6 +140,39 @@
     }
     activeElement.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
     return true;
+  }
+
+  function elementSignature(element) {
+    if (!element) return '';
+    var label = element.getAttribute('aria-label')
+      || element.getAttribute('title')
+      || element.textContent
+      || '';
+    var href = element.href || element.getAttribute('href') || '';
+    return [
+      element.tagName || '',
+      element.getAttribute('role') || '',
+      String(href),
+      String(label).replace(/\s+/g, ' ').trim().slice(0, 180)
+    ].join('|');
+  }
+
+  function restoreActive(items) {
+    if (!activeSignature) return false;
+    var matches = items.filter(function (element) {
+      return elementSignature(element) === activeSignature;
+    });
+    if (!matches.length) return false;
+    if (activePoint) {
+      matches.sort(function (left, right) {
+        var a = elementCenter(left);
+        var b = elementCenter(right);
+        var aDistance = Math.pow(a.x - activePoint.x, 2) + Math.pow(a.y - activePoint.y, 2);
+        var bDistance = Math.pow(b.x - activePoint.x, 2) + Math.pow(b.y - activePoint.y, 2);
+        return aDistance - bDistance;
+      });
+    }
+    return setActive(matches[0]);
   }
 
   function elementCenter(element) {
@@ -183,7 +232,7 @@
       aligned = point.rect.bottom > origin.rect.top + 2
         && point.rect.top < origin.rect.bottom - 2;
     }
-    return (aligned ? 0 : 1000000000) + primary * 1000 + secondary * 3;
+    return (aligned ? 0 : 250000) + primary * 1000 + secondary * 3;
   }
 
   function scrollPage(direction) {
@@ -201,7 +250,10 @@
     var items = candidates();
     if (!items.length) return scrollPage(direction);
     if (!activeElement || !items.includes(activeElement) || !isVisible(activeElement)) {
-      return setActive(firstVisible(items, direction)) || scrollPage(direction);
+      restoreActive(items);
+      if (!activeElement || !items.includes(activeElement) || !isVisible(activeElement)) {
+        return setActive(firstVisible(items, direction)) || scrollPage(direction);
+      }
     }
 
     var origin = elementCenter(activeElement);
@@ -255,7 +307,16 @@
       return playPause();
     }
     try {
-      element.click();
+      element.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
+      var rect = element.getBoundingClientRect();
+      var pointedElement = document.elementFromPoint(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2
+      );
+      var activationTarget = pointedElement && element.contains(pointedElement)
+        ? pointedElement
+        : element;
+      activationTarget.click();
       return true;
     } catch (_error) {
       return false;
@@ -335,6 +396,16 @@
     select.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
+  function ensureUnmutedMedia() {
+    if (!unmuteMode) return;
+    Array.prototype.forEach.call(document.querySelectorAll('video, audio'), function (media) {
+      media.removeAttribute('muted');
+      media.defaultMuted = false;
+      media.muted = false;
+      media.volume = 1;
+    });
+  }
+
   function optimizeSportyPlayer() {
     if (!sportyMode) return;
     document.documentElement.classList.add('rugare-sporty-full');
@@ -355,15 +426,19 @@
 
   function refresh() {
     addStyles();
-    if (activeElement && !isVisible(activeElement)) activeElement = null;
+    if (activeElement && !isVisible(activeElement)) {
+      if (!restoreActive(candidates())) activeElement = null;
+    }
+    ensureUnmutedMedia();
     optimizeSportyPlayer();
   }
 
   function configure(options) {
     sportyMode = Boolean(options && options.sporty);
+    unmuteMode = Boolean(options && options.unmute);
     refresh();
     if (refreshTimer) window.clearInterval(refreshTimer);
-    refreshTimer = window.setInterval(refresh, sportyMode ? 1200 : 4000);
+    refreshTimer = window.setInterval(refresh, sportyMode || unmuteMode ? 1200 : 4000);
   }
 
   window.__rugareTvRemote = {

@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Rugare TV</string>
-    <string name="app_version">1.5.6</string>
+    <string name="app_version">1.5.7</string>
     <string name="official_stream">Official stream</string>
     <string name="page_failed_to_load">This page could not be loaded</string>
     <string name="browser_closed_after_error">The web player stopped and was closed</string>
     <string name="no_compatible_app">No compatible app is installed</string>
+    <string name="choose_browser">Choose browser</string>
 </resources>

@@ -144,8 +144,8 @@ public final class InAppBrowserActivity extends Activity {
         toolbar.addView(titleView, new LinearLayout.LayoutParams(0, dp(48), 1));
 
         toolbar.addView(createToolbarAction(
-                "Open",
-                "Open official service in another app",
+                "Browsers",
+                "Choose a browser for this official service",
                 view -> openExternally()
         ));
 
@@ -391,7 +391,12 @@ public final class InAppBrowserActivity extends Activity {
         if (!isHttpUrl(externalUrl)) return;
         pauseWebMediaThen(() -> {
             try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(externalUrl)));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(externalUrl));
+                browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+                startActivity(Intent.createChooser(
+                        browserIntent,
+                        getString(R.string.choose_browser)
+                ));
                 finish();
             } catch (ActivityNotFoundException ignored) {
                 Toast.makeText(this, getString(R.string.no_compatible_app), Toast.LENGTH_SHORT).show();
@@ -436,6 +441,8 @@ public final class InAppBrowserActivity extends Activity {
         String configuration = "\n;if(window.__rugareTvRemote){"
                 + "window.__rugareTvRemote.configure({sporty:"
                 + (fullscreenPlayback ? "true" : "false")
+                + ",unmute:"
+                + (isZbcUrl(view.getUrl()) ? "true" : "false")
                 + "});}";
         view.evaluateJavascript(remoteNavigationScript + configuration, null);
     }
@@ -618,6 +625,14 @@ public final class InAppBrowserActivity extends Activity {
 
     private static boolean isHttpScheme(String scheme) {
         return "http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme);
+    }
+
+    private static boolean isZbcUrl(String url) {
+        if (!isHttpUrl(url)) return false;
+        String host = Uri.parse(url).getHost();
+        if (host == null) return false;
+        host = host.toLowerCase(Locale.US);
+        return "zbc.ottplatform.com".equals(host) || host.endsWith(".zbc.ottplatform.com");
     }
 
     private FrameLayout.LayoutParams matchParentLayoutParams() {
