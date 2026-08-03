@@ -33,6 +33,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import androidx.webkit.WebViewAssetLoader;
 import java.net.URISyntaxException;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class MainActivity extends Activity {
@@ -571,7 +572,10 @@ public final class MainActivity extends Activity {
             Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             String fallbackUrl = intent.getStringExtra("browser_fallback_url");
             if (fallbackUrl != null) {
-                pausePlayerThen(() -> openExternalUrl(fallbackUrl));
+                pausePlayerThen(() -> openOfficialFallback(
+                        fallbackUrl,
+                        isSportyPlayback(null, fallbackUrl)
+                ));
             }
         } catch (URISyntaxException ignored) {
             return true;
@@ -602,7 +606,7 @@ public final class MainActivity extends Activity {
 
     private void openInstalledApp(String packageName, String fallbackUrl, String deepLinkUrl) {
         if (packageName == null || !packageName.matches("[A-Za-z0-9_.]+")) {
-            openExternalUrl(fallbackUrl);
+            openOfficialFallback(fallbackUrl, isSportyPlayback(packageName, fallbackUrl));
             return;
         }
 
@@ -634,22 +638,24 @@ public final class MainActivity extends Activity {
             // Continue to the official website when an installed launcher cannot be resolved.
         }
 
-        openExternalUrl(fallbackUrl);
+        openOfficialFallback(fallbackUrl, isSportyPlayback(packageName, fallbackUrl));
     }
 
-    private void openExternalUrl(String url) {
+    private void openOfficialFallback(String url, boolean fullscreenPlayback) {
         if (url == null || url.trim().isEmpty()) return;
         Uri uri = Uri.parse(url.trim());
         String scheme = uri.getScheme();
         if (!"https".equalsIgnoreCase(scheme) && !"http".equalsIgnoreCase(scheme)) return;
+        InAppBrowserActivity.open(this, uri.toString(), fullscreenPlayback);
+    }
 
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.addCategory(Intent.CATEGORY_BROWSABLE);
-            startActivity(intent);
-        } catch (ActivityNotFoundException ignored) {
-            // No external browser or registered native app is available.
-        }
+    private boolean isSportyPlayback(String packageName, String url) {
+        if ("com.sporty.android".equals(packageName)) return true;
+        if (url == null) return false;
+        String host = Uri.parse(url).getHost();
+        return host != null
+                && ("sporty.com".equalsIgnoreCase(host)
+                || host.toLowerCase(Locale.US).endsWith(".sporty.com"));
     }
 
     @Override
@@ -787,7 +793,7 @@ public final class MainActivity extends Activity {
         @JavascriptInterface
         public void openOfficialUrl(String url) {
             runOnUiThread(() -> pausePlayerThen(
-                    () -> openExternalUrl(url)
+                    () -> openOfficialFallback(url, isSportyPlayback(null, url))
             ));
         }
 

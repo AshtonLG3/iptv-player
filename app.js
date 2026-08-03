@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260801f';
+} from './src/constants.js?v=20260803a';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -15,7 +15,7 @@ import {
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20260801f';
+} from './src/ui.js?v=20260803a';
 import { createPlayer } from './src/player.js?v=20260801f';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import {
@@ -29,10 +29,12 @@ import { updateMediaSession } from './src/mediaSession.js';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
+  getTvNavigationKey,
   getToggledTvPanel,
   getTvHorizontalPanelAction,
   getWrappedFocusIndex,
-} from './src/tvRemote.js?v=20260801b';
+  shouldActivateTelevisionFromRemote,
+} from './src/tvRemote.js?v=20260803a';
 import {
   getTheme,
   isFavorite,
@@ -92,7 +94,7 @@ async function main() {
   let tvPanel = 'none';
   let syncingTvPanel = false;
   const androidDeviceBridge = globalThis.AndroidDevice;
-  const isTvMode = detectTelevision({
+  let isTvMode = detectTelevision({
     bridge: androidDeviceBridge,
     userAgent: navigator.userAgent,
   });
@@ -104,6 +106,14 @@ async function main() {
 
   document.documentElement.classList.toggle('tv-mode', isTvMode);
   document.documentElement.classList.toggle('android-app', Boolean(androidDeviceBridge));
+
+  function activateTelevisionMode() {
+    if (isTvMode) return;
+    isTvMode = true;
+    tvPanel = 'none';
+    document.documentElement.classList.add('tv-mode');
+    fullscreenToggle.hidden = true;
+  }
 
   function openWithAndroidExternalApp(event) {
     suspendCurrentVideo();
@@ -699,20 +709,30 @@ async function main() {
   }
 
   function handleTvKeydown(event) {
+    if (!isTvMode && shouldActivateTelevisionFromRemote({
+      event,
+      viewportWidth: window.innerWidth,
+      userAgent: navigator.userAgent,
+      maxTouchPoints: navigator.maxTouchPoints,
+    })) {
+      activateTelevisionMode();
+    }
     if (!isTvMode) return;
 
+    const key = getTvNavigationKey(event);
+
     if (tvPanel === 'playback') {
-      const horizontalDirection = event.key === 'ArrowLeft' ? -1 : event.key === 'ArrowRight' ? 1 : 0;
+      const horizontalDirection = key === 'ArrowLeft' ? -1 : key === 'ArrowRight' ? 1 : 0;
       if (horizontalDirection && movePlayerControlFocus(horizontalDirection)) {
         event.preventDefault();
         return;
       }
-      if (event.key === 'ArrowDown' && getFeaturedServiceLinks().length) {
+      if (key === 'ArrowDown' && getFeaturedServiceLinks().length) {
         event.preventDefault();
         setTvPanel('services');
         return;
       }
-      if (event.key === 'ArrowUp' || event.key === 'Escape' || event.key === 'BrowserBack') {
+      if (key === 'ArrowUp' || key === 'Escape' || key === 'BrowserBack') {
         event.preventDefault();
         setTvPanel('none');
         return;
@@ -720,17 +740,17 @@ async function main() {
     }
 
     if (tvPanel === 'categories') {
-      const horizontalDirection = event.key === 'ArrowLeft' ? -1 : event.key === 'ArrowRight' ? 1 : 0;
+      const horizontalDirection = key === 'ArrowLeft' ? -1 : key === 'ArrowRight' ? 1 : 0;
       if (horizontalDirection && appView?.moveCategoryFocus(horizontalDirection)) {
         event.preventDefault();
         return;
       }
-      if (event.key === 'ArrowDown') {
+      if (key === 'ArrowDown') {
         event.preventDefault();
         setTvPanel('channels');
         return;
       }
-      if (event.key === 'ArrowUp' || event.key === 'Escape' || event.key === 'BrowserBack') {
+      if (key === 'ArrowUp' || key === 'Escape' || key === 'BrowserBack') {
         event.preventDefault();
         setTvPanel('none');
         return;
@@ -738,31 +758,35 @@ async function main() {
     }
 
     if (tvPanel === 'services') {
-      const horizontalDirection = event.key === 'ArrowLeft' ? -1 : event.key === 'ArrowRight' ? 1 : 0;
+      const horizontalDirection = key === 'ArrowLeft' ? -1 : key === 'ArrowRight' ? 1 : 0;
       if (horizontalDirection && moveFeaturedServiceFocus(horizontalDirection)) {
         event.preventDefault();
         return;
       }
-      if (event.key === 'ArrowUp') {
+      if (key === 'ArrowUp') {
         event.preventDefault();
         setTvPanel('playback');
         return;
       }
-      if (event.key === 'Escape' || event.key === 'BrowserBack') {
+      if (key === 'Escape' || key === 'BrowserBack') {
         event.preventDefault();
         setTvPanel('none');
         return;
       }
     }
 
-    const action = getGlobalTvRemoteAction(event);
+    const action = getGlobalTvRemoteAction({
+      key,
+      code: event.code,
+      keyCode: event.keyCode,
+    });
     if (action && handleTvRemoteAction(action)) {
       event.preventDefault();
       return;
     }
 
-    const direction = event.key === 'ArrowUp' ? -1 : event.key === 'ArrowDown' ? 1 : 0;
-    if (event.key === 'ArrowUp' && tvPanel === 'channels' && appView?.isFirstChannelFocused()) {
+    const direction = key === 'ArrowUp' ? -1 : key === 'ArrowDown' ? 1 : 0;
+    if (key === 'ArrowUp' && tvPanel === 'channels' && appView?.isFirstChannelFocused()) {
       event.preventDefault();
       setTvPanel('categories');
       return;
@@ -776,13 +800,13 @@ async function main() {
       return;
     }
 
-    if (event.key === 'ArrowDown' && tvPanel === 'none') {
+    if (key === 'ArrowDown' && tvPanel === 'none') {
       event.preventDefault();
       setTvPanel('playback');
       return;
     }
 
-    if ((event.key === 'Enter' || event.key === ' ') && tvPanel === 'none') {
+    if ((key === 'Enter' || key === ' ') && tvPanel === 'none') {
       event.preventDefault();
       setTvPanel('playback');
     }

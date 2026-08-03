@@ -5,8 +5,8 @@ plugins {
     id("com.android.application")
 }
 
-val appVersionCode = 22
-val appVersionName = "1.5.5"
+val appVersionCode = 23
+val appVersionName = "1.5.6"
 val generatedWebAssetsDir = layout.buildDirectory.dir("generated/web-assets")
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties().apply {

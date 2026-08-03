@@ -33,13 +33,18 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Isolated browser for official broadcaster and YouTube pages. */
 public final class InAppBrowserActivity extends Activity {
     private static final String EXTRA_URL = "url";
+    private static final String EXTRA_FULLSCREEN_PLAYBACK = "fullscreen_playback";
     private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
     private static final String YOUTUBE_PLAYLIST =
             "https://www.youtube.com/embed/videoseries?playsinline=1&autoplay=1&list=";
@@ -60,12 +65,19 @@ public final class InAppBrowserActivity extends Activity {
     private WebChromeClient.CustomViewCallback customViewCallback;
     private boolean televisionDevice;
     private boolean toolbarVisible;
+    private boolean fullscreenPlayback;
     private String externalUrl;
+    private String remoteNavigationScript;
 
     public static void open(Context context, String url) {
+        open(context, url, false);
+    }
+
+    public static void open(Context context, String url, boolean fullscreenPlayback) {
         if (!isHttpUrl(url)) return;
         Intent intent = new Intent(context, InAppBrowserActivity.class);
         intent.putExtra(EXTRA_URL, url);
+        intent.putExtra(EXTRA_FULLSCREEN_PLAYBACK, fullscreenPlayback);
         context.startActivity(intent);
     }
 
@@ -74,7 +86,12 @@ public final class InAppBrowserActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         televisionDevice = detectTelevisionDevice();
-        toolbarVisible = !televisionDevice;
+        fullscreenPlayback = getIntent().getBooleanExtra(EXTRA_FULLSCREEN_PLAYBACK, false);
+        toolbarVisible = !televisionDevice && !fullscreenPlayback;
+        if (fullscreenPlayback) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            enterImmersiveMode();
+        }
         buildLayout();
         createWebView();
 
@@ -98,7 +115,7 @@ public final class InAppBrowserActivity extends Activity {
         browserShell.setBackgroundColor(Color.BLACK);
         root.addView(browserShell, matchParentLayoutParams());
         root.setOnApplyWindowInsetsListener((view, insets) -> {
-            browserShell.setPadding(0, getTopInset(insets), 0, 0);
+            browserShell.setPadding(0, fullscreenPlayback ? 0 : getTopInset(insets), 0, 0);
             return insets;
         });
 
@@ -192,6 +209,10 @@ public final class InAppBrowserActivity extends Activity {
         settings.setAllowContentAccess(false);
         settings.setSupportMultipleWindows(false);
         settings.setJavaScriptCanOpenWindowsAutomatically(false);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setBuiltInZoomControls(false);
+        settings.setDisplayZoomControls(false);
         String userAgent = settings.getUserAgentString();
         if (userAgent != null) {
             settings.setUserAgentString(userAgent.replace("; wv", ""));
@@ -255,6 +276,13 @@ public final class InAppBrowserActivity extends Activity {
                         Toast.LENGTH_SHORT
                 ).show();
             }
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            installRemoteNavigation(view);
+            if (fullscreenPlayback) enterImmersiveMode();
         }
 
         @Override
@@ -330,10 +358,11 @@ public final class InAppBrowserActivity extends Activity {
             customViewCallback = null;
         }
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-        if (!televisionDevice) {
+        if (!televisionDevice && !fullscreenPlayback) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
         setToolbarVisible(toolbarVisible);
+        if (fullscreenPlayback) enterImmersiveMode();
         if (webView != null) webView.requestFocus();
     }
 
@@ -398,6 +427,43 @@ public final class InAppBrowserActivity extends Activity {
         }
     }
 
+    private void installRemoteNavigation(WebView view) {
+        if (view == null) return;
+        if (remoteNavigationScript == null) {
+            remoteNavigationScript = readRawResource(R.raw.tv_remote_navigation);
+        }
+        if (remoteNavigationScript == null || remoteNavigationScript.trim().isEmpty()) return;
+        String configuration = "\n;if(window.__rugareTvRemote){"
+                + "window.__rugareTvRemote.configure({sporty:"
+                + (fullscreenPlayback ? "true" : "false")
+                + "});}";
+        view.evaluateJavascript(remoteNavigationScript + configuration, null);
+    }
+
+    private String readRawResource(int resourceId) {
+        try (InputStream input = getResources().openRawResource(resourceId);
+             ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[4096];
+            int count;
+            while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
+            return output.toString(StandardCharsets.UTF_8.name());
+        } catch (IOException ignored) {
+            return null;
+        }
+    }
+
+    private void runRemoteCommand(String command) {
+        if (webView == null
+                || command == null
+                || !command.matches("[A-Za-z]+(?:\\(\\)|\\('[a-z]+'\\))")) {
+            return;
+        }
+        webView.evaluateJavascript(
+                "if(window.__rugareTvRemote){window.__rugareTvRemote." + command + ";}",
+                null
+        );
+    }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (televisionDevice
@@ -411,6 +477,47 @@ public final class InAppBrowserActivity extends Activity {
                 webView.requestFocus();
             }
             return true;
+        }
+
+        if (event.getAction() == KeyEvent.ACTION_DOWN
+                && customView == null
+                && webView != null
+                && webView.hasFocus()) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.KEYCODE_DPAD_UP:
+                    runRemoteCommand("move('up')");
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_DOWN:
+                    runRemoteCommand("move('down')");
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_LEFT:
+                    runRemoteCommand("move('left')");
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    runRemoteCommand("move('right')");
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_CENTER:
+                case KeyEvent.KEYCODE_ENTER:
+                case KeyEvent.KEYCODE_NUMPAD_ENTER:
+                case KeyEvent.KEYCODE_BUTTON_A:
+                    runRemoteCommand("activate()");
+                    return true;
+                case KeyEvent.KEYCODE_PAGE_UP:
+                case KeyEvent.KEYCODE_CHANNEL_UP:
+                    runRemoteCommand("page('up')");
+                    return true;
+                case KeyEvent.KEYCODE_PAGE_DOWN:
+                case KeyEvent.KEYCODE_CHANNEL_DOWN:
+                    runRemoteCommand("page('down')");
+                    return true;
+                case KeyEvent.KEYCODE_MEDIA_PLAY:
+                case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                    runRemoteCommand("playPause()");
+                    return true;
+                default:
+                    break;
+            }
         }
         return super.dispatchKeyEvent(event);
     }
@@ -431,6 +538,7 @@ public final class InAppBrowserActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (webView != null) webView.onResume();
+        if (fullscreenPlayback) enterImmersiveMode();
     }
 
     @Override

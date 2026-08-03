@@ -77,9 +77,16 @@ channel metadata appears in the remote drawer and as a short-lived overlay when
 changing channels; normal playback remains full-screen and unobstructed.
 
 On Android, the official SABC+, eVOD/e+, Z+, and SportyTV shortcuts open their
-native apps after the channel player pauses and its media session clears. Missing
-apps open their official websites in the external browser, while AfreeTV opens
-in the browser or its installed PWA instead of Rugare's WebView.
+native apps after the channel player pauses and its media session clears. When
+an app is unavailable, Rugare opens its official website in an isolated,
+remote-aware fallback: the D-pad moves a visible gold focus ring or scrolls the
+page, OK activates the focused item, Page/Channel Up and Down scroll, and the
+Menu key reveals Done/Open actions. This avoids depending on TV browsers that
+need a mouse to click website controls.
+
+TV browsers that omit a normal Android TV user agent are detected after their
+first remote-navigation key. Raw Android D-pad codes are normalized so TCL and
+generic TV-box browsers can enter the same remote-first Rugare layout.
 
 ## Playlist maintenance
 
@@ -118,9 +125,13 @@ labeled region-limited feeds without attempting a proxy or geo-bypass. The menu
 also includes official fallbacks such as SABC+, eVOD/e.tv, Afree TV, Z+/ZBC,
 ZBC YouTube, SABC Sport, and Openview. On Android, the SABC+, eVOD/e+, Z+, and
 SportyTV buttons launch their installed official apps after pausing Rugare TV,
-with official-website fallback when an app is missing. SportyTV opens directly
-in its 24/7 player. AfreeTV, which does not currently expose a verified Play
-Store package, opens outside Rugare in the device browser or its installed PWA.
+with a remote-aware official-website fallback when the app is missing. That
+fallback starts in immersive landscape mode, expands the largest player to the
+TV viewport, starts compatible HTML video automatically, and selects the
+highest quality exposed by the player. Adaptive stream quality still depends on
+what SportyTV makes available and the network connection. AfreeTV, which does
+not currently expose a verified Play Store package, uses the same official-site
+fallback.
 
 ## Run the tests
 
