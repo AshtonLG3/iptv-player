@@ -371,7 +371,7 @@
     },
     {
       "id": "ENTChannel.uk@HD",
-      "name": "ENT Channel (720p)",
+      "name": "ENT Channel (1080p)",
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/entch.png",
       "source": "iptv-org curated source",
@@ -647,7 +647,7 @@
     },
     {
       "id": "Totalmusic2000s.uk@HD",
-      "name": "Totalmusic 2000s (720p)",
+      "name": "Totalmusic 2000s (1080p)",
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_00s.png",
       "source": "iptv-org curated source",
@@ -660,7 +660,7 @@
     },
     {
       "id": "Totalmusic80s.uk@HD",
-      "name": "Totalmusic 80s (720p)",
+      "name": "Totalmusic 80s (1080p)",
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_80s.png",
       "source": "iptv-org curated source",
@@ -673,7 +673,7 @@
     },
     {
       "id": "TotalmusicConcerts.uk@HD",
-      "name": "Totalmusic Concerts (720p)",
+      "name": "Totalmusic Concerts (1080p)",
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_concerts.png",
       "source": "iptv-org curated source",
@@ -686,7 +686,7 @@
     },
     {
       "id": "TotalmusicDance.uk@HD",
-      "name": "Totalmusic Dance (720p)",
+      "name": "Totalmusic Dance (1080p)",
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_dance.png",
       "source": "iptv-org curated source",
@@ -789,17 +789,17 @@
       "notes": ""
     },
     {
-      "id": "BloombergTV.us@Europe",
-      "name": "Bloomberg TV Europe (720p)",
-      "group": "UK",
+      "id": "BloombergTV.us@Plus",
+      "name": "Bloomberg TV+ (1080p)",
+      "group": "International",
       "logo": "https://i.imgur.com/OuogLHx.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://bloomberg.com/media-manifest/streams/eu.m3u8",
+      "source": "Bloomberg official public feed via iptv-org",
+      "primaryUrl": "https://bloomberg.com/media-manifest/streams/phoenix-us.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Official CORS-enabled AVC master manifest with a 1080p rendition."
     },
     {
       "id": "GREATmovies.uk@UK",
@@ -1037,7 +1037,7 @@
     },
     {
       "id": "NewsmaxTV.us@SD",
-      "name": "Newsmax TV (720p)",
+      "name": "Newsmax TV (1080p)",
       "group": "USA",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Newsmax_logo.svg/960px-Newsmax_logo.svg.png",
       "source": "iptv-org curated source",
@@ -1180,7 +1180,7 @@
     },
     {
       "id": "KSBY61.us@HD",
-      "name": "NBC 6 Santa Barbara CA (KSBY) (720p)",
+      "name": "NBC 6 Santa Barbara CA (KSBY) (1080p)",
       "group": "USA",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/NBC_logo_2022_%28vertical%29.svg/960px-NBC_logo_2022_%28vertical%29.svg.png",
       "source": "iptv-org curated source",
@@ -1493,7 +1493,7 @@
     },
     {
       "id": "FTFSports.us@SD",
-      "name": "FTF Sports (720p)",
+      "name": "FTF Sports (1080p)",
       "group": "Sports",
       "logo": "https://i.imgur.com/yvUjOI3.png",
       "source": "iptv-org curated source",
@@ -1913,7 +1913,7 @@
     },
     {
       "id": "SportsmanChannel.us@SD",
-      "name": "Sportsman Channel (720p)",
+      "name": "Sportsman Channel (540p)",
       "group": "Sports",
       "logo": "https://i.imgur.com/CXauv8M.png",
       "source": "iptv-org curated source",
@@ -1982,18 +1982,18 @@
       "notes": ""
     },
     {
-      "id": "TennisChannel.us@Plus2",
-      "name": "TennisChannel 2 (720p)",
+      "id": "TennisChannel.us@International",
+      "name": "Tennis Channel International (1080p)",
       "group": "Sports",
       "logo": "https://i.imgur.com/tsljAnY.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://jmp2.uk/plu-681109b688b9d85d0938c6ba.m3u8",
+      "source": "Tennis Channel International FAST feed via iptv-org",
+      "primaryUrl": "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01444-tennischannelth-tennischnlintl-lggb/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
         "sports"
       ],
-      "notes": ""
+      "notes": "Public UK FAST feed with a CORS-enabled 1080p AVC rendition."
     },
     {
       "id": "TVSBowlingNetwork.us@SD",
@@ -2039,7 +2039,7 @@
     },
     {
       "id": "TVSSports.us@SD",
-      "name": "TVS Sports (720p)",
+      "name": "TVS Sports (526p)",
       "group": "Sports",
       "logo": "https://i.imgur.com/Lwwq62E.png",
       "source": "iptv-org curated source",

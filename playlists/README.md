@@ -8,7 +8,7 @@
     NeoTV+'s public worldwide sports catalog.
   - Focus: English-language channels from English-speaking African countries,
     UK, USA, plus verified English FAST/cue-sports channels.
-  - Generated: 2026-07-12. Last updated: 2026-07-30.
+  - Generated: 2026-07-12. Last updated: 2026-08-03.
   - Current result: 186 entries.
   - Verification: original base entries responded during their generation.
     The 2026-07-20 sports additions responded during the sports refresh.
@@ -164,6 +164,15 @@ does not proxy, restream, or alter these feeds. A region-limited channel can
 still refuse playback outside its permitted market.
 
 ## Update log
+
+- 2026-08-03: audited every 720p-labelled master manifest and promoted eight
+  existing adaptive feeds whose current manifests expose 1080p. Replaced
+  Bloomberg TV Europe with Bloomberg TV+'s official 1080p AVC feed and replaced
+  TennisChannel 2 with the public 1080p Tennis Channel International UK FAST
+  feed. Corrected Sportsman Channel and TVS Sports labels to their actual
+  advertised resolutions. The main list now has 78 1080p-labelled entries and
+  43 720p-labelled entries; no unverified premium mirrors were used as quality
+  replacements.
 
 - 2026-07-30: added nine distinct public NeoTV+ FAST sports feeds and locally
   hosted their logos. The worldwide catalog had 12 sports feeds; three existing
