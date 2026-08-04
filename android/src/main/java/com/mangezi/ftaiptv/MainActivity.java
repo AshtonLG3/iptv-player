@@ -638,11 +638,25 @@ public final class MainActivity extends Activity {
             }
         }
 
-        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        Intent launchIntent = getPackageManager().getLeanbackLaunchIntentForPackage(packageName);
+        if (launchIntent == null) {
+            launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        }
         if (launchIntent != null) {
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(launchIntent);
             return;
+        }
+
+        try {
+            Intent leanbackLauncher = new Intent(Intent.ACTION_MAIN);
+            leanbackLauncher.addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER);
+            leanbackLauncher.setPackage(packageName);
+            leanbackLauncher.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(leanbackLauncher);
+            return;
+        } catch (ActivityNotFoundException ignored) {
+            // Some installs only expose a standard phone/tablet launcher.
         }
 
         try {

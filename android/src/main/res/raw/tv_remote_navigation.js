@@ -1,12 +1,13 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 7;
+  var CONTROLLER_VERSION = 8;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
   var activeSignature = '';
   var activePoint = null;
+  var selectAdjustmentElement = null;
   var sportyMode = false;
   var unmuteMode = false;
   var refreshTimer = 0;
@@ -25,6 +26,10 @@
       '  outline: 5px solid #ffb000 !important;',
       '  outline-offset: 4px !important;',
       '  box-shadow: 0 0 0 4px rgba(0,0,0,.72) !important;',
+      '}',
+      '.rugare-tv-select-adjusting {',
+      '  outline-color: #35e36f !important;',
+      '  box-shadow: 0 0 0 4px rgba(0,0,0,.72), 0 0 22px rgba(53,227,111,.9) !important;',
       '}',
       'html.rugare-sporty-full, html.rugare-sporty-full body {',
       '  background: #000 !important;',
@@ -154,7 +159,10 @@
 
   function setActive(element) {
     if (!element || !isVisible(element)) return false;
-    if (activeElement && activeElement !== element) activeElement.classList.remove(FOCUS_CLASS);
+    if (activeElement && activeElement !== element) {
+      stopSelectAdjustment();
+      activeElement.classList.remove(FOCUS_CLASS);
+    }
     activeElement = element;
     activeSignature = elementSignature(element);
     activePoint = elementCenter(element);
@@ -269,6 +277,7 @@
   }
 
   function clearActive() {
+    stopSelectAdjustment();
     if (activeElement) activeElement.classList.remove(FOCUS_CLASS);
     activeElement = null;
     activeSignature = '';
@@ -290,7 +299,52 @@
     return true;
   }
 
+  function stopSelectAdjustment() {
+    if (selectAdjustmentElement) {
+      selectAdjustmentElement.classList.remove('rugare-tv-select-adjusting');
+    }
+    selectAdjustmentElement = null;
+  }
+
+  function toggleSelectAdjustment(element) {
+    if (!element || element.tagName !== 'SELECT') return false;
+    if (selectAdjustmentElement === element) {
+      stopSelectAdjustment();
+      return true;
+    }
+    stopSelectAdjustment();
+    selectAdjustmentElement = element;
+    selectAdjustmentElement.classList.add('rugare-tv-select-adjusting');
+    return true;
+  }
+
+  function adjustSelect(direction) {
+    var select = selectAdjustmentElement;
+    if (!select || !isVisible(select) || select.tagName !== 'SELECT') {
+      stopSelectAdjustment();
+      return false;
+    }
+    var step = direction === 'up' || direction === 'left' ? -1 : 1;
+    var options = Array.prototype.slice.call(select.options || []);
+    if (!options.length) return true;
+    var currentIndex = Number(select.selectedIndex);
+    if (currentIndex < 0 || currentIndex >= options.length) {
+      currentIndex = step < 0 ? options.length : -1;
+    }
+    var nextIndex = currentIndex + step;
+    while (nextIndex >= 0 && nextIndex < options.length && options[nextIndex].disabled) {
+      nextIndex += step;
+    }
+    if (nextIndex < 0 || nextIndex >= options.length) return true;
+    select.selectedIndex = nextIndex;
+    select.value = options[nextIndex].value;
+    select.dispatchEvent(new Event('input', { bubbles: true }));
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  }
+
   function move(direction) {
+    if (selectAdjustmentElement) return adjustSelect(direction);
     var items = candidates();
     if (!items.length) return scrollPage(direction);
     if (!activeElement || !items.includes(activeElement) || !isVisible(activeElement)) {
@@ -342,6 +396,7 @@
       element = largestMedia();
     }
     if (!element) return false;
+    if (element.tagName === 'SELECT') return toggleSelectAdjustment(element);
     if (element.tagName === 'VIDEO') {
       if (sportyMode && element.requestFullscreen) {
         try {
@@ -471,6 +526,9 @@
 
   function refresh() {
     addStyles();
+    if (selectAdjustmentElement && !isVisible(selectAdjustmentElement)) {
+      stopSelectAdjustment();
+    }
     if (activeElement && !isVisible(activeElement)) {
       if (!restoreActive(candidates())) activeElement = null;
     }

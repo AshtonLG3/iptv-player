@@ -27,6 +27,10 @@ class FakeElement {
     this.isConnected = true;
     this.disabled = false;
     this.clickCount = 0;
+    this.dispatchedEvents = [];
+    this.options = [];
+    this.selectedIndex = -1;
+    this.value = '';
     if (parent) parent.children.push(this);
     if (onClick) this.__reactProps$test = { onClick };
   }
@@ -68,6 +72,11 @@ class FakeElement {
   click() {
     this.clickCount += 1;
     this.__reactProps$test?.onClick?.();
+  }
+
+  dispatchEvent(event) {
+    this.dispatchedEvents.push(event.type);
+    return true;
   }
 }
 
@@ -202,4 +211,35 @@ test('TV web shell restores focus after a React card is redrawn', async () => {
   controller.refresh();
 
   assert.equal(replacement.classes.has('rugare-tv-remote-focus'), true);
+});
+
+test('TV web shell adjusts a video quality select with the D-pad', async () => {
+  const { controller, documentObj } = await createController();
+  const qualitySelect = new FakeElement(documentObj, {
+    tagName: 'SELECT',
+    rect: createRect(600, 300, 220, 48),
+    text: 'Video Quality',
+  });
+  qualitySelect.options = [
+    { value: 'auto', disabled: false },
+    { value: '720p', disabled: false },
+    { value: '480p', disabled: false },
+  ];
+  qualitySelect.selectedIndex = 0;
+  qualitySelect.value = 'auto';
+  documentObj.elements = [qualitySelect];
+
+  controller.move('down');
+  controller.activate();
+  assert.equal(qualitySelect.classes.has('rugare-tv-select-adjusting'), true);
+
+  controller.move('down');
+  assert.equal(qualitySelect.selectedIndex, 1);
+  assert.equal(qualitySelect.value, '720p');
+  assert.deepEqual(qualitySelect.dispatchedEvents, ['input', 'change']);
+
+  controller.move('right');
+  assert.equal(qualitySelect.value, '480p');
+  controller.activate();
+  assert.equal(qualitySelect.classes.has('rugare-tv-select-adjusting'), false);
 });

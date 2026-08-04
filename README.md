@@ -88,7 +88,9 @@ channel metadata appears in the remote drawer and as a short-lived overlay when
 changing channels; normal playback remains full-screen and unobstructed.
 
 On Android, the official SABC+, eVOD/e+, Z+, and SportyTV shortcuts open their
-native apps after the channel player pauses and its media session clears. When
+native apps after the channel player pauses and its media session clears. TV-only
+apps such as SABC+ are resolved through Android's Leanback launcher before the
+phone/tablet launcher. When
 an app is unavailable, Rugare opens its official website in an isolated,
 remote-aware fallback: the D-pad moves a visible gold focus ring or scrolls the
 page, OK activates the focused item, Page/Channel Up and Down scroll, and the
@@ -99,7 +101,9 @@ targets that are not normal links or buttons, and keeps nested card controls
 from trapping Left/Right navigation inside one tile. OK activates cards and
 menu items such as ZBC's channel banners, while page scrolling clears stale
 focus so it cannot snap back. The ZBC fallback also clears the website player's
-initial mute state when its media appears. This TV-focused web shell avoids
+initial mute state when its media appears. Its Bitmovin quality selector has a
+remote adjustment mode: focus Video Quality, press OK, choose a resolution with
+the D-pad, then press OK again. This TV-focused web shell avoids
 depending on browsers that need a mouse to click website controls.
 
 TV browsers that omit a normal Android TV user agent are detected after their

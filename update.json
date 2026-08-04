@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 27,
-  "versionName": "1.6.0",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.0.apk",
-  "sha256": "CE048F3C803E2BA44708E2DE32CD99FEE2200436856E5C33AA23A9895D4812BE",
-  "releaseNotes": "TV remotes can now reach ZBC cards and menu items across the page, Rugare TV's official-service buttons are reachable above categories, and long channel lists no longer snap back to the playing channel.",
-  "publishedAt": "2026-08-04T10:51:18+02:00"
+  "versionCode": 28,
+  "versionName": "1.6.1",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.1.apk",
+  "sha256": "AF41F47859E923135926A7BC8C2964CB268BAF4E33470B6BDCD6B31AE59D3FA5",
+  "releaseNotes": "Z+ video quality can now be adjusted with OK and the D-pad, and the SABC+ button launches TV-only app installations through Android's Leanback launcher.",
+  "publishedAt": "2026-08-04T12:15:25+02:00"
 }

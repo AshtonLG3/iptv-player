@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260804a';
+} from './src/constants.js?v=20260804b';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -15,7 +15,7 @@ import {
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20260804a';
+} from './src/ui.js?v=20260804b';
 import { createPlayer } from './src/player.js?v=20260801f';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import {
@@ -35,7 +35,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20260804a';
+} from './src/tvRemote.js?v=20260804b';
 import {
   getTheme,
   isFavorite,
