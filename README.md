@@ -75,7 +75,10 @@ Android TV uses a remote-first layout. Left toggles the channel list, Right or
 Menu toggles settings, Up/Down moves focus one channel at a time, OK plays the
 focused channel and closes the list, and Channel Up/Down switches the current
 channel directly. TV playback has no persistent edge buttons or native video
-control frame, and favorite buttons are kept out of TV focus navigation.
+control frame, and favorite buttons are kept out of TV focus navigation. In the
+channel drawer, Up moves from channels to categories and then to the official
+service buttons. Long channel lists stop at their ends instead of wrapping back
+to the currently playing channel.
 
 The mobile layout keeps the player first, followed by a persistent now-playing
 row, conventional content filters for News, Sports, Movies, Entertainment,
@@ -91,10 +94,13 @@ remote-aware fallback: the D-pad moves a visible gold focus ring or scrolls the
 page, OK activates the focused item, Page/Channel Up and Down scroll, and the
 Menu key reveals Done/Browsers actions. Browsers always opens Android's chooser
 so installed TV browsers can be tested without changing the system default.
-Remote focus survives category redraws, and OK activates the clickable child
-inside cards such as ZBC's channel banners. The ZBC fallback also clears the
-website player's initial mute state when its media appears. This avoids
-depending on TV browsers that need a mouse to click website controls.
+Remote focus survives category redraws, discovers React/JavaScript click
+targets that are not normal links or buttons, and keeps nested card controls
+from trapping Left/Right navigation inside one tile. OK activates cards and
+menu items such as ZBC's channel banners, while page scrolling clears stale
+focus so it cannot snap back. The ZBC fallback also clears the website player's
+initial mute state when its media appears. This TV-focused web shell avoids
+depending on browsers that need a mouse to click website controls.
 
 TV browsers that omit a normal Android TV user agent are detected after their
 first remote-navigation key. Raw Android D-pad codes are normalized so TCL and

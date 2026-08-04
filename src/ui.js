@@ -1,5 +1,5 @@
 import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js';
-import { getWrappedFocusIndex } from './tvRemote.js?v=20260803d';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20260804a';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -277,6 +277,7 @@ export function renderApp({
   const listEl = root.querySelector('#channel-list');
   const isTvMode = document.documentElement.classList.contains('tv-mode');
   let nowPlayingUrl = null;
+  let lastFocusedChannelUrl = null;
   let visibleChannels = [];
 
   let canCheckForUpdates = false;
@@ -503,11 +504,12 @@ export function renderApp({
     overflowMenu.open = Boolean(isOpen);
   }
 
-  function focusChannel(url = nowPlayingUrl) {
+  function focusChannel(url = lastFocusedChannelUrl || nowPlayingUrl) {
     const items = [...listEl.querySelectorAll('.channel-item')];
     const target = items.find((item) => item.dataset.channelUrl === url) || items[0];
     const button = target?.querySelector('.channel-select-button');
     if (!button) return false;
+    lastFocusedChannelUrl = target.dataset.channelUrl || null;
     button.focus({ preventScroll: true });
     target.scrollIntoView({ block: 'nearest' });
     return true;
@@ -525,8 +527,9 @@ export function renderApp({
     const buttons = [...listEl.querySelectorAll('.channel-select-button')];
     const currentIndex = buttons.indexOf(document.activeElement);
     if (!buttons.length) return false;
-    const nextIndex = getWrappedFocusIndex(buttons.length, currentIndex, direction);
+    const nextIndex = getBoundedFocusIndex(buttons.length, currentIndex, direction);
     const button = buttons[nextIndex];
+    lastFocusedChannelUrl = button.closest('.channel-item')?.dataset.channelUrl || null;
     button.focus({ preventScroll: true });
     button.closest('.channel-item')?.scrollIntoView({ block: 'nearest' });
     return true;
@@ -559,6 +562,27 @@ export function renderApp({
   function isFirstChannelFocused() {
     const firstButton = listEl.querySelector('.channel-select-button');
     return Boolean(firstButton && document.activeElement === firstButton);
+  }
+
+  function getChannelServiceLinks() {
+    return [...root.querySelectorAll('#channel-featured-service-list .featured-service-link')];
+  }
+
+  function focusChannelService(index = 0) {
+    const links = getChannelServiceLinks();
+    const target = links[index] || links[0];
+    if (!target) return false;
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    return true;
+  }
+
+  function moveChannelServiceFocus(direction) {
+    const links = getChannelServiceLinks();
+    if (!links.length) return false;
+    const currentIndex = links.indexOf(document.activeElement);
+    const nextIndex = getBoundedFocusIndex(links.length, currentIndex, direction);
+    return focusChannelService(nextIndex);
   }
 
   function getMenuFocusables() {
@@ -765,6 +789,8 @@ export function renderApp({
     focusCategory,
     moveCategoryFocus,
     isFirstChannelFocused,
+    focusChannelService,
+    moveChannelServiceFocus,
     focusMenu,
     moveMenuFocus,
     setUpdateStatus,

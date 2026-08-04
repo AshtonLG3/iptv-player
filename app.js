@@ -4,7 +4,7 @@ import {
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260803d';
+} from './src/constants.js?v=20260804a';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -15,7 +15,7 @@ import {
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20260803d';
+} from './src/ui.js?v=20260804a';
 import { createPlayer } from './src/player.js?v=20260801f';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import {
@@ -32,9 +32,10 @@ import {
   getTvNavigationKey,
   getToggledTvPanel,
   getTvHorizontalPanelAction,
+  getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20260803a';
+} from './src/tvRemote.js?v=20260804a';
 import {
   getTheme,
   isFavorite,
@@ -279,12 +280,23 @@ async function main() {
   function setTvPanel(panel, { focus = true } = {}) {
     if (!isTvMode) return;
 
-    const nextPanel = ['channels', 'categories', 'settings', 'playback', 'services'].includes(panel)
+    const nextPanel = [
+      'channels',
+      'categories',
+      'channel-services',
+      'settings',
+      'playback',
+      'services',
+    ].includes(panel)
       ? panel
       : 'none';
     tvPanel = nextPanel;
     syncingTvPanel = true;
-    setDrawerOpen(nextPanel === 'channels' || nextPanel === 'categories');
+    setDrawerOpen([
+      'channels',
+      'categories',
+      'channel-services',
+    ].includes(nextPanel));
     appView?.setMenuOpen(nextPanel === 'settings');
     if (nextPanel === 'playback' || nextPanel === 'services') setChannelNavVisible(true);
     if (nextPanel === 'none') setChannelNavVisible(false);
@@ -293,8 +305,9 @@ async function main() {
 
     if (!focus) return;
     window.requestAnimationFrame(() => {
-      if (nextPanel === 'channels') appView?.focusChannel(currentChannel?.url);
+      if (nextPanel === 'channels') appView?.focusChannel();
       if (nextPanel === 'categories') appView?.focusCategory();
+      if (nextPanel === 'channel-services') appView?.focusChannelService();
       if (nextPanel === 'settings') appView?.focusMenu();
       if (nextPanel === 'playback') focusPlayerControl();
       if (nextPanel === 'services') focusFeaturedService();
@@ -747,7 +760,30 @@ async function main() {
       }
       if (key === 'ArrowDown') {
         event.preventDefault();
-        setTvPanel('channels');
+        setTvPanel(getTvVerticalPanelAction(tvPanel, 'down'));
+        return;
+      }
+      if (key === 'ArrowUp') {
+        event.preventDefault();
+        setTvPanel(getTvVerticalPanelAction(tvPanel, 'up'));
+        return;
+      }
+      if (key === 'Escape' || key === 'BrowserBack') {
+        event.preventDefault();
+        setTvPanel('none');
+        return;
+      }
+    }
+
+    if (tvPanel === 'channel-services') {
+      const horizontalDirection = key === 'ArrowLeft' ? -1 : key === 'ArrowRight' ? 1 : 0;
+      if (horizontalDirection && appView?.moveChannelServiceFocus(horizontalDirection)) {
+        event.preventDefault();
+        return;
+      }
+      if (key === 'ArrowDown') {
+        event.preventDefault();
+        setTvPanel(getTvVerticalPanelAction(tvPanel, 'down'));
         return;
       }
       if (key === 'ArrowUp' || key === 'Escape' || key === 'BrowserBack') {
@@ -788,7 +824,7 @@ async function main() {
     const direction = key === 'ArrowUp' ? -1 : key === 'ArrowDown' ? 1 : 0;
     if (key === 'ArrowUp' && tvPanel === 'channels' && appView?.isFirstChannelFocused()) {
       event.preventDefault();
-      setTvPanel('categories');
+      setTvPanel(getTvVerticalPanelAction(tvPanel, 'up'));
       return;
     }
     if (direction && tvPanel === 'channels' && appView?.moveChannelFocus(direction)) {
@@ -840,7 +876,7 @@ async function main() {
       });
       renderFeaturedServices(
         document.getElementById('channel-featured-service-list'),
-        { focusable: !isTvMode },
+        { focusable: true },
       );
       window.__ftaIptvUpdateStatus = (message) => appView?.setUpdateStatus(message);
 

@@ -97,6 +97,12 @@ export function getWrappedFocusIndex(length, currentIndex, direction) {
   return (currentIndex + direction + length) % length;
 }
 
+export function getBoundedFocusIndex(length, currentIndex, direction) {
+  if (length <= 0) return -1;
+  if (currentIndex < 0 || currentIndex >= length) return direction < 0 ? length - 1 : 0;
+  return Math.max(0, Math.min(length - 1, currentIndex + direction));
+}
+
 export function getToggledTvPanel(currentPanel, requestedPanel) {
   return currentPanel === requestedPanel ? 'none' : requestedPanel;
 }
@@ -112,6 +118,20 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
     if (currentPanel === 'none') return 'settings';
     if (currentPanel === 'channels') return 'none';
     return currentPanel;
+  }
+
+  return currentPanel;
+}
+
+export function getTvVerticalPanelAction(currentPanel, direction) {
+  if (direction === 'up') {
+    if (currentPanel === 'channels') return 'categories';
+    if (currentPanel === 'categories') return 'channel-services';
+  }
+
+  if (direction === 'down') {
+    if (currentPanel === 'channel-services') return 'categories';
+    if (currentPanel === 'categories') return 'channels';
   }
 
   return currentPanel;

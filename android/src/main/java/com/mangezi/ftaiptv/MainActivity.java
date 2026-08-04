@@ -265,6 +265,7 @@ public final class MainActivity extends Activity {
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
                 if ("services".equals(tvPanelState)
+                        || "channel-services".equals(tvPanelState)
                         || "categories".equals(tvPanelState)
                         || "playback".equals(tvPanelState)) {
                     return super.dispatchKeyEvent(event);
@@ -277,6 +278,7 @@ public final class MainActivity extends Activity {
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
                 if ("services".equals(tvPanelState)
+                        || "channel-services".equals(tvPanelState)
                         || "categories".equals(tvPanelState)
                         || "playback".equals(tvPanelState)) {
                     return super.dispatchKeyEvent(event);
@@ -802,6 +804,7 @@ public final class MainActivity extends Activity {
             String nextPanel = panel == null ? "none" : panel.trim().toLowerCase();
             if (!("channels".equals(nextPanel)
                     || "categories".equals(nextPanel)
+                    || "channel-services".equals(nextPanel)
                     || "settings".equals(nextPanel)
                     || "playback".equals(nextPanel)
                     || "services".equals(nextPanel))) {

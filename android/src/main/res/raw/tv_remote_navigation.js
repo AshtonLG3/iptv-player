@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 6;
+  var CONTROLLER_VERSION = 7;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
@@ -75,6 +75,37 @@
     return rect.width >= 2 && rect.height >= 2;
   }
 
+  function reactProps(element) {
+    if (!element) return null;
+    var propsKey = Object.keys(element).find(function (key) {
+      return key.indexOf('__reactProps') === 0;
+    });
+    return propsKey ? element[propsKey] : null;
+  }
+
+  function hasClickHandler(element) {
+    var props = reactProps(element);
+    return Boolean(element && typeof element.onclick === 'function')
+      || Boolean(props && (
+        typeof props.onClick === 'function'
+        || typeof props.onPointerUp === 'function'
+        || typeof props.onMouseUp === 'function'
+      ));
+  }
+
+  function isReachable(element) {
+    var rect = element.getBoundingClientRect();
+    if (!viewportIntersects(rect)) return true;
+    var x = Math.max(0, Math.min(window.innerWidth - 1, rect.left + rect.width / 2));
+    var y = Math.max(0, Math.min(window.innerHeight - 1, rect.top + rect.height / 2));
+    var pointed = document.elementFromPoint(x, y);
+    return Boolean(pointed && (
+      pointed === element
+      || element.contains(pointed)
+      || pointed.contains(element)
+    ));
+  }
+
   function candidates() {
     var selector = [
       'a[href]',
@@ -96,22 +127,21 @@
       '[class*="clickable"]',
       'img'
     ].join(',');
-    return Array.prototype.filter.call(document.querySelectorAll(selector), function (element) {
-      if (!isVisible(element)) return false;
+    var found = Array.prototype.slice.call(document.querySelectorAll(selector));
+    Array.prototype.forEach.call(document.querySelectorAll('*'), function (element) {
+      if (hasClickHandler(element) && found.indexOf(element) === -1) found.push(element);
+    });
+    return found.filter(function (element) {
+      if (!isVisible(element) || !isReachable(element)) return false;
       if (element.closest && element.closest('svg')) return false;
       if (element.tagName === 'IMG') {
-        var reactPropsKey = Object.keys(element).find(function (key) {
-          return key.indexOf('__reactProps') === 0;
-        });
-        var reactProps = reactPropsKey ? element[reactPropsKey] : null;
-        var imageIsInteractive = Boolean(element.onclick)
-          || Boolean(reactProps && reactProps.onClick);
-        if (!imageIsInteractive) return false;
+        if (!hasClickHandler(element)) return false;
       }
       var tabindex = element.getAttribute('tabindex');
       return tabindex !== '-1'
         || element === activeElement
-        || element.hasAttribute('data-rugare-tv-focusable');
+        || element.hasAttribute('data-rugare-tv-focusable')
+        || hasClickHandler(element);
     });
   }
 
@@ -138,7 +168,7 @@
     } catch (_error) {
       activeElement.focus();
     }
-    activeElement.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+    activeElement.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'auto' });
     return true;
   }
 
@@ -232,16 +262,30 @@
       aligned = point.rect.bottom > origin.rect.top + 2
         && point.rect.top < origin.rect.bottom - 2;
     }
-    return (aligned ? 0 : 250000) + primary * 1000 + secondary * 3;
+    var alignmentPenalty = aligned
+      ? 0
+      : Math.max(600, window.innerWidth, window.innerHeight) * 2500;
+    return alignmentPenalty + primary * 1000 + secondary * 3;
+  }
+
+  function clearActive() {
+    if (activeElement) activeElement.classList.remove(FOCUS_CLASS);
+    activeElement = null;
+    activeSignature = '';
+    activePoint = null;
   }
 
   function scrollPage(direction) {
     var vertical = direction === 'up' ? -1 : direction === 'down' ? 1 : 0;
     var horizontal = direction === 'left' ? -1 : direction === 'right' ? 1 : 0;
+    clearActive();
     window.scrollBy({
       top: vertical * Math.max(260, window.innerHeight * 0.7),
       left: horizontal * Math.max(260, window.innerWidth * 0.7),
-      behavior: 'smooth'
+      behavior: 'auto'
+    });
+    window.requestAnimationFrame(function () {
+      setActive(firstVisible(candidates(), direction));
     });
     return true;
   }
@@ -261,6 +305,7 @@
     var bestScore = Number.POSITIVE_INFINITY;
     items.forEach(function (candidate) {
       if (candidate === activeElement) return;
+      if (activeElement.contains(candidate) || candidate.contains(activeElement)) return;
       var score = scoreCandidate(origin, candidate, direction);
       if (score < bestScore) {
         best = candidate;

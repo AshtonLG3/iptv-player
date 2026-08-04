@@ -2,10 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   detectTelevision,
+  getBoundedFocusIndex,
   getGlobalTvRemoteAction,
   getTvNavigationKey,
   getToggledTvPanel,
   getTvHorizontalPanelAction,
+  getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
 } from '../src/tvRemote.js';
@@ -71,6 +73,20 @@ test('getWrappedFocusIndex wraps remote focus through a list', () => {
   assert.equal(getWrappedFocusIndex(3, -1, 1), 0);
   assert.equal(getWrappedFocusIndex(3, 2, 1), 0);
   assert.equal(getWrappedFocusIndex(3, 0, -1), 2);
+});
+
+test('getBoundedFocusIndex keeps long TV lists at their real boundaries', () => {
+  assert.equal(getBoundedFocusIndex(3, -1, 1), 0);
+  assert.equal(getBoundedFocusIndex(3, 2, 1), 2);
+  assert.equal(getBoundedFocusIndex(3, 0, -1), 0);
+  assert.equal(getBoundedFocusIndex(3, 1, -1), 0);
+});
+
+test('vertical TV navigation reaches official services above categories', () => {
+  assert.equal(getTvVerticalPanelAction('channels', 'up'), 'categories');
+  assert.equal(getTvVerticalPanelAction('categories', 'up'), 'channel-services');
+  assert.equal(getTvVerticalPanelAction('channel-services', 'down'), 'categories');
+  assert.equal(getTvVerticalPanelAction('categories', 'down'), 'channels');
 });
 
 test('getToggledTvPanel closes a panel when its remote key is pressed again', () => {
