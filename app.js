@@ -1,10 +1,15 @@
-import { loadChannels } from './src/playlist.js';
+import {
+  clearPrivatePlaylist,
+  getPrivatePlaylist,
+  loadChannels,
+  savePrivatePlaylist,
+} from './src/playlist.js?v=20260808a';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20260804b';
+} from './src/constants.js?v=20260808a';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
@@ -15,7 +20,7 @@ import {
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20260804b';
+} from './src/ui.js?v=20260808a';
 import { createPlayer } from './src/player.js?v=20260801f';
 import { createFullscreenController } from './src/fullscreen.js?v=20260730b';
 import {
@@ -235,9 +240,33 @@ async function main() {
     },
   };
 
+  function readLocalPlaylistFile(file) {
+    if (typeof file?.text === 'function') return file.text();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => resolve(String(reader.result || '')));
+      reader.addEventListener('error', () => reject(new Error('The selected file could not be read.')));
+      reader.readAsText(file);
+    });
+  }
+
+  const privatePlaylistApi = androidDeviceBridge ? {
+    getInfo: () => {
+      const playlist = getPrivatePlaylist(window.localStorage);
+      return playlist ? { name: playlist.name, channelCount: playlist.channels.length } : null;
+    },
+    importFile: async (file) => savePrivatePlaylist(window.localStorage, {
+      name: file?.name,
+      text: await readLocalPlaylistFile(file),
+    }),
+    clear: () => clearPrivatePlaylist(window.localStorage),
+    reload: () => window.location.reload(),
+  } : null;
+
   const playlistAccessApi = {
     playlists: CURATED_PLAYLISTS,
     compatiblePlayers: COMPATIBLE_PLAYERS,
+    privatePlaylist: privatePlaylistApi,
     resolveUrl: (playlist) => resolveShareablePlaylistUrl(playlist, window.location.href),
     canShare: () => Boolean(navigator.share),
     canOpenInApp: () => isAndroidUserAgent(navigator.userAgent),
@@ -850,12 +879,13 @@ async function main() {
 
   async function boot() {
     retryButton.hidden = true;
-    root.textContent = 'Loading FTA channels...';
+    root.textContent = 'Loading channels...';
 
     try {
       const channels = await loadChannels({
         fetchImpl: window.fetch.bind(window),
         sessionStore: window.sessionStorage,
+        privateStore: androidDeviceBridge ? window.localStorage : null,
       });
       channelRoutes = createChannelRouteIndex(channels);
 

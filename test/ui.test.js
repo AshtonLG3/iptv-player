@@ -2,10 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   CONTENT_CATEGORIES,
+  MAX_RENDERED_CHANNELS,
   filterChannelsForUi,
   getCategoryNames,
   getChannelInitials,
   getContentCategory,
+  limitChannelsForRendering,
   resolveChannelLogoUrl,
   sortChannelsAlphabetically,
   supportsNativeUpdates,
@@ -100,6 +102,16 @@ test('sortChannelsAlphabetically sorts case-insensitively and understands channe
     'Channel 10 (1080p)',
     'ZBC News',
   ]);
+});
+
+test('limitChannelsForRendering keeps very large private playlists responsive', () => {
+  const channels = Array.from(
+    { length: MAX_RENDERED_CHANNELS + 25 },
+    (_, index) => ({ name: `Channel ${index + 1}` }),
+  );
+
+  assert.equal(limitChannelsForRendering(channels).length, MAX_RENDERED_CHANNELS);
+  assert.equal(limitChannelsForRendering(channels)[0].name, 'Channel 1');
 });
 
 test('resolveChannelLogoUrl uses bundled artwork inside the Android app', () => {

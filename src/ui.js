@@ -13,6 +13,7 @@ export const CONTENT_CATEGORIES = Object.freeze([
   'Lifestyle',
   'General',
 ]);
+export const MAX_RENDERED_CHANNELS = 500;
 
 const CONTENT_CATEGORY_RULES = [
   ['News', /\b(news|newsy|newsmax|newsnet|cnbc|bloomberg|al jazeera|france 24|talktv|ln24sa|k24|africanews|tv brics|knbc|wxii|ksnv|kcra|kob|ksby|lehae)\b/i],
@@ -49,6 +50,10 @@ export function sortChannelsAlphabetically(channels) {
     );
     return primary || CHANNEL_NAME_COLLATOR.compare(left?.name || '', right?.name || '');
   });
+}
+
+export function limitChannelsForRendering(channels) {
+  return channels.slice(0, MAX_RENDERED_CHANNELS);
 }
 
 function isGeoBlockedChannel(channel) {
@@ -341,14 +346,16 @@ export function renderApp({
       }
     }
 
-    visibleChannels = filtered;
+    visibleChannels = limitChannelsForRendering(filtered);
     searchClearButton.hidden = !filters.search.trim();
     syncCategoryStrip();
     channelListTitle.textContent = filters.search.trim()
       ? 'Search results'
       : filters.category || (filters.favoritesOnly ? 'Favorites' : 'All channels');
-    channelCount.textContent = String(filtered.length);
-    renderList(filtered);
+    channelCount.textContent = visibleChannels.length < filtered.length
+      ? `${visibleChannels.length} of ${filtered.length}`
+      : String(filtered.length);
+    renderList(visibleChannels, filtered.length);
     onVisibleChannelsChange?.(visibleChannels);
   }
 
@@ -363,7 +370,7 @@ export function renderApp({
     if (isOpen && focus) searchBox.focus({ preventScroll: true });
   }
 
-  function renderList(list) {
+  function renderList(list, totalCount = list.length) {
     const focusedChannelUrl = document.activeElement
       ?.closest?.('.channel-item')
       ?.dataset.channelUrl;
@@ -374,6 +381,13 @@ export function renderApp({
       emptyItem.textContent = 'No channels found for this filter.';
       listEl.appendChild(emptyItem);
       return;
+    }
+
+    if (totalCount > list.length) {
+      const limitNotice = document.createElement('li');
+      limitNotice.className = 'empty-state';
+      limitNotice.textContent = `Showing ${list.length} of ${totalCount} channels. Search to narrow the list.`;
+      listEl.appendChild(limitNotice);
     }
 
     for (const channel of list) {
@@ -614,6 +628,72 @@ export function renderApp({
   function renderPlaylistAccess() {
     playlistLinkList.innerHTML = '';
     compatiblePlayerList.innerHTML = '';
+
+    const privatePlaylist = playlistAccessApi.privatePlaylist;
+    if (privatePlaylist) {
+      const privateInfo = privatePlaylist.getInfo();
+      const row = document.createElement('section');
+      row.className = 'playlist-link-row';
+
+      const text = document.createElement('div');
+      text.className = 'playlist-link-text';
+
+      const name = document.createElement('strong');
+      name.textContent = privateInfo ? `Private M3U: ${privateInfo.name}` : 'Private local M3U';
+
+      const description = document.createElement('span');
+      description.textContent = privateInfo
+        ? `${privateInfo.channelCount} channels stored only inside this Android app.`
+        : 'Import a local playlist without publishing its URLs or account details.';
+      text.append(name, description);
+
+      const actions = document.createElement('div');
+      actions.className = 'playlist-actions';
+
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '.m3u,.m3u8,audio/x-mpegurl,application/vnd.apple.mpegurl,text/plain';
+      fileInput.hidden = true;
+
+      const importButton = document.createElement('button');
+      importButton.type = 'button';
+      importButton.className = 'playlist-action primary';
+      importButton.textContent = privateInfo ? 'Replace private M3U' : 'Import private M3U';
+      importButton.addEventListener('click', () => fileInput.click());
+
+      fileInput.addEventListener('change', async () => {
+        const [file] = fileInput.files || [];
+        if (!file) return;
+        importButton.disabled = true;
+        setPlaylistStatus(`Checking ${file.name}…`);
+        try {
+          const imported = await privatePlaylist.importFile(file);
+          setPlaylistStatus(`Imported ${imported.channelCount} channels from ${imported.name}.`);
+          privatePlaylist.reload();
+        } catch (err) {
+          setPlaylistStatus(`Import failed: ${err.message}`);
+          fileInput.value = '';
+          importButton.disabled = false;
+        }
+      });
+
+      actions.append(importButton, fileInput);
+
+      if (privateInfo) {
+        const restoreButton = document.createElement('button');
+        restoreButton.type = 'button';
+        restoreButton.className = 'playlist-action';
+        restoreButton.textContent = 'Use curated list';
+        restoreButton.addEventListener('click', () => {
+          privatePlaylist.clear();
+          privatePlaylist.reload();
+        });
+        actions.appendChild(restoreButton);
+      }
+
+      row.append(text, actions);
+      playlistLinkList.appendChild(row);
+    }
 
     for (const playlist of playlistAccessApi.playlists) {
       const url = playlistAccessApi.resolveUrl(playlist);

@@ -1,6 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadChannels } from '../src/playlist.js';
+import {
+  PRIVATE_PLAYLIST_MAX_BYTES,
+  PRIVATE_PLAYLIST_STORAGE_KEY,
+  clearPrivatePlaylist,
+  getPrivatePlaylist,
+  loadChannels,
+  parsePrivatePlaylist,
+  savePrivatePlaylist,
+} from '../src/playlist.js';
 import { APP_VERSION } from '../src/constants.js';
 
 const SAMPLE = `#EXTM3U
@@ -12,6 +20,16 @@ https://example.com/kbc.m3u8
 https://example.com/2m.m3u8
 `;
 const DEFAULT_CACHE_KEY = `fta-iptv:playlist-cache:${APP_VERSION}:playlists/english-africa-uk-us-verified.m3u`;
+const PRIVATE_SAMPLE = `#EXTM3U
+#EXTINF:-1,Private Sports
+http://example.com/account/token/100
+#EXTINF:-1,Invalid entry
+not-a-stream-url
+#EXTINF:-1,Duplicate Sports
+http://example.com/account/token/100
+#EXTINF:-1,Private News
+https://example.com/news.m3u8
+`;
 
 function createFakeStore() {
   const map = new Map();
@@ -93,4 +111,58 @@ test('loadChannels recovers from corrupted cache by fetching fresh', async () =>
   assert.equal(fetchCalls, 1);
   assert.equal(channels.length, 3);
   assert.equal(channels[1].name, 'KBC');
+});
+
+test('private playlist import keeps valid unique HTTP streams on the local device', () => {
+  const localStore = createFakeStore();
+  const result = savePrivatePlaylist(localStore, {
+    name: 'C:\\Downloads\\Sport.m3u',
+    text: PRIVATE_SAMPLE,
+  });
+
+  assert.deepEqual(result, { name: 'Sport.m3u', channelCount: 2 });
+  assert.ok(localStore.getItem(PRIVATE_PLAYLIST_STORAGE_KEY));
+  assert.deepEqual(
+    getPrivatePlaylist(localStore).channels.map((channel) => channel.name),
+    ['Private Sports', 'Private News'],
+  );
+});
+
+test('loadChannels prefers an imported private playlist without fetching', async () => {
+  const privateStore = createFakeStore();
+  const sessionStore = createFakeStore();
+  let fetchCalls = 0;
+  savePrivatePlaylist(privateStore, { name: 'Sport.m3u', text: PRIVATE_SAMPLE });
+
+  const channels = await loadChannels({
+    fetchImpl: async () => {
+      fetchCalls += 1;
+      return { ok: true, status: 200, text: async () => SAMPLE };
+    },
+    sessionStore,
+    privateStore,
+  });
+
+  assert.equal(fetchCalls, 0);
+  assert.deepEqual(channels.map((channel) => channel.name), ['Private Sports', 'Private News']);
+});
+
+test('private playlist import can be cleared to restore curated loading', () => {
+  const localStore = createFakeStore();
+  savePrivatePlaylist(localStore, { name: 'Sport.m3u', text: PRIVATE_SAMPLE });
+
+  clearPrivatePlaylist(localStore);
+
+  assert.equal(getPrivatePlaylist(localStore), null);
+});
+
+test('private playlist import rejects invalid and oversized files', () => {
+  assert.throws(
+    () => parsePrivatePlaylist('#EXTM3U\n#EXTINF:-1,Broken\nnot-a-url\n'),
+    /no playable HTTP or HTTPS M3U entries/,
+  );
+  assert.throws(
+    () => parsePrivatePlaylist('x'.repeat(PRIVATE_PLAYLIST_MAX_BYTES + 1)),
+    /larger than 2 MB/,
+  );
 });

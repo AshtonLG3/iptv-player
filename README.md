@@ -35,6 +35,14 @@ The Android app loads the same local player UI and fetches public playlist data
 at runtime. HTTP streams are allowed because some public IPTV sources still use
 cleartext URLs.
 
+Starting with v1.6.2, the Android settings menu can import a private local M3U
+file up to 2 MB. The playlist is stored only in Rugare TV's private app storage;
+its URLs and account details are never added to the bundled public playlist or
+GitHub repository, and Android backup is disabled for this app. Choose **Use curated list** in the same menu to remove the
+private import and return to Rugare TV's verified public channels. Large or
+provider-specific playlists can still contain dead, unsupported, or restricted
+streams, so importing a file does not guarantee that every entry will play.
+
 Starting with v1.5.9, the Android app checks `https://mangezi.xyz/tv/update.json`
 on launch and exposes **Check for updates** in its settings menu. A newer signed
 APK is downloaded directly from mangezi.xyz, checked against the published

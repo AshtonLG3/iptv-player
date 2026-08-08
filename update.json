@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 28,
-  "versionName": "1.6.1",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.1.apk",
-  "sha256": "AF41F47859E923135926A7BC8C2964CB268BAF4E33470B6BDCD6B31AE59D3FA5",
-  "releaseNotes": "Z+ video quality can now be adjusted with OK and the D-pad, and the SABC+ button launches TV-only app installations through Android's Leanback launcher.",
-  "publishedAt": "2026-08-04T12:15:25+02:00"
+  "versionCode": 29,
+  "versionName": "1.6.2",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.2.apk",
+  "sha256": "B620FA5BEA819AAFF28C4594490D559BA159C67ECDDC292A7763393CB439226F",
+  "releaseNotes": "Import private local M3U files without publishing their URLs or account details. Large playlists stay responsive and can be removed to restore Rugare TV's curated channels.",
+  "publishedAt": "2026-08-08T16:25:10+02:00"
 }

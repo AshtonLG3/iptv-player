@@ -24,6 +24,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -31,6 +32,7 @@ import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 import androidx.webkit.WebViewAssetLoader;
 import java.net.URISyntaxException;
 import java.util.Locale;
@@ -42,6 +44,7 @@ public final class MainActivity extends Activity {
     private static final String MEDIA_NOTIFICATION_CHANNEL_ID = "playback";
     private static final int MEDIA_NOTIFICATION_ID = 1001;
     private static final int NOTIFICATION_PERMISSION_REQUEST = 1002;
+    private static final int PLAYLIST_FILE_REQUEST = 1003;
     private static final String ACTION_PREVIOUS = "com.mangezi.ftaiptv.action.PREVIOUS";
     private static final String ACTION_NEXT = "com.mangezi.ftaiptv.action.NEXT";
     private static final String ACTION_PLAY = "com.mangezi.ftaiptv.action.PLAY";
@@ -72,6 +75,7 @@ public final class MainActivity extends Activity {
     private boolean playerChannelSwipeCandidate;
     private volatile boolean tvPanelOpen;
     private volatile String tvPanelState = "none";
+    private ValueCallback<Uri[]> pendingPlaylistFileCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +106,41 @@ public final class MainActivity extends Activity {
         settings.setDomStorageEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setAllowFileAccess(false);
-        settings.setAllowContentAccess(false);
+        settings.setAllowContentAccess(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onShowFileChooser(
+                    WebView view,
+                    ValueCallback<Uri[]> filePathCallback,
+                    FileChooserParams fileChooserParams
+            ) {
+                if (pendingPlaylistFileCallback != null) {
+                    pendingPlaylistFileCallback.onReceiveValue(null);
+                }
+                pendingPlaylistFileCallback = filePathCallback;
+
+                Intent picker = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                picker.addCategory(Intent.CATEGORY_OPENABLE);
+                picker.setType("*/*");
+                try {
+                    startActivityForResult(picker, PLAYLIST_FILE_REQUEST);
+                    return true;
+                } catch (ActivityNotFoundException error) {
+                    pendingPlaylistFileCallback = null;
+                    filePathCallback.onReceiveValue(null);
+                    Toast.makeText(
+                            MainActivity.this,
+                            R.string.playlist_picker_unavailable,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    return false;
+                }
+            }
+        });
         webView.addJavascriptInterface(new AndroidMediaBridge(), "AndroidMediaSession");
         webView.addJavascriptInterface(new AndroidDeviceBridge(), "AndroidDevice");
         webView.setWebViewClient(new WebViewClient() {
@@ -690,6 +723,17 @@ public final class MainActivity extends Activity {
                 || host.toLowerCase(Locale.US).endsWith(".sporty.com"));
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != PLAYLIST_FILE_REQUEST || pendingPlaylistFileCallback == null) return;
+
+        Uri[] result = WebChromeClient.FileChooserParams.parseResult(resultCode, data);
+        pendingPlaylistFileCallback.onReceiveValue(result);
+        pendingPlaylistFileCallback = null;
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -755,6 +799,10 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if (pendingPlaylistFileCallback != null) {
+            pendingPlaylistFileCallback.onReceiveValue(null);
+            pendingPlaylistFileCallback = null;
+        }
         if (updateManager != null) {
             updateManager.destroy();
             updateManager = null;

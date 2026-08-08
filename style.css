@@ -1079,6 +1079,12 @@ html.tv-mode .overflow-menu-panel a:focus-visible {
   outline-offset: -4px;
 }
 
+html.tv-mode .overflow-menu-panel .playlist-action.primary:focus-visible {
+  background: var(--accent);
+  color: var(--bg);
+  outline-color: var(--text);
+}
+
 html.tv-mode .channel-item.now-playing .channel-select-button:focus-visible {
   color: var(--accent-strong);
 }

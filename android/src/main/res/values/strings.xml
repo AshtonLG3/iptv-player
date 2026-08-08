@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Rugare TV</string>
-    <string name="app_version">1.6.1</string>
+    <string name="app_version">1.6.2</string>
     <string name="official_stream">Official stream</string>
     <string name="page_failed_to_load">This page could not be loaded</string>
     <string name="browser_closed_after_error">The web player stopped and was closed</string>
     <string name="no_compatible_app">No compatible app is installed</string>
+    <string name="playlist_picker_unavailable">No file picker is available for importing an M3U playlist.</string>
     <string name="choose_browser">Choose browser</string>
     <string name="update_already_checking">Rugare TV is already checking for an update.</string>
     <string name="update_checking">Checking for updates…</string>
