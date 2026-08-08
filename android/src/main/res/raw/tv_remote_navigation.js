@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 8;
+  var CONTROLLER_VERSION = 9;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
@@ -380,6 +380,7 @@
   }
 
   function playPause() {
+    ensureUnmutedMedia();
     var video = largestMedia();
     if (!video || video.tagName !== 'VIDEO') return false;
     if (video.paused) {
@@ -391,6 +392,7 @@
   }
 
   function activate() {
+    ensureUnmutedMedia();
     var element = activeElement && isVisible(activeElement) ? activeElement : document.activeElement;
     if (!element || element === document.body || element === document.documentElement) {
       element = largestMedia();
@@ -551,7 +553,8 @@
     move: move,
     page: scrollPage,
     playPause: playPause,
-    refresh: refresh
+    refresh: refresh,
+    unmute: ensureUnmutedMedia
   };
 
   addStyles();

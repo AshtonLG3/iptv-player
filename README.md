@@ -109,7 +109,10 @@ targets that are not normal links or buttons, and keeps nested card controls
 from trapping Left/Right navigation inside one tile. OK activates cards and
 menu items such as ZBC's channel banners, while page scrolling clears stale
 focus so it cannot snap back. The ZBC fallback also clears the website player's
-initial mute state when its media appears. Its Bitmovin quality selector has a
+initial mute state when its media appears. The SportyTV fullscreen fallback
+also clears the player mute state and forwards D-pad, OK, channel, and media
+keys to the fullscreen player before using Rugare's page-navigation fallback.
+Its Bitmovin quality selector has a
 remote adjustment mode: focus Video Quality, press OK, choose a resolution with
 the D-pad, then press OK again. This TV-focused web shell avoids
 depending on browsers that need a mouse to click website controls.

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 29,
-  "versionName": "1.6.2",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.2.apk",
-  "sha256": "B620FA5BEA819AAFF28C4594490D559BA159C67ECDDC292A7763393CB439226F",
-  "releaseNotes": "Import private local M3U files without publishing their URLs or account details. Large playlists stay responsive and can be removed to restore Rugare TV's curated channels.",
-  "publishedAt": "2026-08-08T16:25:10+02:00"
+  "versionCode": 30,
+  "versionName": "1.6.3",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.3.apk",
+  "sha256": "08024AAD4E969B2CAFA75FE7EA9245924AB38CE1994864A95B214EFA84F5E977",
+  "releaseNotes": "SportyTV now automatically unmutes its player and forwards TV remote controls while the video is in fullscreen mode.",
+  "publishedAt": "2026-08-08T18:59:42+02:00"
 }

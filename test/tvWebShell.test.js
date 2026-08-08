@@ -47,6 +47,10 @@ class FakeElement {
     this.attributes.set(name, String(value));
   }
 
+  removeAttribute(name) {
+    this.attributes.delete(name);
+  }
+
   hasAttribute(name) {
     return this.attributes.has(name);
   }
@@ -61,6 +65,10 @@ class FakeElement {
   closest(selector) {
     if (selector === 'svg') return null;
     return null;
+  }
+
+  querySelectorAll() {
+    return [];
   }
 
   focus() {
@@ -242,4 +250,44 @@ test('TV web shell adjusts a video quality select with the D-pad', async () => {
   assert.equal(qualitySelect.value, '480p');
   controller.activate();
   assert.equal(qualitySelect.classes.has('rugare-tv-select-adjusting'), false);
+});
+
+test('TV web shell automatically unmutes Sporty media', async () => {
+  const { controller, documentObj } = await createController();
+  const video = new FakeElement(documentObj, {
+    tagName: 'VIDEO',
+    rect: createRect(0, 0, 1280, 720),
+  });
+  video.defaultMuted = true;
+  video.muted = true;
+  video.volume = 0;
+  video.paused = true;
+  video.play = () => {
+    video.paused = false;
+    return Promise.resolve();
+  };
+  video.pause = () => {
+    video.paused = true;
+  };
+  documentObj.elements = [video];
+
+  controller.configure({ sporty: true, unmute: true });
+
+  assert.equal(video.defaultMuted, false);
+  assert.equal(video.muted, false);
+  assert.equal(video.volume, 1);
+});
+
+test('Android fullscreen browser unmutes Sporty and forwards remote keys', async () => {
+  const source = await readFile(
+    new URL(
+      '../android/src/main/java/com/mangezi/ftaiptv/InAppBrowserActivity.java',
+      import.meta.url,
+    ),
+    'utf8',
+  );
+
+  assert.match(source, /fullscreenPlayback \|\| isZbcUrl\(view\.getUrl\(\)\)/);
+  assert.match(source, /customView != null && customView\.dispatchKeyEvent\(event\)/);
+  assert.match(source, /view\.requestFocus\(\)/);
 });

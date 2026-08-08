@@ -321,8 +321,11 @@ public final class InAppBrowserActivity extends Activity {
             }
             customView = view;
             customViewCallback = callback;
+            view.setFocusable(true);
+            view.setFocusableInTouchMode(true);
             browserShell.setVisibility(View.GONE);
             root.addView(view, matchParentLayoutParams());
+            view.requestFocus();
             enterImmersiveMode();
             if (!televisionDevice) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
@@ -442,7 +445,7 @@ public final class InAppBrowserActivity extends Activity {
                 + "window.__rugareTvRemote.configure({sporty:"
                 + (fullscreenPlayback ? "true" : "false")
                 + ",unmute:"
-                + (isZbcUrl(view.getUrl()) ? "true" : "false")
+                + ((fullscreenPlayback || isZbcUrl(view.getUrl())) ? "true" : "false")
                 + "});}";
         view.evaluateJavascript(remoteNavigationScript + configuration, null);
     }
@@ -487,9 +490,9 @@ public final class InAppBrowserActivity extends Activity {
         }
 
         if (event.getAction() == KeyEvent.ACTION_DOWN
-                && customView == null
                 && webView != null
-                && webView.hasFocus()) {
+                && (customView != null || webView.hasFocus())) {
+            if (customView != null && customView.dispatchKeyEvent(event)) return true;
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_DPAD_UP:
                     runRemoteCommand("move('up')");
