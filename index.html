@@ -79,6 +79,20 @@
       <p id="player-status" hidden></p>
     </section>
   </main>
-  <script type="module" src="app.js?v=20260808a"></script>
+  <script>
+    window.__rugareTvReady = false;
+    window.setTimeout(() => {
+      if (window.__rugareTvReady) return;
+      const root = document.getElementById('app');
+      if (!root || root.textContent.trim() !== 'Loading channels...') return;
+      root.textContent = 'Rugare TV could not finish loading. Reload to try again.';
+      const retryButton = document.getElementById('retry-button');
+      if (!retryButton) return;
+      retryButton.hidden = false;
+      retryButton.textContent = 'Reload';
+      retryButton.onclick = () => window.location.reload();
+    }, 12000);
+  </script>
+  <script type="module" src="app.js?v=20260808b"></script>
 </body>
 </html>
