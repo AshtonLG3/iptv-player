@@ -27,6 +27,7 @@ class FakeElement {
     this.isConnected = true;
     this.disabled = false;
     this.clickCount = 0;
+    this.scrollIntoViewCount = 0;
     this.dispatchedEvents = [];
     this.options = [];
     this.selectedIndex = -1;
@@ -75,7 +76,9 @@ class FakeElement {
     this.documentObj.activeElement = this;
   }
 
-  scrollIntoView() {}
+  scrollIntoView() {
+    this.scrollIntoViewCount += 1;
+  }
 
   click() {
     this.clickCount += 1;
@@ -107,7 +110,6 @@ async function createController() {
     tagName: 'HTML',
     rect: createRect(0, 0, 1000, 600),
   });
-  documentObj.documentElement.classList = { add() {}, remove() {} };
   documentObj.body = new FakeElement(documentObj, {
     tagName: 'BODY',
     rect: createRect(0, 0, 1000, 600),
@@ -278,6 +280,41 @@ test('TV web shell automatically unmutes Sporty media', async () => {
   assert.equal(video.volume, 1);
 });
 
+test('Sporty mode stays browseable and reaches concurrent game cards', async () => {
+  const { controller, documentObj } = await createController();
+  const video = new FakeElement(documentObj, {
+    tagName: 'VIDEO',
+    rect: createRect(0, 20, 1000, 300),
+    text: 'SportyTV player',
+  });
+  video.paused = false;
+  video.play = () => Promise.resolve();
+  video.pause = () => {};
+  const firstGame = new FakeElement(documentObj, {
+    tagName: 'BUTTON',
+    rect: createRect(80, 390, 360, 150),
+    text: 'First live game',
+  });
+  const secondGame = new FakeElement(documentObj, {
+    tagName: 'BUTTON',
+    rect: createRect(80, 660, 360, 150),
+    text: 'Second concurrent live game',
+  });
+  documentObj.elements = [video, firstGame, secondGame];
+
+  controller.configure({ sporty: true, unmute: true });
+  assert.equal(documentObj.documentElement.classes.has('rugare-sporty-full'), false);
+  assert.equal(video.playsInline, true);
+
+  controller.move('down');
+  controller.move('down');
+  assert.equal(firstGame.classes.has('rugare-tv-remote-focus'), true);
+
+  controller.move('down');
+  assert.equal(secondGame.classes.has('rugare-tv-remote-focus'), true);
+  assert.equal(secondGame.scrollIntoViewCount > 0, true);
+});
+
 test('Android fullscreen browser unmutes Sporty and forwards remote keys', async () => {
   const source = await readFile(
     new URL(
@@ -286,8 +323,23 @@ test('Android fullscreen browser unmutes Sporty and forwards remote keys', async
     ),
     'utf8',
   );
+  const mainActivitySource = await readFile(
+    new URL(
+      '../android/src/main/java/com/mangezi/ftaiptv/MainActivity.java',
+      import.meta.url,
+    ),
+    'utf8',
+  );
 
   assert.match(source, /fullscreenPlayback \|\| isZbcUrl\(view\.getUrl\(\)\)/);
   assert.match(source, /customView != null && customView\.dispatchKeyEvent\(event\)/);
   assert.match(source, /view\.requestFocus\(\)/);
+  assert.match(
+    mainActivitySource,
+    /isTelevisionDevice && isSportyPlayback\(packageName, fallbackUrl\)/,
+  );
+  assert.match(
+    mainActivitySource,
+    /https:\/\/sporty\.com\/football\/matches\/all/,
+  );
 });

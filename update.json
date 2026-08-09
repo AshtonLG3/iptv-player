@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 30,
-  "versionName": "1.6.3",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.3.apk",
-  "sha256": "08024AAD4E969B2CAFA75FE7EA9245924AB38CE1994864A95B214EFA84F5E977",
-  "releaseNotes": "SportyTV now automatically unmutes its player and forwards TV remote controls while the video is in fullscreen mode.",
-  "publishedAt": "2026-08-08T18:59:42+02:00"
+  "versionCode": 31,
+  "versionName": "1.6.4",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.4.apk",
+  "sha256": "7623F5E3ACCC78DBAB57F345307FDFC2C33969BCC44C5D488CCD18B9C3141FD5",
+  "releaseNotes": "SportyTV stays browseable on TV so the D-pad can reach and scroll to simultaneous live games; OK on the player still enters fullscreen.",
+  "publishedAt": "2026-08-09T22:47:39+02:00"
 }

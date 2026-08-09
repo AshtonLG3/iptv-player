@@ -1,5 +1,5 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20260808d';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20260808d';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20260809b';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20260809b';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -210,6 +210,9 @@ export function renderApp({
                 <option value="light">Light</option>
               </select>
             </label>
+            <a class="menu-download-link browser-download-link" download href="downloads/rugare-tv.apk">
+              Download Rugare TV for Android
+            </a>
             <div class="menu-update-control">
               <button id="check-update-button" class="menu-update-button" type="button" hidden>
                 Check for updates

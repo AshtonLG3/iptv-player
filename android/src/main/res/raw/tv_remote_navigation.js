@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 9;
+  var CONTROLLER_VERSION = 10;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
@@ -30,40 +30,6 @@
       '.rugare-tv-select-adjusting {',
       '  outline-color: #35e36f !important;',
       '  box-shadow: 0 0 0 4px rgba(0,0,0,.72), 0 0 22px rgba(53,227,111,.9) !important;',
-      '}',
-      'html.rugare-sporty-full, html.rugare-sporty-full body {',
-      '  background: #000 !important;',
-      '  height: 100% !important;',
-      '  margin: 0 !important;',
-      '  overflow: hidden !important;',
-      '  padding: 0 !important;',
-      '  width: 100% !important;',
-      '}',
-      'html.rugare-sporty-full body header,',
-      'html.rugare-sporty-full body footer { display: none !important; }',
-      'html.rugare-sporty-full .' + PLAYER_CLASS + ' {',
-      '  background: #000 !important;',
-      '  inset: 0 !important;',
-      '  height: 100vh !important;',
-      '  margin: 0 !important;',
-      '  max-height: none !important;',
-      '  max-width: none !important;',
-      '  padding: 0 !important;',
-      '  position: fixed !important;',
-      '  width: 100vw !important;',
-      '  z-index: 2147483000 !important;',
-      '}',
-      'html.rugare-sporty-full .' + PLAYER_CLASS + ' video,',
-      'html.rugare-sporty-full .' + PLAYER_CLASS + ' iframe {',
-      '  background: #000 !important;',
-      '  border: 0 !important;',
-      '  height: 100% !important;',
-      '  inset: 0 !important;',
-      '  max-height: none !important;',
-      '  max-width: none !important;',
-      '  object-fit: contain !important;',
-      '  position: absolute !important;',
-      '  width: 100% !important;',
       '}'
     ].join('\n');
     (document.head || document.documentElement).appendChild(style);
@@ -508,19 +474,25 @@
     });
   }
 
-  function optimizeSportyPlayer() {
+  function restoreSportyBrowsingLayout() {
+    document.documentElement.classList.remove('rugare-sporty-full');
+    Array.prototype.forEach.call(document.querySelectorAll('.' + PLAYER_CLASS), function (element) {
+      element.classList.remove(PLAYER_CLASS);
+    });
+  }
+
+  function prepareSportyPlayer() {
     if (!sportyMode) return;
-    document.documentElement.classList.add('rugare-sporty-full');
+    restoreSportyBrowsingLayout();
     var media = largestMedia();
     if (!media) return;
     var shell = findPlayerShell(media);
-    if (shell) shell.classList.add(PLAYER_CLASS);
     if (media.tagName === 'VIDEO') {
       media.autoplay = true;
       media.controls = true;
       media.preload = 'auto';
-      media.playsInline = false;
-      media.removeAttribute('playsinline');
+      media.playsInline = true;
+      media.setAttribute('playsinline', '');
       media.play().catch(function () {});
     }
     preferHighQuality(shell);
@@ -535,7 +507,7 @@
       if (!restoreActive(candidates())) activeElement = null;
     }
     ensureUnmutedMedia();
-    optimizeSportyPlayer();
+    prepareSportyPlayer();
   }
 
   function configure(options) {

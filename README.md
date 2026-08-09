@@ -96,9 +96,13 @@ channel metadata appears in the remote drawer and as a short-lived overlay when
 changing channels; normal playback remains full-screen and unobstructed.
 
 On Android, the official SABC+, eVOD/e+, Z+, and SportyTV shortcuts open their
-native apps after the channel player pauses and its media session clears. TV-only
-apps such as SABC+ are resolved through Android's Leanback launcher before the
-phone/tablet launcher. When
+native apps after the channel player pauses and its media session clears. On TV,
+SportyTV uses Rugare's remote-aware website fallback even when the mobile app is
+installed, because its phone layout does not reliably expose scrolling to a
+D-pad. It opens SportyTV's football match list directly so simultaneous live
+games are immediately reachable; the 24/7 channel remains in SportyTV's bottom
+navigation. TV-only apps such as SABC+ are resolved through Android's Leanback
+launcher before the phone/tablet launcher. When
 an app is unavailable, Rugare opens its official website in an isolated,
 remote-aware fallback: the D-pad moves a visible gold focus ring or scrolls the
 page, OK activates the focused item, Page/Channel Up and Down scroll, and the
@@ -109,9 +113,11 @@ targets that are not normal links or buttons, and keeps nested card controls
 from trapping Left/Right navigation inside one tile. OK activates cards and
 menu items such as ZBC's channel banners, while page scrolling clears stale
 focus so it cannot snap back. The ZBC fallback also clears the website player's
-initial mute state when its media appears. The SportyTV fullscreen fallback
-also clears the player mute state and forwards D-pad, OK, channel, and media
-keys to the fullscreen player before using Rugare's page-navigation fallback.
+initial mute state when its media appears. The SportyTV fallback clears the
+player mute state and keeps the full page browseable, so D-pad Up/Down and
+Left/Right can reach concurrent live-game cards and scroll their vertical or
+horizontal lists into view. OK on the video still enters fullscreen, while
+channel and media keys remain available.
 Its Bitmovin quality selector has a
 remote adjustment mode: focus Video Quality, press OK, choose a resolution with
 the D-pad, then press OK again. This TV-focused web shell avoids
@@ -158,11 +164,12 @@ labeled region-limited feeds without attempting a proxy or geo-bypass. The menu
 also includes official fallbacks such as SABC+, eVOD/e.tv, Afree TV, Z+/ZBC,
 ZBC YouTube, SABC Sport, and Openview. On Android, the SABC+, eVOD/e+, Z+, and
 SportyTV buttons launch their installed official apps after pausing Rugare TV,
-with a remote-aware official-website fallback when the app is missing. That
-fallback starts in immersive landscape mode, expands the largest player to the
-TV viewport, starts compatible HTML video automatically, and selects the
-highest quality exposed by the player. Adaptive stream quality still depends on
-what SportyTV makes available and the network connection. AfreeTV, which does
+with a remote-aware official-website fallback when the app is missing. On TV,
+SportyTV always uses that fallback so simultaneous games below or beside the
+main player remain reachable with the remote. It starts compatible HTML video
+automatically and selects the highest quality exposed by the player. Adaptive
+stream quality still depends on what SportyTV makes available and the network
+connection. AfreeTV, which does
 not currently expose a verified Play Store package, uses the same official-site
 fallback.
 

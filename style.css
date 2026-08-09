@@ -264,6 +264,26 @@ body {
   min-width: 0;
 }
 
+.menu-download-link {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--bg);
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  min-height: 36px;
+  padding: 0.5rem 0.65rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.menu-download-link:hover,
+.menu-download-link:focus-visible {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
 .menu-update-control {
   display: grid;
   gap: 0.35rem;
@@ -1077,6 +1097,11 @@ html.tv-mode .overflow-menu-panel a:focus-visible {
   background: var(--panel-strong);
   outline: 4px solid var(--accent);
   outline-offset: -4px;
+}
+
+html.android-app .browser-download-link,
+html.tv-mode .browser-download-link {
+  display: none;
 }
 
 html.tv-mode .overflow-menu-panel .playlist-action.primary:focus-visible {
