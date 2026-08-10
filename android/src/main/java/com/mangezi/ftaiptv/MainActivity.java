@@ -40,8 +40,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.json.JSONObject;
 
 public final class MainActivity extends Activity {
-    private static final String SPORTY_TV_MATCHES_URL =
-            "https://sporty.com/football/matches/all";
     private static final String APP_ASSET_HOST = "appassets.androidplatform.net";
     private static final String MEDIA_NOTIFICATION_CHANNEL_ID = "playback";
     private static final int MEDIA_NOTIFICATION_ID = 1001;
@@ -659,7 +657,7 @@ public final class MainActivity extends Activity {
 
     private void openInstalledApp(String packageName, String fallbackUrl, String deepLinkUrl) {
         if (isTelevisionDevice && isSportyPlayback(packageName, fallbackUrl)) {
-            openOfficialFallback(SPORTY_TV_MATCHES_URL, true);
+            openOfficialFallback(fallbackUrl, true);
             return;
         }
         if (packageName == null || !packageName.matches("[A-Za-z0-9_.]+")) {

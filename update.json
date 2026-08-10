@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 31,
-  "versionName": "1.6.4",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.4.apk",
-  "sha256": "7623F5E3ACCC78DBAB57F345307FDFC2C33969BCC44C5D488CCD18B9C3141FD5",
-  "releaseNotes": "SportyTV stays browseable on TV so the D-pad can reach and scroll to simultaneous live games; OK on the player still enters fullscreen.",
-  "publishedAt": "2026-08-09T22:47:39+02:00"
+  "versionCode": 32,
+  "versionName": "1.6.5",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.5.apk",
+  "sha256": "F62834A3F18CA3BF41B07FEFD260AF58361D8FA569312D5620318BB197B63C45",
+  "releaseNotes": "SportyTV restores the player-first view. Press Down to jump directly to live programme cards while playback continues, and Up from the first card returns to the player.",
+  "publishedAt": "2026-08-10T08:01:06+02:00"
 }

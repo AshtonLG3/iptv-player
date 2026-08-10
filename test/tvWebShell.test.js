@@ -280,7 +280,7 @@ test('TV web shell automatically unmutes Sporty media', async () => {
   assert.equal(video.volume, 1);
 });
 
-test('Sporty mode stays browseable and reaches concurrent game cards', async () => {
+test('Sporty mode starts player-first and jumps directly to live cards', async () => {
   const { controller, documentObj } = await createController();
   const video = new FakeElement(documentObj, {
     tagName: 'VIDEO',
@@ -290,29 +290,57 @@ test('Sporty mode stays browseable and reaches concurrent game cards', async () 
   video.paused = false;
   video.play = () => Promise.resolve();
   video.pause = () => {};
+  const dateStrip = new FakeElement(documentObj, {
+    tagName: 'BUTTON',
+    rect: createRect(80, 340, 200, 48),
+    text: 'Today 10 Aug',
+  });
+  const replayCard = new FakeElement(documentObj, {
+    tagName: 'BUTTON',
+    rect: createRect(80, 390, 360, 120),
+    text: '12:00Replay Earlier game Genres: Football Start: 2026-08-10 12:00 | Duration: 120 Mins',
+  });
   const firstGame = new FakeElement(documentObj, {
     tagName: 'BUTTON',
-    rect: createRect(80, 390, 360, 150),
-    text: 'First live game',
+    rect: createRect(80, 520, 360, 120),
+    text: '14:00LiveFirst live game Genres: Football Start: 2026-08-10 14:00 | Duration: 120 Mins',
   });
   const secondGame = new FakeElement(documentObj, {
     tagName: 'BUTTON',
     rect: createRect(80, 660, 360, 150),
-    text: 'Second concurrent live game',
+    text: '18:00LiveSecond concurrent live game Genres: Football Start: 2026-08-10 18:00 | Duration: 120 Mins',
   });
-  documentObj.elements = [video, firstGame, secondGame];
+  const newsTab = new FakeElement(documentObj, {
+    tagName: 'BUTTON',
+    rect: createRect(80, 900, 200, 48),
+    text: 'News',
+  });
+  documentObj.elements = [video, dateStrip, replayCard, firstGame, secondGame, newsTab];
 
   controller.configure({ sporty: true, unmute: true });
-  assert.equal(documentObj.documentElement.classes.has('rugare-sporty-full'), false);
-  assert.equal(video.playsInline, true);
+  assert.equal(documentObj.documentElement.classes.has('rugare-sporty-full'), true);
+  assert.equal(video.playsInline, false);
 
   controller.move('down');
-  controller.move('down');
   assert.equal(firstGame.classes.has('rugare-tv-remote-focus'), true);
+  assert.equal(dateStrip.classes.has('rugare-tv-remote-focus'), false);
+  assert.equal(replayCard.classes.has('rugare-tv-remote-focus'), false);
+  assert.equal(documentObj.documentElement.classes.has('rugare-sporty-full'), false);
+  assert.equal(video.paused, false);
 
   controller.move('down');
   assert.equal(secondGame.classes.has('rugare-tv-remote-focus'), true);
   assert.equal(secondGame.scrollIntoViewCount > 0, true);
+
+  controller.move('down');
+  assert.equal(secondGame.classes.has('rugare-tv-remote-focus'), true);
+  assert.equal(newsTab.classes.has('rugare-tv-remote-focus'), false);
+
+  controller.move('up');
+  assert.equal(firstGame.classes.has('rugare-tv-remote-focus'), true);
+  controller.move('up');
+  assert.equal(documentObj.documentElement.classes.has('rugare-sporty-full'), true);
+  assert.equal(video.paused, false);
 });
 
 test('Android fullscreen browser unmutes Sporty and forwards remote keys', async () => {
@@ -340,6 +368,7 @@ test('Android fullscreen browser unmutes Sporty and forwards remote keys', async
   );
   assert.match(
     mainActivitySource,
-    /https:\/\/sporty\.com\/football\/matches\/all/,
+    /openOfficialFallback\(fallbackUrl, true\)/,
   );
+  assert.doesNotMatch(mainActivitySource, /sporty\.com\/football\/matches\/all/);
 });

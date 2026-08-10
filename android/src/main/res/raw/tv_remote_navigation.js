@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 10;
+  var CONTROLLER_VERSION = 11;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
@@ -9,6 +9,7 @@
   var activePoint = null;
   var selectAdjustmentElement = null;
   var sportyMode = false;
+  var sportyCardsMode = false;
   var unmuteMode = false;
   var refreshTimer = 0;
 
@@ -30,6 +31,40 @@
       '.rugare-tv-select-adjusting {',
       '  outline-color: #35e36f !important;',
       '  box-shadow: 0 0 0 4px rgba(0,0,0,.72), 0 0 22px rgba(53,227,111,.9) !important;',
+      '}',
+      'html.rugare-sporty-full, html.rugare-sporty-full body {',
+      '  background: #000 !important;',
+      '  height: 100% !important;',
+      '  margin: 0 !important;',
+      '  overflow: hidden !important;',
+      '  padding: 0 !important;',
+      '  width: 100% !important;',
+      '}',
+      'html.rugare-sporty-full body header,',
+      'html.rugare-sporty-full body footer { display: none !important; }',
+      'html.rugare-sporty-full .' + PLAYER_CLASS + ' {',
+      '  background: #000 !important;',
+      '  inset: 0 !important;',
+      '  height: 100vh !important;',
+      '  margin: 0 !important;',
+      '  max-height: none !important;',
+      '  max-width: none !important;',
+      '  padding: 0 !important;',
+      '  position: fixed !important;',
+      '  width: 100vw !important;',
+      '  z-index: 2147483000 !important;',
+      '}',
+      'html.rugare-sporty-full .' + PLAYER_CLASS + ' video,',
+      'html.rugare-sporty-full .' + PLAYER_CLASS + ' iframe {',
+      '  background: #000 !important;',
+      '  border: 0 !important;',
+      '  height: 100% !important;',
+      '  inset: 0 !important;',
+      '  max-height: none !important;',
+      '  max-width: none !important;',
+      '  object-fit: contain !important;',
+      '  position: absolute !important;',
+      '  width: 100% !important;',
       '}'
     ].join('\n');
     (document.head || document.documentElement).appendChild(style);
@@ -114,6 +149,35 @@
         || element.hasAttribute('data-rugare-tv-focusable')
         || hasClickHandler(element);
     });
+  }
+
+  function sportyProgramCards() {
+    var found = Array.prototype.slice.call(document.querySelectorAll(
+      '[class~="cursor-pointer"], button, [role="button"]'
+    ));
+    return found.filter(function (element) {
+      if (!isVisible(element) || !isReachable(element)) return false;
+      var text = String(element.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!/\bStart:\s/i.test(text) || !/\bDuration:\s/i.test(text)) return false;
+      var className = String(element.className || '');
+      return element.tagName === 'BUTTON'
+        || element.getAttribute('role') === 'button'
+        || /(?:^|\s)cursor-pointer(?:\s|$)/.test(className)
+        || hasClickHandler(element);
+    }).sort(function (left, right) {
+      var a = elementCenter(left);
+      var b = elementCenter(right);
+      return a.y - b.y || a.x - b.x;
+    });
+  }
+
+  function sportyLiveCards() {
+    var cards = sportyProgramCards();
+    var liveCards = cards.filter(function (element) {
+      var text = String(element.textContent || '').replace(/\s+/g, ' ').trim();
+      return /\bLIVE\b/i.test(text) || /^\d{1,2}:\d{2}\s*Live/i.test(text);
+    });
+    return liveCards.length ? liveCards : cards;
   }
 
   function viewportIntersects(rect) {
@@ -251,6 +315,8 @@
   }
 
   function scrollPage(direction) {
+    var sportyResult = moveSporty(direction);
+    if (sportyResult !== null) return sportyResult;
     var vertical = direction === 'up' ? -1 : direction === 'down' ? 1 : 0;
     var horizontal = direction === 'left' ? -1 : direction === 'right' ? 1 : 0;
     clearActive();
@@ -311,6 +377,8 @@
 
   function move(direction) {
     if (selectAdjustmentElement) return adjustSelect(direction);
+    var sportyResult = moveSporty(direction);
+    if (sportyResult !== null) return sportyResult;
     var items = candidates();
     if (!items.length) return scrollPage(direction);
     if (!activeElement || !items.includes(activeElement) || !isVisible(activeElement)) {
@@ -333,6 +401,61 @@
       }
     });
     return setActive(best) || scrollPage(direction);
+  }
+
+  function enterSportyCards() {
+    sportyCardsMode = true;
+    restoreSportyBrowsingLayout();
+    clearActive();
+
+    var media = largestMedia();
+    if (media && media.tagName === 'VIDEO') {
+      media.playsInline = true;
+      media.setAttribute('playsinline', '');
+      media.play().catch(function () {});
+    }
+
+    var cards = sportyLiveCards();
+    if (!cards.length) return true;
+    return setActive(cards[0]);
+  }
+
+  function returnToSportyPlayer() {
+    sportyCardsMode = false;
+    clearActive();
+    prepareSportyPlayer();
+    if (typeof window.scrollTo === 'function') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+    return true;
+  }
+
+  function moveSporty(direction) {
+    if (!sportyMode) return null;
+    if (!sportyCardsMode) {
+      return direction === 'down' ? enterSportyCards() : null;
+    }
+
+    var cards = sportyLiveCards();
+    if (!cards.length) {
+      return direction === 'up' ? returnToSportyPlayer() : true;
+    }
+
+    var currentIndex = cards.indexOf(activeElement);
+    if (currentIndex < 0) {
+      return direction === 'up' ? returnToSportyPlayer() : setActive(cards[0]);
+    }
+    if (direction === 'up') {
+      return currentIndex === 0
+        ? returnToSportyPlayer()
+        : setActive(cards[currentIndex - 1]);
+    }
+    if (direction === 'down') {
+      return currentIndex < cards.length - 1
+        ? setActive(cards[currentIndex + 1])
+        : true;
+    }
+    return true;
   }
 
   function largestMedia() {
@@ -374,6 +497,9 @@
       }
       return playPause();
     }
+    var activatingSportyCard = sportyMode
+      && sportyCardsMode
+      && sportyProgramCards().indexOf(element) !== -1;
     try {
       element.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
       var rect = element.getBoundingClientRect();
@@ -384,7 +510,9 @@
       var activationTarget = pointedElement && element.contains(pointedElement)
         ? pointedElement
         : element;
+      if (activatingSportyCard) sportyCardsMode = false;
       activationTarget.click();
+      if (activatingSportyCard) window.setTimeout(refresh, 250);
       return true;
     } catch (_error) {
       return false;
@@ -483,16 +611,28 @@
 
   function prepareSportyPlayer() {
     if (!sportyMode) return;
-    restoreSportyBrowsingLayout();
     var media = largestMedia();
     if (!media) return;
     var shell = findPlayerShell(media);
+    if (sportyCardsMode) {
+      restoreSportyBrowsingLayout();
+      if (media.tagName === 'VIDEO') {
+        media.playsInline = true;
+        media.setAttribute('playsinline', '');
+        media.play().catch(function () {});
+      }
+      preferHighQuality(shell);
+      return;
+    }
+
+    document.documentElement.classList.add('rugare-sporty-full');
+    if (shell) shell.classList.add(PLAYER_CLASS);
     if (media.tagName === 'VIDEO') {
       media.autoplay = true;
       media.controls = true;
       media.preload = 'auto';
-      media.playsInline = true;
-      media.setAttribute('playsinline', '');
+      media.playsInline = false;
+      media.removeAttribute('playsinline');
       media.play().catch(function () {});
     }
     preferHighQuality(shell);
@@ -504,7 +644,8 @@
       stopSelectAdjustment();
     }
     if (activeElement && !isVisible(activeElement)) {
-      if (!restoreActive(candidates())) activeElement = null;
+      var restoreItems = sportyMode && sportyCardsMode ? sportyLiveCards() : candidates();
+      if (!restoreActive(restoreItems)) activeElement = null;
     }
     ensureUnmutedMedia();
     prepareSportyPlayer();
@@ -512,6 +653,7 @@
 
   function configure(options) {
     sportyMode = Boolean(options && options.sporty);
+    sportyCardsMode = false;
     unmuteMode = Boolean(options && options.unmute);
     refresh();
     if (refreshTimer) window.clearInterval(refreshTimer);
