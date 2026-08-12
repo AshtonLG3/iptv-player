@@ -43,4 +43,28 @@ public final class TvStreamPolicyTest {
 
         assertFalse(TvStreamPolicy.hasVideoVariants(audioOnly));
     }
+
+    @Test
+    public void acceptsOfficialZbcLiveAndVodMasterPlaylists() {
+        assertTrue(TvStreamPolicy.isTrustedZbcPlaybackUrl(
+                "https://stream-185747.castr.net/account/live_channel/rewind-86400.m3u8"
+        ));
+        assertTrue(TvStreamPolicy.isTrustedZbcPlaybackUrl(
+                "https://stream-vod.castr.net/videos/vd176342004cc311f0845a/"
+                        + "Sop17nMhVmNPhDhR.mp4/index.m3u8"
+        ));
+    }
+
+    @Test
+    public void rejectsSegmentsVariantsAndUnrelatedCastrUrls() {
+        assertFalse(TvStreamPolicy.isTrustedZbcPlaybackUrl(
+                "https://stream-185747.castr.net/account/live_channel/rewind-86400.ts.m3u8"
+        ));
+        assertFalse(TvStreamPolicy.isTrustedZbcPlaybackUrl(
+                "https://castr-vod.global.ssl.fastly.net/videos/account/video-480p.m3u8"
+        ));
+        assertFalse(TvStreamPolicy.isTrustedZbcPlaybackUrl(
+                "https://example.com/videos/account/video.mp4/index.m3u8"
+        ));
+    }
 }

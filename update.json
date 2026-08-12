@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 34,
-  "versionName": "1.6.7",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.7.apk",
-  "sha256": "64A4C0122265FA3983F6E6A6E223E4C05C1A92D0E9C9F07185AE3BE3084F48A4",
-  "releaseNotes": "AfreeTV and SportyTV now receive frame-level sound recovery before their web players can reapply mute. ZBC TV channels use a native full-screen player with adaptive 360p/480p playback and a larger anti-buffering reserve.",
-  "publishedAt": "2026-08-12T20:21:24+02:00"
+  "versionCode": 35,
+  "versionName": "1.6.8",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.8.apk",
+  "sha256": "DD2DB27934A124E41728C54E6A302E5EDFCE63A31D03BDAA5C1ACD95D65F7940",
+  "releaseNotes": "ZBC Drama, Documentaries, Movies, and all other on-demand video categories now use the same native full-screen TV player as live channels. Series episodes are included, with adaptive 360p/480p playback, the larger anti-buffering reserve, and correct aspect-ratio handling without the website's thick modal border.",
+  "publishedAt": "2026-08-12T21:25:58+02:00"
 }

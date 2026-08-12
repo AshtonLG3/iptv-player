@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,13 +30,12 @@ import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.PlayerView;
 import java.util.Collections;
-import java.util.Locale;
 
 /** TV-only native playback for official ZBC HLS streams selected on the Z+ website. */
 @OptIn(markerClass = UnstableApi.class)
 public final class NativeHlsPlayerActivity extends Activity {
     private static final String EXTRA_STREAM_URL = "stream_url";
-    private static final int MAX_VIDEO_WIDTH = 854;
+    private static final int MAX_VIDEO_WIDTH = 960;
     private static final int MAX_VIDEO_HEIGHT = 480;
     private static final int MIN_BUFFER_MS = 30_000;
     private static final int MAX_BUFFER_MS = 90_000;
@@ -48,7 +46,7 @@ public final class NativeHlsPlayerActivity extends Activity {
     private String streamUrl;
 
     public static void open(Context context, String streamUrl) {
-        if (!isTrustedZbcStream(streamUrl)) return;
+        if (!TvStreamPolicy.isTrustedZbcPlaybackUrl(streamUrl)) return;
         Intent intent = new Intent(context, NativeHlsPlayerActivity.class);
         intent.putExtra(EXTRA_STREAM_URL, streamUrl);
         context.startActivity(intent);
@@ -58,7 +56,7 @@ public final class NativeHlsPlayerActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         streamUrl = getIntent().getStringExtra(EXTRA_STREAM_URL);
-        if (!isTrustedZbcStream(streamUrl)) {
+        if (!TvStreamPolicy.isTrustedZbcPlaybackUrl(streamUrl)) {
             finish();
             return;
         }
@@ -186,16 +184,4 @@ public final class NativeHlsPlayerActivity extends Activity {
         );
     }
 
-    private static boolean isTrustedZbcStream(String value) {
-        if (value == null) return false;
-        Uri uri = Uri.parse(value);
-        String host = uri.getHost();
-        String path = uri.getPath();
-        return "https".equalsIgnoreCase(uri.getScheme())
-                && host != null
-                && ("castr.net".equalsIgnoreCase(host)
-                || host.toLowerCase(Locale.US).endsWith(".castr.net"))
-                && path != null
-                && path.toLowerCase(Locale.US).endsWith(".m3u8");
-    }
 }

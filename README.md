@@ -122,11 +122,15 @@ its player filling the screen. Down reveals
 and focuses the first live programme card while playback continues; further
 Up/Down presses stay within those live cards instead of entering dates or site
 tabs. OK selects a live card, while channel and media keys remain available.
-On TVs, the ZBC website remains the channel selector, but selecting a video
-channel hands its official HLS stream to Rugare TV's native Media3 player. The
-native player starts at full volume, fills the screen without the website's
-modal margins, adapts only between 360p and 480p, and keeps a larger playback
-buffer to avoid the freezes and repeated rebuffering seen in the TV WebView.
+On TVs, the ZBC website remains the content selector, but selecting a live
+channel or an on-demand programme from Drama, Documentaries, Movies, and the
+other ZBC video categories hands its official HLS stream to Rugare TV's native
+Media3 player. Series episodes are included. The native player starts at full
+volume, fills the screen without the website's modal margins, adapts only
+between 360p and 480p, and keeps a larger playback buffer to avoid the freezes
+and repeated rebuffering seen in the TV WebView. It preserves the programme's
+real aspect ratio, so genuinely older 4:3 video may retain side bars instead of
+being stretched or cropped, but the website's thick border is removed.
 The initial picture may take several seconds while that buffer is established.
 Returning from playback reopens the ZBC selector. Audio-only ZBC radio channels
 remain on the website, and the official mobile app and non-TV browsers are not

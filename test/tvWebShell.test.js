@@ -452,6 +452,20 @@ test('Android browser unmutes AfreeTV, ZBC, and Sporty and forwards remote keys'
     ),
     'utf8',
   );
+  const nativePlayerSource = await readFile(
+    new URL(
+      '../android/src/main/java/com/mangezi/ftaiptv/NativeHlsPlayerActivity.java',
+      import.meta.url,
+    ),
+    'utf8',
+  );
+  const streamPolicySource = await readFile(
+    new URL(
+      '../android/src/main/java/com/mangezi/ftaiptv/TvStreamPolicy.java',
+      import.meta.url,
+    ),
+    'utf8',
+  );
 
   assert.match(
     source,
@@ -461,6 +475,15 @@ test('Android browser unmutes AfreeTV, ZBC, and Sporty and forwards remote keys'
   assert.match(source, /view\.requestFocus\(\)/);
   assert.match(source, /WebViewCompat\.addDocumentStartJavaScript/);
   assert.match(source, /NativeHlsPlayerActivity\.open\(this, streamUri\.toString\(\)\)/);
+  assert.match(
+    source,
+    /TvStreamPolicy\.isTrustedZbcPlaybackUrl\(request\.getUrl\(\)\.toString\(\)\)/,
+  );
+  assert.match(nativePlayerSource, /MAX_VIDEO_WIDTH = 960/);
+  assert.match(nativePlayerSource, /MAX_VIDEO_HEIGHT = 480/);
+  assert.match(nativePlayerSource, /RESIZE_MODE_FIT/);
+  assert.match(streamPolicySource, /ZBC_VOD_MASTER/);
+  assert.match(streamPolicySource, /"stream-vod\.castr\.net"\.equals\(host\)/);
   assert.match(
     mainActivitySource,
     /isTelevisionDevice && isSportyPlayback\(packageName, fallbackUrl\)/,

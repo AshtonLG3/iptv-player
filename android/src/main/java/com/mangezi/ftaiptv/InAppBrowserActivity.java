@@ -260,7 +260,7 @@ public final class InAppBrowserActivity extends Activity {
             if (request == null
                     || !televisionDevice
                     || !isZbcUrl(externalUrl)
-                    || !isZbcCastrMasterPlaylist(request.getUrl())) {
+                    || !TvStreamPolicy.isTrustedZbcPlaybackUrl(request.getUrl().toString())) {
                 return super.shouldInterceptRequest(view, request);
             }
             WebResourceResponse cappedResponse = loadStableZbcTvManifest(request);
@@ -819,18 +819,6 @@ public final class InAppBrowserActivity extends Activity {
         if (host == null) return false;
         host = host.toLowerCase(Locale.US);
         return "sporty.com".equals(host) || host.endsWith(".sporty.com");
-    }
-
-    private static boolean isZbcCastrMasterPlaylist(Uri uri) {
-        if (uri == null || !isHttpScheme(uri.getScheme())) return false;
-        String host = uri.getHost();
-        String path = uri.getPath();
-        if (host == null || path == null) return false;
-        host = host.toLowerCase(Locale.US);
-        path = path.toLowerCase(Locale.US);
-        return ("castr.net".equals(host) || host.endsWith(".castr.net"))
-                && path.endsWith("/rewind-86400.m3u8")
-                && !path.endsWith("/rewind-86400.ts.m3u8");
     }
 
     private FrameLayout.LayoutParams matchParentLayoutParams() {
