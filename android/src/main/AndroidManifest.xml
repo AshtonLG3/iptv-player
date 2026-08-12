@@ -38,6 +38,12 @@
             android:exported="false"
             android:label="@string/official_stream" />
         <activity
+            android:name=".NativeHlsPlayerActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:label="@string/official_stream"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".MainActivity"
             android:banner="@drawable/tv_banner"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"

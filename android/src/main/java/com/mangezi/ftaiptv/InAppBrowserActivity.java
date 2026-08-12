@@ -34,6 +34,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.OptIn;
+import androidx.webkit.ScriptHandler;
+import androidx.webkit.WebViewCompat;
+import androidx.webkit.WebViewFeature;
+import androidx.media3.common.util.UnstableApi;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -42,9 +47,12 @@ import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Isolated browser for official broadcaster and YouTube pages. */
@@ -54,6 +62,7 @@ public final class InAppBrowserActivity extends Activity {
     private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
     private static final String YOUTUBE_PLAYLIST =
             "https://www.youtube.com/embed/videoseries?playsinline=1&autoplay=1&list=";
+    private static final String ZBC_HOME = "https://zbc.ottplatform.com/";
     private static final String PAUSE_WEB_MEDIA_SCRIPT =
             "(function(){try{"
                     + "document.querySelectorAll('video,audio').forEach(function(media){"
@@ -72,8 +81,11 @@ public final class InAppBrowserActivity extends Activity {
     private boolean televisionDevice;
     private boolean toolbarVisible;
     private boolean fullscreenPlayback;
+    private boolean nativeZbcPlayerActive;
     private String externalUrl;
     private String remoteNavigationScript;
+    private ScriptHandler unmuteDocumentScriptHandler;
+    private final AtomicBoolean nativeZbcPlayerOpening = new AtomicBoolean(false);
 
     public static void open(Context context, String url) {
         open(context, url, false);
@@ -98,15 +110,14 @@ public final class InAppBrowserActivity extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             enterImmersiveMode();
         }
-        buildLayout();
-        createWebView();
-
         String initialUrl = getIntent().getStringExtra(EXTRA_URL);
         if (!isHttpUrl(initialUrl)) {
             finish();
             return;
         }
         externalUrl = initialUrl;
+        buildLayout();
+        createWebView(initialUrl);
         webView.loadUrl(normalizeUrl(initialUrl));
     }
 
@@ -196,7 +207,7 @@ public final class InAppBrowserActivity extends Activity {
         return insets.getSystemWindowInsetTop();
     }
 
-    private void createWebView() {
+    private void createWebView(String initialUrl) {
         webView = new WebView(this);
         webView.setBackgroundColor(Color.BLACK);
         webView.setFocusable(true);
@@ -229,6 +240,7 @@ public final class InAppBrowserActivity extends Activity {
         cookies.setAcceptCookie(true);
         cookies.setAcceptThirdPartyCookies(webView, true);
 
+        installDocumentStartUnmute(webView, initialUrl);
         webView.setWebViewClient(new BrowserClient());
         webView.setWebChromeClient(new BrowserChromeClient());
         browserShell.addView(webView, new LinearLayout.LayoutParams(
@@ -344,10 +356,14 @@ public final class InAppBrowserActivity extends Activity {
             }
             customView = view;
             customViewCallback = callback;
+            view.setBackgroundColor(Color.BLACK);
+            view.setPadding(0, 0, 0, 0);
             view.setFocusable(true);
             view.setFocusableInTouchMode(true);
             browserShell.setVisibility(View.GONE);
-            root.addView(view, matchParentLayoutParams());
+            FrameLayout.LayoutParams fullscreenParams = matchParentLayoutParams();
+            fullscreenParams.setMargins(0, 0, 0, 0);
+            root.addView(view, fullscreenParams);
             view.requestFocus();
             enterImmersiveMode();
             if (!televisionDevice) {
@@ -394,7 +410,10 @@ public final class InAppBrowserActivity extends Activity {
 
     private void enterImmersiveMode() {
         getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_FULLSCREEN
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
@@ -458,6 +477,7 @@ public final class InAppBrowserActivity extends Activity {
         }
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     private WebResourceResponse loadStableZbcTvManifest(WebResourceRequest request) {
         HttpURLConnection connection = null;
         try {
@@ -479,7 +499,10 @@ public final class InAppBrowserActivity extends Activity {
             try (InputStream input = connection.getInputStream()) {
                 manifest = readUtf8Response(input, 1_048_576);
             }
-            String cappedManifest = TvStreamPolicy.capHlsMasterPlaylist(manifest, 720);
+            if (TvStreamPolicy.hasVideoVariants(manifest)) {
+                launchNativeZbcPlayer(request.getUrl());
+            }
+            String cappedManifest = TvStreamPolicy.capHlsMasterPlaylist(manifest, 480);
             Map<String, String> headers = new HashMap<>();
             headers.put("Access-Control-Allow-Origin", "*");
             headers.put("Cache-Control", "no-cache");
@@ -523,6 +546,65 @@ public final class InAppBrowserActivity extends Activity {
                 ? "true" : "false")
                 + "});}";
         view.evaluateJavascript(remoteNavigationScript + configuration, null);
+    }
+
+    private void installDocumentStartUnmute(WebView view, String initialUrl) {
+        if (view == null
+                || (!isAfreeUrl(initialUrl) && !isZbcUrl(initialUrl) && !isSportyUrl(initialUrl))
+                || !WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
+            return;
+        }
+        String script = readRawResource(R.raw.tv_force_unmute);
+        if (script == null || script.trim().isEmpty()) return;
+
+        Set<String> origins = new HashSet<>();
+        if (isAfreeUrl(initialUrl)) {
+            origins.addAll(Arrays.asList(
+                    "https://afreetv.net",
+                    "https://*.afreetv.net",
+                    "https://player.mangomolo.com"
+            ));
+        } else if (isZbcUrl(initialUrl)) {
+            origins.addAll(Arrays.asList(
+                    "https://zbc.ottplatform.com",
+                    "https://*.ottplatform.com"
+            ));
+        } else {
+            origins.addAll(Arrays.asList(
+                    "https://sporty.com",
+                    "https://*.sporty.com",
+                    "https://*.sporty.net"
+            ));
+        }
+
+        try {
+            unmuteDocumentScriptHandler = WebViewCompat.addDocumentStartJavaScript(
+                    view,
+                    script,
+                    origins
+            );
+        } catch (IllegalArgumentException | UnsupportedOperationException ignored) {
+            unmuteDocumentScriptHandler = null;
+        }
+    }
+
+    @OptIn(markerClass = UnstableApi.class)
+    private void launchNativeZbcPlayer(Uri streamUri) {
+        if (!televisionDevice
+                || streamUri == null
+                || !nativeZbcPlayerOpening.compareAndSet(false, true)) {
+            return;
+        }
+        runOnUiThread(() -> {
+            if (isFinishing() || isDestroyed()) {
+                nativeZbcPlayerOpening.set(false);
+                return;
+            }
+            pauseWebMediaThen(() -> {
+                nativeZbcPlayerActive = true;
+                NativeHlsPlayerActivity.open(this, streamUri.toString());
+            });
+        });
     }
 
     private String readRawResource(int resourceId) {
@@ -623,11 +705,21 @@ public final class InAppBrowserActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (webView != null) webView.onResume();
+        if (nativeZbcPlayerActive) {
+            nativeZbcPlayerActive = false;
+            nativeZbcPlayerOpening.set(false);
+            externalUrl = ZBC_HOME;
+            if (webView != null) webView.loadUrl(ZBC_HOME);
+        }
         if (fullscreenPlayback) enterImmersiveMode();
     }
 
     @Override
     protected void onDestroy() {
+        if (unmuteDocumentScriptHandler != null) {
+            unmuteDocumentScriptHandler.remove();
+            unmuteDocumentScriptHandler = null;
+        }
         hideCustomView();
         if (webView != null) {
             webView.stopLoading();
@@ -719,6 +811,14 @@ public final class InAppBrowserActivity extends Activity {
         if (host == null) return false;
         host = host.toLowerCase(Locale.US);
         return "afreetv.net".equals(host) || host.endsWith(".afreetv.net");
+    }
+
+    private static boolean isSportyUrl(String url) {
+        if (!isHttpUrl(url)) return false;
+        String host = Uri.parse(url).getHost();
+        if (host == null) return false;
+        host = host.toLowerCase(Locale.US);
+        return "sporty.com".equals(host) || host.endsWith(".sporty.com");
     }
 
     private static boolean isZbcCastrMasterPlaylist(Uri uri) {

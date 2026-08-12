@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 12;
+  var CONTROLLER_VERSION = 13;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
@@ -601,6 +601,11 @@
           player: 'mango_player',
           parameter: ''
         }, '*');
+        frame.contentWindow.postMessage(JSON.stringify({
+          context: 'player.js',
+          version: '0.0.11',
+          method: 'unmute'
+        }), '*');
         frame.contentWindow.postMessage({ method: 'setVolume', value: 1 }, '*');
         frame.contentWindow.postMessage({
           event: 'command',
@@ -621,12 +626,28 @@
 
   function activateUnmuteControls() {
     Array.prototype.forEach.call(
-      document.querySelectorAll('[aria-label], [title]'),
+      document.querySelectorAll([
+        '.bmpui-ui-volumetogglebutton',
+        '.vjs-mute-control',
+        '.jw-icon-volume',
+        '[aria-label]',
+        '[title]'
+      ].join(',')),
       function (control) {
         var label = [control.getAttribute('aria-label'), control.getAttribute('title')]
           .filter(Boolean)
           .join(' ');
-        if (!/(?:unmute|sound on|turn on sound)/i.test(label)) return;
+        var classes = String(control.className || '');
+        var muted = /(?:unmute|sound on|turn on sound)/i.test(label)
+          || (/bmpui-ui-volumetogglebutton/.test(classes)
+            && (control.classList.contains('bmpui-on') || control.classList.contains('muted')))
+          || (/vjs-mute-control/.test(classes) && control.classList.contains('vjs-vol-0'))
+          || (/jw-icon-volume/.test(classes) && control.classList.contains('jw-off'));
+        if (!muted) return;
+        var now = Date.now();
+        var lastClick = Number(control.getAttribute('data-rugare-unmute-click') || 0);
+        if (now - lastClick < 1000) return;
+        control.setAttribute('data-rugare-unmute-click', String(now));
         if (typeof control.click === 'function') control.click();
       }
     );

@@ -1,5 +1,5 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20260812a';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20260812a';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20260812b';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20260812b';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',

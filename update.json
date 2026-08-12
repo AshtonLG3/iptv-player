@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 33,
-  "versionName": "1.6.6",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.6.apk",
-  "sha256": "D651AA8ACADC1E0911BA38D169B1C6DDC89C67796D44D77EFA1290110EB119CD",
-  "releaseNotes": "AfreeTV, ZBC, and SportyTV now start with sound, including embedded players without a usable TV volume control. ZBC TV playback is capped below its freezing 1080p60 rendition, and SportyTV has its official logo.",
-  "publishedAt": "2026-08-12T09:37:06+02:00"
+  "versionCode": 34,
+  "versionName": "1.6.7",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.7.apk",
+  "sha256": "64A4C0122265FA3983F6E6A6E223E4C05C1A92D0E9C9F07185AE3BE3084F48A4",
+  "releaseNotes": "AfreeTV and SportyTV now receive frame-level sound recovery before their web players can reapply mute. ZBC TV channels use a native full-screen player with adaptive 360p/480p playback and a larger anti-buffering reserve.",
+  "publishedAt": "2026-08-12T20:21:24+02:00"
 }

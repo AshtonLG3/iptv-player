@@ -17,8 +17,9 @@ public final class TvStreamPolicyTest {
 
     @Test
     public void capsZbcTvPlaybackWithoutRemovingStableVariants() {
-        String capped = TvStreamPolicy.capHlsMasterPlaylist(ZBC_MASTER, 720);
+        String capped = TvStreamPolicy.capHlsMasterPlaylist(ZBC_MASTER, 480);
 
+        assertTrue(TvStreamPolicy.hasVideoVariants(ZBC_MASTER));
         assertTrue(capped.contains("640x360"));
         assertTrue(capped.contains("852x480"));
         assertFalse(capped.contains("1920x1080"));
@@ -32,5 +33,14 @@ public final class TvStreamPolicyTest {
                 + "high.m3u8\n";
 
         assertEquals(highOnly, TvStreamPolicy.capHlsMasterPlaylist(highOnly, 720));
+    }
+
+    @Test
+    public void doesNotSendAudioOnlyChannelsToTheNativeVideoPlayer() {
+        String audioOnly = "#EXTM3U\n"
+                + "#EXT-X-STREAM-INF:BANDWIDTH=128000,CODECS=\"mp4a.40.2\"\n"
+                + "audio.m3u8\n";
+
+        assertFalse(TvStreamPolicy.hasVideoVariants(audioOnly));
     }
 }

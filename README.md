@@ -113,21 +113,26 @@ Remote focus survives category redraws, discovers React/JavaScript click
 targets that are not normal links or buttons, and keeps nested card controls
 from trapping Left/Right navigation inside one tile. OK activates cards and
 menu items such as ZBC's channel banners, while page scrolling clears stale
-focus so it cannot snap back. The AfreeTV, ZBC, and SportyTV fallbacks clear
-their players' initial mute state, including cross-origin embedded players that
-do not expose a usable volume control on TV. The SportyTV fallback begins with
+focus so it cannot snap back. AfreeTV and SportyTV receive a document-start
+sound hook inside both their pages and known embedded-player frames. It clears
+initial mute state before the player can continually reapply it, and also
+activates the muted state of Bitmovin, Video.js, and JW Player volume controls.
+The SportyTV fallback begins with
 its player filling the screen. Down reveals
 and focuses the first live programme card while playback continues; further
 Up/Down presses stay within those live cards instead of entering dates or site
 tabs. OK selects a live card, while channel and media keys remain available.
-On TVs, the ZBC website fallback also removes renditions above 720p from its
-adaptive HLS master playlist. ZBC currently offers 360p, 480p, and 1080p60, so
-TV playback selects between 360p and 480p instead of freezing on 1080p60; the
-native ZBC mobile app and non-TV browsers are not changed.
-Its Bitmovin quality selector has a
-remote adjustment mode: focus Video Quality, press OK, choose a resolution with
-the D-pad, then press OK again. This TV-focused web shell avoids
-depending on browsers that need a mouse to click website controls.
+On TVs, the ZBC website remains the channel selector, but selecting a video
+channel hands its official HLS stream to Rugare TV's native Media3 player. The
+native player starts at full volume, fills the screen without the website's
+modal margins, adapts only between 360p and 480p, and keeps a larger playback
+buffer to avoid the freezes and repeated rebuffering seen in the TV WebView.
+The initial picture may take several seconds while that buffer is established.
+Returning from playback reopens the ZBC selector. Audio-only ZBC radio channels
+remain on the website, and the official mobile app and non-TV browsers are not
+changed. If native playback cannot start, the WebView fallback still removes
+the 1080p60 rendition. This TV-focused web shell avoids depending on browsers
+that need a mouse to click website controls.
 
 TV browsers that omit a normal Android TV user agent are detected after their
 first remote-navigation key. Raw Android D-pad codes are normalized so TCL and

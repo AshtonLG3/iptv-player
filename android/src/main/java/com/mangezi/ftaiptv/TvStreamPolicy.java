@@ -9,6 +9,10 @@ final class TvStreamPolicy {
 
     private TvStreamPolicy() {}
 
+    static boolean hasVideoVariants(String manifest) {
+        return manifest != null && RESOLUTION_HEIGHT.matcher(manifest).find();
+    }
+
     static String capHlsMasterPlaylist(String manifest, int maxHeight) {
         if (manifest == null || manifest.isEmpty() || maxHeight <= 0) return manifest;
         String[] lines = manifest.split("\\r?\\n", -1);

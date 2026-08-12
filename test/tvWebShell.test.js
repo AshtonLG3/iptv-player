@@ -162,6 +162,69 @@ async function createController() {
   return { controller: windowObj.__rugareTvRemote, documentObj };
 }
 
+test('document-start hook unmutes media and the active Bitmovin volume controller', async () => {
+  const video = {
+    tagName: 'VIDEO',
+    muted: true,
+    defaultMuted: true,
+    volume: 0,
+    removeAttribute() {},
+  };
+  const attributes = new Map();
+  const volumeButton = {
+    className: 'bmpui-ui-volumetogglebutton bmpui-on',
+    classList: {
+      contains(name) {
+        return name === 'bmpui-on';
+      },
+    },
+    clickCount: 0,
+    getAttribute(name) {
+      return attributes.get(name) ?? null;
+    },
+    setAttribute(name, value) {
+      attributes.set(name, String(value));
+    },
+    click() {
+      this.clickCount += 1;
+    },
+  };
+  const documentObj = {
+    readyState: 'complete',
+    documentElement: {},
+    addEventListener() {},
+    querySelectorAll(selector) {
+      if (selector === 'video,audio') return [video];
+      if (selector === 'iframe') return [];
+      return [volumeButton];
+    },
+  };
+  const windowObj = {
+    setInterval() {},
+  };
+  const source = await readFile(
+    new URL('../android/src/main/res/raw/tv_force_unmute.js', import.meta.url),
+    'utf8',
+  );
+  vm.runInNewContext(source, {
+    window: windowObj,
+    document: documentObj,
+    MutationObserver: class { observe() {} },
+    Number,
+    Object,
+    Array,
+    Boolean,
+    String,
+    Date,
+    Promise,
+  });
+
+  assert.equal(video.muted, false);
+  assert.equal(video.defaultMuted, false);
+  assert.equal(video.volume, 1);
+  assert.equal(volumeButton.clickCount, 1);
+});
+
 test('TV web shell crosses card columns and discovers React menu controls', async () => {
   const { controller, documentObj } = await createController();
   const activated = [];
@@ -396,6 +459,8 @@ test('Android browser unmutes AfreeTV, ZBC, and Sporty and forwards remote keys'
   );
   assert.match(source, /customView != null && customView\.dispatchKeyEvent\(event\)/);
   assert.match(source, /view\.requestFocus\(\)/);
+  assert.match(source, /WebViewCompat\.addDocumentStartJavaScript/);
+  assert.match(source, /NativeHlsPlayerActivity\.open\(this, streamUri\.toString\(\)\)/);
   assert.match(
     mainActivitySource,
     /isTelevisionDevice && isSportyPlayback\(packageName, fallbackUrl\)/,
