@@ -28,17 +28,23 @@ import android.webkit.WebResourceError;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebResourceResponse;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Isolated browser for official broadcaster and YouTube pages. */
@@ -234,6 +240,23 @@ public final class InAppBrowserActivity extends Activity {
     }
 
     private final class BrowserClient extends WebViewClient {
+        @Override
+        public WebResourceResponse shouldInterceptRequest(
+                WebView view,
+                WebResourceRequest request
+        ) {
+            if (request == null
+                    || !televisionDevice
+                    || !isZbcUrl(externalUrl)
+                    || !isZbcCastrMasterPlaylist(request.getUrl())) {
+                return super.shouldInterceptRequest(view, request);
+            }
+            WebResourceResponse cappedResponse = loadStableZbcTvManifest(request);
+            return cappedResponse != null
+                    ? cappedResponse
+                    : super.shouldInterceptRequest(view, request);
+        }
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             return handleNavigation(view, request.getUrl(), request.isForMainFrame());
@@ -435,6 +458,57 @@ public final class InAppBrowserActivity extends Activity {
         }
     }
 
+    private WebResourceResponse loadStableZbcTvManifest(WebResourceRequest request) {
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) new URL(request.getUrl().toString()).openConnection();
+            connection.setConnectTimeout(8_000);
+            connection.setReadTimeout(8_000);
+            connection.setInstanceFollowRedirects(true);
+            connection.setRequestProperty("Accept", "application/vnd.apple.mpegurl,application/x-mpegURL,*/*");
+            Map<String, String> requestHeaders = request.getRequestHeaders();
+            String userAgent = requestHeaders == null ? null : requestHeaders.get("User-Agent");
+            if (userAgent != null && !userAgent.trim().isEmpty()) {
+                connection.setRequestProperty("User-Agent", userAgent);
+            }
+            connection.setRequestProperty("Referer", "https://zbc.ottplatform.com/");
+
+            int statusCode = connection.getResponseCode();
+            if (statusCode < 200 || statusCode >= 300) return null;
+            String manifest;
+            try (InputStream input = connection.getInputStream()) {
+                manifest = readUtf8Response(input, 1_048_576);
+            }
+            String cappedManifest = TvStreamPolicy.capHlsMasterPlaylist(manifest, 720);
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Access-Control-Allow-Origin", "*");
+            headers.put("Cache-Control", "no-cache");
+            return new WebResourceResponse(
+                    "application/vnd.apple.mpegurl",
+                    StandardCharsets.UTF_8.name(),
+                    200,
+                    "OK",
+                    headers,
+                    new ByteArrayInputStream(cappedManifest.getBytes(StandardCharsets.UTF_8))
+            );
+        } catch (IOException ignored) {
+            return null;
+        } finally {
+            if (connection != null) connection.disconnect();
+        }
+    }
+
+    private static String readUtf8Response(InputStream input, int maxBytes) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int count;
+        while ((count = input.read(buffer)) != -1) {
+            if (output.size() + count > maxBytes) throw new IOException("Response is too large");
+            output.write(buffer, 0, count);
+        }
+        return output.toString(StandardCharsets.UTF_8.name());
+    }
+
     private void installRemoteNavigation(WebView view) {
         if (view == null) return;
         if (remoteNavigationScript == null) {
@@ -445,7 +519,8 @@ public final class InAppBrowserActivity extends Activity {
                 + "window.__rugareTvRemote.configure({sporty:"
                 + (fullscreenPlayback ? "true" : "false")
                 + ",unmute:"
-                + ((fullscreenPlayback || isZbcUrl(view.getUrl())) ? "true" : "false")
+                + ((fullscreenPlayback || isZbcUrl(view.getUrl()) || isAfreeUrl(view.getUrl()))
+                ? "true" : "false")
                 + "});}";
         view.evaluateJavascript(remoteNavigationScript + configuration, null);
     }
@@ -636,6 +711,26 @@ public final class InAppBrowserActivity extends Activity {
         if (host == null) return false;
         host = host.toLowerCase(Locale.US);
         return "zbc.ottplatform.com".equals(host) || host.endsWith(".zbc.ottplatform.com");
+    }
+
+    private static boolean isAfreeUrl(String url) {
+        if (!isHttpUrl(url)) return false;
+        String host = Uri.parse(url).getHost();
+        if (host == null) return false;
+        host = host.toLowerCase(Locale.US);
+        return "afreetv.net".equals(host) || host.endsWith(".afreetv.net");
+    }
+
+    private static boolean isZbcCastrMasterPlaylist(Uri uri) {
+        if (uri == null || !isHttpScheme(uri.getScheme())) return false;
+        String host = uri.getHost();
+        String path = uri.getPath();
+        if (host == null || path == null) return false;
+        host = host.toLowerCase(Locale.US);
+        path = path.toLowerCase(Locale.US);
+        return ("castr.net".equals(host) || host.endsWith(".castr.net"))
+                && path.endsWith("/rewind-86400.m3u8")
+                && !path.endsWith("/rewind-86400.ts.m3u8");
     }
 
     private FrameLayout.LayoutParams matchParentLayoutParams() {

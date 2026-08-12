@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 11;
+  var CONTROLLER_VERSION = 12;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
@@ -592,14 +592,57 @@
     select.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
+  function unmuteEmbeddedPlayers() {
+    Array.prototype.forEach.call(document.querySelectorAll('iframe'), function (frame) {
+      if (frame.tagName !== 'IFRAME' || !frame.contentWindow) return;
+      try {
+        frame.contentWindow.postMessage({
+          _method: 'unmute',
+          player: 'mango_player',
+          parameter: ''
+        }, '*');
+        frame.contentWindow.postMessage({ method: 'setVolume', value: 1 }, '*');
+        frame.contentWindow.postMessage({
+          event: 'command',
+          func: 'unMute',
+          args: []
+        }, '*');
+      } catch (_error) {}
+    });
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll('.volume[data-mute]'),
+      function (control) {
+        control.setAttribute('data-mute', '1');
+        control.classList.remove('muted');
+      }
+    );
+  }
+
+  function activateUnmuteControls() {
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[aria-label], [title]'),
+      function (control) {
+        var label = [control.getAttribute('aria-label'), control.getAttribute('title')]
+          .filter(Boolean)
+          .join(' ');
+        if (!/(?:unmute|sound on|turn on sound)/i.test(label)) return;
+        if (typeof control.click === 'function') control.click();
+      }
+    );
+  }
+
   function ensureUnmutedMedia() {
     if (!unmuteMode) return;
     Array.prototype.forEach.call(document.querySelectorAll('video, audio'), function (media) {
+      if (media.tagName !== 'VIDEO' && media.tagName !== 'AUDIO') return;
       media.removeAttribute('muted');
       media.defaultMuted = false;
       media.muted = false;
       media.volume = 1;
     });
+    unmuteEmbeddedPlayers();
+    activateUnmuteControls();
   }
 
   function restoreSportyBrowsingLayout() {

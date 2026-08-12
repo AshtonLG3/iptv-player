@@ -15,7 +15,7 @@ test('featured official services keep the requested direct-button order and labe
   );
   assert.equal(featured.every((service) => service.url.startsWith('https://')), true);
   assert.equal(
-    featured.slice(0, 4).every((service) => service.logo.startsWith('assets/services/')),
+    featured.every((service) => service.logo.startsWith('assets/services/')),
     true,
   );
   assert.deepEqual(
@@ -39,6 +39,7 @@ test('featured official services keep the requested direct-button order and labe
   assert.equal(featured[4].androidPackage, 'com.sporty.android');
   assert.equal(featured[4].androidOnly, undefined);
   assert.equal(featured[4].url, 'https://sporty.com/sporty-tv');
+  assert.equal(featured[4].logo, 'assets/services/sportytv.svg');
   assert.equal(
     featured[4].androidDeepLink,
     'sporty-com://com.sporty.android/channel-247',

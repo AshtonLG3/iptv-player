@@ -113,12 +113,17 @@ Remote focus survives category redraws, discovers React/JavaScript click
 targets that are not normal links or buttons, and keeps nested card controls
 from trapping Left/Right navigation inside one tile. OK activates cards and
 menu items such as ZBC's channel banners, while page scrolling clears stale
-focus so it cannot snap back. The ZBC fallback also clears the website player's
-initial mute state when its media appears. The SportyTV fallback clears the
-player mute state and begins with its player filling the screen. Down reveals
+focus so it cannot snap back. The AfreeTV, ZBC, and SportyTV fallbacks clear
+their players' initial mute state, including cross-origin embedded players that
+do not expose a usable volume control on TV. The SportyTV fallback begins with
+its player filling the screen. Down reveals
 and focuses the first live programme card while playback continues; further
 Up/Down presses stay within those live cards instead of entering dates or site
 tabs. OK selects a live card, while channel and media keys remain available.
+On TVs, the ZBC website fallback also removes renditions above 720p from its
+adaptive HLS master playlist. ZBC currently offers 360p, 480p, and 1080p60, so
+TV playback selects between 360p and 480p instead of freezing on 1080p60; the
+native ZBC mobile app and non-TV browsers are not changed.
 Its Bitmovin quality selector has a
 remote adjustment mode: focus Video Quality, press OK, choose a resolution with
 the D-pad, then press OK again. This TV-focused web shell avoids
@@ -163,7 +168,8 @@ The in-app channel list uses curated public streams. Geo-blocked general
 channels are hidden by default, while Sports and Cue Sports may retain clearly
 labeled region-limited feeds without attempting a proxy or geo-bypass. The menu
 also includes official fallbacks such as SABC+, eVOD/e.tv, Afree TV, Z+/ZBC,
-ZBC YouTube, SABC Sport, and Openview. On Android, the SABC+, eVOD/e+, Z+, and
+ZBC YouTube, SABC Sport, and Openview. Featured services use their official
+logos, including SportyTV. On Android, the SABC+, eVOD/e+, Z+, and
 SportyTV buttons launch their installed official apps after pausing Rugare TV,
 with a remote-aware official-website fallback when the app is missing. On TV,
 SportyTV always uses that fallback so the live player opens first and concurrent

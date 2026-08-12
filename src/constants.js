@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.6.5';
+export const APP_VERSION = '1.6.6';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -119,6 +119,7 @@ export const OFFICIAL_SERVICES = [
     id: 'sportytv-app',
     name: 'SportyTV',
     shortLabel: 'SportyTV',
+    logo: 'assets/services/sportytv.svg',
     country: 'Africa',
     url: 'https://sporty.com/sporty-tv',
     androidPackage: 'com.sporty.android',

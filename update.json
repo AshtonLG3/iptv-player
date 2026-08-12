@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 32,
-  "versionName": "1.6.5",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.5.apk",
-  "sha256": "F62834A3F18CA3BF41B07FEFD260AF58361D8FA569312D5620318BB197B63C45",
-  "releaseNotes": "SportyTV restores the player-first view. Press Down to jump directly to live programme cards while playback continues, and Up from the first card returns to the player.",
-  "publishedAt": "2026-08-10T08:01:06+02:00"
+  "versionCode": 33,
+  "versionName": "1.6.6",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.6.apk",
+  "sha256": "D651AA8ACADC1E0911BA38D169B1C6DDC89C67796D44D77EFA1290110EB119CD",
+  "releaseNotes": "AfreeTV, ZBC, and SportyTV now start with sound, including embedded players without a usable TV volume control. ZBC TV playback is capped below its freezing 1080p60 rendition, and SportyTV has its official logo.",
+  "publishedAt": "2026-08-12T09:37:06+02:00"
 }

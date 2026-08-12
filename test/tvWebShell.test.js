@@ -280,6 +280,37 @@ test('TV web shell automatically unmutes Sporty media', async () => {
   assert.equal(video.volume, 1);
 });
 
+test('TV web shell unmutes embedded AfreeTV players', async () => {
+  const { controller, documentObj } = await createController();
+  const messages = [];
+  const iframe = new FakeElement(documentObj, {
+    tagName: 'IFRAME',
+    rect: createRect(0, 0, 1280, 720),
+  });
+  iframe.setAttribute('src', 'https://player.mangomolo.com/v1/video?id=123');
+  iframe.contentWindow = {
+    postMessage(message, origin) {
+      messages.push({ message, origin });
+    },
+  };
+  documentObj.elements = [iframe];
+
+  controller.configure({ sporty: false, unmute: true });
+
+  assert.equal(
+    messages.some(({ message, origin }) => (
+      message._method === 'unmute'
+      && message.player === 'mango_player'
+      && origin === '*'
+    )),
+    true,
+  );
+  assert.equal(
+    messages.some(({ message }) => message.method === 'setVolume' && message.value === 1),
+    true,
+  );
+});
+
 test('Sporty mode starts player-first and jumps directly to live cards', async () => {
   const { controller, documentObj } = await createController();
   const video = new FakeElement(documentObj, {
@@ -343,7 +374,7 @@ test('Sporty mode starts player-first and jumps directly to live cards', async (
   assert.equal(video.paused, false);
 });
 
-test('Android fullscreen browser unmutes Sporty and forwards remote keys', async () => {
+test('Android browser unmutes AfreeTV, ZBC, and Sporty and forwards remote keys', async () => {
   const source = await readFile(
     new URL(
       '../android/src/main/java/com/mangezi/ftaiptv/InAppBrowserActivity.java',
@@ -359,7 +390,10 @@ test('Android fullscreen browser unmutes Sporty and forwards remote keys', async
     'utf8',
   );
 
-  assert.match(source, /fullscreenPlayback \|\| isZbcUrl\(view\.getUrl\(\)\)/);
+  assert.match(
+    source,
+    /fullscreenPlayback \|\| isZbcUrl\(view\.getUrl\(\)\) \|\| isAfreeUrl\(view\.getUrl\(\)\)/,
+  );
   assert.match(source, /customView != null && customView\.dispatchKeyEvent\(event\)/);
   assert.match(source, /view\.requestFocus\(\)/);
   assert.match(
