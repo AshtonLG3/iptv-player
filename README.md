@@ -43,6 +43,13 @@ private import and return to Rugare TV's verified public channels. Large or
 provider-specific playlists can still contain dead, unsupported, or restricted
 streams, so importing a file does not guarantee that every entry will play.
 
+Starting with v1.6.9, the Android app sends one anonymous first-launch report so
+the public website can show a Rugare TV installation count. The report contains
+only a random per-installation ID and the app version; the server retains a
+one-way hash of that ID, with no device details attached. A failed report is
+retried on a later launch. Clearing the app's data or reinstalling it may create
+a new ID and therefore a new count.
+
 Starting with v1.5.9, the Android app checks `https://mangezi.xyz/tv/update.json`
 on launch and exposes **Check for updates** in its settings menu. A newer signed
 APK is downloaded directly from mangezi.xyz, checked against the published

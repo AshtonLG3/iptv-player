@@ -82,6 +82,7 @@ public final class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.app_name));
         isTelevisionDevice = detectTelevisionDevice();
+        InstallReporter.report(this);
         createMediaSession();
         updateManager = new UpdateManager(this, this::sendUpdateStatus);
 

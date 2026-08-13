@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 35,
-  "versionName": "1.6.8",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.8.apk",
-  "sha256": "DD2DB27934A124E41728C54E6A302E5EDFCE63A31D03BDAA5C1ACD95D65F7940",
-  "releaseNotes": "ZBC Drama, Documentaries, Movies, and all other on-demand video categories now use the same native full-screen TV player as live channels. Series episodes are included, with adaptive 360p/480p playback, the larger anti-buffering reserve, and correct aspect-ratio handling without the website's thick modal border.",
-  "publishedAt": "2026-08-12T21:25:58+02:00"
+  "versionCode": 36,
+  "versionName": "1.6.9",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.9.apk",
+  "sha256": "3CFD61C96326281ECA8DC04A51A82120CF68D6F77BB1B1DDD514DF1785673DBC",
+  "releaseNotes": "Adds anonymous first-launch reporting for the public Rugare TV installation counter. The app sends a random installation ID and its version; the server stores only a one-way hash and no device details.",
+  "publishedAt": "2026-08-13T13:39:28+02:00"
 }
