@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-07-30T17:47:20.911Z",
+  "updated": "2026-08-14T06:58:11.216Z",
   "rules": {
     "allowedGroups": [
       "Africa",
@@ -344,38 +344,12 @@
       "notes": ""
     },
     {
-      "id": "DiscoverFilm.uk@SD",
-      "name": "DiscoverFilm (720p)",
-      "group": "UK",
-      "logo": "https://i.imgur.com/oMnpsQ5.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://discoverfilm-discoverfilm-1-gb.samsung.wurl.tv/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
       "id": "EnglishClubTV.uk@SD",
       "name": "English Club TV (576i)",
       "group": "UK",
       "logo": "https://i.imgur.com/9FMvaRK.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://stream8.cinerama.uz/1442/tracks-v1a1/mono.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "ENTChannel.uk@HD",
-      "name": "ENT Channel (1080p)",
-      "group": "UK",
-      "logo": "https://static.elektamedia.com/ch/entch.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn.global.elektamedia.com/live/c7eds/ENT_Channel/SA_LIVE_hls_enc/master.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
@@ -402,19 +376,6 @@
       "logo": "https://provider-static.plex.tv/epg/cms/production/08872b9b-a4a7-4533-a19b-d2c24a7bf2f1/JAIL_-_channel_logo_-_light_-_dark_-_1500x1000.png_James_Roebuck.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://e85541db4ae943d9b5a09477d6b1d8ab.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/RakutenTV-eu_Jail/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "LatestTV.uk@SD",
-      "name": "Latest TV (480p)",
-      "group": "UK",
-      "logo": "https://i.imgur.com/Cl1iGEb.jpeg",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://5a0e89631aa14.streamlock.net/live/LatestTelevision/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
@@ -638,12 +599,12 @@
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_main.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn.global.elektamedia.com/live/c7eds/Totalmusic/SA_LIVE_hls_enc/master.m3u8",
+      "primaryUrl": "https://cdn.40mediagroup.com/live/c7eds/Totalmusic/SA_LIVE_hls_enc/master.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "Totalmusic2000s.uk@HD",
@@ -651,12 +612,12 @@
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_00s.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn.global.elektamedia.com/live/c7eds/Totalmusic_00s/SA_LIVE_hls_enc/master.m3u8",
+      "primaryUrl": "https://cdn.40mediagroup.com/live/c7eds/Totalmusic_00s/SA_LIVE_hls_enc/master.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "Totalmusic80s.uk@HD",
@@ -664,12 +625,12 @@
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_80s.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn.global.elektamedia.com/live/c7eds/Totalmusic_80s/SA_LIVE_hls_enc/master.m3u8",
+      "primaryUrl": "https://cdn.40mediagroup.com/live/c7eds/Totalmusic_80s/SA_LIVE_hls_enc/master.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "TotalmusicConcerts.uk@HD",
@@ -677,12 +638,12 @@
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_concerts.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn.global.elektamedia.com/live/c7eds/Totalmusic_Concerts/SA_LIVE_hls_enc/master.m3u8",
+      "primaryUrl": "https://cdn.40mediagroup.com/live/c7eds/Totalmusic_Concerts/SA_LIVE_hls_enc/master.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "TotalmusicDance.uk@HD",
@@ -690,12 +651,12 @@
       "group": "UK",
       "logo": "https://static.elektamedia.com/ch/tmc_dance.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn.global.elektamedia.com/live/c7eds/Totalmusic_Dance/SA_LIVE_hls_enc/master.m3u8",
+      "primaryUrl": "https://cdn.40mediagroup.com/live/c7eds/Totalmusic_Dance/SA_LIVE_hls_enc/master.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "TraceUK.uk@HD",
@@ -794,12 +755,12 @@
       "group": "International",
       "logo": "https://i.imgur.com/OuogLHx.png",
       "source": "Bloomberg official public feed via iptv-org",
-      "primaryUrl": "https://bloomberg.com/media-manifest/streams/phoenix-us.m3u8",
+      "primaryUrl": "https://www.bloomberg.com/media-manifest/streams/phoenix-us.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": "Official CORS-enabled AVC master manifest with a 1080p rendition."
+      "notes": "Official CORS-enabled AVC master manifest with a 1080p rendition. Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "GREATmovies.uk@UK",
@@ -833,12 +794,12 @@
       "group": "UK",
       "logo": "https://i.imgur.com/fGUlCY3.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01753-narrativeentert-popkids-lggb/playlist.m3u8",
+      "primaryUrl": "https://amg01753-narrativeentert-popkids-lggb-xyy5k.amagi.tv/playlist/amg01753-narrativeentert-popkids-lggb/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "TinyPop.uk@SD",
@@ -872,12 +833,12 @@
       "group": "UK",
       "logo": "https://static.frequency.com/studio/itv/channels/1224-400x200.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://linear-1224.frequency.stream/dist/lg-uk/1224/hls/master/playlist.m3u8",
+      "primaryUrl": "https://9fe704e826f54008893e1f2cec429fc3.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-1224-SPACELIVE-LG_UK/mt/lg-uk/1224/hls/master/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "ABCNewsLive1.us@SD",
@@ -989,12 +950,12 @@
       "group": "USA",
       "logo": "https://i.imgur.com/pj0O5nu.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://fuel-streaming-prod01.fuelmedia.io/v1/sem/c4067ddc-0e67-4928-b7ec-624481f721a6.m3u8",
+      "primaryUrl": "https://streamingengineservice-prod01-v1.fuelmedia.io/play/c4067ddc-0e67-4928-b7ec-624481f721a6.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "KPVMLD255.us@SD",
@@ -1310,40 +1271,12 @@
       "notes": ""
     },
     {
-      "id": "ACCNetwork.us@SD",
-      "name": "ACC Network (720p)",
-      "group": "Sports",
-      "logo": "https://i.imgur.com/TpCkbkT.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "http://206.212.244.63/2486/index.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
       "id": "ACCDigitalNetwork.us@SD",
       "name": "ACCDN (1080p)",
       "group": "Sports",
       "logo": "https://i.imgur.com/V6Kaqha.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://raycom-accdn-firetv.amagi.tv/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "beINSportsUSA.us@SD",
-      "name": "beIN Sports USA (720p)",
-      "group": "Sports",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/BeIN_Sports_logo_%28vertical_version%29.svg/500px-BeIN_Sports_logo_%28vertical_version%29.svg.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "http://23.237.104.106:8080/USA_BEIN/index.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
@@ -1534,20 +1467,6 @@
       "notes": ""
     },
     {
-      "id": "KCMNLD426.us@SD",
-      "name": "KCMN-LD6 (1080p)",
-      "group": "Sports",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/QVC_logo_2019.svg/960px-QVC_logo_2019.svg.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg02873-kravemedia-mtrspt1-distrotv/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
       "id": "LacrosseTV.us@SD",
       "name": "Lacrosse TV (720p)",
       "group": "Sports",
@@ -1576,20 +1495,6 @@
       "notes": ""
     },
     {
-      "id": "MMATV.us@SD",
-      "name": "MMA-TV (576p)",
-      "group": "Sports",
-      "logo": "https://i.imgur.com/Qxco1eW.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "http://31.148.48.15/M1_Global/index.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
       "id": "MonsterJam.us@SD",
       "name": "Monster Jam (720p)",
       "group": "Sports",
@@ -1610,48 +1515,6 @@
       "logo": "https://i.imgur.com/SEQFh0P.png",
       "source": "iptv-org curated source",
       "primaryUrl": "http://23.237.104.106:8080/USA_MSG/index.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "MSG2.us@SD",
-      "name": "MSG 2 (720p)",
-      "group": "Sports",
-      "logo": "https://i.imgur.com/ErJUkYD.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "http://40.160.24.52/MSG_2/index.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "MTRSPT1.us@HD",
-      "name": "MTRSPT1 (1080p)",
-      "group": "Sports",
-      "logo": "https://i.imgur.com/Rb1H5cV.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://amg02873-kravemedia-mtrspt1-distrotv-mnsrl.amagi.tv/playlist/amg02873-kravemedia-mtrspt1-distrotv/playlist.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "NBCSportsChicago.us@SD",
-      "name": "NBC Sports Chicago (720p)",
-      "group": "Sports",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/NBC_Sports_Chicago_Logo.svg/500px-NBC_Sports_Chicago_Logo.svg.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "http://206.212.244.63/6141/index.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
@@ -1828,20 +1691,6 @@
       "notes": ""
     },
     {
-      "id": "PokerGo.us@SD",
-      "name": "PokerGo (1080p)",
-      "group": "Sports",
-      "logo": "https://i.imgur.com/1603HED.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "http://206.212.244.63/4249/index.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
       "id": "RacerSelect.us@SD",
       "name": "Racer Select (1080p)",
       "group": "Sports",
@@ -1973,13 +1822,13 @@
       "group": "Sports",
       "logo": "https://i.imgur.com/tsljAnY.png",
       "source": "iptv-org curated source",
-      "primaryUrl": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01444-tennischannelth-tennischannelnl-samsungnl/playlist.m3u8",
+      "primaryUrl": "https://amg01444-tennischannelth-tennischannelnl-samsungnl-x3dq1.amagi.tv/playlist/amg01444-tennischannelth-tennischannelnl-samsungnl/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
         "sports"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "TennisChannel.us@International",
@@ -1987,13 +1836,13 @@
       "group": "Sports",
       "logo": "https://i.imgur.com/tsljAnY.png",
       "source": "Tennis Channel International FAST feed via iptv-org",
-      "primaryUrl": "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01444-tennischannelth-tennischnlintl-lggb/playlist.m3u8",
+      "primaryUrl": "https://amg01444-tennischannelth-tennischnlintl-lggb-mr3r5.amagi.tv/playlist/amg01444-tennischannelth-tennischnlintl-lggb/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
         "sports"
       ],
-      "notes": "Public UK FAST feed with a CORS-enabled 1080p AVC rendition."
+      "notes": "Public UK FAST feed with a CORS-enabled 1080p AVC rendition. Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "TVSBowlingNetwork.us@SD",
@@ -2136,20 +1985,6 @@
       "notes": ""
     },
     {
-      "id": "Willow.us@SD",
-      "name": "Willow (720p)",
-      "group": "Sports",
-      "logo": "https://cricket.willow.tv/_nuxt/img/willow_blue_logo.362ed8e.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "http://tvsen5.aynascope.net/willowhd/index.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
       "id": "WillowSports.us@HD",
       "name": "Willow Sports (1080p)",
       "group": "Sports",
@@ -2202,73 +2037,6 @@
       "outputs": [
         "main",
         "sports"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "wh.sportsfirsttv",
-      "name": "Sports First TV",
-      "group": "Sports",
-      "logo": "https://a.jsrdn.com/hls/23208/sports-first-tv/logo_20250211_205731_70.png",
-      "source": "WirelessHack-listed FAST playlist",
-      "primaryUrl": "https://d2396zb8liu8hs.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/DistroTV-MuxIP-SportsFirstTV/409.m3u8?ads.vf=vUZgt7EkqBO",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "wh.wildnature",
-      "name": "Wild Nature",
-      "group": "International",
-      "logo": "https://a.jsrdn.com/hls/23208/wild-nature/logo_20250401_214215_70.png",
-      "source": "WirelessHack-listed FAST playlist",
-      "primaryUrl": "https://d3vqzhzmvqrbon.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/DistroTV2-MuxIP-WildNature/491.m3u8?ads.vf=6GM0P4tqoZS",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "wh.wildtv",
-      "name": "Wild TV",
-      "group": "International",
-      "logo": "https://a.jsrdn.com/hls/23208/wild-tv/logo_20250401_215043_70.png",
-      "source": "WirelessHack-listed FAST playlist",
-      "primaryUrl": "https://d3p2bckoqrp179.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/DistroTV2-MuxIP-WildTV/476.m3u8?ads.vf=GKnRQ1DOGFu",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "wh.outdoorchannel",
-      "name": "Outdoor Channel",
-      "group": "Sports",
-      "logo": "https://a.jsrdn.com/hls/23208/outdoor-channel/logo_20250911_181607_70.png",
-      "source": "WirelessHack-listed FAST playlist",
-      "primaryUrl": "https://d3ehdya3kqqd52.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/DistroTV-MuxIP-OutdoorChannelV2/455.m3u8?ads.vf=4m-g_yI88ae",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "notes": ""
-    },
-    {
-      "id": "wh.24hourfreemovies",
-      "name": "24 Hour Free Movies",
-      "group": "International",
-      "logo": "https://a.jsrdn.com/hls/22907/24-hour-free-movies/logo_20231219_183702_63.png",
-      "source": "WirelessHack-listed FAST playlist",
-      "primaryUrl": "https://d1b5mlajbmvkjv.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/UDU-DistroTV/145.m3u8?ads.vf=zLocHjQWaR8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
       ],
       "notes": ""
     },
@@ -2332,13 +2100,13 @@
       "group": "Sports",
       "logo": "",
       "source": "WirelessHack-listed FAST playlist",
-      "primaryUrl": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00315-sportsgrid-sportsgrid-xiaomi/playlist.m3u8",
+      "primaryUrl": "https://amg00315-sportsgrid-sportsgrid-xiaomi-p0u9g.amagi.tv/playlist/amg00315-sportsgrid-sportsgrid-xiaomi/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
         "sports"
       ],
-      "notes": ""
+      "notes": "Updated to the durable redirect destination reported by playlist health checks."
     },
     {
       "id": "wh.tracesportsstars",
