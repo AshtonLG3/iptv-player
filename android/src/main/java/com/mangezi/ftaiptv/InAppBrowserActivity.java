@@ -116,6 +116,10 @@ public final class InAppBrowserActivity extends Activity {
             return;
         }
         externalUrl = initialUrl;
+        if (isFanCodeUrl(initialUrl)) {
+            openFanCodeExternally(initialUrl);
+            return;
+        }
         buildLayout();
         createWebView(initialUrl);
         webView.loadUrl(normalizeUrl(initialUrl));
@@ -429,6 +433,45 @@ public final class InAppBrowserActivity extends Activity {
             }
         } catch (URISyntaxException ignored) {
             // Ignore app-only deep links; the explicit toolbar action is the external fallback.
+        }
+    }
+
+    private void openFanCodeExternally(String url) {
+        String packageName = televisionDevice ? "com.fancode.tv" : "com.dream11sportsguru";
+
+        Intent appLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        appLinkIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+        appLinkIntent.setPackage(packageName);
+        if (appLinkIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(appLinkIntent);
+            finish();
+            return;
+        }
+
+        Intent launchIntent = televisionDevice
+                ? getPackageManager().getLeanbackLaunchIntentForPackage(packageName)
+                : getPackageManager().getLaunchIntentForPackage(packageName);
+        if (launchIntent == null && televisionDevice) {
+            launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        }
+        if (launchIntent != null) {
+            launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(launchIntent);
+            finish();
+            return;
+        }
+
+        try {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+            startActivity(Intent.createChooser(
+                    browserIntent,
+                    getString(R.string.choose_browser)
+            ));
+            finish();
+        } catch (ActivityNotFoundException ignored) {
+            Toast.makeText(this, getString(R.string.no_compatible_app), Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
@@ -786,6 +829,15 @@ public final class InAppBrowserActivity extends Activity {
     private static String safeYouTubeId(String value) {
         if (value == null || !value.matches("[A-Za-z0-9_-]{6,}")) return null;
         return value;
+    }
+
+    private static boolean isFanCodeUrl(String url) {
+        if (!isHttpUrl(url)) return false;
+        String host = Uri.parse(url).getHost();
+        if (host == null) return false;
+        String normalizedHost = host.toLowerCase(Locale.US);
+        return "fancode.com".equals(normalizedHost)
+                || normalizedHost.endsWith(".fancode.com");
     }
 
     private static boolean isHttpUrl(String url) {
