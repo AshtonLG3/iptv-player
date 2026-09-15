@@ -30,31 +30,13 @@ jobs:
           path = Path('android/src/main/java/com/mangezi/ftaiptv/InAppBrowserActivity.java')
           text = path.read_text()
 
-          external_block = '''        if (isFanCodeUrl(initialUrl)) {
-              openFanCodeExternally(initialUrl);
-              return;
-          }
-'''
+          external_block = "        if (isFanCodeUrl(initialUrl)) {\n            openFanCodeExternally(initialUrl);\n            return;\n        }\n"
           if external_block not in text:
               raise SystemExit('FanCode external-routing block not found')
           text = text.replace(external_block, '')
 
-          old_ua = '''        String userAgent = settings.getUserAgentString();
-          if (userAgent != null) {
-              settings.setUserAgentString(userAgent.replace("; wv", ""));
-          }
-'''
-          new_ua = '''        String userAgent = settings.getUserAgentString();
-          if (userAgent != null) {
-              String browserUserAgent = userAgent.replace("; wv", "");
-              if (isFanCodeUrl(initialUrl)) {
-                  // FanCode rejects some Android WebView media requests. Keep playback
-                  // embedded, but avoid advertising the legacy WebView Version token.
-                  browserUserAgent = browserUserAgent.replace("Version/4.0 ", "");
-              }
-              settings.setUserAgentString(browserUserAgent);
-          }
-'''
+          old_ua = "        String userAgent = settings.getUserAgentString();\n        if (userAgent != null) {\n            settings.setUserAgentString(userAgent.replace(\"; wv\", \"\"));\n        }\n"
+          new_ua = "        String userAgent = settings.getUserAgentString();\n        if (userAgent != null) {\n            String browserUserAgent = userAgent.replace(\"; wv\", \"\");\n            if (isFanCodeUrl(initialUrl)) {\n                // FanCode rejects some Android WebView media requests. Keep playback\n                // embedded, but avoid advertising the legacy WebView Version token.\n                browserUserAgent = browserUserAgent.replace(\"Version/4.0 \", \"\");\n            }\n            settings.setUserAgentString(browserUserAgent);\n        }\n"
           if old_ua not in text:
               raise SystemExit('WebView user-agent block not found')
           text = text.replace(old_ua, new_ua)
@@ -65,8 +47,10 @@ jobs:
               raise SystemExit(f'Expected one FanCode external method, replaced {count}')
 
           path.write_text(text)
+          PY
 
-          Path('test/fancodeRouting.test.js').write_text('''import { test } from 'node:test';
+          cat > test/fancodeRouting.test.js <<'EOF'
+          import { test } from 'node:test';
           import assert from 'node:assert/strict';
           import { readFileSync } from 'node:fs';
 
@@ -79,10 +63,9 @@ jobs:
             assert.doesNotMatch(browserSource, /openFanCodeExternally/);
             assert.match(browserSource, /createWebView\(initialUrl\)/);
             assert.match(browserSource, /isFanCodeUrl\(initialUrl\)/);
-            assert.match(browserSource, /replace\("Version\\/4\\.0 ", ""\)/);
+            assert.match(browserSource, /replace\("Version\/4\.0 ", ""\)/);
           });
-          ''')
-          PY
+          EOF
 
       - name: Set up Node
         uses: actions/setup-node@v4
