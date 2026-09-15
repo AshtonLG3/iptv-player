@@ -116,10 +116,6 @@ public final class InAppBrowserActivity extends Activity {
             return;
         }
         externalUrl = initialUrl;
-        if (isFanCodeUrl(initialUrl)) {
-            openFanCodeExternally(initialUrl);
-            return;
-        }
         buildLayout();
         createWebView(initialUrl);
         webView.loadUrl(normalizeUrl(initialUrl));
@@ -236,7 +232,13 @@ public final class InAppBrowserActivity extends Activity {
         settings.setDisplayZoomControls(false);
         String userAgent = settings.getUserAgentString();
         if (userAgent != null) {
-            settings.setUserAgentString(userAgent.replace("; wv", ""));
+            String browserUserAgent = userAgent.replace("; wv", "");
+            if (isFanCodeUrl(initialUrl)) {
+                // FanCode rejects some Android WebView media requests. Keep playback
+                // embedded, but avoid advertising the legacy WebView Version token.
+                browserUserAgent = browserUserAgent.replace("Version/4.0 ", "");
+            }
+            settings.setUserAgentString(browserUserAgent);
         }
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
 
@@ -433,45 +435,6 @@ public final class InAppBrowserActivity extends Activity {
             }
         } catch (URISyntaxException ignored) {
             // Ignore app-only deep links; the explicit toolbar action is the external fallback.
-        }
-    }
-
-    private void openFanCodeExternally(String url) {
-        String packageName = televisionDevice ? "com.fancode.tv" : "com.dream11sportsguru";
-
-        Intent appLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        appLinkIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-        appLinkIntent.setPackage(packageName);
-        if (appLinkIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(appLinkIntent);
-            finish();
-            return;
-        }
-
-        Intent launchIntent = televisionDevice
-                ? getPackageManager().getLeanbackLaunchIntentForPackage(packageName)
-                : getPackageManager().getLaunchIntentForPackage(packageName);
-        if (launchIntent == null && televisionDevice) {
-            launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
-        }
-        if (launchIntent != null) {
-            launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(launchIntent);
-            finish();
-            return;
-        }
-
-        try {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-            startActivity(Intent.createChooser(
-                    browserIntent,
-                    getString(R.string.choose_browser)
-            ));
-            finish();
-        } catch (ActivityNotFoundException ignored) {
-            Toast.makeText(this, getString(R.string.no_compatible_app), Toast.LENGTH_SHORT).show();
-            finish();
         }
     }
 
