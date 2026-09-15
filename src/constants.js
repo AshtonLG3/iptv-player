@@ -127,6 +127,15 @@ export const OFFICIAL_SERVICES = [
     androidDeepLink: 'sporty-com://com.sporty.android/channel-247',
     note: 'Official SportyTV 24/7 player',
   },
+  {
+    id: 'fancode',
+    name: 'FanCode',
+    shortLabel: 'FanCode',
+    logo: 'assets/services/fancode.svg',
+    country: 'India',
+    url: 'https://www.fancode.com/live-now/all',
+    note: 'Official FanCode live sports service',
+  },
 ];
 
 export const FEATURED_OFFICIAL_SERVICE_IDS = [
@@ -135,4 +144,5 @@ export const FEATURED_OFFICIAL_SERVICE_IDS = [
   'sabc-plus',
   'zplus',
   'sportytv-app',
+  'fancode',
 ];
