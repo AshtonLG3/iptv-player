@@ -7,10 +7,9 @@ const browserSource = readFileSync(
   'utf8',
 );
 
-test('FanCode bypasses Rugare embedded WebView on Android', () => {
+test('FanCode stays in Rugare embedded WebView on Android', () => {
+  assert.doesNotMatch(browserSource, /openFanCodeExternally/);
+  assert.match(browserSource, /createWebView\(initialUrl\)/);
   assert.match(browserSource, /isFanCodeUrl\(initialUrl\)/);
-  assert.match(browserSource, /openFanCodeExternally\(initialUrl\)/);
-  assert.match(browserSource, /com\.dream11sportsguru/);
-  assert.match(browserSource, /com\.fancode\.tv/);
-  assert.match(browserSource, /Intent\.createChooser/);
+  assert.match(browserSource, /replace\("Version\/4\.0 ", ""\)/);
 });
