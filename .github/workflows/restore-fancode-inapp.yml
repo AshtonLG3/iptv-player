@@ -1,0 +1,117 @@
+name: Restore FanCode in-app
+
+on:
+  push:
+    branches:
+      - restore-fancode-inapp
+    paths:
+      - .github/workflows/restore-fancode-inapp.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: restore-fancode-inapp
+          fetch-depth: 0
+
+      - name: Restore FanCode to embedded browser
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('android/src/main/java/com/mangezi/ftaiptv/InAppBrowserActivity.java')
+          text = path.read_text()
+
+          external_block = '''        if (isFanCodeUrl(initialUrl)) {
+              openFanCodeExternally(initialUrl);
+              return;
+          }
+'''
+          if external_block not in text:
+              raise SystemExit('FanCode external-routing block not found')
+          text = text.replace(external_block, '')
+
+          old_ua = '''        String userAgent = settings.getUserAgentString();
+          if (userAgent != null) {
+              settings.setUserAgentString(userAgent.replace("; wv", ""));
+          }
+'''
+          new_ua = '''        String userAgent = settings.getUserAgentString();
+          if (userAgent != null) {
+              String browserUserAgent = userAgent.replace("; wv", "");
+              if (isFanCodeUrl(initialUrl)) {
+                  // FanCode rejects some Android WebView media requests. Keep playback
+                  // embedded, but avoid advertising the legacy WebView Version token.
+                  browserUserAgent = browserUserAgent.replace("Version/4.0 ", "");
+              }
+              settings.setUserAgentString(browserUserAgent);
+          }
+'''
+          if old_ua not in text:
+              raise SystemExit('WebView user-agent block not found')
+          text = text.replace(old_ua, new_ua)
+
+          pattern = re.compile(r'\n    private void openFanCodeExternally\(String url\) \{.*?\n    \}\n\n    private void openExternally\(\) \{', re.S)
+          text, count = pattern.subn('\n    private void openExternally() {', text, count=1)
+          if count != 1:
+              raise SystemExit(f'Expected one FanCode external method, replaced {count}')
+
+          path.write_text(text)
+
+          Path('test/fancodeRouting.test.js').write_text('''import { test } from 'node:test';
+          import assert from 'node:assert/strict';
+          import { readFileSync } from 'node:fs';
+
+          const browserSource = readFileSync(
+            new URL('../android/src/main/java/com/mangezi/ftaiptv/InAppBrowserActivity.java', import.meta.url),
+            'utf8',
+          );
+
+          test('FanCode stays in Rugare embedded WebView on Android', () => {
+            assert.doesNotMatch(browserSource, /openFanCodeExternally/);
+            assert.match(browserSource, /createWebView\(initialUrl\)/);
+            assert.match(browserSource, /isFanCodeUrl\(initialUrl\)/);
+            assert.match(browserSource, /replace\("Version\\/4\\.0 ", ""\)/);
+          });
+          ''')
+          PY
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run web tests
+        run: npm test
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run Android tests and compile debug APK
+        run: |
+          chmod +x gradlew
+          ./gradlew :android:testDebugUnitTest :android:assembleDebug
+
+      - name: Commit verified source fix
+        shell: bash
+        run: |
+          rm .github/workflows/restore-fancode-inapp.yml
+          git config user.name "mangezi"
+          git config user.email "mangezi@mangezi.xyz"
+          git add android/src/main/java/com/mangezi/ftaiptv/InAppBrowserActivity.java test/fancodeRouting.test.js .github/workflows/restore-fancode-inapp.yml
+          git commit -m "Restore FanCode embedded browser routing"
+          git push origin HEAD:restore-fancode-inapp
