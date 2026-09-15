@@ -11,15 +11,17 @@ test('featured official services keep the requested direct-button order and labe
 
   assert.deepEqual(
     featured.map((service) => service.shortLabel),
-    ['AfreeTV', 'e+', 'SABC+', 'Z+', 'SportyTV'],
+    ['AfreeTV', 'e+', 'SABC+', 'Z+', 'SportyTV', 'FanCode'],
   );
   assert.equal(featured.every((service) => service.url.startsWith('https://')), true);
   assert.equal(
     featured.every((service) => service.logo.startsWith('assets/services/')),
     true,
   );
+
+  const nativeFeatured = featured.filter((service) => service.androidPackage);
   assert.deepEqual(
-    featured.slice(1).map((service) => service.androidPackage),
+    nativeFeatured.map((service) => service.androidPackage),
     [
       'com.brightcove.evod',
       'tv.sabcplus.vod',
@@ -28,13 +30,14 @@ test('featured official services keep the requested direct-button order and labe
     ],
   );
   assert.equal(
-    featured.slice(1).every((service) => service.androidStoreUrl.includes(service.androidPackage)),
+    nativeFeatured.every((service) => service.androidStoreUrl.includes(service.androidPackage)),
     true,
   );
   assert.equal(
-    featured.slice(1).every((service) => !service.url.includes('play.google.com')),
+    nativeFeatured.every((service) => !service.url.includes('play.google.com')),
     true,
   );
+
   assert.equal(featured[0].androidPackage, undefined);
   assert.equal(featured[4].androidPackage, 'com.sporty.android');
   assert.equal(featured[4].androidOnly, undefined);
@@ -44,4 +47,9 @@ test('featured official services keep the requested direct-button order and labe
     featured[4].androidDeepLink,
     'sporty-com://com.sporty.android/channel-247',
   );
+
+  assert.equal(featured[5].id, 'fancode');
+  assert.equal(featured[5].url, 'https://www.fancode.com/live-now/all');
+  assert.equal(featured[5].logo, 'assets/services/fancode.svg');
+  assert.equal(featured[5].androidPackage, undefined);
 });
