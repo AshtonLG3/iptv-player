@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-08-14T06:58:11.216Z",
+  "updated": "2026-09-19T13:21:06.705Z",
   "rules": {
     "allowedGroups": [
       "Africa",
@@ -2272,13 +2272,13 @@
       "group": "Sports",
       "logo": "https://mangezi.xyz/tv/assets/channels/neotv/fite-tv.png",
       "source": "NeoTV+ public FAST catalog",
-      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-FiteTV_Khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/228def88-9b48-48ce-8382-1a39fe995936/manifest.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-FiteTV_Khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/228def88-9b48-48ce-8382-1a39fe995936/manifest.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     },
     {
       "id": "NeoTVPlus.FightTV",
@@ -2286,13 +2286,13 @@
       "group": "Sports",
       "logo": "https://mangezi.xyz/tv/assets/channels/neotv/fight-tv.jpg",
       "source": "NeoTV+ public FAST catalog",
-      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-FIGHT-TV-ENG_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/ffaa5cb7-7af7-4b01-85fc-6f903abcb0d0/manifest.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-FIGHT-TV-ENG_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/ffaa5cb7-7af7-4b01-85fc-6f903abcb0d0/manifest.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     },
     {
       "id": "NeoTVPlus.CricketGold",
@@ -2306,7 +2306,7 @@
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     },
     {
       "id": "NeoTVPlus.GoalTV",
@@ -2314,13 +2314,13 @@
       "group": "Sports",
       "logo": "https://mangezi.xyz/tv/assets/channels/neotv/goal-tv.jpg",
       "source": "NeoTV+ public FAST catalog",
-      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-Goal_TV_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/42c099e0-2600-480e-827e-f0a2439d43ba/master.m3u8?ads.app_storeid=com.neotv.app&ads.app_storeurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.neotv.app&ads.app_name=NeoTV+&ads.language=EN&ads.inapp_browser=inapp&ads.w=1080&ads.h=720&ads.os_code=2&ads.device_type_code=3&ads.us_privacy=1NYN&ads.coppa=0&ads.lmt=0",
+      "primaryUrl": "https://streams2.sofast.tv/ptnr-khabriya/title-Goal_TV_khabriya/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/42c099e0-2600-480e-827e-f0a2439d43ba/master.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     },
     {
       "id": "NeoTVPlus.GolfNetwork",
@@ -2334,7 +2334,7 @@
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     },
     {
       "id": "NeoTVPlus.XtremSports",
@@ -2348,7 +2348,7 @@
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     },
     {
       "id": "NeoTVPlus.Nautical",
@@ -2362,7 +2362,7 @@
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     },
     {
       "id": "NeoTVPlus.SportFishingTV",
@@ -2376,7 +2376,7 @@
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     },
     {
       "id": "NeoTVPlus.KozoomBilliards",
@@ -2390,7 +2390,21 @@
         "main",
         "sports"
       ],
-      "notes": "Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on 2026-07-30."
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
+    },
+    {
+      "id": "NeoTVPlus.SportsFirstTV",
+      "name": "Sports First TV",
+      "group": "Sports",
+      "logo": "https://mangezi.xyz/tv/assets/channels/neotv/sports-first-tv.jpg",
+      "source": "NeoTV+ public FAST catalog",
+      "primaryUrl": "https://d13f5ho7dp9xg4.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/Khabriya-MuxIP-SportsFirstTV/409.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "notes": "NeoTV+ worldwide sports catalog; HLS manifest checked on 2026-09-19."
     }
   ]
 }

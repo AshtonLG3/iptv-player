@@ -5,8 +5,8 @@ plugins {
     id("com.android.application")
 }
 
-val appVersionCode = 37
-val appVersionName = "1.6.10"
+val appVersionCode = 38
+val appVersionName = "1.6.11"
 val generatedWebAssetsDir = layout.buildDirectory.dir("generated/web-assets")
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties().apply {
@@ -55,6 +55,11 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            // CI debug certificates cannot update the signed production app.
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
         getByName("release") {
             if (hasReleaseSigning) {
                 signingConfig = signingConfigs.getByName("release")

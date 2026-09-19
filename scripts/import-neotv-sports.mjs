@@ -16,6 +16,7 @@ const APPROVED_CHANNELS = new Map([
   ['Fite TV', { id: 'NeoTVPlus.FiteTV', name: 'Fite TV', logoFile: 'fite-tv.png' }],
   ['Fight TV', { id: 'NeoTVPlus.FightTV', name: 'Fight TV', logoFile: 'fight-tv.jpg' }],
   ['Cricket Gold', { id: 'NeoTVPlus.CricketGold', name: 'Cricket Gold', logoFile: 'cricket-gold.jpg' }],
+  ['Sports First TV', { id: 'NeoTVPlus.SportsFirstTV', name: 'Sports First TV', logoFile: 'sports-first-tv.jpg' }],
   ['Goal TV', { id: 'NeoTVPlus.GoalTV', name: 'Goal TV', logoFile: 'goal-tv.jpg' }],
   ['GOLF Network', { id: 'NeoTVPlus.GolfNetwork', name: 'Golf Network', logoFile: 'golf-network.png' }],
   ['Xtrem Sports', { id: 'NeoTVPlus.XtremSports', name: 'Xtrem Sports', logoFile: 'xtrem-sports.png' }],
@@ -31,6 +32,7 @@ const ALLOWED_STREAM_HOSTS = new Set([
 ]);
 
 const response = await fetch(NEOTV_ENDPOINT, {
+  signal: AbortSignal.timeout(20000),
   method: 'POST',
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
   body: new URLSearchParams({
@@ -70,7 +72,14 @@ for (const [upstreamName, approved] of APPROVED_CHANNELS) {
     throw new Error(`Unapproved NeoTV+ logo host for ${upstreamName}: ${logoUrl.hostname}`);
   }
 
-  const logoResponse = await fetch(logoUrl);
+  // Do not replace a working registry with an upstream error page or dead feed.
+  const streamResponse = await fetch(streamUrl, { signal: AbortSignal.timeout(20000) });
+  const manifest = await streamResponse.text();
+  if (!streamResponse.ok || !manifest.trimStart().startsWith('#EXTM3U')) {
+    throw new Error(`Invalid NeoTV+ HLS for ${upstreamName}: HTTP ${streamResponse.status}`);
+  }
+
+  const logoResponse = await fetch(logoUrl, { signal: AbortSignal.timeout(20000) });
   if (!logoResponse.ok) throw new Error(`Logo download failed for ${upstreamName}`);
   const logoBytes = new Uint8Array(await logoResponse.arrayBuffer());
   if (logoBytes.length < 512) throw new Error(`Logo download was unexpectedly small for ${upstreamName}`);
@@ -85,12 +94,12 @@ for (const [upstreamName, approved] of APPROVED_CHANNELS) {
     primaryUrl: upstream.stream_url,
     backupUrls: [],
     outputs: ['main', 'sports'],
-    notes: `Public ad-supported HLS from the NeoTV+ worldwide sports catalog; verified from South Africa on ${verifiedOn}.`,
+    notes: `NeoTV+ worldwide sports catalog; HLS manifest checked on ${verifiedOn}.`,
   };
 
   const existingIndex = registry.channels.findIndex((candidate) => candidate.id === channel.id);
   if (existingIndex >= 0) {
-    registry.channels[existingIndex] = channel;
+    registry.channels[existingIndex] = { ...registry.channels[existingIndex], ...channel };
     updated += 1;
   } else {
     registry.channels.push(channel);

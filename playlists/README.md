@@ -165,6 +165,12 @@ still refuse playback outside its permitted market.
 
 ## Update log
 
+- 2026-09-19: refreshed nine NeoTV+ entries from the current worldwide sports
+  catalog and restored Sports First TV using its current public HLS URL. The
+  import now checks HLS responses before saving and retains existing channel
+  metadata. Main: 170 entries; Sports: 74 entries. Existing beIN SPORTS XTRA
+  and Trace Sports Stars entries are retained without duplicates.
+
 - 2026-08-03: audited every 720p-labelled master manifest and promoted eight
   existing adaptive feeds whose current manifests expose 1080p. Replaced
   Bloomberg TV Europe with Bloomberg TV+'s official 1080p AVC feed and replaced

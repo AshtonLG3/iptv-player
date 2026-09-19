@@ -49,7 +49,7 @@ test('featured official services keep the requested direct-button order and labe
   );
 
   assert.equal(featured[5].id, 'fancode');
-  assert.equal(featured[5].url, 'https://www.fancode.com/live-now/all');
+  assert.equal(featured[5].url, 'https://www.fancode.com/live-now/all-sports');
   assert.equal(featured[5].logo, 'assets/services/fancode.svg');
   assert.equal(featured[5].androidPackage, undefined);
 });

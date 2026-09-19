@@ -151,6 +151,21 @@ generic TV-box browsers can enter the same remote-first Rugare layout.
 
 ## Playlist maintenance
 
+Release 1.6.11 refreshes the NeoTV+ sports catalog and restores Sports First TV.
+The FanCode button opens its official Live Now page (inside Rugare on Android).
+The shared web-module cache token is refreshed with this release so returning
+website users also receive the new button. Dark/light themes and the menu
+version remain available. FanCode playback depends on the service's account,
+subscription, region, and browser support.
+
+Use the signed release from `https://mangezi.xyz/tv/update.json` for updates.
+The earlier GitHub FanCode artifacts were debug-signed and cannot update the
+production installation (or be updated by a production APK). New debug builds
+use the separate `com.mangezi.ftaiptv.debug` package to avoid that collision.
+An existing debug-signed installation under the old production package needs
+its private playlist and settings preserved before any uninstall/reinstall;
+changing or skipping signature checks cannot make it a compatible update.
+
 The source of truth is `playlists/channels.json`. Edit that file, then rebuild:
 
     npm run playlists:generate

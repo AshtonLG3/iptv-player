@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.6.10';
+export const APP_VERSION = '1.6.11';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -133,7 +133,7 @@ export const OFFICIAL_SERVICES = [
     shortLabel: 'FanCode',
     logo: 'assets/services/fancode.svg',
     country: 'India',
-    url: 'https://www.fancode.com/live-now/all',
+    url: 'https://www.fancode.com/live-now/all-sports',
     note: 'Official FanCode live sports service',
   },
 ];
