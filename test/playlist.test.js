@@ -19,7 +19,7 @@ https://example.com/kbc.m3u8
 #EXTINF:-1 tvg-id="2MMonde.ma@SD" tvg-logo="" group-title="General",2M Monde
 https://example.com/2m.m3u8
 `;
-const DEFAULT_CACHE_KEY = `fta-iptv:playlist-cache:${APP_VERSION}:playlists/english-africa-uk-us-verified.m3u`;
+const DEFAULT_CACHE_KEY = `fta-iptv:playlist-cache:${APP_VERSION}:playlists/english-africa-uk-us-verified.m3u?v=${APP_VERSION}`;
 const PRIVATE_SAMPLE = `#EXTM3U
 #EXTINF:-1,Private Sports
 http://example.com/account/token/100
@@ -53,7 +53,7 @@ test('loadChannels fetches and parses the curated playlist on first call', async
   const channels = await loadChannels({ fetchImpl, sessionStore });
 
   assert.equal(fetchCalls, 1);
-  assert.equal(requestedUrl, 'playlists/english-africa-uk-us-verified.m3u');
+  assert.equal(requestedUrl, `playlists/english-africa-uk-us-verified.m3u?v=${APP_VERSION}`);
   assert.equal(channels.length, 3);
   assert.deepEqual(channels.map((channel) => channel.name), ['NBC1', 'KBC', '2M Monde']);
 });

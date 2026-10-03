@@ -1,32 +1,32 @@
-import * as playlistModule from './src/playlist.js?v=20261003e';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261003e';
+import * as playlistModule from './src/playlist.js?v=20261003f';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261003f';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261003e';
+} from './src/constants.js?v=20261003f';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261003e';
+} from './src/playlistAccess.js?v=20261003f';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261003e';
-import { createPlayer } from './src/player.js?v=20261003e';
-import { createFullscreenController } from './src/fullscreen.js?v=20261003e';
+} from './src/ui.js?v=20261003f';
+import { createPlayer } from './src/player.js?v=20261003f';
+import { createFullscreenController } from './src/fullscreen.js?v=20261003f';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261003e';
-import { updateMediaSession } from './src/mediaSession.js?v=20261003e';
+} from './src/channelRoute.js?v=20261003f';
+import { updateMediaSession } from './src/mediaSession.js?v=20261003f';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -36,7 +36,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261003e';
+} from './src/tvRemote.js?v=20261003f';
 import {
   getTheme,
   isFavorite,
@@ -44,7 +44,7 @@ import {
   toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261003e';
+} from './src/storage.js?v=20261003f';
 
 const {
   clearPrivatePlaylist,

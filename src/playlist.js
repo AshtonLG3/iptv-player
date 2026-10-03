@@ -1,5 +1,5 @@
-import { APP_VERSION, CURATED_PLAYLISTS } from './constants.js?v=20261003e';
-import { parseM3U, filterByFtaCountries } from './parser.js?v=20261003e';
+import { APP_VERSION, CURATED_PLAYLISTS } from './constants.js?v=20261003f';
+import { parseM3U, filterByFtaCountries } from './parser.js?v=20261003f';
 
 const DEFAULT_PLAYLIST_URL = CURATED_PLAYLISTS[0].url;
 const CACHE_KEY_PREFIX = 'fta-iptv:playlist-cache:';
@@ -85,7 +85,8 @@ export async function loadChannels({
   const privatePlaylist = getPrivatePlaylist(privateStore);
   if (privatePlaylist) return privatePlaylist.channels;
 
-  const cacheKey = `${CACHE_KEY_PREFIX}${APP_VERSION}:${playlistUrl}`;
+  const requestUrl = `${playlistUrl}${playlistUrl.includes('?') ? '&' : '?'}v=${APP_VERSION}`;
+  const cacheKey = `${CACHE_KEY_PREFIX}${APP_VERSION}:${requestUrl}`;
   const cached = sessionStore.getItem(cacheKey);
   if (cached) {
     try {
@@ -95,7 +96,8 @@ export async function loadChannels({
     }
   }
 
-  const response = await fetchImpl(playlistUrl);
+  // A new app release must also bypass stale browser/CDN playlist responses.
+  const response = await fetchImpl(requestUrl);
   if (!response.ok) {
     throw new Error(`Failed to fetch playlist: ${response.status}`);
   }
