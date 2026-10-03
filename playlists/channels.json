@@ -11286,7 +11286,7 @@
       "outputs": [
         "main"
       ],
-      "notes": "2026-10-03: MPEG-2 video and MP2 audio unsupported by embedded web player; no verified English compatible replacement found.",
+      "notes": "2026-10-03: MPEG-2/MP2 incompatible with embedded player. Replaced with English India SD Wild feed.",
       "status": "disabled"
     },
     {
@@ -18940,6 +18940,23 @@
         "main"
       ],
       "notes": "Selected English H.264/AAC rendition from India SD feed; master explicitly identifies a1 as eng, and ffprobe confirms eng audio. Avoid Hindi HD feed. HTTP source may be blocked on HTTPS web player; Android allows this stream.",
+      "status": "active"
+    },
+    {
+      "id": "NationalGeographicWild.in@English",
+      "name": "Nat Geo Wild (India, English) (576p)",
+      "group": "Documentary",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/National_Geographic_Wild_logo.svg/960px-National_Geographic_Wild_logo.svg.png",
+      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
+      "languages": [
+        "eng"
+      ],
+      "primaryUrl": "http://51.75.127.199:3141/natgeowild/tracks-v1a1/mono.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "English H.264/AAC feed, actual 1024x576. Added at user request accepting SD quality. HTTP may be blocked by HTTPS browsers; Android permits mixed content.",
       "status": "active"
     }
   ]

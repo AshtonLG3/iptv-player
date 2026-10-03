@@ -24,5 +24,26 @@
   ],
   "reason": "mpeg2video/mp2 unsupported in browser",
   "ukCanada": "No verified usable English UK or Canada candidate found",
-  "hdIndia": "Rejected: hin audio"
+  "hdIndia": "Rejected: hin audio",
+  "wildReplacement": {
+    "checkedAt": "2026-10-03T09:25:11.577Z",
+    "id": "NationalGeographicWild.in@English",
+    "url": "http://51.75.127.199:3141/natgeowild/tracks-v1a1/mono.m3u8",
+    "probe": {
+      "url": "http://51.75.127.199:3141/natgeowild/tracks-v1a1/mono.m3u8",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://51.75.127.199:3141/natgeowild/tracks-v1a1/mono.m3u8",
+      "mediaPlaylistUrl": "http://51.75.127.199:3141/natgeowild/tracks-v1a1/mono.m3u8",
+      "segmentUrl": "http://51.75.127.199:3141/natgeowild/tracks-v1a1/2026/10/03/09/25/10-06000.ts",
+      "segmentBytes": 4096,
+      "validPlaylist": true,
+      "elapsedMs": 674
+    },
+    "audioLanguage": "eng",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "width": 1024,
+    "height": 576
+  }
 }

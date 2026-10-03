@@ -1,31 +1,31 @@
-import * as playlistModule from './src/playlist.js?v=20261003b';
+import * as playlistModule from './src/playlist.js?v=20261003c';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261003b';
+} from './src/constants.js?v=20261003c';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261003b';
+} from './src/playlistAccess.js?v=20261003c';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261003b';
-import { createPlayer } from './src/player.js?v=20261003b';
-import { createFullscreenController } from './src/fullscreen.js?v=20261003b';
+} from './src/ui.js?v=20261003c';
+import { createPlayer } from './src/player.js?v=20261003c';
+import { createFullscreenController } from './src/fullscreen.js?v=20261003c';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261003b';
-import { updateMediaSession } from './src/mediaSession.js?v=20261003b';
+} from './src/channelRoute.js?v=20261003c';
+import { updateMediaSession } from './src/mediaSession.js?v=20261003c';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -35,7 +35,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261003b';
+} from './src/tvRemote.js?v=20261003c';
 import {
   getTheme,
   isFavorite,
@@ -43,7 +43,7 @@ import {
   toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261003b';
+} from './src/storage.js?v=20261003c';
 
 const {
   clearPrivatePlaylist,
