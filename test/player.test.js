@@ -53,6 +53,7 @@ class FakeHls {
 
 function createFakeVideo({ canPlayHls = false, playResolves = true } = {}) {
   const errorListeners = [];
+  const playingListeners = [];
   return {
     src: '',
     muted: false,
@@ -73,17 +74,64 @@ function createFakeVideo({ canPlayHls = false, playResolves = true } = {}) {
     },
     addEventListener(event, cb) {
       if (event === 'error') errorListeners.push(cb);
+      if (event === 'playing') playingListeners.push(cb);
     },
     removeEventListener(event, cb) {
-      if (event !== 'error') return;
-      const index = errorListeners.indexOf(cb);
-      if (index !== -1) errorListeners.splice(index, 1);
+      const listeners = event === 'error' ? errorListeners : playingListeners;
+      const index = listeners.indexOf(cb);
+      if (index !== -1) listeners.splice(index, 1);
     },
     triggerError() {
       errorListeners.slice().forEach((cb) => cb());
     },
+    triggerPlaying() { playingListeners.slice().forEach((cb) => cb()); },
   };
 }
+
+function fakeTimers() {
+  const pending = new Map();
+  let index = 0;
+  return {
+    set: (cb) => { pending.set(++index, cb); return index; },
+    clear: (id) => pending.delete(id),
+    fire: () => { const cb = pending.values().next().value; assert.ok(cb); cb(); },
+    count: () => pending.size,
+  };
+}
+test('silent native startup falls back to HLS, then to the backup, then reports failure', () => {
+  FakeHls.supported = true;
+  FakeHls.instances = [];
+  const timers = fakeTimers();
+  const player = createPlayer(createFakeVideo({ canPlayHls: true }), { HlsCtor: FakeHls, timers });
+  let error;
+  player.onError((e) => { error = e; });
+  player.play(['https://example.com/primary.m3u8', 'https://example.com/backup.m3u8']);
+  timers.fire();
+  assert.equal(FakeHls.instances[0].loadSourceCalls[0], 'https://example.com/primary.m3u8');
+  timers.fire(); // Next source starts natively.
+  timers.fire(); // Its native attempt falls back to HLS.
+  assert.equal(FakeHls.instances[1].loadSourceCalls[0], 'https://example.com/backup.m3u8');
+  timers.fire();
+  assert.match(error.message, /did not start/);
+  assert.equal(timers.count(), 0);
+});
+test('startup timeout is cleared when playing, suspending, switching or destroying', () => {
+  FakeHls.supported = false;
+  const video = createFakeVideo({ canPlayHls: true });
+  const timers = fakeTimers();
+  const player = createPlayer(video, { HlsCtor: FakeHls, timers });
+  player.play('https://example.com/one.m3u8');
+  video.triggerPlaying();
+  assert.equal(timers.count(), 0);
+  player.play('https://example.com/two.m3u8');
+  player.play('https://example.com/three.m3u8');
+  assert.equal(timers.count(), 1);
+  player.suspend();
+  assert.equal(timers.count(), 0);
+  player.play('https://example.com/four.m3u8');
+  player.destroy();
+  assert.equal(timers.count(), 0);
+});
 
 test('play() loads the source into Hls.js and attaches it to the video element', () => {
   FakeHls.supported = true;

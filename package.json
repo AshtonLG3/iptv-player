@@ -1,6 +1,6 @@
 {
   "name": "rugare-tv",
-  "version": "1.6.11",
+  "version": "1.6.12",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,6 +10,7 @@
     "playlists:generate:check": "node scripts/generate-playlists.mjs --check",
     "playlists:import:neotv-sports": "node scripts/import-neotv-sports.mjs",
     "playlists:verify": "node scripts/verify-playlists.mjs",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "playlists:refresh:english": "node scripts/refresh-english-channels.mjs"
   }
 }

@@ -1,5 +1,5 @@
-import { APP_VERSION, CURATED_PLAYLISTS } from './constants.js?v=20260919a';
-import { parseM3U, filterByFtaCountries } from './parser.js?v=20260919a';
+import { APP_VERSION, CURATED_PLAYLISTS } from './constants.js?v=20261003a';
+import { parseM3U, filterByFtaCountries } from './parser.js?v=20261003a';
 
 const DEFAULT_PLAYLIST_URL = CURATED_PLAYLISTS[0].url;
 const CACHE_KEY_PREFIX = 'fta-iptv:playlist-cache:';

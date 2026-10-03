@@ -112,6 +112,7 @@ test('limitChannelsForRendering keeps very large private playlists responsive', 
 
   assert.equal(limitChannelsForRendering(channels).length, MAX_RENDERED_CHANNELS);
   assert.equal(limitChannelsForRendering(channels)[0].name, 'Channel 1');
+  assert.equal(limitChannelsForRendering(channels, MAX_RENDERED_CHANNELS * 2).length, channels.length);
 });
 
 test('resolveChannelLogoUrl uses bundled artwork inside the Android app', () => {

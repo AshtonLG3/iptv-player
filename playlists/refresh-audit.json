@@ -1,0 +1,6620 @@
+{
+  "checkedAt": "2026-10-03T06:33:09.734Z",
+  "sourceUrl": "https://iptv-org.github.io/iptv/languages/eng.m3u",
+  "probedFeeds": 3017,
+  "added": [
+    {
+      "id": "00sReplay.us@SD",
+      "name": "00s Replay"
+    },
+    {
+      "id": "3ABNCanada.ca@SD",
+      "name": "3ABN Canada (720p)"
+    },
+    {
+      "id": "3ABNEnglish.us@SD",
+      "name": "3ABN English"
+    },
+    {
+      "id": "3ABNInternational.us@SD",
+      "name": "3ABN International (720p)"
+    },
+    {
+      "id": "3ABNKids.us@SD",
+      "name": "3ABN Kids"
+    },
+    {
+      "id": "3ABNPraiseHimMusicNetwork.us@SD",
+      "name": "3ABN Praise Him Music Network"
+    },
+    {
+      "id": "3ABNProclaimNetwork.us@SD",
+      "name": "3ABN Proclaim! Network"
+    },
+    {
+      "id": "5Cops.us@UK",
+      "name": "5 Cops"
+    },
+    {
+      "id": "10Bold.au@Sydney",
+      "name": "10 Bold (1080p)"
+    },
+    {
+      "id": "30ADarcizzleOffshore.us@SD",
+      "name": "30A Darcizzle Offshore (720p)"
+    },
+    {
+      "id": "30AGeorgiaHollywoodReview.us@SD",
+      "name": "30A Georgia Hollywood Review (720p)"
+    },
+    {
+      "id": "30AInvestmentPitch.us@SD",
+      "name": "30A Investment Pitch (720p)"
+    },
+    {
+      "id": "30ALuxeLifeDiscovered.us@SD",
+      "name": "30A Luxe Life Discovered (720p)"
+    },
+    {
+      "id": "30AMusic.us@SD",
+      "name": "30A Music (720p)"
+    },
+    {
+      "id": "30ARidiculousTV.us@SD",
+      "name": "30A Ridiculous TV (720p)"
+    },
+    {
+      "id": "30ASidewalks.us@SD",
+      "name": "30A Sidewalks (720p)"
+    },
+    {
+      "id": "30ATelevisionChannel.us@SD",
+      "name": "30A Television Channel (720p)"
+    },
+    {
+      "id": "30ATheBeachShow.us@SD",
+      "name": "30A The Beach Show (720p)"
+    },
+    {
+      "id": "30ATVClassicMovies.us@SD",
+      "name": "30A TV Classic Movies (720p)"
+    },
+    {
+      "id": "30AWeLoveCars.us@SD",
+      "name": "30A We Love Cars (720p)"
+    },
+    {
+      "id": "48Hours.us@US",
+      "name": "48 Hours (1080p)"
+    },
+    {
+      "id": "50CentAction.us@SD",
+      "name": "50 Cent Action (720p)"
+    },
+    {
+      "id": "70sCinema.us@SD",
+      "name": "70s Cinema"
+    },
+    {
+      "id": "80sRewind.us@SD",
+      "name": "80s Rewind"
+    },
+    {
+      "id": "90sKids.us@SD",
+      "name": "90's Kids"
+    },
+    {
+      "id": "90sKidsTV2.us@SD",
+      "name": "90s Kids TV 2"
+    },
+    {
+      "id": "90sThrowback.us@SD",
+      "name": "90s Throwback"
+    },
+    {
+      "id": "981PearlFM.sx@SD",
+      "name": "98.1 Pearl FM (720p)"
+    },
+    {
+      "id": "360TuneBox.nl@SD",
+      "name": "360TuneBox (1080p)"
+    },
+    {
+      "id": "AE.us@East",
+      "name": "A&E (720p)"
+    },
+    {
+      "id": "AbanteTV.ph@HD",
+      "name": "Abante TV (1080p)"
+    },
+    {
+      "id": "ABCEntertains.au@Sydney",
+      "name": "ABC Entertains (720p)"
+    },
+    {
+      "id": "ABCKids.au@Sydney",
+      "name": "ABC Kids"
+    },
+    {
+      "id": "ABCNews.au@Sydney",
+      "name": "ABC News (Australia) (720p)"
+    },
+    {
+      "id": "ABCNewsLive.us@SD",
+      "name": "ABC News Live (720p)"
+    },
+    {
+      "id": "ABCTV.au@NSW",
+      "name": "ABC TV (720p)"
+    },
+    {
+      "id": "ABCTVPlus.au@Sydney",
+      "name": "ABC TV Plus (720p)"
+    },
+    {
+      "id": "ABNAfrica.us@SD",
+      "name": "ABN Africa (480p)"
+    },
+    {
+      "id": "ABNBibleMoviesChannel.us@SD",
+      "name": "ABN Bible Movies Channel (720p)"
+    },
+    {
+      "id": "AbsoluteRealitybyWETV.us@SD",
+      "name": "Absolute Reality by WE TV"
+    },
+    {
+      "id": "AcapulcoShore.us@US",
+      "name": "Acapulco Shore US"
+    },
+    {
+      "id": "ACCNetwork.us@SD",
+      "name": "ACC Network (720p)"
+    },
+    {
+      "id": "AccuWeatherNOW.us@SD",
+      "name": "AccuWeather NOW (1080p)"
+    },
+    {
+      "id": "AceTV.us@SD",
+      "name": "Ace TV (480p)"
+    },
+    {
+      "id": "ACNN.ng@SD",
+      "name": "ACNN (480p)"
+    },
+    {
+      "id": "AdventureEarth.de@SD",
+      "name": "Adventure Earth (1080p)"
+    },
+    {
+      "id": "Africa24English.fr@SD",
+      "name": "Africa 24 English (1080p)"
+    },
+    {
+      "id": "AfricanewsEnglish.fr@SD",
+      "name": "Africanews English (720p)"
+    },
+    {
+      "id": "AfroLandTV.us@SD",
+      "name": "AfroLandTV (1080p)"
+    },
+    {
+      "id": "AFTV.us@SD",
+      "name": "AFTV (1080p)"
+    },
+    {
+      "id": "AFV.us@SD",
+      "name": "AFV (720p)"
+    },
+    {
+      "id": "AhlulbaytTV.uk@SD",
+      "name": "Ahlulbayt TV (1080p)"
+    },
+    {
+      "id": "AKCTV.us@SD",
+      "name": "AKC TV (1080p)"
+    },
+    {
+      "id": "AKCTVMeettheBreeds.us@SD",
+      "name": "AKC TV Meet the Breeds"
+    },
+    {
+      "id": "AKCTVPuppies.us@SD",
+      "name": "AKC TV Puppies"
+    },
+    {
+      "id": "AlArabiyaEnglish.sa@SD",
+      "name": "Al Arabiya English (1080p)"
+    },
+    {
+      "id": "AllRealitybyWEtv.us@SD",
+      "name": "All Reality by WE tv (720p)"
+    },
+    {
+      "id": "AllWeddingsWEtv.us@SD",
+      "name": "All Weddings WE tv"
+    },
+    {
+      "id": "AlphaDigital.ug@SD",
+      "name": "Alpha Digital (480p)"
+    },
+    {
+      "id": "AmazingDiscoveriesTV.ca@SD",
+      "name": "Amazing Discoveries TV (720p)"
+    },
+    {
+      "id": "AmazingFactsTV.us@SD",
+      "name": "Amazing Facts TV (1080p)"
+    },
+    {
+      "id": "AMC.us@EastHD",
+      "name": "AMC (United States) (720p)"
+    },
+    {
+      "id": "AMCEurope.uk@CzechRepublic",
+      "name": "AMC Europe Czech Republic"
+    },
+    {
+      "id": "AmericasNextTopModel.us@SD",
+      "name": "America's Next Top Model"
+    },
+    {
+      "id": "AmericasTestKitchen.us@SD",
+      "name": "America's Test Kitchen (720p)"
+    },
+    {
+      "id": "AmericasVoice.us@SD",
+      "name": "America's Voice (720p)"
+    },
+    {
+      "id": "AmericanCrimeChannel.pl@Poland",
+      "name": "American Crime Channel"
+    },
+    {
+      "id": "AmericanHorrors.us@SD",
+      "name": "American Horrors (480p)"
+    },
+    {
+      "id": "Ameritrade.us@SD",
+      "name": "Ameritrade (1080p) [Not 24/7]"
+    },
+    {
+      "id": "AMGTV.us@SD",
+      "name": "AMG TV (1080p)"
+    },
+    {
+      "id": "AMGATV.us@SD",
+      "name": "AMGA TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "Andromeda.us@UK",
+      "name": "Andromeda UK"
+    },
+    {
+      "id": "AngelTV.in@Africa",
+      "name": "Angel TV Africa (720p)"
+    },
+    {
+      "id": "AngerManagementChannel.us@SD",
+      "name": "Anger Management Channel (1080p)"
+    },
+    {
+      "id": "AnimexHIDIVE.us@SD",
+      "name": "Anime x HIDIVE"
+    },
+    {
+      "id": "AnthonyBourdainPartsUnknown.us@UK",
+      "name": "Anthony Bourdain: Parts Unknown"
+    },
+    {
+      "id": "AntiquesRoadshowUK.us@SD",
+      "name": "Antiques Roadshow UK (1080p)"
+    },
+    {
+      "id": "ApprovalTV.ng@HD",
+      "name": "Approval TV (720p)"
+    },
+    {
+      "id": "AreWeThereYet.us@SD",
+      "name": "Are We There Yet? (1080p)"
+    },
+    {
+      "id": "ArirangTV.kr@SD",
+      "name": "Arirang TV (1080p)"
+    },
+    {
+      "id": "ArirangUN.kr@SD",
+      "name": "Arirang UN (1080p)"
+    },
+    {
+      "id": "ArkTV.ug@SD",
+      "name": "Ark TV (1080p) [Not 24/7]"
+    },
+    {
+      "id": "ARTFLIXMovieClassics.us@SD",
+      "name": "ARTFLIX Movie Classics (720p)"
+    },
+    {
+      "id": "AsianCrush.us@SD",
+      "name": "AsianCrush (1080p)"
+    },
+    {
+      "id": "AspireTVLife.us@SD",
+      "name": "Aspire TV Life (1080p)"
+    },
+    {
+      "id": "AtlantaChannel.us@SD",
+      "name": "Atlanta Channel (720p)"
+    },
+    {
+      "id": "Atlas.us@SD",
+      "name": "Atlas (480p)"
+    },
+    {
+      "id": "AuctionHunters.de@GB",
+      "name": "Auction Hunters (Germany) GB"
+    },
+    {
+      "id": "AusbizTV.au@SD",
+      "name": "Ausbiz TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "AutenticHistory.de@SD",
+      "name": "Autentic History (1080p)"
+    },
+    {
+      "id": "AutenticTravel.de@SD",
+      "name": "Autentic Travel (1080p)"
+    },
+    {
+      "id": "Avatar.de@GB",
+      "name": "Avatar (Germany)"
+    },
+    {
+      "id": "AWE.us@SD",
+      "name": "AWE (720p)"
+    },
+    {
+      "id": "AWEInternational.us@SD",
+      "name": "AWE International (720p)"
+    },
+    {
+      "id": "AWEPlus.us@SD",
+      "name": "AWE Plus (720p)"
+    },
+    {
+      "id": "AXNAdria.us@SD",
+      "name": "AXN Adria"
+    },
+    {
+      "id": "AXNBlack.us@CzechRepublic",
+      "name": "AXN Black Czech Republic"
+    },
+    {
+      "id": "AXNCrime.us@SD",
+      "name": "AXN Crime"
+    },
+    {
+      "id": "AXSTV.us@SD",
+      "name": "AXS TV (720p)"
+    },
+    {
+      "id": "BabySharkTV.us@SD",
+      "name": "Baby Shark TV (1080p)"
+    },
+    {
+      "id": "BarRescue.us@SD",
+      "name": "Bar Rescue"
+    },
+    {
+      "id": "BarkTV.us@SD",
+      "name": "Bark TV (1080p)"
+    },
+    {
+      "id": "BattlestarGalactica.us@SD",
+      "name": "Battlestar Galactica"
+    },
+    {
+      "id": "BBCAmerica.us@East",
+      "name": "BBC America (720p)"
+    },
+    {
+      "id": "BBCBrit.uk@Poland",
+      "name": "BBC Brit (1080p)"
+    },
+    {
+      "id": "BBCFirst.uk@Turkiye",
+      "name": "BBC First Turkiye"
+    },
+    {
+      "id": "BBCLifestyle.uk@Poland",
+      "name": "BBC Lifestyle Poland (1080p)"
+    },
+    {
+      "id": "BCSStarCrossTV.ng@SD",
+      "name": "BCS StarCross TV (576p)"
+    },
+    {
+      "id": "BeachTVFloridaAlabama.us@SD",
+      "name": "Beach TV Florida & Alabama (720p)"
+    },
+    {
+      "id": "BeachTVKeyWestFloridaKeys.us@SD",
+      "name": "Beach TV Key West & Florida Keys (720p)"
+    },
+    {
+      "id": "BeachTVMyrtleBeachTheGrandStrand.us@SD",
+      "name": "Beach TV Myrtle Beach & The Grand Strand (720p)"
+    },
+    {
+      "id": "BeachTVPanamaCity.us@SD",
+      "name": "Beach TV Panama City (720p)"
+    },
+    {
+      "id": "BestofDanceTV.ee@SD",
+      "name": "Best of Dance TV (1080p)"
+    },
+    {
+      "id": "BestofDrPhil.us@SD",
+      "name": "Best of Dr Phil"
+    },
+    {
+      "id": "BestofTheDrewBarrymoreShow.us@CA",
+      "name": "Best of The Drew Barrymore Show (United States)"
+    },
+    {
+      "id": "BETCinema.us@SD",
+      "name": "BET Cinema"
+    },
+    {
+      "id": "BETClassicsPlutoTV.us@SD",
+      "name": "BET Classics Pluto TV"
+    },
+    {
+      "id": "BETComedyMovies.us@SD",
+      "name": "BET Comedy Movies"
+    },
+    {
+      "id": "BETPlutoTV.us@US",
+      "name": "BET Pluto TV"
+    },
+    {
+      "id": "BETThrowbacks.us@SD",
+      "name": "BET Throwbacks"
+    },
+    {
+      "id": "BETVisionaries.us@SD",
+      "name": "BET Visionaries"
+    },
+    {
+      "id": "BetterHealthTV.us@SD",
+      "name": "Better Health TV (480p)"
+    },
+    {
+      "id": "BetterLifeNatureChannel.us@SD",
+      "name": "Better Life Nature Channel (480p)"
+    },
+    {
+      "id": "BetterLifeTV.us@SD",
+      "name": "Better Life TV (720p)"
+    },
+    {
+      "id": "BeverlyHillbillies.us@US",
+      "name": "Beverly Hillbillies"
+    },
+    {
+      "id": "BeverlyHills90210.us@SD",
+      "name": "Beverly Hills 90210"
+    },
+    {
+      "id": "BeyondBeliefFactorFiction.us@UK",
+      "name": "Beyond Belief: Fact or Fiction"
+    },
+    {
+      "id": "BeyondtheGates.us@SD",
+      "name": "Beyond the Gates"
+    },
+    {
+      "id": "BigBrother.us@SD",
+      "name": "Big Brother"
+    },
+    {
+      "id": "BigTenNetwork.us@SD",
+      "name": "Big Ten Network (720p)"
+    },
+    {
+      "id": "Binge.us@SD",
+      "name": "Binge"
+    },
+    {
+      "id": "BizTV.us@SD",
+      "name": "Biz TV (1080p)"
+    },
+    {
+      "id": "BizzTV.tt@SD",
+      "name": "Bizz TV (1080p)"
+    },
+    {
+      "id": "BlackFamilySitcoms.us@SD",
+      "name": "Black Family Sitcoms"
+    },
+    {
+      "id": "BlackInkCrew.us@SD",
+      "name": "Black Ink Crew"
+    },
+    {
+      "id": "BlazeLive.us@SD",
+      "name": "Blaze Live (720p)"
+    },
+    {
+      "id": "BloombergOriginals.us@US",
+      "name": "Bloomberg Originals (1080p)"
+    },
+    {
+      "id": "BlueBloods.us@SD",
+      "name": "Blue Bloods"
+    },
+    {
+      "id": "bonappetit.us@SD",
+      "name": "bon appetit (1080p)"
+    },
+    {
+      "id": "Bonanza.us@SD",
+      "name": "Bonanza"
+    },
+    {
+      "id": "BondiRescue.us@CA",
+      "name": "Bondi Rescue (United States) (720p)"
+    },
+    {
+      "id": "Bounce.us@SD",
+      "name": "Bounce (720p)"
+    },
+    {
+      "id": "BounceXL.us@SD",
+      "name": "Bounce XL (1080p)"
+    },
+    {
+      "id": "BratTV.us@SD",
+      "name": "Brat TV (1080p)"
+    },
+    {
+      "id": "Bravo.us@East",
+      "name": "Bravo (720p)"
+    },
+    {
+      "id": "BrideTV.ng@SD",
+      "name": "Bride TV (576p)"
+    },
+    {
+      "id": "BritAsiaTV.uk@HD",
+      "name": "Brit Asia TV (1080p)"
+    },
+    {
+      "id": "BritBoxMysteries.us@SD",
+      "name": "BritBox Mysteries (1080p)"
+    },
+    {
+      "id": "BritishComedy.us@CA",
+      "name": "British Comedy"
+    },
+    {
+      "id": "BTTV.in@SD",
+      "name": "BT TV (720p)"
+    },
+    {
+      "id": "BukeddeTV2.ug@SD",
+      "name": "Bukedde TV 2 (576p) [Not 24/7]"
+    },
+    {
+      "id": "BusinessRockstars.us@SD",
+      "name": "Business Rockstars (720p)"
+    },
+    {
+      "id": "BUTV10.us@SD",
+      "name": "BUTV10 (1080p) [Not 24/7]"
+    },
+    {
+      "id": "BuzzfeedUnsolved.pl@FAST",
+      "name": "Buzzfeed Unsolved"
+    },
+    {
+      "id": "Buzzr.us@SD",
+      "name": "Buzzr (1080p)"
+    },
+    {
+      "id": "C31Melbourne.au@SD",
+      "name": "C31 Melbourne (240p)"
+    },
+    {
+      "id": "CagneyLacey.de@GB",
+      "name": "Cagney & Lacey"
+    },
+    {
+      "id": "CaliforniaMusicChannel.us@SD",
+      "name": "California Music Channel (1080p)"
+    },
+    {
+      "id": "CameraSmileTV.us@SD",
+      "name": "Camera Smile TV (480p)"
+    },
+    {
+      "id": "CampSpoopy.us@SD",
+      "name": "Camp Spoopy (576p)"
+    },
+    {
+      "id": "CanadaOne.ca@SD",
+      "name": "Canada One (720p) [Not 24/7]"
+    },
+    {
+      "id": "CapuchinTV.ke@SD",
+      "name": "Capuchin TV"
+    },
+    {
+      "id": "CarChase.us@SD",
+      "name": "Car Chase (United States) (720p)"
+    },
+    {
+      "id": "CaribbeanGospelTV.jm@SD",
+      "name": "Caribbean Gospel TV"
+    },
+    {
+      "id": "CatholicFaithNetwork.us@SD",
+      "name": "Catholic Faith Network (720p)"
+    },
+    {
+      "id": "CatholicTV.us@SD",
+      "name": "Catholic TV (1080p)"
+    },
+    {
+      "id": "CBCTV8.bb@SD",
+      "name": "CBC TV8 (1080p) [Not 24/7]"
+    },
+    {
+      "id": "CBNFamily.us@SD",
+      "name": "CBN Family (1080p)"
+    },
+    {
+      "id": "CBNGospel.vg@SD",
+      "name": "CBN Gospel (720p)"
+    },
+    {
+      "id": "CBNNews.us@SD",
+      "name": "CBN News (1080p)"
+    },
+    {
+      "id": "CBNTV.vg@SD",
+      "name": "CBN TV (720p)"
+    },
+    {
+      "id": "CelebritySceneTV.us@SD",
+      "name": "Celebrity Scene TV (720p)"
+    },
+    {
+      "id": "CGTNDocumentary.cn@SD",
+      "name": "CGTN Documentary (1080p)"
+    },
+    {
+      "id": "Channel44.au@SD",
+      "name": "Channel 44 (480p)"
+    },
+    {
+      "id": "Charge.us@SD",
+      "name": "Charge! (1080p)"
+    },
+    {
+      "id": "Cheers.us@CA",
+      "name": "Cheers (United States)"
+    },
+    {
+      "id": "CheersPlusFrasier.us@SD",
+      "name": "Cheers + Frasier"
+    },
+    {
+      "id": "ChefChampion.us@SD",
+      "name": "Chef Champion (720p) [Not 24/7]"
+    },
+    {
+      "id": "ChefRocShow.us@SD",
+      "name": "Chef Roc Show (720p) [Not 24/7]"
+    },
+    {
+      "id": "Choppertown.us@SD",
+      "name": "Choppertown (720p)"
+    },
+    {
+      "id": "ChosenTVEnglish.ng@SD",
+      "name": "Chosen TV English (360p)"
+    },
+    {
+      "id": "ChristianYouthChannelCYC.us@SD",
+      "name": "Christian Youth Channel CYC (1080p)"
+    },
+    {
+      "id": "CinemaxClassics.us@East",
+      "name": "Cinemax Classics (1080p)"
+    },
+    {
+      "id": "CinevaultWesterns.us@SD",
+      "name": "Cinevault Westerns (540p) [Geo-blocked]"
+    },
+    {
+      "id": "Circle.us@SD",
+      "name": "Circle (1080p)"
+    },
+    {
+      "id": "CityNewsCalgary.ca@SD",
+      "name": "CityNews Calgary (720p)"
+    },
+    {
+      "id": "CityNewsEdmonton.ca@SD",
+      "name": "CityNews Edmonton"
+    },
+    {
+      "id": "CityNewsToronto.ca@SD",
+      "name": "CityNews Toronto (720p)"
+    },
+    {
+      "id": "CityNewsVancouver.ca@SD",
+      "name": "CityNews Vancouver (720p)"
+    },
+    {
+      "id": "CKNOFM.ca@SD",
+      "name": "CKNO-FM (616p)"
+    },
+    {
+      "id": "ClassicArtsShowcase.us@SD",
+      "name": "Classic Arts Showcase (720p)"
+    },
+    {
+      "id": "ClassicCinema.us@SD",
+      "name": "Classic Cinema (240p) [Not 24/7]"
+    },
+    {
+      "id": "ClassicMovieWesterns.us@SD",
+      "name": "Classic Movie Westerns"
+    },
+    {
+      "id": "ClassicMoviesChannel.us@SD",
+      "name": "Classic Movies Channel"
+    },
+    {
+      "id": "ClassicTVComedy.us@SD",
+      "name": "Classic TV Comedy"
+    },
+    {
+      "id": "ClassicTVCrimeDrama.us@SD",
+      "name": "Classic TV Crime Drama"
+    },
+    {
+      "id": "ClassicTVDrama.us@SD",
+      "name": "Classic TV Drama"
+    },
+    {
+      "id": "ClassicTVFamilies.us@US",
+      "name": "Classic TV: Families"
+    },
+    {
+      "id": "Classica.us@SD",
+      "name": "Classica (720p)"
+    },
+    {
+      "id": "CloudflareTV.us@SD",
+      "name": "Cloudflare TV (720p)"
+    },
+    {
+      "id": "ClubbingTV.us@UK",
+      "name": "Clubbing TV UK (720p)"
+    },
+    {
+      "id": "CMCUSACountryMusicChannel.us@SD",
+      "name": "CMC-USA Country Music Channel (720p)"
+    },
+    {
+      "id": "CMT.us@East",
+      "name": "CMT (720p)"
+    },
+    {
+      "id": "CMTEqualPlay.us@SD",
+      "name": "CMT Equal Play (720p)"
+    },
+    {
+      "id": "CNA.sg@SD",
+      "name": "CNA (Singapore) (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "CNAInternational.sg@SD",
+      "name": "CNA International (576p)"
+    },
+    {
+      "id": "CNAOriginals.sg@SD",
+      "name": "CNA Originals (1080p)"
+    },
+    {
+      "id": "CNBC.us@SD",
+      "name": "CNBC (720p)"
+    },
+    {
+      "id": "CNBCTV18.in@SD",
+      "name": "CNBC TV18 (1080p)"
+    },
+    {
+      "id": "CNBCTV18PrimeHD.in@SD",
+      "name": "CNBC TV18 Prime HD (1080p)"
+    },
+    {
+      "id": "ColdCaseFiles.us@SD",
+      "name": "Cold Case Files (1080p)"
+    },
+    {
+      "id": "ColorsInfinity.in@HD",
+      "name": "Colors Infinity HD (1080p)"
+    },
+    {
+      "id": "ComedyCentral.pl@SD",
+      "name": "Comedy Central (Poland) (1080p)"
+    },
+    {
+      "id": "ComedyCentral.us@CA",
+      "name": "Comedy Central (United States) CA"
+    },
+    {
+      "id": "ComedyCentralAnimation.us@SD",
+      "name": "Comedy Central Animation"
+    },
+    {
+      "id": "ComedyCentralPlutoTV.us@US",
+      "name": "Comedy Central Pluto TV"
+    },
+    {
+      "id": "Comet.us@SD",
+      "name": "Comet (1080p)"
+    },
+    {
+      "id": "CookingPanda.us@SD",
+      "name": "Cooking Panda (576p)"
+    },
+    {
+      "id": "CornerstoneTV.us@SD",
+      "name": "Cornerstone TV (720p)"
+    },
+    {
+      "id": "CourtTV.us@SD",
+      "name": "Court TV (1080p)"
+    },
+    {
+      "id": "CozaTV.ng@SD",
+      "name": "Coza TV (576p)"
+    },
+    {
+      "id": "CP24.ca@SD",
+      "name": "CP24 (720p)"
+    },
+    {
+      "id": "Create.us@SD",
+      "name": "Create (1080p)"
+    },
+    {
+      "id": "CricketGold.au@SD",
+      "name": "Cricket Gold (1080p)"
+    },
+    {
+      "id": "CrimePlusInvestigation.us@SD",
+      "name": "Crime + Investigation (720p)"
+    },
+    {
+      "id": "CrimePlusInvestigationCEE.uk@SD",
+      "name": "Crime + Investigation CEE"
+    },
+    {
+      "id": "CSatTV.us@SD",
+      "name": "CSat TV (1080p) [Not 24/7]"
+    },
+    {
+      "id": "CSI.us@SD",
+      "name": "CSI (United States)"
+    },
+    {
+      "id": "CSICrimeSceneInvestigation.de@GB",
+      "name": "CSI: Crime Scene Investigation"
+    },
+    {
+      "id": "CSIMiami.us@SD",
+      "name": "CSI: Miami"
+    },
+    {
+      "id": "CSINY.us@SD",
+      "name": "CSI: NY"
+    },
+    {
+      "id": "CTN.us@SD",
+      "name": "CTN (United States) (720p)"
+    },
+    {
+      "id": "CVREnglish.in@SD",
+      "name": "CVR English (720p)"
+    },
+    {
+      "id": "DanceTVAlgorhythm.ee@SD",
+      "name": "DanceTV Algorhythm (1080p)"
+    },
+    {
+      "id": "DanceTVDeepHouseDistrict.ee@SD",
+      "name": "DanceTV Deep House District (1080p)"
+    },
+    {
+      "id": "DanceTVHouseFloor.ee@SD",
+      "name": "DanceTV House Floor (1080p)"
+    },
+    {
+      "id": "DanceTVTechnoWarehouse.ee@SD",
+      "name": "DanceTV Techno Warehouse (1080p)"
+    },
+    {
+      "id": "DareToDreamNetwork.us@SD",
+      "name": "Dare To Dream Network"
+    },
+    {
+      "id": "DarkMatterTV.us@SD",
+      "name": "Dark Matter TV (720p)"
+    },
+    {
+      "id": "Dateline247.us@SD",
+      "name": "Dateline 24/7 (1080p)"
+    },
+    {
+      "id": "DatingDisasters.us@SD",
+      "name": "Dating Disasters"
+    },
+    {
+      "id": "DaystarTV.us@SD",
+      "name": "Daystar TV (1080p)"
+    },
+    {
+      "id": "DAZNCombat.uk@SD",
+      "name": "DAZN Combat (684p)"
+    },
+    {
+      "id": "DBSTV.lc@SD",
+      "name": "DBS TV"
+    },
+    {
+      "id": "DCCMakingtheTeam.us@SD",
+      "name": "DCC: Making the Team"
+    },
+    {
+      "id": "DDIndia.in@SD",
+      "name": "DD India (1080p)"
+    },
+    {
+      "id": "DDMeghalaya.in@SD",
+      "name": "DD Meghalaya (504p)"
+    },
+    {
+      "id": "DDNagaland.in@SD",
+      "name": "DD Nagaland (504p)"
+    },
+    {
+      "id": "DeadlyWomen.us@UK",
+      "name": "Deadly Women (1080p)"
+    },
+    {
+      "id": "DealorNoDeal.us@SD",
+      "name": "Deal or No Deal (1080p)"
+    },
+    {
+      "id": "DeFianceMedia.pr@SD",
+      "name": "DeFiance Media (1080p)"
+    },
+    {
+      "id": "DeluxeDance.de@SD",
+      "name": "Deluxe Dance (1080p)"
+    },
+    {
+      "id": "DerTV.uk@SD",
+      "name": "Der TV"
+    },
+    {
+      "id": "DiscoveryTurbo.us@SD",
+      "name": "Discovery Turbo (720p)"
+    },
+    {
+      "id": "DocMartin.us@CA",
+      "name": "Doc Martin (United States)"
+    },
+    {
+      "id": "DoctorWhoClassic.us@US",
+      "name": "Doctor Who Classic (1080p)"
+    },
+    {
+      "id": "DocuBayTV.in@SD",
+      "name": "DocuBay TV (1080p)"
+    },
+    {
+      "id": "DocuBox.nl@SD",
+      "name": "DocuBox"
+    },
+    {
+      "id": "DocumentaryPlus.us@US",
+      "name": "Documentary+ (1080p)"
+    },
+    {
+      "id": "DogtheBountyHunter.us@US",
+      "name": "Dog the Bounty Hunter (1080p)"
+    },
+    {
+      "id": "DoraTV.us@CA",
+      "name": "Dora TV"
+    },
+    {
+      "id": "DoveChannel.us@SD",
+      "name": "Dove Channel (1080p)"
+    },
+    {
+      "id": "DrGeneScott.us@SD",
+      "name": "Dr. Gene Scott (1080p)"
+    },
+    {
+      "id": "DroneTV.us@SD",
+      "name": "DroneTV (1080p)"
+    },
+    {
+      "id": "DryBarComedyPlus.us@SD",
+      "name": "Dry Bar Comedy+ (720p)"
+    },
+    {
+      "id": "DuckDynasty.us@UK",
+      "name": "Duck Dynasty (1080p)"
+    },
+    {
+      "id": "DuckHuntingTV.us@SD",
+      "name": "Duck Hunting TV (1080p)"
+    },
+    {
+      "id": "ducktv.sk@SD",
+      "name": "ducktv (720p)"
+    },
+    {
+      "id": "DungeonTV.us@SD",
+      "name": "Dungeon TV (720p)"
+    },
+    {
+      "id": "DW.de@English",
+      "name": "DW English (1080p)"
+    },
+    {
+      "id": "Dynasty.us@SD",
+      "name": "Dynasty"
+    },
+    {
+      "id": "E.us@East",
+      "name": "E! (United States) East (1080p)"
+    },
+    {
+      "id": "EKeepingUp.us@SD",
+      "name": "E! Keeping Up (1080p)"
+    },
+    {
+      "id": "EACNewsTV.kh@SD",
+      "name": "EAC News TV"
+    },
+    {
+      "id": "EbonyTVbyLionsgate.us@SD",
+      "name": "Ebony TV by Lionsgate (1080p)"
+    },
+    {
+      "id": "ElevationChurchNetwork.us@HD",
+      "name": "Elevation Church Network (1080p)"
+    },
+    {
+      "id": "EnglishClubGlobal.uk@SD",
+      "name": "English Club Global"
+    },
+    {
+      "id": "EntertainmentTonight.us@SD",
+      "name": "Entertainment Tonight (1080p)"
+    },
+    {
+      "id": "EntrepreneurTV.us@SD",
+      "name": "EntrepreneurTV (720p)"
+    },
+    {
+      "id": "EuronewsEnglish.fr@HD",
+      "name": "Euronews English HD"
+    },
+    {
+      "id": "EWTN.us@AfricaAsia",
+      "name": "EWTN (United States) Africa-Asia (720p)"
+    },
+    {
+      "id": "ExpoChannel.au@SD",
+      "name": "Expo Channel (360p)"
+    },
+    {
+      "id": "ExtremaTV.us@SD",
+      "name": "Extrema TV (United States) (720p)"
+    },
+    {
+      "id": "ExtremeSportsChannelPolska.pl@SD",
+      "name": "Extreme Sports Channel Polska (1080p)"
+    },
+    {
+      "id": "FailArmy.us@US",
+      "name": "FailArmy (720p)"
+    },
+    {
+      "id": "FaithAfrica.za@SD",
+      "name": "Faith Africa (1080p)"
+    },
+    {
+      "id": "FaithTV.us@SD",
+      "name": "Faith TV (1080p)"
+    },
+    {
+      "id": "FaithUK.uk@SD",
+      "name": "Faith UK (1080p)"
+    },
+    {
+      "id": "FaithWorldTV.uk@SD",
+      "name": "Faith World TV (1080p)"
+    },
+    {
+      "id": "FamilyTies.us@SD",
+      "name": "Family Ties (United States)"
+    },
+    {
+      "id": "FashionFinds.us@SD",
+      "name": "Fashion Finds (720p)"
+    },
+    {
+      "id": "FashionTV.ua@SD",
+      "name": "Fashion TV (1080p)"
+    },
+    {
+      "id": "FashionLifeStyle.ru@SD",
+      "name": "Fashion&LifeStyle (1080p)"
+    },
+    {
+      "id": "FashionBox.nl@SD",
+      "name": "FashionBox"
+    },
+    {
+      "id": "FashionTVSecrets.fr@HD",
+      "name": "FashionTV Secrets (1080p)"
+    },
+    {
+      "id": "FastFunBox.nl@SD",
+      "name": "Fast&FunBox (Netherlands)"
+    },
+    {
+      "id": "FazalTV.pk@SD",
+      "name": "Fazal TV (1080p)"
+    },
+    {
+      "id": "FBIFiles.us@UK",
+      "name": "FBI Files"
+    },
+    {
+      "id": "FearFactor.us@US",
+      "name": "Fear Factor (1080p)"
+    },
+    {
+      "id": "FeelGoodDrama.us@SD",
+      "name": "Feel Good Drama"
+    },
+    {
+      "id": "FIFAPlus.uk@English",
+      "name": "FIFA+ (720p)"
+    },
+    {
+      "id": "FIFAPlusWomen.uk@English",
+      "name": "FIFA+ Women (720p)"
+    },
+    {
+      "id": "FightBox.nl@SD",
+      "name": "FightBox"
+    },
+    {
+      "id": "FILMBOXPlusComedy.pl@Romania",
+      "name": "FILMBOX+ Comedy Romania"
+    },
+    {
+      "id": "FILMBOXPlusEmotion.pl@Adria",
+      "name": "FILMBOX+ Emotion Adria"
+    },
+    {
+      "id": "FILMBOXPlusFestival.pl@SD",
+      "name": "FILMBOX+ Festival"
+    },
+    {
+      "id": "FILMBOXPlusHits.pl@Adria",
+      "name": "FILMBOX+ Hits Adria"
+    },
+    {
+      "id": "FILMBOXPlusLoveCrime.pl@Adria",
+      "name": "FILMBOX+ Love & Crime Adria"
+    },
+    {
+      "id": "Firstlight.nz@SD",
+      "name": "Firstlight (576p)"
+    },
+    {
+      "id": "FlameTV.ng@SD",
+      "name": "Flame TV (576p)"
+    },
+    {
+      "id": "FlicksofFury.us@SD",
+      "name": "Flicks of Fury"
+    },
+    {
+      "id": "FNX.us@SD",
+      "name": "FNX (1080p)"
+    },
+    {
+      "id": "ForeverKids.us@SD",
+      "name": "Forever Kids"
+    },
+    {
+      "id": "Fox.pl@SD",
+      "name": "Fox (Poland) (1080p)"
+    },
+    {
+      "id": "FoxNewsChannel.us@SD",
+      "name": "Fox News Channel (720p)"
+    },
+    {
+      "id": "FoxSoul.us@SD",
+      "name": "Fox Soul (1080p)"
+    },
+    {
+      "id": "FoxWeather.us@SD",
+      "name": "Fox Weather (720p)"
+    },
+    {
+      "id": "Frasier.us@CA",
+      "name": "Frasier (United States)"
+    },
+    {
+      "id": "FreeSpeechTV.us@SD",
+      "name": "Free Speech TV (720p)"
+    },
+    {
+      "id": "FrightFlix.us@SD",
+      "name": "FrightFlix (720p)"
+    },
+    {
+      "id": "FUELTV.pt@EMEA",
+      "name": "FUEL TV (1080p)"
+    },
+    {
+      "id": "FunRoads.us@SD",
+      "name": "Fun Roads (720p)"
+    },
+    {
+      "id": "FunBoxUHD.nl@SD",
+      "name": "FunBox UHD"
+    },
+    {
+      "id": "FunnyAF.us@SD",
+      "name": "Funny AF"
+    },
+    {
+      "id": "Fuse.us@East",
+      "name": "Fuse (1080p)"
+    },
+    {
+      "id": "GalxyTV.us@SD",
+      "name": "Galxy TV (720p)"
+    },
+    {
+      "id": "GameShowCentral.us@SD",
+      "name": "Game Show Central (720p)"
+    },
+    {
+      "id": "GameShowNetwork.us@East",
+      "name": "Game Show Network (720p) [Not 24/7]"
+    },
+    {
+      "id": "GamePlus.ca@SD",
+      "name": "Game+ (720p)"
+    },
+    {
+      "id": "Gametoon.nl@SD",
+      "name": "Gametoon"
+    },
+    {
+      "id": "GarfieldandFriends.us@US",
+      "name": "Garfield and Friends"
+    },
+    {
+      "id": "GemShoppingNetwork.us@SD",
+      "name": "Gem Shopping Network (720p)"
+    },
+    {
+      "id": "GenesisScienceNetwork.us@SD",
+      "name": "Genesis Science Network (720p)"
+    },
+    {
+      "id": "GeordieShore.de@GB",
+      "name": "Geordie Shore (Germany) GB"
+    },
+    {
+      "id": "Getfactual.us@UK",
+      "name": "Get.factual (720p)"
+    },
+    {
+      "id": "GirlfriendsFilms.us@SD",
+      "name": "Girlfriends Films"
+    },
+    {
+      "id": "GlobalFashionChannel.us@SD",
+      "name": "Global Fashion Channel (1080p)"
+    },
+    {
+      "id": "GlobalWorldTV.us@SD",
+      "name": "GlobalWorldTV (720p)"
+    },
+    {
+      "id": "GloryKickboxing.us@Poland",
+      "name": "Glory Kickboxing Poland (720p)"
+    },
+    {
+      "id": "GNNTV.jm@SD",
+      "name": "GNN TV (1080p)"
+    },
+    {
+      "id": "GodStandsKidsClubTV.pk@English",
+      "name": "God Stands Kids Club TV"
+    },
+    {
+      "id": "GODTV.uk@SD",
+      "name": "GOD TV (576p)"
+    },
+    {
+      "id": "GoodLife45.us@SD",
+      "name": "GoodLife 45 (720p) [Not 24/7]"
+    },
+    {
+      "id": "GoodNewsTV.in@SD",
+      "name": "GoodNews TV (720p)"
+    },
+    {
+      "id": "GordonRamsaysHellsKitchen.us@SD",
+      "name": "Gordon Ramsay's Hell's Kitchen (720p)"
+    },
+    {
+      "id": "GospelTruthTV.us@SD",
+      "name": "Gospel Truth TV (1080p)"
+    },
+    {
+      "id": "GravitasMovies.us@SD",
+      "name": "Gravitas Movies (1080p)"
+    },
+    {
+      "id": "GreatEntertainmentTelevision.us@SD",
+      "name": "Great Entertainment Television (720p)"
+    },
+    {
+      "id": "GreaterLoveTV.us@SD",
+      "name": "Greater Love TV (720p)"
+    },
+    {
+      "id": "GritXtra.us@SD",
+      "name": "Grit Xtra (1080p)"
+    },
+    {
+      "id": "GSShop.kr@SD",
+      "name": "GS Shop (1080p)"
+    },
+    {
+      "id": "GTNCanada.ca@SD",
+      "name": "GTN Canada (1080i) [Geo-blocked]"
+    },
+    {
+      "id": "GuadalupeMedia.bz@SD",
+      "name": "Guadalupe Media (720p)"
+    },
+    {
+      "id": "GuardianTalkRadio.bs@SD",
+      "name": "Guardian Talk Radio (1080p)"
+    },
+    {
+      "id": "Gunsmoke.us@SD",
+      "name": "Gunsmoke"
+    },
+    {
+      "id": "GustoTV.ca@SD",
+      "name": "Gusto TV (1080p)"
+    },
+    {
+      "id": "HallmarkMoviesMore.us@SD",
+      "name": "Hallmark Movies & More (1080p)"
+    },
+    {
+      "id": "HappyDays.us@SD",
+      "name": "Happy Days (United States)"
+    },
+    {
+      "id": "HappyRadioTV.ua@HD",
+      "name": "Happy Radio TV (1080p)"
+    },
+    {
+      "id": "HappyKids.us@SD",
+      "name": "HappyKids (1080p)"
+    },
+    {
+      "id": "HardKnocksFightingChampionship.pl@SD",
+      "name": "Hard Knocks Fighting Championship"
+    },
+    {
+      "id": "HarvestUSA.in@SD",
+      "name": "Harvest USA (576p)"
+    },
+    {
+      "id": "HauntTV.ca@SD",
+      "name": "HauntTV (1080p)"
+    },
+    {
+      "id": "Heartland.us@Eastern",
+      "name": "Heartland (720p)"
+    },
+    {
+      "id": "HiDost.in@SD",
+      "name": "Hi Dost! (720p)"
+    },
+    {
+      "id": "HiYAH.us@SD",
+      "name": "Hi-YAH! (1080p)"
+    },
+    {
+      "id": "HisGloryTV.us@SD",
+      "name": "His Glory TV (1080p)"
+    },
+    {
+      "id": "HistoryAsia.us@SD",
+      "name": "History Asia (720p)"
+    },
+    {
+      "id": "HogansHeroes.us@SD",
+      "name": "Hogan's Heroes"
+    },
+    {
+      "id": "HollyWire.us@SD",
+      "name": "HollyWire (720p)"
+    },
+    {
+      "id": "HomeMadeNation.us@SD",
+      "name": "Home.Made.Nation (720p)"
+    },
+    {
+      "id": "HomesUnderHammer.us@UK",
+      "name": "Homes Under Hammer (720p)"
+    },
+    {
+      "id": "HopeChannelAfrica.za@SD",
+      "name": "Hope Channel Africa (1080p)"
+    },
+    {
+      "id": "HopeChannelIndia.in@SD",
+      "name": "Hope Channel India (576p)"
+    },
+    {
+      "id": "HopeChannelInterAmericaEnglish.us@SD",
+      "name": "Hope Channel Inter-America English (1080p)"
+    },
+    {
+      "id": "HopeChannelInternational.us@SD",
+      "name": "Hope Channel International (1080p)"
+    },
+    {
+      "id": "HopeChannelNorthAmerica.us@SD",
+      "name": "Hope Channel North America (1080p)"
+    },
+    {
+      "id": "HornbillTV.in@SD",
+      "name": "Hornbill TV (576p)"
+    },
+    {
+      "id": "HosannaTV.in@Global",
+      "name": "Hosanna TV Global"
+    },
+    {
+      "id": "HotBench.us@SD",
+      "name": "Hot Bench (720p)"
+    },
+    {
+      "id": "HSN2.us@SD",
+      "name": "HSN2 (720p)"
+    },
+    {
+      "id": "HSN.us@East",
+      "name": "HSN (720p)"
+    },
+    {
+      "id": "HudaTV.eg@SD",
+      "name": "Huda TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "i24NEWSEnglishWorld.il@SD",
+      "name": "i24NEWS English World (1080p)"
+    },
+    {
+      "id": "ILoveLucy.us@SD",
+      "name": "I Love Lucy"
+    },
+    {
+      "id": "iCarly.us@SD",
+      "name": "iCarly (United States) SD"
+    },
+    {
+      "id": "IciRadioCanadaTele.ca@CFHDDT",
+      "name": "Ici Radio-Canada Tele CFHD-DT (720p)"
+    },
+    {
+      "id": "IFC.us@East",
+      "name": "IFC (1080p)"
+    },
+    {
+      "id": "IgniteTelevision.gy@SD",
+      "name": "Ignite Television (1080p) [Not 24/7]"
+    },
+    {
+      "id": "IIPCTV.ca@SD",
+      "name": "IIPC TV (720p)"
+    },
+    {
+      "id": "ImamHusseinTV3.iq@SD",
+      "name": "Imam Hussein TV 3 (1080p)"
+    },
+    {
+      "id": "ImpactNetwork.us@SD",
+      "name": "Impact Network (720p)"
+    },
+    {
+      "id": "ImpossibleQuizShow.us@SD",
+      "name": "Impossible Quiz Show (1080p)"
+    },
+    {
+      "id": "IntheKitchen.us@SD",
+      "name": "In the Kitchen (720p)"
+    },
+    {
+      "id": "IndiaAhead.in@SD",
+      "name": "India Ahead (576p)"
+    },
+    {
+      "id": "IndiaToday.in@SD",
+      "name": "India Today (720p)"
+    },
+    {
+      "id": "IndywoodTV.in@SD",
+      "name": "Indywood TV (720p)"
+    },
+    {
+      "id": "INFAST.nl@SD",
+      "name": "INFAST (1080p)"
+    },
+    {
+      "id": "InkMaster.us@SD",
+      "name": "Ink Master"
+    },
+    {
+      "id": "InooroTV.ke@SD",
+      "name": "Inooro TV"
+    },
+    {
+      "id": "InsaytTV.ru@4K",
+      "name": "Insayt TV (2160p)"
+    },
+    {
+      "id": "InsideCrime.us@UK",
+      "name": "Inside Crime (1080p)"
+    },
+    {
+      "id": "INTRAVEL.nl@Philippines",
+      "name": "INTRAVEL (1080p)"
+    },
+    {
+      "id": "InTrouble.nl@SD",
+      "name": "InTrouble (1080p)"
+    },
+    {
+      "id": "Investiga.us@US",
+      "name": "Investiga US"
+    },
+    {
+      "id": "INWILD.nl@SD",
+      "name": "INWILD (1080p)"
+    },
+    {
+      "id": "InWonder.nl@SD",
+      "name": "InWonder (1080p)"
+    },
+    {
+      "id": "IONPlus.us@East",
+      "name": "ION Plus (1080p)"
+    },
+    {
+      "id": "IONTV.us@East",
+      "name": "ION TV (720p)"
+    },
+    {
+      "id": "IsaacTV.pk@SD",
+      "name": "Isaac TV (720p)"
+    },
+    {
+      "id": "ItIsWrittenTV.us@SD",
+      "name": "It Is Written TV (1080p)"
+    },
+    {
+      "id": "ItsSupernaturalNetwork.us@SD",
+      "name": "It's Supernatural! Network (1080p)"
+    },
+    {
+      "id": "JAG.us@CA",
+      "name": "JAG (United States)"
+    },
+    {
+      "id": "JBS.us@SD",
+      "name": "JBS (720p)"
+    },
+    {
+      "id": "JerseyShore.us@SD",
+      "name": "Jersey Shore (United States)"
+    },
+    {
+      "id": "JewelryTV2.us@SD",
+      "name": "Jewelry TV 2 (720p)"
+    },
+    {
+      "id": "JewelryTV.us@SD",
+      "name": "Jewelry TV (720p)"
+    },
+    {
+      "id": "JewishLifeTelevision.us@SD",
+      "name": "Jewish Life Television (1080p)"
+    },
+    {
+      "id": "JoelOsteenNetwork.us@HD",
+      "name": "Joel Osteen Network (1080p)"
+    },
+    {
+      "id": "JohnnyCarsonTV.us@SD",
+      "name": "Johnny Carson TV (720p)"
+    },
+    {
+      "id": "JoshuaTV.pk@SD",
+      "name": "Joshua TV (720p)"
+    },
+    {
+      "id": "JudgeJudy.de@GB",
+      "name": "Judge Judy (Germany)"
+    },
+    {
+      "id": "JudgeNosey.us@US",
+      "name": "Judge Nosey (1080p)"
+    },
+    {
+      "id": "JustforLaughsGags.us@SD",
+      "name": "Just for Laughs Gags (1080p)"
+    },
+    {
+      "id": "KContentbyCJENM.us@SD",
+      "name": "K-Content by CJ ENM (1080p)"
+    },
+    {
+      "id": "KaloopyTV.us@SD",
+      "name": "Kaloopy TV (1080p)"
+    },
+    {
+      "id": "KartoonChannel.us@SD",
+      "name": "Kartoon Channel! (1080p)"
+    },
+    {
+      "id": "KCM.sg@India",
+      "name": "KCM India (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "KidsMovieClub.us@SD",
+      "name": "Kids Movie Club"
+    },
+    {
+      "id": "KidsFlix.us@SD",
+      "name": "KidsFlix (1080p) [Not 24/7]"
+    },
+    {
+      "id": "KingTV.pk@SD",
+      "name": "King TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "KnowledgeNetwork.ca@SD",
+      "name": "Knowledge Network (720p) [Geo-blocked]"
+    },
+    {
+      "id": "KordiaTV.nz@SD",
+      "name": "Kordia TV (1080p)"
+    },
+    {
+      "id": "KSTVUganda.ug@SD",
+      "name": "KSTV Uganda"
+    },
+    {
+      "id": "KTV2.kw@SD",
+      "name": "KTV 2 (1080p)"
+    },
+    {
+      "id": "LawCrime.us@SD",
+      "name": "Law & Crime (720p)"
+    },
+    {
+      "id": "LegoChannel.us@SD",
+      "name": "Lego Channel (1080p)"
+    },
+    {
+      "id": "LEGOKidsTV.us@SD",
+      "name": "LEGO Kids TV"
+    },
+    {
+      "id": "LeominsterTVEducational.us@SD",
+      "name": "Leominster TV Educational (720p)"
+    },
+    {
+      "id": "LeominsterTVPublic.us@SD",
+      "name": "Leominster TV Public (720p) [Not 24/7]"
+    },
+    {
+      "id": "LifevisionTV.us@SD",
+      "name": "LifevisionTV (406p) [Not 24/7]"
+    },
+    {
+      "id": "LittleGuyanaTV.us@SD",
+      "name": "Little Guyana TV (1080p)"
+    },
+    {
+      "id": "LittleStarsUniverse.us@SD",
+      "name": "Little Stars Universe"
+    },
+    {
+      "id": "LiveMusic.us@SD",
+      "name": "Live Music"
+    },
+    {
+      "id": "LiveNOWfromFOX.us@SD",
+      "name": "LiveNOW from FOX (720p)"
+    },
+    {
+      "id": "LIVExLIVE.us@SD",
+      "name": "LIVExLIVE (1080p)"
+    },
+    {
+      "id": "LLBNHisLight.us@SD",
+      "name": "LLBN His Light (720p)"
+    },
+    {
+      "id": "LLBNHisWord.us@SD",
+      "name": "LLBN His Word (720p)"
+    },
+    {
+      "id": "LogoPlutoTV.us@SD",
+      "name": "Logo Pluto TV"
+    },
+    {
+      "id": "LogosTVEnglish.us@SD",
+      "name": "Logos TV English (1080p) [Not 24/7]"
+    },
+    {
+      "id": "LoneStar.us@SD",
+      "name": "Lone Star (1080p)"
+    },
+    {
+      "id": "LoveHipHop.us@SD",
+      "name": "Love & Hip Hop"
+    },
+    {
+      "id": "LovePets.ca@US",
+      "name": "Love Pets (1080p)"
+    },
+    {
+      "id": "LoveThePlanet.es@EN",
+      "name": "Love The Planet (1080p)"
+    },
+    {
+      "id": "LoveWorldUK.ng@SD",
+      "name": "LoveWorld UK (1080p) [Not 24/7]"
+    },
+    {
+      "id": "LoveWorldUSA.ng@SD",
+      "name": "LoveWorld USA (720p)"
+    },
+    {
+      "id": "LoveworldSAT.ng@SD",
+      "name": "LoveworldSAT (1080p)"
+    },
+    {
+      "id": "MadDogandMerrill.us@SD",
+      "name": "Mad Dog and Merrill (540p) [Not 24/7]"
+    },
+    {
+      "id": "MadaniChannelEnglish.pk@SD",
+      "name": "Madani Channel English (720p)"
+    },
+    {
+      "id": "MadeInHollywood.us@SD",
+      "name": "Made In Hollywood"
+    },
+    {
+      "id": "MaldivesTV.mv@SD",
+      "name": "Maldives TV (720p)"
+    },
+    {
+      "id": "ManaChurchOnline.pt@SD",
+      "name": "Mana Church Online (1080p) [Not 24/7]"
+    },
+    {
+      "id": "MariaVisionUSA.us@SD",
+      "name": "Maria Vision USA (1080p)"
+    },
+    {
+      "id": "MarjaeyatTVEnglish.iq@SD",
+      "name": "Marjaeyat TV English (1080p)"
+    },
+    {
+      "id": "Masadrenalina.us@SD",
+      "name": "Mas adrenalina"
+    },
+    {
+      "id": "Matlock.us@SD",
+      "name": "Matlock (United States)"
+    },
+    {
+      "id": "MaverickBlackCinema.us@SD",
+      "name": "Maverick Black Cinema (1080p)"
+    },
+    {
+      "id": "MBCFM.ae@SD",
+      "name": "MBC FM (1080p)"
+    },
+    {
+      "id": "MBCLoud.sa@SD",
+      "name": "MBC Loud"
+    },
+    {
+      "id": "MediBizTV.in@SD",
+      "name": "MediBizTV (720p)"
+    },
+    {
+      "id": "MercyandTruthMinistriesTelevision.jm@SD",
+      "name": "Mercy and Truth Ministries Television (720p)"
+    },
+    {
+      "id": "MercyTV.sl@SD",
+      "name": "Mercy TV (Sierra Leone)"
+    },
+    {
+      "id": "MERUTV.ke@SD",
+      "name": "MERU TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "MezzoLive.fr@SD",
+      "name": "Mezzo Live (1080p)"
+    },
+    {
+      "id": "MHZ.ca@SD",
+      "name": "MHZ"
+    },
+    {
+      "id": "MiddleEastTV.cy@SD",
+      "name": "Middle East TV (1080p)"
+    },
+    {
+      "id": "MidnightPulp.us@SD",
+      "name": "Midnight Pulp (1080p)"
+    },
+    {
+      "id": "MidsomerMurders.us@SD",
+      "name": "Midsomer Murders (1080p)"
+    },
+    {
+      "id": "MinimaxCEE.cz@SD",
+      "name": "Minimax CEE (576p)"
+    },
+    {
+      "id": "MiracleTV.uk@SD",
+      "name": "Miracle TV (480p)"
+    },
+    {
+      "id": "MirrorNow.in@SD",
+      "name": "Mirror Now (720p)"
+    },
+    {
+      "id": "MissionImpossible.us@SD",
+      "name": "Mission Impossible (United States)"
+    },
+    {
+      "id": "MissionTV.us@SD",
+      "name": "Mission TV (1080p) [Not 24/7]"
+    },
+    {
+      "id": "MLB.us@SD",
+      "name": "MLB (720p)"
+    },
+    {
+      "id": "MonteCarloDigitalTelevision.fr@HD",
+      "name": "Monte Carlo Digital Television (1080p)"
+    },
+    {
+      "id": "MoreTrueCrime.us@SD",
+      "name": "More True Crime"
+    },
+    {
+      "id": "MoreTVCrime.de@GB",
+      "name": "More TV Crime"
+    },
+    {
+      "id": "MoreTVDrama.us@SD",
+      "name": "More TV Drama"
+    },
+    {
+      "id": "MoreTVSitcoms.us@SD",
+      "name": "More TV Sitcoms"
+    },
+    {
+      "id": "MorningCloudTV.ke@SD",
+      "name": "Morning Cloud TV (720p)"
+    },
+    {
+      "id": "Motorvision.de@SD",
+      "name": "Motorvision (1080p)"
+    },
+    {
+      "id": "MovieMusicbyStingray.ca@HD",
+      "name": "Movie Music by Stingray (1080p)"
+    },
+    {
+      "id": "MovieSphere.us@US",
+      "name": "MovieSphere (1080p)"
+    },
+    {
+      "id": "MRVTVChannel44.us@SD",
+      "name": "MRVTV Channel 44 (720p)"
+    },
+    {
+      "id": "MRVTVChannel45.us@SD",
+      "name": "MRVTV Channel 45 (720p)"
+    },
+    {
+      "id": "MST3K.us@US",
+      "name": "MST3K (1080p)"
+    },
+    {
+      "id": "MTA8America.uk@SD",
+      "name": "MTA8 America (1080p)"
+    },
+    {
+      "id": "MTV.de@SD",
+      "name": "MTV (Germany)"
+    },
+    {
+      "id": "MTV.us@East",
+      "name": "MTV (United States) (1080p)"
+    },
+    {
+      "id": "MTVBiggestPop.us@US",
+      "name": "MTV Biggest Pop (1080p)"
+    },
+    {
+      "id": "MTVCatfish.us@CA",
+      "name": "MTV Catfish (United States)"
+    },
+    {
+      "id": "MTVClassic.us@CA",
+      "name": "MTV Classic CA (720p)"
+    },
+    {
+      "id": "MTVDating.us@CA",
+      "name": "MTV Dating (United States) CA"
+    },
+    {
+      "id": "MTVJerseyShore.us@CA",
+      "name": "MTV Jersey Shore"
+    },
+    {
+      "id": "MTVPlutoTV.us@US",
+      "name": "MTV Pluto TV"
+    },
+    {
+      "id": "MTVReality.us@CA",
+      "name": "MTV Reality (United States) CA"
+    },
+    {
+      "id": "MTVRidiculousness.us@CA",
+      "name": "MTV Ridiculousness (United States) CA"
+    },
+    {
+      "id": "MTVSpankinNew.us@US",
+      "name": "MTV Spankin' New (1080p)"
+    },
+    {
+      "id": "MusicBox80s.cz@SD",
+      "name": "Music Box 80s (1080p)"
+    },
+    {
+      "id": "MusicBoxClassic.cz@SD",
+      "name": "Music Box Classic"
+    },
+    {
+      "id": "MusicBoxDance.cz@SD",
+      "name": "Music Box Dance"
+    },
+    {
+      "id": "MusicBoxHits.cz@SD",
+      "name": "Music Box Hits"
+    },
+    {
+      "id": "MusicBoxSexy.cz@SD",
+      "name": "Music Box Sexy"
+    },
+    {
+      "id": "MUTV.uk@SD",
+      "name": "MUTV (720p)"
+    },
+    {
+      "id": "MyCinemaEurope.ch@SD",
+      "name": "My Cinema Europe"
+    },
+    {
+      "id": "MyanmarInternationalTV.mm@SD",
+      "name": "Myanmar International TV"
+    },
+    {
+      "id": "MysteryTV.us@UK",
+      "name": "Mystery TV (1080p)"
+    },
+    {
+      "id": "MyTimeMovieNetworkEast.us@SD",
+      "name": "MyTime Movie Network East (1080p)"
+    },
+    {
+      "id": "NashBridges.us@SD",
+      "name": "Nash Bridges (720p)"
+    },
+    {
+      "id": "NashuaETV.us@SD",
+      "name": "Nashua ETV (720p)"
+    },
+    {
+      "id": "Nashville.us@CA",
+      "name": "Nashville CA"
+    },
+    {
+      "id": "NatickEducationChannel.us@SD",
+      "name": "Natick Education Channel (720p)"
+    },
+    {
+      "id": "NationalGeographic.us@HDEast",
+      "name": "National Geographic (United States) HD East (720p)"
+    },
+    {
+      "id": "NationalGeographicWild.us@HDEast",
+      "name": "National Geographic Wild (United States) HD East (720p)"
+    },
+    {
+      "id": "NatureTime.ca@AU",
+      "name": "NatureTime AU (1080p)"
+    },
+    {
+      "id": "NBATV.us@SD",
+      "name": "NBA TV (720p)"
+    },
+    {
+      "id": "NBCComedyVault.us@SD",
+      "name": "NBC Comedy Vault (1080p)"
+    },
+    {
+      "id": "NBCLXHome.us@HD",
+      "name": "NBC LX Home (1080p)"
+    },
+    {
+      "id": "NBCLX.us@SD",
+      "name": "NBCLX (1080p)"
+    },
+    {
+      "id": "NBTWorld.th@SD",
+      "name": "NBT World (1080p)"
+    },
+    {
+      "id": "NCIS.us@CA",
+      "name": "NCIS (United States) CA"
+    },
+    {
+      "id": "NCISLosAngeles.us@CA",
+      "name": "NCIS: Los Angeles (United States)"
+    },
+    {
+      "id": "NDTV24x7.in@SD",
+      "name": "NDTV 24x7 (720p)"
+    },
+    {
+      "id": "NDTVProfit.in@SD",
+      "name": "NDTV Profit (1080p)"
+    },
+    {
+      "id": "NevisTelevision.kn@SD",
+      "name": "Nevis Television"
+    },
+    {
+      "id": "NewChannel.ca@SD",
+      "name": "New Channel (480p)"
+    },
+    {
+      "id": "NEWKPOP.us@SD",
+      "name": "NEW K-POP (1080p)"
+    },
+    {
+      "id": "NEWKMOVIES.us@SD",
+      "name": "NEW K.MOVIES (1080p)"
+    },
+    {
+      "id": "News9Live.in@SD",
+      "name": "News9Live (1080p)"
+    },
+    {
+      "id": "News24.au@SD",
+      "name": "News24 (1080p)"
+    },
+    {
+      "id": "NewsCentral.ng@SD",
+      "name": "News Central"
+    },
+    {
+      "id": "NewsoftheWorld.us@USA",
+      "name": "News of the World USA (1080p)"
+    },
+    {
+      "id": "NewsWorld.hk@FAST",
+      "name": "NewsWorld (1080p)"
+    },
+    {
+      "id": "NewsXWorld.in@HD",
+      "name": "NewsX World (576p)"
+    },
+    {
+      "id": "NFLChannel.us@SD",
+      "name": "NFL Channel (720p)"
+    },
+    {
+      "id": "NickHDPlus.in@HD",
+      "name": "Nick HD+ (1080p)"
+    },
+    {
+      "id": "NickJr.cz@SD",
+      "name": "Nick Jr. (Czech Republic)"
+    },
+    {
+      "id": "NickJrPlutoTV.us@US",
+      "name": "Nick Jr. Pluto TV (720p)"
+    },
+    {
+      "id": "Nickelodeon.us@East",
+      "name": "Nickelodeon (United States) (720p)"
+    },
+    {
+      "id": "NickelodeonPlutoTV.us@SD",
+      "name": "Nickelodeon Pluto TV (720p)"
+    },
+    {
+      "id": "Nicktoons.us@CA",
+      "name": "Nicktoons (United States) CA"
+    },
+    {
+      "id": "NicktoonsScandinavia.nl@SD",
+      "name": "Nicktoons Scandinavia"
+    },
+    {
+      "id": "Nigbati.ng@SD",
+      "name": "Nigbati (720p) [Not 24/7]"
+    },
+    {
+      "id": "NinjaKidzTV.us@SD",
+      "name": "Ninja Kidz TV (720p)"
+    },
+    {
+      "id": "NorCastWeather.us@HD",
+      "name": "NorCast Weather (1080p)"
+    },
+    {
+      "id": "Nosey.us@UK",
+      "name": "Nosey UK"
+    },
+    {
+      "id": "NOST.us@SD",
+      "name": "NOST (720p)"
+    },
+    {
+      "id": "NoursatEnglish.lb@SD",
+      "name": "Noursat English (576p)"
+    },
+    {
+      "id": "Now90s00s.uk@Poland",
+      "name": "Now 90s00s (1080p)"
+    },
+    {
+      "id": "NowMediaTelevision.us@HD",
+      "name": "NowMedia Television (1080p)"
+    },
+    {
+      "id": "NTDTVEnglish.us@USA",
+      "name": "NTD TV English (1080p)"
+    },
+    {
+      "id": "NTV.ca@CJONDT",
+      "name": "NTV (Canada) CJON-DT (480p)"
+    },
+    {
+      "id": "NTVPlus.ca@SD",
+      "name": "NTV+"
+    },
+    {
+      "id": "NWInfo2.tg@SD",
+      "name": "NW Info 2 (576p)"
+    },
+    {
+      "id": "OANPlus.us@SD",
+      "name": "OAN Plus (1080p)"
+    },
+    {
+      "id": "OCNTV.us@SD",
+      "name": "OCN TV"
+    },
+    {
+      "id": "Olelo53.us@SD",
+      "name": "Olelo 53 (720p)"
+    },
+    {
+      "id": "Olelo55.us@SD",
+      "name": "Olelo 55 (720p)"
+    },
+    {
+      "id": "OneAmericaNewsNetwork.us@SD",
+      "name": "One America News Network (720p)"
+    },
+    {
+      "id": "OntarioParliamentaryNetwork.ca@SD",
+      "name": "Ontario Parliamentary Network (720p)"
+    },
+    {
+      "id": "OTV.gh@SD",
+      "name": "OTV (Ghana) (720p)"
+    },
+    {
+      "id": "OutdoorAmerica.us@SD",
+      "name": "Outdoor America (1080p)"
+    },
+    {
+      "id": "OutdoorChannel.us@HD",
+      "name": "Outdoor Channel HD (720p)"
+    },
+    {
+      "id": "OuterSphere.us@SD",
+      "name": "OuterSphere (1080p)"
+    },
+    {
+      "id": "OutsideTV.us@SD",
+      "name": "Outside TV (1080p)"
+    },
+    {
+      "id": "Oxygen.us@East",
+      "name": "Oxygen (720p)"
+    },
+    {
+      "id": "PalmBeachesTV.us@SD",
+      "name": "Palm Beaches TV (720p)"
+    },
+    {
+      "id": "PanjabTV.uk@SD",
+      "name": "Panjab TV (576p)"
+    },
+    {
+      "id": "ParamountMovieChannel.us@SD",
+      "name": "Paramount Movie Channel"
+    },
+    {
+      "id": "ParamountPlusPicks.us@SD",
+      "name": "Paramount+ Picks"
+    },
+    {
+      "id": "ParanormalState.us@UK",
+      "name": "Paranormal State"
+    },
+    {
+      "id": "PardesiTV.ca@SD",
+      "name": "Pardesi TV (720p)"
+    },
+    {
+      "id": "ParliamentTV.nz@SD",
+      "name": "Parliament TV (New Zealand) (1080p)"
+    },
+    {
+      "id": "PartyMix.ro@HD",
+      "name": "Party Mix HD (1080p)"
+    },
+    {
+      "id": "PayvandTV.us@SD",
+      "name": "Payvand TV (United States) (720p)"
+    },
+    {
+      "id": "PBSAntiquesRoadshow.us@SD",
+      "name": "PBS Antiques Roadshow (1080p)"
+    },
+    {
+      "id": "PBSKids.us@SD",
+      "name": "PBS Kids (720p)"
+    },
+    {
+      "id": "PBSKidsMountain.us@SD",
+      "name": "PBS Kids Mountain (1080p)"
+    },
+    {
+      "id": "PBSKidsPacific.us@SD",
+      "name": "PBS Kids Pacific (1080p)"
+    },
+    {
+      "id": "PeerTVSouthTyrol.it@SD",
+      "name": "Peer TV South Tyrol (1280p)"
+    },
+    {
+      "id": "PentTV.gh@SD",
+      "name": "Pent TV"
+    },
+    {
+      "id": "PeopleAreAwesome.us@SD",
+      "name": "People Are Awesome (1080p)"
+    },
+    {
+      "id": "PeppaPig.us@SD",
+      "name": "Peppa Pig"
+    },
+    {
+      "id": "PerryMason.us@SD",
+      "name": "Perry Mason"
+    },
+    {
+      "id": "PhillyCAM.us@SD",
+      "name": "PhillyCAM (720p)"
+    },
+    {
+      "id": "Placid.us@EastHD",
+      "name": "Placid (1080p) [Not 24/7]"
+    },
+    {
+      "id": "PlutoClassicMovieWesterns.us@CA",
+      "name": "Pluto Classic Movie Westerns"
+    },
+    {
+      "id": "PlutoTVAction.us@US",
+      "name": "Pluto TV Action (United States)"
+    },
+    {
+      "id": "PlutoTVActionMovies.us@CA",
+      "name": "Pluto TV Action Movies"
+    },
+    {
+      "id": "PlutoTVAdventure.us@US",
+      "name": "Pluto TV Adventure"
+    },
+    {
+      "id": "PlutoTVAlienInvasion.de@GB",
+      "name": "Pluto TV Alien Invasion (Germany)"
+    },
+    {
+      "id": "PlutoTVAmericanTrueCrime.de@GB",
+      "name": "Pluto TV American True Crime"
+    },
+    {
+      "id": "PlutoTVAnimals.de@GB",
+      "name": "Pluto TV Animals GB"
+    },
+    {
+      "id": "PlutoTVAnimation.de@GB",
+      "name": "Pluto TV Animation"
+    },
+    {
+      "id": "PlutoTVBackcountry.us@SD",
+      "name": "Pluto TV Backcountry"
+    },
+    {
+      "id": "PlutoTVBritainatWar.de@GB",
+      "name": "Pluto TV Britain at War"
+    },
+    {
+      "id": "PlutoTVCars.us@SD",
+      "name": "Pluto TV Cars"
+    },
+    {
+      "id": "PlutoTVClassicTV.de@GB",
+      "name": "Pluto TV Classic TV"
+    },
+    {
+      "id": "PlutoTVClassicTVVariety.us@CA",
+      "name": "Pluto TV Classic TV Variety"
+    },
+    {
+      "id": "PlutoTVComedy.us@US",
+      "name": "Pluto TV Comedy"
+    },
+    {
+      "id": "PlutoTVComedyMovies.us@CA",
+      "name": "Pluto TV Comedy Movies"
+    },
+    {
+      "id": "PlutoTVConspiracy.de@GB",
+      "name": "Pluto TV Conspiracy"
+    },
+    {
+      "id": "PlutoTVCrime.de@GB",
+      "name": "Pluto TV Crime GB"
+    },
+    {
+      "id": "PlutoTVCrimeDrama.us@SD",
+      "name": "Pluto TV Crime Drama"
+    },
+    {
+      "id": "PlutoTVCrimeMovies.us@SD",
+      "name": "Pluto TV Crime Movies"
+    },
+    {
+      "id": "PlutoTVCultFilms.de@GB",
+      "name": "Pluto TV Cult Films (Germany)"
+    },
+    {
+      "id": "PlutoTVCultFilms.us@US",
+      "name": "Pluto TV Cult Films (United States)"
+    },
+    {
+      "id": "PlutoTVDrama.us@US",
+      "name": "Pluto TV Drama"
+    },
+    {
+      "id": "PlutoTVDramaMovies.us@CA",
+      "name": "Pluto TV Drama Movies"
+    },
+    {
+      "id": "PlutoTVFamilyMovieClub.de@GB",
+      "name": "Pluto TV Family Movie Club"
+    },
+    {
+      "id": "PlutoTVFantastic.us@SD",
+      "name": "Pluto TV Fantastic"
+    },
+    {
+      "id": "PlutoTVFantasyHorror.de@GB",
+      "name": "Pluto TV Fantasy & Horror"
+    },
+    {
+      "id": "PlutoTVFBI.us@CA",
+      "name": "Pluto TV FBI"
+    },
+    {
+      "id": "PlutoTVFood.de@GB",
+      "name": "Pluto TV Food GB"
+    },
+    {
+      "id": "PlutoTVFranchiseFavorites.us@SD",
+      "name": "Pluto TV Franchise Favorites"
+    },
+    {
+      "id": "PlutoTVGameShows.us@SD",
+      "name": "Pluto TV Game Shows"
+    },
+    {
+      "id": "PlutoTVHistory.us@US",
+      "name": "Pluto TV History"
+    },
+    {
+      "id": "PlutoTVHometownDrama.us@SD",
+      "name": "Pluto TV Hometown Drama"
+    },
+    {
+      "id": "PlutoTVHorror.us@US",
+      "name": "Pluto TV Horror (United States)"
+    },
+    {
+      "id": "PlutoTVIcons.us@SD",
+      "name": "Pluto TV Icons"
+    },
+    {
+      "id": "PlutoTVInvestigation.de@GB",
+      "name": "Pluto TV Investigation"
+    },
+    {
+      "id": "PlutoTVLives.us@US",
+      "name": "Pluto TV Lives"
+    },
+    {
+      "id": "PlutoTVMilitary.us@SD",
+      "name": "Pluto TV Military"
+    },
+    {
+      "id": "PlutoTVMovies.de@GB",
+      "name": "Pluto TV Movies GB"
+    },
+    {
+      "id": "PlutoTVParanormal.de@GB",
+      "name": "Pluto TV Paranormal (Germany) GB"
+    },
+    {
+      "id": "PlutoTVParanormal.us@US",
+      "name": "Pluto TV Paranormal (United States)"
+    },
+    {
+      "id": "PlutoTVPetrolHeads.de@GB",
+      "name": "Pluto TV PetrolHeads"
+    },
+    {
+      "id": "PlutoTVReaction.us@SD",
+      "name": "Pluto TV Reaction"
+    },
+    {
+      "id": "PlutoTVReality.de@GB",
+      "name": "Pluto TV Reality (Germany) GB"
+    },
+    {
+      "id": "PlutoTVReality.us@US",
+      "name": "Pluto TV Reality (United States)"
+    },
+    {
+      "id": "PlutoTVRetroActionMovies.us@CA",
+      "name": "Pluto TV Retro Action Movies"
+    },
+    {
+      "id": "PlutoTVRetroCrimeAction.us@CA",
+      "name": "Pluto TV Retro Crime Action"
+    },
+    {
+      "id": "PlutoTVRetroCrimeDrama.us@CA",
+      "name": "Pluto TV Retro Crime Drama"
+    },
+    {
+      "id": "PlutoTVRetroKid.us@CA",
+      "name": "Pluto TV Retro Kid"
+    },
+    {
+      "id": "PlutoTVRetroToons.de@GB",
+      "name": "Pluto TV Retro Toons GB"
+    },
+    {
+      "id": "PlutoTVRomance.us@US",
+      "name": "Pluto TV Romance (United States)"
+    },
+    {
+      "id": "PlutoTVSanctuary.us@SD",
+      "name": "Pluto TV Sanctuary"
+    },
+    {
+      "id": "PlutoTVSciFi.de@GB",
+      "name": "Pluto TV Sci-Fi (Germany) GB"
+    },
+    {
+      "id": "PlutoTVSciFi.us@CA",
+      "name": "Pluto TV Sci-Fi (United States) CA"
+    },
+    {
+      "id": "PlutoTVScifiSeries.de@GB",
+      "name": "Pluto TV Sci-fi Series"
+    },
+    {
+      "id": "PlutoTVScience.de@GB",
+      "name": "Pluto TV Science (Germany) GB"
+    },
+    {
+      "id": "PlutoTVScience.us@US",
+      "name": "Pluto TV Science (United States)"
+    },
+    {
+      "id": "PlutoTVSherlock.de@GB",
+      "name": "Pluto TV Sherlock"
+    },
+    {
+      "id": "PlutoTVSitcoms.de@GB",
+      "name": "Pluto TV Sitcoms GB"
+    },
+    {
+      "id": "PlutoTVSnooker900.de@GB",
+      "name": "Pluto TV Snooker 900 (Germany) GB (720p)"
+    },
+    {
+      "id": "PlutoTVSpace.de@GB",
+      "name": "Pluto TV Space (Germany) GB"
+    },
+    {
+      "id": "PlutoTVSpotlight.us@SD",
+      "name": "Pluto TV Spotlight"
+    },
+    {
+      "id": "PlutoTVStaffPicks.us@SD",
+      "name": "Pluto TV Staff Picks"
+    },
+    {
+      "id": "PlutoTVStorageWars.us@SD",
+      "name": "Pluto TV Storage Wars (720p)"
+    },
+    {
+      "id": "PlutoTVTerror.us@SD",
+      "name": "Pluto TV Terror"
+    },
+    {
+      "id": "PlutoTVTheTwilightZone.us@SD",
+      "name": "Pluto TV The Twilight Zone"
+    },
+    {
+      "id": "PlutoTVThrillers.de@GB",
+      "name": "Pluto TV Thrillers (Germany) GB"
+    },
+    {
+      "id": "PlutoTVThrillers.us@US",
+      "name": "Pluto TV Thrillers (United States)"
+    },
+    {
+      "id": "PlutoTVToughJobs.de@GB",
+      "name": "Pluto TV Tough Jobs"
+    },
+    {
+      "id": "PlutoTVTrendingNow.us@SD",
+      "name": "Pluto TV Trending Now"
+    },
+    {
+      "id": "PlutoTVTrueCrime.us@US",
+      "name": "Pluto TV True Crime (United States)"
+    },
+    {
+      "id": "PlutoTVWesterns.de@GB",
+      "name": "Pluto TV Westerns (Germany)"
+    },
+    {
+      "id": "PlutoTVWesterns.us@US",
+      "name": "Pluto TV Westerns (United States)"
+    },
+    {
+      "id": "PMITV.pk@SD",
+      "name": "PMI TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "PoconoTelevisionNetwork.us@HD",
+      "name": "Pocono Television Network (1080p)"
+    },
+    {
+      "id": "PokerGo.us@US",
+      "name": "PokerGo"
+    },
+    {
+      "id": "PositivTV.us@SD",
+      "name": "Positiv TV (1080p)"
+    },
+    {
+      "id": "PowerNationTV.us@SD",
+      "name": "PowerNation TV (1080p)"
+    },
+    {
+      "id": "PraiseTV.pk@SD",
+      "name": "Praise TV (720p)"
+    },
+    {
+      "id": "PrimeAsiaTV.ca@SD",
+      "name": "Prime Asia TV (1080p)"
+    },
+    {
+      "id": "PursuitUP.us@SD",
+      "name": "PursuitUP (1080p)"
+    },
+    {
+      "id": "PutoTVClassicTVCrimeDrama.us@CA",
+      "name": "Puto TV Classic TV Crime Drama"
+    },
+    {
+      "id": "QausainTV.ng@SD",
+      "name": "Qausain TV (720p)"
+    },
+    {
+      "id": "QelloConcertsbyStingray.ca@SD",
+      "name": "Qello Concerts by Stingray (1080p)"
+    },
+    {
+      "id": "QuoVadisTV.ca@SD",
+      "name": "Quo Vadis TV (720p)"
+    },
+    {
+      "id": "QVC2.us@SD",
+      "name": "QVC2 (720p)"
+    },
+    {
+      "id": "QVC3.us@SD",
+      "name": "QVC3 (1080p)"
+    },
+    {
+      "id": "QVC.us@SD",
+      "name": "QVC (United States) (720p)"
+    },
+    {
+      "id": "QVCBeauty.uk@SD",
+      "name": "QVC Beauty (540p)"
+    },
+    {
+      "id": "QVCExtra.uk@SD",
+      "name": "QVC Extra (540p)"
+    },
+    {
+      "id": "QVCStyle.uk@SD",
+      "name": "QVC Style (United Kingdom) (540p)"
+    },
+    {
+      "id": "QwestTV.fr@SD",
+      "name": "Qwest TV (1080p)"
+    },
+    {
+      "id": "QwestTVJazzBeyond.fr@SD",
+      "name": "Qwest TV Jazz & Beyond (1080p)"
+    },
+    {
+      "id": "RACERInternational.pl@FAST",
+      "name": "RACER International (1080p)"
+    },
+    {
+      "id": "RadiantTV.us@SD",
+      "name": "RadiantTV (1080p)"
+    },
+    {
+      "id": "RaiItalia.it@EuropeAfrica",
+      "name": "Rai Italia (1080p)"
+    },
+    {
+      "id": "RainbowRuby.us@SD",
+      "name": "Rainbow Ruby (720p)"
+    },
+    {
+      "id": "RakutenViki.us@Poland",
+      "name": "Rakuten Viki Poland"
+    },
+    {
+      "id": "Rawhide.us@SD",
+      "name": "Rawhide (United States)"
+    },
+    {
+      "id": "RealAmericasVoice.us@SD",
+      "name": "Real America's Voice (1080p)"
+    },
+    {
+      "id": "RealMadridTVEnglish.es@SD",
+      "name": "Real Madrid TV English"
+    },
+    {
+      "id": "RedApple21.us@SD",
+      "name": "Red Apple 21 (480p) [Not 24/7]"
+    },
+    {
+      "id": "RedBullTV.at@EUMENA",
+      "name": "Red Bull TV (1080p)"
+    },
+    {
+      "id": "RetroCrush.us@SD",
+      "name": "RetroCrush (1080p)"
+    },
+    {
+      "id": "ReutersTV.us@SD",
+      "name": "Reuters TV (1080p)"
+    },
+    {
+      "id": "RevandRoll.us@SD",
+      "name": "Rev and Roll (720p)"
+    },
+    {
+      "id": "Revolt.us@SD",
+      "name": "Revolt (720p)"
+    },
+    {
+      "id": "Revry.us@SD",
+      "name": "Revry (1080p)"
+    },
+    {
+      "id": "RevryQueer.us@SD",
+      "name": "Revry Queer (720p)"
+    },
+    {
+      "id": "RiddimHopeTV.tt@SD",
+      "name": "Riddim & Hope TV"
+    },
+    {
+      "id": "Ridiculousness.us@SD",
+      "name": "Ridiculousness (United States)"
+    },
+    {
+      "id": "RiffTrax.us@US",
+      "name": "RiffTrax (720p)"
+    },
+    {
+      "id": "RightNowTV.us@SD",
+      "name": "Right Now TV (720p)"
+    },
+    {
+      "id": "Roar.us@SD",
+      "name": "Roar (1080p)"
+    },
+    {
+      "id": "RomedyNow.in@SD",
+      "name": "Romedy Now (1080p)"
+    },
+    {
+      "id": "ROVTV.za@SD",
+      "name": "ROV TV (576p)"
+    },
+    {
+      "id": "RTDocumentary.ru@English",
+      "name": "RT Documentary (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "RTIndia.in@HD",
+      "name": "RT India (1080p)"
+    },
+    {
+      "id": "RTRPlaneta.ru@US",
+      "name": "RTR-Planeta US (720p) [Geo-blocked]"
+    },
+    {
+      "id": "Runtime.us@SD",
+      "name": "Runtime (720p)"
+    },
+    {
+      "id": "RyanandFriends.us@SD",
+      "name": "Ryan and Friends (1080p)"
+    },
+    {
+      "id": "SCorbyTV.us@HD",
+      "name": "S Corby TV (480p)"
+    },
+    {
+      "id": "SFree.us@HD",
+      "name": "S Free! (360p)"
+    },
+    {
+      "id": "SPlayEvent.us@HD",
+      "name": "S Play Event (1080p)"
+    },
+    {
+      "id": "SPremium.us@HD",
+      "name": "S Premium! HD (360p)"
+    },
+    {
+      "id": "STomSings.us@HD",
+      "name": "S Tom Sings (1080p)"
+    },
+    {
+      "id": "SABC1.za@SD",
+      "name": "SABC 1 (720p) [Geo-blocked]"
+    },
+    {
+      "id": "SABC2.za@SD",
+      "name": "SABC 2 [Geo-blocked]"
+    },
+    {
+      "id": "SalvationTV.in@SD",
+      "name": "Salvation TV (India) (1080p)"
+    },
+    {
+      "id": "SalvationTV.ng@SD",
+      "name": "Salvation TV (Nigeria) (576p)"
+    },
+    {
+      "id": "SangatTV.uk@SD",
+      "name": "Sangat TV (576p)"
+    },
+    {
+      "id": "SankhyaTV.tt@SD",
+      "name": "Sankhya TV (720p)"
+    },
+    {
+      "id": "SardariTV.ca@SD",
+      "name": "Sardari TV (1080p) [Not 24/7]"
+    },
+    {
+      "id": "SchwabNetwork.us@SD",
+      "name": "Schwab Network (1080p)"
+    },
+    {
+      "id": "ScientologyNetwork.us@SD",
+      "name": "Scientology Network (1080p)"
+    },
+    {
+      "id": "ScorchTV.tt@SD",
+      "name": "Scorch TV (1080p)"
+    },
+    {
+      "id": "ScreenDreams.us@SD",
+      "name": "Screen Dreams (720p)"
+    },
+    {
+      "id": "SECNetwork.us@SD",
+      "name": "SEC Network (1080p)"
+    },
+    {
+      "id": "SensingMurder.us@UK",
+      "name": "Sensing Murder"
+    },
+    {
+      "id": "SGTN49.us@SD",
+      "name": "SGTN-49 (720p)"
+    },
+    {
+      "id": "ShalomWorld.us@NorthAmerica",
+      "name": "Shalom World (1080p)"
+    },
+    {
+      "id": "ShalomWorldPrayer.us@SD",
+      "name": "Shalom World Prayer (1080p)"
+    },
+    {
+      "id": "ShowtimeFamilyZone.us@East",
+      "name": "Showtime Family Zone (720p)"
+    },
+    {
+      "id": "SitcomLegends.us@SD",
+      "name": "Sitcom Legends"
+    },
+    {
+      "id": "SkwadPlay.us@SD",
+      "name": "Skwad Play (1080p)"
+    },
+    {
+      "id": "SkyNews.ie@SD",
+      "name": "Sky News"
+    },
+    {
+      "id": "SkyNewsExtra1.au@SD",
+      "name": "Sky News Extra 1 (540p)"
+    },
+    {
+      "id": "SkyNewsExtra2.au@SD",
+      "name": "Sky News Extra 2 (540p) [Not 24/7]"
+    },
+    {
+      "id": "SkyNewsExtra3.au@SD",
+      "name": "Sky News Extra 3 (1080p)"
+    },
+    {
+      "id": "SkyRacing1.au@SD",
+      "name": "Sky Racing 1 (720p)"
+    },
+    {
+      "id": "SkyRacing2.au@SD",
+      "name": "Sky Racing 2 (720p)"
+    },
+    {
+      "id": "SmartLifeStyleTV.us@SD",
+      "name": "Smart LifeStyle TV (720p)"
+    },
+    {
+      "id": "SmithsonianChannelSelects.us@SD",
+      "name": "Smithsonian Channel Selects (United States)"
+    },
+    {
+      "id": "SmurfTV.us@SD",
+      "name": "Smurf TV (480p)"
+    },
+    {
+      "id": "SNLVault.us@SD",
+      "name": "SNL Vault (1080p)"
+    },
+    {
+      "id": "SoReal.us@UK",
+      "name": "So... Real UK (720p)"
+    },
+    {
+      "id": "SonicTV.us@SD",
+      "name": "Sonic TV (720p)"
+    },
+    {
+      "id": "SouthPark.de@GB",
+      "name": "South Park (Germany) GB"
+    },
+    {
+      "id": "SouthPark.us@CA",
+      "name": "South Park (United States)"
+    },
+    {
+      "id": "SouthParkCartmanCollection.us@CA",
+      "name": "South Park: Cartman Collection (United States)"
+    },
+    {
+      "id": "SouthParkKennyCollection.us@CA",
+      "name": "South Park: Kenny Collection (United States)"
+    },
+    {
+      "id": "SouthParkKyleCollection.us@CA",
+      "name": "South Park: Kyle Collection (United States)"
+    },
+    {
+      "id": "SouthParkStanCollection.us@CA",
+      "name": "South Park: Stan Collection (United States)"
+    },
+    {
+      "id": "SouthParkWelcometoCanada.us@CA",
+      "name": "South Park: Welcome to Canada!"
+    },
+    {
+      "id": "SparkTV.uk@SD",
+      "name": "Spark TV (1080p)"
+    },
+    {
+      "id": "SpikeOutdoors.us@SD",
+      "name": "Spike Outdoors"
+    },
+    {
+      "id": "SpikePlutoTV.us@SD",
+      "name": "Spike Pluto TV"
+    },
+    {
+      "id": "SpiritTV.us@SD",
+      "name": "Spirit TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "SpongeBobSquarePants.us@CA",
+      "name": "SpongeBob SquarePants (720p)"
+    },
+    {
+      "id": "Sport5.ua@SD",
+      "name": "Sport 5 (1080p)"
+    },
+    {
+      "id": "Stadium.us@SD",
+      "name": "Stadium (720p)"
+    },
+    {
+      "id": "Star101FM.gu@SD",
+      "name": "Star 101 FM [Not 24/7]"
+    },
+    {
+      "id": "StarSportsSelect2.in@HD",
+      "name": "Star Sports Select 2 HD (720p)"
+    },
+    {
+      "id": "StarTrek.us@US",
+      "name": "Star Trek US"
+    },
+    {
+      "id": "StarTrekDeepSpaceNine.us@SD",
+      "name": "Star Trek: Deep Space Nine"
+    },
+    {
+      "id": "StarTrekTheNextGeneration.us@SD",
+      "name": "Star Trek: The Next Generation (United States)"
+    },
+    {
+      "id": "StarTrekVoyager.us@SD",
+      "name": "Star Trek: Voyager (United States)"
+    },
+    {
+      "id": "StingrayCityscapes.ca@HD",
+      "name": "Stingray Cityscapes (1080p)"
+    },
+    {
+      "id": "StingrayClassicRock.ca@SD",
+      "name": "Stingray Classic Rock (1080p)"
+    },
+    {
+      "id": "StingrayCozyCafe.ca@HD",
+      "name": "Stingray Cozy Cafe (1080p)"
+    },
+    {
+      "id": "StingrayDJAZZ.ca@SD",
+      "name": "Stingray DJAZZ (1080p)"
+    },
+    {
+      "id": "StingrayEasyListening.ca@SD",
+      "name": "Stingray Easy Listening (1080p)"
+    },
+    {
+      "id": "StingrayEverything80s.ca@SD",
+      "name": "Stingray Everything '80s (1080p)"
+    },
+    {
+      "id": "StingrayFlashback70s.ca@SD",
+      "name": "Stingray Flashback 70's (1080p)"
+    },
+    {
+      "id": "StingrayGreatestHolidayHits.us@SD",
+      "name": "Stingray Greatest Holiday Hits"
+    },
+    {
+      "id": "StingrayHitList.ca@SD",
+      "name": "Stingray Hit List (1080p)"
+    },
+    {
+      "id": "StingrayHolidayHits.ca@SD",
+      "name": "Stingray Holiday Hits (1080p)"
+    },
+    {
+      "id": "StingrayHolidayscapes.ca@HD",
+      "name": "Stingray Holidayscapes (1080p)"
+    },
+    {
+      "id": "StingrayHotCountry.ca@SD",
+      "name": "Stingray Hot Country (1080p)"
+    },
+    {
+      "id": "StingrayJukeboxOldies.ca@SD",
+      "name": "Stingray Jukebox Oldies (1080p)"
+    },
+    {
+      "id": "StingrayKaraoke.ca@SD",
+      "name": "Stingray Karaoke (1080p)"
+    },
+    {
+      "id": "StingrayNothinBut90s.ca@SD",
+      "name": "Stingray Nothin' But 90s (1080p)"
+    },
+    {
+      "id": "StingrayPopAdult.ca@SD",
+      "name": "Stingray Pop Adult (1080p)"
+    },
+    {
+      "id": "StingrayRememberthe80s.ca@SD",
+      "name": "Stingray Remember the 80s"
+    },
+    {
+      "id": "StingrayRockAlternative.ca@SD",
+      "name": "Stingray Rock Alternative (1080p)"
+    },
+    {
+      "id": "StingraySmoothJazz.ca@SD",
+      "name": "Stingray Smooth Jazz (1080p)"
+    },
+    {
+      "id": "StingraySoulStorm.ca@SD",
+      "name": "Stingray Soul Storm (1080p)"
+    },
+    {
+      "id": "StingrayTheSpa.ca@SD",
+      "name": "Stingray The Spa (1080p)"
+    },
+    {
+      "id": "StingrayTikTokRadio.ca@HD",
+      "name": "Stingray TikTok Radio (1080p)"
+    },
+    {
+      "id": "StingrayTodaysKPop.ca@SD",
+      "name": "Stingray Today's K-Pop (1080p)"
+    },
+    {
+      "id": "StingrayTodaysLatinPop.ca@SD",
+      "name": "Stingray Today's Latin Pop (1080p)"
+    },
+    {
+      "id": "StoriesbyAMC.us@SD",
+      "name": "Stories by AMC"
+    },
+    {
+      "id": "StrykTV.us@HD",
+      "name": "Stryk TV (1080p)"
+    },
+    {
+      "id": "STV.us@HD",
+      "name": "STV (United States) (360p)"
+    },
+    {
+      "id": "SUMtvEnglish.us@SD",
+      "name": "SUMtv English (1080p)"
+    },
+    {
+      "id": "SunnaTV.ng@SD",
+      "name": "Sunna TV (576p)"
+    },
+    {
+      "id": "SuperSimpleSongs.us@SD",
+      "name": "Super Simple Songs (1080p)"
+    },
+    {
+      "id": "SupernaturalDrama.us@SD",
+      "name": "Supernatural Drama"
+    },
+    {
+      "id": "SuperyachtTV.mc@SD",
+      "name": "Superyacht TV (1080p)"
+    },
+    {
+      "id": "SupremeMasterTV.tw@SD",
+      "name": "Supreme Master TV (720p)"
+    },
+    {
+      "id": "SwamijiTVAmerican.at@SD",
+      "name": "Swamiji TV American (1080p) [Not 24/7]"
+    },
+    {
+      "id": "SwamijiTVAustralian.at@SD",
+      "name": "Swamiji TV Australian (1080p) [Not 24/7]"
+    },
+    {
+      "id": "SwamijiTVEuropean.at@SD",
+      "name": "Swamiji TV European (1080p) [Not 24/7]"
+    },
+    {
+      "id": "SwerveCombat.us@SD",
+      "name": "Swerve Combat (1080p)"
+    },
+    {
+      "id": "SYFY.us@East",
+      "name": "SYFY (720p)"
+    },
+    {
+      "id": "SynagogueTV.ng@SD",
+      "name": "Synagogue TV (576p)"
+    },
+    {
+      "id": "TalkinLiveClassicsTV.us@SD",
+      "name": "Talkin Live Classics TV (480p)"
+    },
+    {
+      "id": "Tastemade.us@US",
+      "name": "Tastemade (1080p)"
+    },
+    {
+      "id": "TBNArmenia.us@SD",
+      "name": "TBN Armenia"
+    },
+    {
+      "id": "TBNPacific.us@SD",
+      "name": "TBN Pacific"
+    },
+    {
+      "id": "TBNUK.uk@SD",
+      "name": "TBN UK (1080p)"
+    },
+    {
+      "id": "TBNUkraine.us@SD",
+      "name": "TBN Ukraine (720p)"
+    },
+    {
+      "id": "TCT.us@SD",
+      "name": "TCT (1080p)"
+    },
+    {
+      "id": "TeenMom.de@GB",
+      "name": "Teen Mom (Germany) GB"
+    },
+    {
+      "id": "TeenMom.us@SD",
+      "name": "Teen Mom (United States)"
+    },
+    {
+      "id": "Tele7.es@SD",
+      "name": "Tele 7 (720p)"
+    },
+    {
+      "id": "Telesur.ve@English",
+      "name": "Telesur English (480p)"
+    },
+    {
+      "id": "TelevisionCaribbean.kn@SD",
+      "name": "Television Caribbean (1080p)"
+    },
+    {
+      "id": "TennisChannel2.us@SD",
+      "name": "Tennis Channel 2 (1080p)"
+    },
+    {
+      "id": "TerraMaterWILD.de@English",
+      "name": "Terra Mater WILD English (1080p)"
+    },
+    {
+      "id": "TGJunior.us@SD",
+      "name": "TG Junior (720p)"
+    },
+    {
+      "id": "TheAddamsFamily.us@SD",
+      "name": "The Addams Family"
+    },
+    {
+      "id": "TheAmazingRace.us@SD",
+      "name": "The Amazing Race"
+    },
+    {
+      "id": "TheAndyGriffithShow.us@SD",
+      "name": "The Andy Griffith Show"
+    },
+    {
+      "id": "TheArchive.us@SD",
+      "name": "The Archive (1080p)"
+    },
+    {
+      "id": "TheBeverlyHillbillies.us@CA",
+      "name": "The Beverly Hillbillies"
+    },
+    {
+      "id": "TheChallenge.us@SD",
+      "name": "The Challenge"
+    },
+    {
+      "id": "TheConners.us@SD",
+      "name": "The Conners"
+    },
+    {
+      "id": "TheCowboyChannelCanada.ca@SD",
+      "name": "The Cowboy Channel Canada (1080p)"
+    },
+    {
+      "id": "TheDesignNetwork.us@SD",
+      "name": "The Design Network (1080p)"
+    },
+    {
+      "id": "TheFirstTV.us@SD",
+      "name": "The First TV (1080p)"
+    },
+    {
+      "id": "TheIndonesiaChannel.id@SD",
+      "name": "The Indonesia Channel (1080p)"
+    },
+    {
+      "id": "TheIslamicNetwork.tt@SD",
+      "name": "The Islamic Network"
+    },
+    {
+      "id": "TheJamieOliverChannel.us@SD",
+      "name": "The Jamie Oliver Channel (1080p)"
+    },
+    {
+      "id": "TheJudgeJudyChannel.us@SD",
+      "name": "The Judge Judy Channel (720p)"
+    },
+    {
+      "id": "TheLoveBoat.us@SD",
+      "name": "The Love Boat"
+    },
+    {
+      "id": "TheNest.us@SD",
+      "name": "The Nest (1080p)"
+    },
+    {
+      "id": "TheNewDetectives.de@GB",
+      "name": "The New Detectives (Germany)"
+    },
+    {
+      "id": "TheNewDetectives.us@US",
+      "name": "The New Detectives (United States)"
+    },
+    {
+      "id": "TheNowNetwork.us@SD",
+      "name": "The Now Network (480p) [Not 24/7]"
+    },
+    {
+      "id": "ThePetCollective.us@US",
+      "name": "The Pet Collective (720p)"
+    },
+    {
+      "id": "ThePriceIsRight.us@HD",
+      "name": "The Price Is Right"
+    },
+    {
+      "id": "ThePriceIsRightTheBarkerEra.us@SD",
+      "name": "The Price Is Right: The Barker Era (720p)"
+    },
+    {
+      "id": "TheRifleman.us@SD",
+      "name": "The Rifleman"
+    },
+    {
+      "id": "TheWalkTV.us@SD",
+      "name": "The Walk TV"
+    },
+    {
+      "id": "TheWalkingDeadUniverse.us@SD",
+      "name": "The Walking Dead Universe (720p)"
+    },
+    {
+      "id": "TheWeatherNetwork.ca@SD",
+      "name": "The Weather Network (720p)"
+    },
+    {
+      "id": "TheWildWildWest.us@SD",
+      "name": "The Wild Wild West (United States)"
+    },
+    {
+      "id": "TheWordNetwork.us@SD",
+      "name": "The Word Network (1080p)"
+    },
+    {
+      "id": "TheYellowCouchwithJeremyLynch.de@GB",
+      "name": "The Yellow Couch with Jeremy Lynch"
+    },
+    {
+      "id": "TheYoungTurks.us@SD",
+      "name": "The Young Turks (720p)"
+    },
+    {
+      "id": "theDoveTV.us@SD",
+      "name": "theDove TV (720p)"
+    },
+    {
+      "id": "ThisOldHouse.us@SD",
+      "name": "This Old House (1080p)"
+    },
+    {
+      "id": "ThreesCompany.us@SD",
+      "name": "Three's Company"
+    },
+    {
+      "id": "tickerNews.au@SD",
+      "name": "ticker News (1080p)"
+    },
+    {
+      "id": "TinyHouseNation.us@SD",
+      "name": "Tiny House Nation (720p)"
+    },
+    {
+      "id": "TJC.uk@SD",
+      "name": "TJC (1080p)"
+    },
+    {
+      "id": "TLN.ca@KQSL",
+      "name": "TLN KQSL (720p)"
+    },
+    {
+      "id": "TLNMediaChicago.us@SD",
+      "name": "TLN Media Chicago (720p)"
+    },
+    {
+      "id": "TLNMediaSanFrancisco.us@SD",
+      "name": "TLN Media San Francisco (720p)"
+    },
+    {
+      "id": "TMZ.us@SD",
+      "name": "TMZ (720p)"
+    },
+    {
+      "id": "TNAWrestlingChannel.pl@SD",
+      "name": "TNA Wrestling Channel (720p)"
+    },
+    {
+      "id": "TODAYAllDay.us@SD",
+      "name": "TODAY All Day (1080p)"
+    },
+    {
+      "id": "TodayRadio.lu@SD",
+      "name": "Today Radio (720p)"
+    },
+    {
+      "id": "TOIGlobal.in@SD",
+      "name": "TOI Global (1080p)"
+    },
+    {
+      "id": "TomAndJerry.do@HD",
+      "name": "Tom And Jerry (720p)"
+    },
+    {
+      "id": "ToonamiAftermath.us@East",
+      "name": "Toonami Aftermath (480p)"
+    },
+    {
+      "id": "ToonGoggles.us@SD",
+      "name": "ToonGoggles (720p)"
+    },
+    {
+      "id": "TOPBarca.pl@SD",
+      "name": "TOP Barca (1080p)"
+    },
+    {
+      "id": "Toronto360TV.ca@SD",
+      "name": "Toronto 360 TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "Tosh0.us@SD",
+      "name": "Tosh.0 (United States)"
+    },
+    {
+      "id": "TotalCrime.ca@CA",
+      "name": "Total Crime (1080p)"
+    },
+    {
+      "id": "TotallyTurtles.de@GB",
+      "name": "Totally Turtles (Germany) GB"
+    },
+    {
+      "id": "TotallyTurtles.us@US",
+      "name": "Totally Turtles (United States)"
+    },
+    {
+      "id": "ToughJobs.us@SD",
+      "name": "Tough Jobs"
+    },
+    {
+      "id": "TraceGospel.fr@NigeriaandEastAfrica",
+      "name": "Trace Gospel Nigeria and East Africa (1080p)"
+    },
+    {
+      "id": "TraceJama.fr@SD",
+      "name": "Trace Jama (1080p)"
+    },
+    {
+      "id": "TraceMziki.fr@SD",
+      "name": "Trace Mziki (1080p)"
+    },
+    {
+      "id": "TraceNaija.fr@SD",
+      "name": "Trace Naija (1080p)"
+    },
+    {
+      "id": "TraceNgoma.fr@SD",
+      "name": "Trace Ngoma (1080p)"
+    },
+    {
+      "id": "Trailers.es@UK",
+      "name": "Trailers UK (1080p)"
+    },
+    {
+      "id": "TRTWorld.tr@SD",
+      "name": "TRT World (720p)"
+    },
+    {
+      "id": "TrueHistory.us@SD",
+      "name": "True History (720p)"
+    },
+    {
+      "id": "TSC.ca@SD",
+      "name": "TSC (720p)"
+    },
+    {
+      "id": "TSNTheOcho.ca@SD",
+      "name": "TSN The Ocho (1080p)"
+    },
+    {
+      "id": "TVBRICSEnglish.in@SD",
+      "name": "TV BRICS English (1080p)"
+    },
+    {
+      "id": "TVLandDrama.us@SD",
+      "name": "TV Land Drama"
+    },
+    {
+      "id": "TVLandSitcoms.us@SD",
+      "name": "TV Land Sitcoms"
+    },
+    {
+      "id": "TVManaEnglish.pt@SD",
+      "name": "TV Mana English (1080p)"
+    },
+    {
+      "id": "TVPanou.ht@SD",
+      "name": "TV Panou (720p) [Not 24/7]"
+    },
+    {
+      "id": "TVJ.jm@SD",
+      "name": "TVJ (720p) [Not 24/7]"
+    },
+    {
+      "id": "TVOKids.ca@SD",
+      "name": "TVOKids (720p)"
+    },
+    {
+      "id": "TVPWorld.pl@SD",
+      "name": "TVP World"
+    },
+    {
+      "id": "TVRIWorld.id@SD",
+      "name": "TVRI World (1080p)"
+    },
+    {
+      "id": "TVSCipherNetwork.us@SD",
+      "name": "TVS Cipher Network (360p)"
+    },
+    {
+      "id": "TVSClassicMovies.us@SD",
+      "name": "TVS Classic Movies (288p)"
+    },
+    {
+      "id": "TVSComedyNetwork.us@SD",
+      "name": "TVS Comedy Network (720p)"
+    },
+    {
+      "id": "TVSConsumerDirect.us@SD",
+      "name": "TVS Consumer Direct (720p)"
+    },
+    {
+      "id": "TVSDriveInMovie.us@SD",
+      "name": "TVS Drive In Movie (360p)"
+    },
+    {
+      "id": "TVSFamilyChannel.us@SD",
+      "name": "TVS Family Channel (360p)"
+    },
+    {
+      "id": "TVSFlashbackNetwork.us@SD",
+      "name": "TVS Flashback Network (360p)"
+    },
+    {
+      "id": "TVSHiTops.us@SD",
+      "name": "TVS Hi Tops (720p)"
+    },
+    {
+      "id": "TVSHollywoodHistory.us@SD",
+      "name": "TVS Hollywood History (582p)"
+    },
+    {
+      "id": "TVSMainstreet.us@SD",
+      "name": "TVS Mainstreet (360p) [Not 24/7]"
+    },
+    {
+      "id": "TVSMusicNetwork.us@SD",
+      "name": "TVS Music Network (720p)"
+    },
+    {
+      "id": "TVSNostalgia.us@SD",
+      "name": "TVS Nostalgia (472p)"
+    },
+    {
+      "id": "TVSNostalgiaMovies.us@SD",
+      "name": "TVS Nostalgia Movies (480p)"
+    },
+    {
+      "id": "TVSPetParadeNetwork.us@SD",
+      "name": "TVS Pet Parade Network (360p)"
+    },
+    {
+      "id": "TVSQuizShowNetwork.us@SD",
+      "name": "TVS Quiz Show Network (720p)"
+    },
+    {
+      "id": "TVSSelectNetwork.us@SD",
+      "name": "TVS Select Network (720p)"
+    },
+    {
+      "id": "TVSTalkNetwork.us@SD",
+      "name": "TVS Talk Network (360p)"
+    },
+    {
+      "id": "TVSTallyHo.us@SD",
+      "name": "TVS Tally Ho (360p)"
+    },
+    {
+      "id": "TVSTavern.us@SD",
+      "name": "TVS Tavern (480p)"
+    },
+    {
+      "id": "TVSTelevisionNetwork.us@SD",
+      "name": "TVS Television Network (480p)"
+    },
+    {
+      "id": "TVSTravelNetwork.us@SD",
+      "name": "TVS Travel Network (720p) [Not 24/7]"
+    },
+    {
+      "id": "TVSVintageNetwork.us@SD",
+      "name": "TVS Vintage Network (360p)"
+    },
+    {
+      "id": "TVSWesternMovie.us@SD",
+      "name": "TVS Western Movie (270p)"
+    },
+    {
+      "id": "TVSN.au@SD",
+      "name": "TVSN (1080p)"
+    },
+    {
+      "id": "UCTV.us@SD",
+      "name": "UCTV (720p) [Not 24/7]"
+    },
+    {
+      "id": "UNWebTV.us@SD",
+      "name": "UN Web TV (540p)"
+    },
+    {
+      "id": "UndercoverBossGlobal.us@UK",
+      "name": "Undercover Boss Global (720p)"
+    },
+    {
+      "id": "Unidentified.us@SD",
+      "name": "Unidentified (1080p)"
+    },
+    {
+      "id": "UnsolvedMysteries.us@US",
+      "name": "Unsolved Mysteries (720p)"
+    },
+    {
+      "id": "USATODAY.us@SD",
+      "name": "USA TODAY (1080p)"
+    },
+    {
+      "id": "UTVAfrica.ng@SD",
+      "name": "UTV Africa (720p)"
+    },
+    {
+      "id": "V2BEATTV.uk@SD",
+      "name": "V2BEAT TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "VantageMusic.ee@UK",
+      "name": "Vantage Music UK (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "VantageRock.ee@HD",
+      "name": "Vantage Rock (720p) [Geo-blocked]"
+    },
+    {
+      "id": "VevoTrueSchoolHipHop.us@SD",
+      "name": "Vevo True School Hip-Hop"
+    },
+    {
+      "id": "VH1QueensofReality.us@SD",
+      "name": "VH1 Queens of Reality"
+    },
+    {
+      "id": "ViasatExplore.se@SD",
+      "name": "Viasat Explore (Sweden) [Not 24/7]"
+    },
+    {
+      "id": "ViasatHistory.se@SD",
+      "name": "Viasat History (Sweden) [Not 24/7]"
+    },
+    {
+      "id": "ViasatNature.se@SD",
+      "name": "Viasat Nature (Sweden) [Not 24/7]"
+    },
+    {
+      "id": "VICETV.us@SD",
+      "name": "VICE TV (1080p)"
+    },
+    {
+      "id": "VideoMixTV.us@SD",
+      "name": "Video Mix TV"
+    },
+    {
+      "id": "VoATV.us@SD",
+      "name": "VoA TV (1080p)"
+    },
+    {
+      "id": "VSiN.us@SD",
+      "name": "VSiN (720p)"
+    },
+    {
+      "id": "VyasChannel.in@SD",
+      "name": "Vyas Channel (576p)"
+    },
+    {
+      "id": "WaffiTV.ng@SD",
+      "name": "Waffi TV (240p)"
+    },
+    {
+      "id": "WantedDeadorAlive.us@SD",
+      "name": "Wanted: Dead or Alive (720p)"
+    },
+    {
+      "id": "WatchitScream.us@SD",
+      "name": "Watch it Scream! (720p)"
+    },
+    {
+      "id": "WaterBear.ch@SD",
+      "name": "WaterBear (1080p)"
+    },
+    {
+      "id": "WaypointTV.us@SD",
+      "name": "Waypoint TV (1080p)"
+    },
+    {
+      "id": "WazobiaMaxTVNigeria.ng@SD",
+      "name": "Wazobia Max TV Nigeria (720p)"
+    },
+    {
+      "id": "WazobiaMaxTVPortHarcourt.ng@SD",
+      "name": "Wazobia Max TV Port-Harcourt (720p)"
+    },
+    {
+      "id": "WeTV.us@East",
+      "name": "We TV (1080p)"
+    },
+    {
+      "id": "WeatherNation.us@SD",
+      "name": "WeatherNation (1080p)"
+    },
+    {
+      "id": "WeatherSpy.au@SD",
+      "name": "WeatherSpy (Australia) (720p)"
+    },
+    {
+      "id": "WeatherSpy.us@SD",
+      "name": "WeatherSpy (United States) (720p)"
+    },
+    {
+      "id": "WedoBigStories.ch@SD",
+      "name": "Wedo Big Stories (1080p)"
+    },
+    {
+      "id": "WedoTVAmor.ch@SD",
+      "name": "Wedo TV Amor (1080p)"
+    },
+    {
+      "id": "WeedsNurseJackie.us@SD",
+      "name": "Weeds & Nurse Jackie (720p)"
+    },
+    {
+      "id": "WesternTV.us@SD",
+      "name": "Western TV"
+    },
+    {
+      "id": "Westerns4U.us@SD",
+      "name": "Westerns 4U (1080p)"
+    },
+    {
+      "id": "Whiplash.us@HD",
+      "name": "Whiplash (720p)"
+    },
+    {
+      "id": "WhiplashCinema.us@SD",
+      "name": "Whiplash Cinema (480p)"
+    },
+    {
+      "id": "WhiplashII.us@SD",
+      "name": "Whiplash II (480p)"
+    },
+    {
+      "id": "WildNOut.us@SD",
+      "name": "Wild 'N Out"
+    },
+    {
+      "id": "WildatHeart.us@UK",
+      "name": "Wild at Heart"
+    },
+    {
+      "id": "WildTV.ca@SD",
+      "name": "Wild TV (1080p)"
+    },
+    {
+      "id": "WindowTV.us@SD",
+      "name": "Window TV (720p)"
+    },
+    {
+      "id": "WineWatchesWhiskey.us@HD",
+      "name": "Wine Watches & Whiskey (1080p)"
+    },
+    {
+      "id": "WION.in@SD",
+      "name": "WION (1080p)"
+    },
+    {
+      "id": "WipeoutXtra.us@SD",
+      "name": "Wipeout Xtra (1080p)"
+    },
+    {
+      "id": "WomensSportsNetwork.us@SD",
+      "name": "Women's Sports Network (1080p)"
+    },
+    {
+      "id": "WorldChannel.us@SD",
+      "name": "World Channel (1080p)"
+    },
+    {
+      "id": "WorldHarvestTV.us@SD",
+      "name": "World Harvest TV (360p)"
+    },
+    {
+      "id": "WuTangCollection.us@SD",
+      "name": "Wu Tang Collection (720p)"
+    },
+    {
+      "id": "XFCTV.us@SD",
+      "name": "XFC TV (720p)"
+    },
+    {
+      "id": "XITE90sThrowback.us@SD",
+      "name": "XITE 90's Throwback (1080p)"
+    },
+    {
+      "id": "XITEClassicCountry.nl@SD",
+      "name": "XITE Classic Country (720p)"
+    },
+    {
+      "id": "XITEJustChill.nl@US",
+      "name": "XITE Just Chill (1080p)"
+    },
+    {
+      "id": "XITERockxMetal.nl@US",
+      "name": "XITE Rock x Metal (1080p)"
+    },
+    {
+      "id": "XploreTV.us@SD",
+      "name": "Xplore TV (1080p)"
+    },
+    {
+      "id": "XPTV2.es@SD",
+      "name": "XPTV2 (720p)"
+    },
+    {
+      "id": "XPTVUS.es@SD",
+      "name": "XPTV US (720p)"
+    },
+    {
+      "id": "YachtingTV.cz@SD",
+      "name": "Yachting TV (1080p)"
+    },
+    {
+      "id": "YadahTV.zw@SD",
+      "name": "Yadah TV (576p) [Not 24/7]"
+    },
+    {
+      "id": "YahooFinance.us@SD",
+      "name": "Yahoo! Finance (1080p)"
+    },
+    {
+      "id": "YesNetwork.us@SD",
+      "name": "Yes Network (720p)"
+    },
+    {
+      "id": "YoMTV.us@SD",
+      "name": "Yo! MTV (1080p)"
+    },
+    {
+      "id": "YobeTV.ng@SD",
+      "name": "Yobe TV (720p)"
+    },
+    {
+      "id": "YoungHollywood.us@SD",
+      "name": "Young Hollywood (720p)"
+    },
+    {
+      "id": "YOUNIBMediaTV.ke@SD",
+      "name": "YOUNIB Media TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "YTATV.us@SD",
+      "name": "YTA TV (720p)"
+    },
+    {
+      "id": "YuGiOh.us@SD",
+      "name": "Yu-Gi-Oh! (1080p)"
+    },
+    {
+      "id": "ZeeOne.uk@UK",
+      "name": "Zee One (1080p)"
+    },
+    {
+      "id": "ZenLIFEbyStingray.ca@HD",
+      "name": "ZenLIFE by Stingray (1080p)"
+    },
+    {
+      "id": "ZIZTV.kn@SD",
+      "name": "ZIZ TV (720p)"
+    },
+    {
+      "id": "ZNSTV.bs@SD",
+      "name": "ZNS-TV (1080p)"
+    },
+    {
+      "id": "ZooMoo.sg@SD",
+      "name": "ZooMoo (1080p)"
+    }
+  ],
+  "repaired": [
+    {
+      "id": "GBNews.uk@SD",
+      "name": "GB News (1080p)",
+      "oldUrl": "https://live-gbnews.simplestreamcdn.com/s3/gbnews/index.m3u8",
+      "newUrl": "https://xemzi.short.gy/1000017"
+    },
+    {
+      "id": "ESPNU.us@SD",
+      "name": "ESPNU (720p)",
+      "oldUrl": "http://23.237.104.106:8080/USA_ESPNU/index.m3u8",
+      "newUrl": "http://85.237.89.160:9590/usa-s/ESPN-U-HD/index.m3u8"
+    },
+    {
+      "id": "Unbeaten.us@SD",
+      "name": "Unbeaten (1080p)",
+      "oldUrl": "https://lukentvlive.vgcdn.net/v1/master/cef183924f24adfa3d5d7601c3a17769082c0c2b/UnbeatenSports/playlist.m3u8",
+      "newUrl": "https://d1t5afz6qed3xk.cloudfront.net/Unbeaten.m3u8"
+    }
+  ],
+  "withdrawn": [
+    {
+      "id": "KingsviewTV.ng@SD",
+      "name": "Kingsview TV (1080p)",
+      "reason": "Manifest HTTP 503"
+    },
+    {
+      "id": "Jail.uk@SD",
+      "name": "Jail",
+      "reason": "Manifest HTTP 504"
+    },
+    {
+      "id": "GREATmovies.uk@UK",
+      "name": "GREAT! movies (1080p)",
+      "reason": "Manifest HTTP 403"
+    },
+    {
+      "id": "GREATromance.uk@UK",
+      "name": "GREAT! romance (1080p)",
+      "reason": "Manifest HTTP 403"
+    },
+    {
+      "id": "TinyPop.uk@SD",
+      "name": "Tiny Pop (1080p)",
+      "reason": "Manifest HTTP 403"
+    },
+    {
+      "id": "ABCNewsLive1.us@SD",
+      "name": "ABC News Live",
+      "reason": "Manifest HTTP 404"
+    },
+    {
+      "id": "KSNV31.us@HD",
+      "name": "NBC 3 Las Vegas NV (KSNV) (1080p)",
+      "reason": "Manifest HTTP 503"
+    },
+    {
+      "id": "FanDuelTV.us@SD",
+      "name": "FanDuel TV (720p)",
+      "reason": "Manifest HTTP 404"
+    },
+    {
+      "id": "FuboSportsNetwork.us@SD",
+      "name": "fubo Sports Network (1080p)",
+      "reason": "Segment HTTP 403"
+    },
+    {
+      "id": "NBCSN.us@SD",
+      "name": "NBCSN (720p)",
+      "reason": "Manifest HTTP 404"
+    },
+    {
+      "id": "NFLNetwork.us@SD",
+      "name": "NFL Network (720p)",
+      "reason": "Manifest HTTP 404"
+    },
+    {
+      "id": "NHRATV.us@SD",
+      "name": "NHRA TV (1080p)",
+      "reason": "Segment HTTP 403"
+    },
+    {
+      "id": "Overtime.us@SD",
+      "name": "Overtime (1080p)",
+      "reason": "Segment HTTP 403"
+    },
+    {
+      "id": "REVNAction.us@SD",
+      "name": "REV'N Action (720p)",
+      "reason": "Manifest HTTP 403"
+    },
+    {
+      "id": "SportsmanChannel.us@SD",
+      "name": "Sportsman Channel (540p)",
+      "reason": "Manifest HTTP 404"
+    },
+    {
+      "id": "SportsNetNewYork.us@SD",
+      "name": "SportsNet New York (1080p)",
+      "reason": "Manifest HTTP 404"
+    },
+    {
+      "id": "USANetwork.us@East",
+      "name": "USA Network (1080p)",
+      "reason": "Manifest HTTP 404"
+    },
+    {
+      "id": "USANetwork.us@West",
+      "name": "USA Network West (1080p)",
+      "reason": "Manifest HTTP 404"
+    },
+    {
+      "id": "WillowSports.us@HD",
+      "name": "Willow Sports (1080p)",
+      "reason": "Segment HTTP 403"
+    },
+    {
+      "id": "WillowSports.us@SD",
+      "name": "Willow Sports (1080p)",
+      "reason": "Segment HTTP 403"
+    },
+    {
+      "id": "wh.billiardstv",
+      "name": "Billiards TV",
+      "reason": "fetch failed"
+    },
+    {
+      "id": "wh.africanews",
+      "name": "Africanews",
+      "reason": "fetch failed"
+    },
+    {
+      "id": "RapidTV.ng@SD",
+      "name": "Rapid TV (480p)",
+      "reason": "Manifest HTTP 404"
+    }
+  ],
+  "retained": 145,
+  "regionalExcluded": [
+    {
+      "id": "KITV41.us@HD",
+      "name": "KITV 4 Island News (720p)"
+    },
+    {
+      "id": "KPVMLD255.us@SD",
+      "name": "KPVM Newsmax 2"
+    },
+    {
+      "id": "News12NewYork.us@SD",
+      "name": "News 12 New York (1080p)"
+    },
+    {
+      "id": "W14DKD142.us@SD",
+      "name": "W14DK-D 14.2 NEWSNET"
+    },
+    {
+      "id": "KNBC41.us@HD",
+      "name": "KNBC-DT1 (1080p)"
+    },
+    {
+      "id": "WXIITV201.us@HD",
+      "name": "NBC 12 Winston-Salem NC (WXII) (720p)"
+    },
+    {
+      "id": "KSNV31.us@HD",
+      "name": "NBC 3 Las Vegas NV (KSNV) (1080p)"
+    },
+    {
+      "id": "KCRATV581.us@HD",
+      "name": "NBC 3 Sacramento CA (KCRA) (720p)"
+    },
+    {
+      "id": "KOBDT1.us@SD",
+      "name": "NBC 4 Albuquerque NM (KOB) (1080p)"
+    },
+    {
+      "id": "KSBY61.us@HD",
+      "name": "NBC 6 Santa Barbara CA (KSBY) (1080p)"
+    },
+    {
+      "id": "ABC.us@KAAL",
+      "name": "ABC KAAL (1080p)"
+    },
+    {
+      "id": "Access4PAC.us@SD",
+      "name": "Access 4 PAC"
+    },
+    {
+      "id": "Access19.us@SD",
+      "name": "Access 19"
+    },
+    {
+      "id": "AccessNashua.us@SD",
+      "name": "Access Nashua (720p)"
+    },
+    {
+      "id": "AccessVisionChannel16.us@SD",
+      "name": "AccessVision Channel 16 (720p)"
+    },
+    {
+      "id": "AccessVisionChannel17.us@SD",
+      "name": "AccessVision Channel 17 (720p)"
+    },
+    {
+      "id": "ACECountryRadio.us@KPVMLD",
+      "name": "ACE Country Radio KPVM-LD"
+    },
+    {
+      "id": "ACTV.us@SD",
+      "name": "ACTV (United States)"
+    },
+    {
+      "id": "Akaku53.us@SD",
+      "name": "Akaku 53 (1080p)"
+    },
+    {
+      "id": "Akaku54.us@SD",
+      "name": "Akaku 54 (1080p)"
+    },
+    {
+      "id": "Akaku55.us@SD",
+      "name": "Akaku 55 (1080p)"
+    },
+    {
+      "id": "ATXN1.us@SD",
+      "name": "ATXN1 (1080p)"
+    },
+    {
+      "id": "ATXN2.us@SD",
+      "name": "ATXN2 (1080p)"
+    },
+    {
+      "id": "BATVEducationalChannel.us@SD",
+      "name": "BATV Educational Channel"
+    },
+    {
+      "id": "BATVGovernmentChannel.us@SD",
+      "name": "BATV Government Channel"
+    },
+    {
+      "id": "BATVPublicChannel.us@SD",
+      "name": "BATV Public Channel"
+    },
+    {
+      "id": "BerksCommunityTV.us@SD",
+      "name": "Berks Community TV (1080p)"
+    },
+    {
+      "id": "BestofBATVChannel.us@SD",
+      "name": "Best of BATV Channel"
+    },
+    {
+      "id": "BIGCivicChannel.us@SD",
+      "name": "BIG Civic Channel"
+    },
+    {
+      "id": "BIGCommunityChannel.us@SD",
+      "name": "BIG Community Channel"
+    },
+    {
+      "id": "BMCHDTV.us@SD",
+      "name": "BMC-HD TV (720p)"
+    },
+    {
+      "id": "BPTV.us@SD",
+      "name": "BPTV (360p)"
+    },
+    {
+      "id": "BrevardGovernmentAccessTV.us@SD",
+      "name": "Brevard Government Access TV (720p)"
+    },
+    {
+      "id": "BXArts.us@SD",
+      "name": "BX Arts (720p)"
+    },
+    {
+      "id": "BXCulture.us@SD",
+      "name": "BX Culture (720p)"
+    },
+    {
+      "id": "BXInform.us@SD",
+      "name": "BX Inform (1080p)"
+    },
+    {
+      "id": "BXInspire.us@SD",
+      "name": "BX Inspire (720p)"
+    },
+    {
+      "id": "BXOmni.us@SD",
+      "name": "BX Omni (720p)"
+    },
+    {
+      "id": "CapitalCityConnectionMontgomery.us@SD",
+      "name": "Capital City Connection Montgomery [Not 24/7]"
+    },
+    {
+      "id": "CBS.us@KCCI",
+      "name": "CBS KCCI (720p)"
+    },
+    {
+      "id": "CBSenespanol.us@SD",
+      "name": "CBS en espanol"
+    },
+    {
+      "id": "CBSNewsBaltimore.us@SD",
+      "name": "CBS News Baltimore (720p)"
+    },
+    {
+      "id": "CBSNewsMiami.us@SD",
+      "name": "CBS News Miami (720p)"
+    },
+    {
+      "id": "CBSNewsSacramento.us@SD",
+      "name": "CBS News Sacramento (720p)"
+    },
+    {
+      "id": "CBSSportsHQ.us@SD",
+      "name": "CBS Sports HQ (720p)"
+    },
+    {
+      "id": "CCTV.us@SD",
+      "name": "CC-TV (720p)"
+    },
+    {
+      "id": "CCX1.us@SD",
+      "name": "CCX1 (1080p)"
+    },
+    {
+      "id": "CFMTVChannel98.us@SD",
+      "name": "CFM TV Channel 98 (360p)"
+    },
+    {
+      "id": "CGTV.us@SD",
+      "name": "CGTV (720p)"
+    },
+    {
+      "id": "Channel10.us@SD",
+      "name": "Channel 10 (United States) (720p)"
+    },
+    {
+      "id": "Channel18GAC.us@SD",
+      "name": "Channel 18 GAC"
+    },
+    {
+      "id": "CityofFortPierce.us@SD",
+      "name": "City of Fort Pierce (720p)"
+    },
+    {
+      "id": "CityofMonroeGovernmentChannel.us@SD",
+      "name": "City of Monroe Government Channel"
+    },
+    {
+      "id": "CityofPompanoBeach.us@SD",
+      "name": "City of Pompano Beach (720p)"
+    },
+    {
+      "id": "CityTVCarlsbad.us@SD",
+      "name": "City TV Carlsbad (720p)"
+    },
+    {
+      "id": "CityTVChannel341.us@SD",
+      "name": "City TV Channel 3/41 (360p)"
+    },
+    {
+      "id": "CityTV20SantaMonica.us@SD",
+      "name": "CityTV 20 Santa Monica (360p) [Not 24/7]"
+    },
+    {
+      "id": "CityTVSanDiego.us@SD",
+      "name": "CityTV San Diego (360p)"
+    },
+    {
+      "id": "CityTVWhittier.us@SD",
+      "name": "CityTV Whittier (720p)"
+    },
+    {
+      "id": "CMAC1.us@SD",
+      "name": "CMAC 1 (720p)"
+    },
+    {
+      "id": "CMAC2.us@SD",
+      "name": "CMAC 2 (720p)"
+    },
+    {
+      "id": "CMAC3.us@SD",
+      "name": "CMAC 3 (720p)"
+    },
+    {
+      "id": "CMAPChannel17.us@SD",
+      "name": "CMAP Channel 17 (720p)"
+    },
+    {
+      "id": "CMAPChannel18.us@SD",
+      "name": "CMAP Channel 18 (720p)"
+    },
+    {
+      "id": "CMAPChannel19.us@SD",
+      "name": "CMAP Channel 19 (720p)"
+    },
+    {
+      "id": "CMAPChannel20.us@SD",
+      "name": "CMAP Channel 20 (720p)"
+    },
+    {
+      "id": "CMTV.us@SD",
+      "name": "CMTV (720p)"
+    },
+    {
+      "id": "CommunityTVChannel189.us@SD",
+      "name": "CommunityTV Channel 189 (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "ConcordTV.us@SD",
+      "name": "Concord TV (720p)"
+    },
+    {
+      "id": "COStv.us@SD",
+      "name": "COStv"
+    },
+    {
+      "id": "CreaTVChannel15.us@SD",
+      "name": "CreaTV Channel 15 (720p)"
+    },
+    {
+      "id": "CreaTVChannel27.us@SD",
+      "name": "CreaTV Channel 27 (720p)"
+    },
+    {
+      "id": "CreaTVChannel28.us@SD",
+      "name": "CreaTV Channel 28 (720p)"
+    },
+    {
+      "id": "CreaTVChannel30.us@SD",
+      "name": "CreaTV Channel 30 (720p)"
+    },
+    {
+      "id": "CruzTV.us@SD",
+      "name": "Cruz TV"
+    },
+    {
+      "id": "CTNCourtFeed.us@SD",
+      "name": "CT-N Court Feed (360p) [Not 24/7]"
+    },
+    {
+      "id": "CTNLiveStream2.us@SD",
+      "name": "CT-N Live Stream 2 (360p) [Not 24/7]"
+    },
+    {
+      "id": "CTNTVConneticut.us@SD",
+      "name": "CT-N TV Conneticut (720p) [Not 24/7]"
+    },
+    {
+      "id": "CVTVChannel192.us@SD",
+      "name": "CVTV Channel 192 (1080p)"
+    },
+    {
+      "id": "CVTVChannel194.us@SD",
+      "name": "CVTV Channel 194 (1080p)"
+    },
+    {
+      "id": "CypressChannel36.us@SD",
+      "name": "Cypress Channel 36 (360p)"
+    },
+    {
+      "id": "DCCouncilHearingRoom120.us@SD",
+      "name": "DC Council Hearing Room 120 (1080p)"
+    },
+    {
+      "id": "DCC.us@SD",
+      "name": "DCC (1080p)"
+    },
+    {
+      "id": "Denver8TV.us@SD",
+      "name": "Denver 8 TV (720p)"
+    },
+    {
+      "id": "DerryTV17.us@SD",
+      "name": "DerryTV 17 (720p)"
+    },
+    {
+      "id": "DerryTV23.us@SD",
+      "name": "DerryTV 23 (720p)"
+    },
+    {
+      "id": "DetroitChannel10.us@SD",
+      "name": "Detroit Channel 10"
+    },
+    {
+      "id": "DetroitChannel21.us@SD",
+      "name": "Detroit Channel 21"
+    },
+    {
+      "id": "DetroitChannel22.us@SD",
+      "name": "Detroit Channel 22"
+    },
+    {
+      "id": "DetroitChannel68.us@SD",
+      "name": "Detroit Channel 68"
+    },
+    {
+      "id": "DistrictofColumbiaNetwork.us@SD",
+      "name": "District of Columbia Network (1080p)"
+    },
+    {
+      "id": "DKN.us@SD",
+      "name": "DKN (1080p)"
+    },
+    {
+      "id": "EstrellaTV.us@WMBCTV",
+      "name": "Estrella TV WMBC-TV (720p)"
+    },
+    {
+      "id": "FernandinaBeachChannel.us@SD",
+      "name": "Fernandina Beach Channel (720p) [Not 24/7]"
+    },
+    {
+      "id": "Fox.us@KBSI",
+      "name": "Fox (United States) KBSI (720p) [Not 24/7]"
+    },
+    {
+      "id": "Glendale11AZ.us@SD",
+      "name": "Glendale 11 AZ (360p)"
+    },
+    {
+      "id": "GodsLearningChannel.us@KPCBDT",
+      "name": "God's Learning Channel KPCB-DT (480p)"
+    },
+    {
+      "id": "GovernmentTV16.us@SD",
+      "name": "Government TV 16 (720p)"
+    },
+    {
+      "id": "HarmonyGospelMusicTV.us@SD",
+      "name": "Harmony Gospel Music TV (1080p)"
+    },
+    {
+      "id": "HCTVEducationalAccessChannel.us@SD",
+      "name": "HCTV Educational Access Channel"
+    },
+    {
+      "id": "HCTVGovernmentChannel.us@SD",
+      "name": "HCTV Government Channel"
+    },
+    {
+      "id": "HCTVPublicAccessChannel.us@SD",
+      "name": "HCTV Public Access Channel"
+    },
+    {
+      "id": "HillsboroughTV.us@SD",
+      "name": "Hillsborough TV (360p)"
+    },
+    {
+      "id": "HTV1HoustonTelevision.us@SD",
+      "name": "HTV 1 Houston Television (720p)"
+    },
+    {
+      "id": "HTV2HoustonTelevision.us@SD",
+      "name": "HTV 2 Houston Television (720p)"
+    },
+    {
+      "id": "iHolyfieldTV.us@WHPSCD",
+      "name": "iHolyfield TV WHPS-CD"
+    },
+    {
+      "id": "KBSV231.us@SD",
+      "name": "KBSV 23.1 (720p) [Not 24/7]"
+    },
+    {
+      "id": "KernCountyTV.us@SD",
+      "name": "Kern County TV"
+    },
+    {
+      "id": "KIIOLD101.us@HD",
+      "name": "KIIO-LD 10.1"
+    },
+    {
+      "id": "KIIOLD104.us@SD",
+      "name": "KIIO-LD 10.4 (480p)"
+    },
+    {
+      "id": "KMCTTV391.us@HD",
+      "name": "KMCT-TV 39.1"
+    },
+    {
+      "id": "KNOVCD411.us@HD",
+      "name": "KNOV-CD 41.1 (720p)"
+    },
+    {
+      "id": "KNXVTV611.us@HD",
+      "name": "KNXV-TV 61.1 (720p)"
+    },
+    {
+      "id": "KOCTChannel18.us@SD",
+      "name": "KOCT Channel 18 (720p)"
+    },
+    {
+      "id": "KOCTChannel19.us@SD",
+      "name": "KOCT Channel 19 (720p)"
+    },
+    {
+      "id": "KPVMLD251.us@HD",
+      "name": "KPVM-LD 25.1"
+    },
+    {
+      "id": "KSCE381.us@HD",
+      "name": "KSCE 38.1 (360p)"
+    },
+    {
+      "id": "KSCE383.us@HD",
+      "name": "KSCE 38.3 (360p)"
+    },
+    {
+      "id": "KTOO360TV.us@KTOOTV",
+      "name": "KTOO 360TV KTOO-TV"
+    },
+    {
+      "id": "KVTNDT251.us@HD",
+      "name": "KVTN-DT 25.1 (720p)"
+    },
+    {
+      "id": "LA36.us@SD",
+      "name": "LA36 (1080p)"
+    },
+    {
+      "id": "Laff.us@WJLP",
+      "name": "Laff WJLP (576p)"
+    },
+    {
+      "id": "LakeHavasuCity4.us@SD",
+      "name": "Lake Havasu City 4"
+    },
+    {
+      "id": "LeominsterTVGovernment.us@SD",
+      "name": "Leominster TV Government (720p)"
+    },
+    {
+      "id": "LexTV.us@SD",
+      "name": "Lex TV (720p)"
+    },
+    {
+      "id": "LGTV.us@SD",
+      "name": "LGTV (1080p)"
+    },
+    {
+      "id": "MBTV.us@SD",
+      "name": "MBTV (720p)"
+    },
+    {
+      "id": "MegaTV.us@WSBSTV",
+      "name": "Mega TV (United States) WSBS-TV (1080p)"
+    },
+    {
+      "id": "MNT.us@WCIV",
+      "name": "MNT WCIV (1080p)"
+    },
+    {
+      "id": "MonroeCommunityMediaEducationChannel.us@SD",
+      "name": "Monroe Community Media Education Channel"
+    },
+    {
+      "id": "MonroeCommunityMediaPublicAccessChannel.us@SD",
+      "name": "Monroe Community Media Public Access Channel"
+    },
+    {
+      "id": "MonroeCountyTV.us@SD",
+      "name": "Monroe County TV (1080p)"
+    },
+    {
+      "id": "MontgomeryChannel.us@SD",
+      "name": "Montgomery Channel"
+    },
+    {
+      "id": "Movies.us@KPVMLD",
+      "name": "Movies! KPVM-LD"
+    },
+    {
+      "id": "MovieSphereGold.us@WFXT",
+      "name": "MovieSphere Gold WFXT (1080p)"
+    },
+    {
+      "id": "NatickGovernmentChannel.us@SD",
+      "name": "Natick Government Channel (720p)"
+    },
+    {
+      "id": "NatickPublicAccessChannel.us@SD",
+      "name": "Natick Public Access Channel (720p)"
+    },
+    {
+      "id": "NBC.us@KNTV",
+      "name": "NBC KNTV (1080p)"
+    },
+    {
+      "id": "NMBTV.us@SD",
+      "name": "NMBTV (720p)"
+    },
+    {
+      "id": "Olelo49.us@SD",
+      "name": "Olelo 49 (720p)"
+    },
+    {
+      "id": "Olelo54.us@SD",
+      "name": "Olelo 54 (720p)"
+    },
+    {
+      "id": "OntarioPublicAccessChannel.us@SD",
+      "name": "Ontario Public Access Channel (360p)"
+    },
+    {
+      "id": "OrangeGovernmentAccessTV.us@SD",
+      "name": "Orange Government Access TV (720p)"
+    },
+    {
+      "id": "Outlaw.us@WGGSTV",
+      "name": "Outlaw WGGS-TV (720p)"
+    },
+    {
+      "id": "PascoTV.us@SD",
+      "name": "Pasco TV (480p)"
+    },
+    {
+      "id": "PBCTVChannel20.us@SD",
+      "name": "PBC TV Channel 20 (720p)"
+    },
+    {
+      "id": "PBS.us@KQED",
+      "name": "PBS KQED (1080p)"
+    },
+    {
+      "id": "PBSKidsAlaska.us@SD",
+      "name": "PBS Kids Alaska (1080p)"
+    },
+    {
+      "id": "PBSKidsHawaii.us@SD",
+      "name": "PBS Kids Hawaii (720p)"
+    },
+    {
+      "id": "PCTChannel27.us@SD",
+      "name": "PCT Channel 27 (720p)"
+    },
+    {
+      "id": "PCTV26.us@SD",
+      "name": "PCTV 26 (480p)"
+    },
+    {
+      "id": "PCTV28.us@SD",
+      "name": "PCTV 28 (480p)"
+    },
+    {
+      "id": "PHLgovTV.us@SD",
+      "name": "PHLgovTV (720p)"
+    },
+    {
+      "id": "PHXTV.us@SD",
+      "name": "PHXTV"
+    },
+    {
+      "id": "PSLTV.us@SD",
+      "name": "PSL TV (360p)"
+    },
+    {
+      "id": "RCTV.us@SD",
+      "name": "RCTV (United States) (720p)"
+    },
+    {
+      "id": "RVTV.us@HD",
+      "name": "RVTV (1080p)"
+    },
+    {
+      "id": "RVTVCivic.us@SD",
+      "name": "RVTV Civic (720p)"
+    },
+    {
+      "id": "RVTVGrantsPass.us@SD",
+      "name": "RVTV Grants Pass (720p)"
+    },
+    {
+      "id": "RVTVPrime.us@SD",
+      "name": "RVTV Prime (720p)"
+    },
+    {
+      "id": "RVTVVoices.us@SD",
+      "name": "RVTV Voices (720p)"
+    },
+    {
+      "id": "SMetroTV.us@HD",
+      "name": "S Metro TV (360p)"
+    },
+    {
+      "id": "SCCurrents.us@SD",
+      "name": "SC Currents"
+    },
+    {
+      "id": "ScottsdaleChannel11.us@SD",
+      "name": "Scottsdale Channel 11"
+    },
+    {
+      "id": "SCVTV.us@SD",
+      "name": "SCVTV (1080p)"
+    },
+    {
+      "id": "SFGovTV.us@SD",
+      "name": "SFGovTV (720p)"
+    },
+    {
+      "id": "SheffieldLiveTV.uk@SD",
+      "name": "Sheffield Live TV (360p) [Not 24/7]"
+    },
+    {
+      "id": "SLOCountyChannel21.us@SD",
+      "name": "SLO County Channel 21 (360p)"
+    },
+    {
+      "id": "SMCTVChannel23.us@SD",
+      "name": "SMCTV Channel 23 (720p)"
+    },
+    {
+      "id": "SMCTVChannel24.us@SD",
+      "name": "SMCTV Channel 24 (720p)"
+    },
+    {
+      "id": "SMCTVChannel25.us@SD",
+      "name": "SMCTV Channel 25 (720p)"
+    },
+    {
+      "id": "SoundViewCommunityMedia.us@SD",
+      "name": "Sound View Community Media (480p)"
+    },
+    {
+      "id": "SPTV.us@SD",
+      "name": "SPTV (360p)"
+    },
+    {
+      "id": "StLuciePublicSchools.us@SD",
+      "name": "St Lucie Public Schools"
+    },
+    {
+      "id": "StoryTelevision.us@KPVMLD",
+      "name": "Story Television KPVM-LD"
+    },
+    {
+      "id": "TAPTVChannel23.us@SD",
+      "name": "TAP TV Channel 23 (720p)"
+    },
+    {
+      "id": "TAPTVChannel24.us@SD",
+      "name": "TAP TV Channel 24 (720p)"
+    },
+    {
+      "id": "TAPTVChannel25.us@SD",
+      "name": "TAP TV Channel 25 (720p)"
+    },
+    {
+      "id": "TemeculaTV.us@SD",
+      "name": "Temecula TV (1080p)"
+    },
+    {
+      "id": "Tempe11.us@SD",
+      "name": "Tempe 11"
+    },
+    {
+      "id": "TheLoop.us@SD",
+      "name": "The Loop (1080p)"
+    },
+    {
+      "id": "ThePointTelevsionNetwork.us@SD",
+      "name": "The Point Televsion Network (1080p)"
+    },
+    {
+      "id": "TrueCrimeNetwork.us@WCVBTV",
+      "name": "True Crime Network WCVB-TV (720p)"
+    },
+    {
+      "id": "TSTV.us@SD",
+      "name": "TSTV (720p)"
+    },
+    {
+      "id": "TUTV.us@SD",
+      "name": "TUTV (1080p)"
+    },
+    {
+      "id": "TV4.us@SD",
+      "name": "TV4 (United States) (360p)"
+    },
+    {
+      "id": "TVSAGovernmentChannel.us@SD",
+      "name": "TVSA Government Channel (720p)"
+    },
+    {
+      "id": "W14DKD141.us@HD",
+      "name": "W14DK-D 14.1"
+    },
+    {
+      "id": "WATCDT571.us@HD",
+      "name": "WATC-DT 57.1 (1080p)"
+    },
+    {
+      "id": "WATCDT572.us@HD",
+      "name": "WATC-DT 57.2 (720p)"
+    },
+    {
+      "id": "WatchitKID.us@SD",
+      "name": "Watch it KID! (720p)"
+    },
+    {
+      "id": "WBTV641.us@HD",
+      "name": "WBTV 64.1 (720p)"
+    },
+    {
+      "id": "WeHoTV.us@SD",
+      "name": "WeHoTV (360p)"
+    },
+    {
+      "id": "WGGSTV161.us@HD",
+      "name": "WGGS-TV 16.1"
+    },
+    {
+      "id": "WhitePlainsCommunityMedia.us@SD",
+      "name": "White Plains Community Media (360p)"
+    },
+    {
+      "id": "WHOHTV.us@SD",
+      "name": "WHOH-TV (360p)"
+    },
+    {
+      "id": "WLMB.us@SD",
+      "name": "WLMB (1080p)"
+    },
+    {
+      "id": "WLNGRadio.us@SD",
+      "name": "WLNG Radio (410p) [Not 24/7]"
+    },
+    {
+      "id": "WPSTV.us@SD",
+      "name": "WPS-TV (360p)"
+    },
+    {
+      "id": "WVCULP.us@SD",
+      "name": "WVCU-LP (1080p)"
+    },
+    {
+      "id": "WWONTVChannel48.us@SD",
+      "name": "WWON-TV Channel 48"
+    },
+    {
+      "id": "YouDotGov.us@SD",
+      "name": "YouDotGov"
+    },
+    {
+      "id": "Yuma77.us@SD",
+      "name": "Yuma77"
+    },
+    {
+      "id": "YumaChannel72.us@SD",
+      "name": "Yuma Channel 72 (1080p)"
+    },
+    {
+      "id": "YumaChannel73.us@SD",
+      "name": "Yuma Channel 73 (1080p)"
+    },
+    {
+      "id": "ATXN3.us@SD",
+      "name": "ATXN3 (1080p)"
+    },
+    {
+      "id": "BHTV10.us@SD",
+      "name": "BHTV10 (720p)"
+    },
+    {
+      "id": "BHTV35.us@SD",
+      "name": "BHTV35 (720p)"
+    },
+    {
+      "id": "CANTV19.us@SD",
+      "name": "CAN TV19 (1080p)"
+    },
+    {
+      "id": "CANTV21.us@SD",
+      "name": "CAN TV21 (1080p)"
+    },
+    {
+      "id": "CANTV27.us@SD",
+      "name": "CAN TV27 (1080p)"
+    },
+    {
+      "id": "CANTV36.us@SD",
+      "name": "CAN TV36 (1080p)"
+    },
+    {
+      "id": "NCTV79.us@SD",
+      "name": "NCTV79 (1080p)"
+    },
+    {
+      "id": "SFGovTV2.us@SD",
+      "name": "SFGovTV2 (720p)"
+    }
+  ],
+  "activeCount": 1135,
+  "languageExcluded": [
+    {
+      "id": "3HD.th@SD",
+      "name": "3HD"
+    },
+    {
+      "id": "7thHeaven.se@SE",
+      "name": "7th Heaven"
+    },
+    {
+      "id": "111TV.it@SD",
+      "name": "111 TV (720p)"
+    },
+    {
+      "id": "A2iTV.it@SD",
+      "name": "A2i TV (1080p)"
+    },
+    {
+      "id": "ABPNews.in@SD",
+      "name": "ABP News (1080p)"
+    },
+    {
+      "id": "AcheloosTV.gr@SD",
+      "name": "Acheloos TV (576p)"
+    },
+    {
+      "id": "AfghanistanInternational.uk@SD",
+      "name": "Afghanistan International (720p)"
+    },
+    {
+      "id": "AjmanTV.ae@SD",
+      "name": "Ajman TV (1080p)"
+    },
+    {
+      "id": "AkaalChannel.uk@SD",
+      "name": "Akaal Channel (396p) [Geo-blocked]"
+    },
+    {
+      "id": "AL24News.dz@SD",
+      "name": "AL24 News"
+    },
+    {
+      "id": "AlloCine.cm@SD",
+      "name": "Allo Cine (1080p)"
+    },
+    {
+      "id": "AlmagdTVMiddleEast.us@SD",
+      "name": "Almagd TV Middle East (1080p) [Not 24/7]"
+    },
+    {
+      "id": "AlmagdTVNorthAmerica.us@SD",
+      "name": "Almagd TV North America (1080p)"
+    },
+    {
+      "id": "Aqlvoy.uz@SD",
+      "name": "Aqlvoy"
+    },
+    {
+      "id": "AreYouTheOne.se@SE",
+      "name": "Are You The One?"
+    },
+    {
+      "id": "ArubaTV.aw@SD",
+      "name": "Aruba.TV (1080p)"
+    },
+    {
+      "id": "AtomicTV.ro@SD",
+      "name": "Atomic TV (360p)"
+    },
+    {
+      "id": "AuctionHunters.se@SE",
+      "name": "Auction Hunters (Sweden)"
+    },
+    {
+      "id": "aurLifeHD.pk@SD",
+      "name": "aurLife HD (614p)"
+    },
+    {
+      "id": "AXNCEE.es@Hungary",
+      "name": "AXN CEE"
+    },
+    {
+      "id": "BabyFirst.us@US",
+      "name": "BabyFirst (720p)"
+    },
+    {
+      "id": "BahrainInternational.bh@SD",
+      "name": "Bahrain International (720p) [Not 24/7]"
+    },
+    {
+      "id": "BeavisandButtHead.se@SE",
+      "name": "Beavis and Butt-Head"
+    },
+    {
+      "id": "Becker.se@SE",
+      "name": "Becker (Sweden)"
+    },
+    {
+      "id": "Belarus24.by@SD",
+      "name": "Belarus-24 (576p)"
+    },
+    {
+      "id": "BestofMTV.se@SE",
+      "name": "Best of MTV"
+    },
+    {
+      "id": "BestofParadiseHotelFinalveckan.se@SE",
+      "name": "Best of Paradise Hotel: Finalveckan"
+    },
+    {
+      "id": "BestofParadiseHotelKyssarkarlek.se@SE",
+      "name": "Best of Paradise Hotel: Kyssar & karlek"
+    },
+    {
+      "id": "BestofParadiseHotelPandorasAsk.se@SE",
+      "name": "Best of Paradise Hotel: Pandoras Ask"
+    },
+    {
+      "id": "BestofParadiseHotelSkolveckan.se@SE",
+      "name": "Best of Paradise Hotel: Skolveckan"
+    },
+    {
+      "id": "BestofTheDrewBarrymoreShow.se@SE",
+      "name": "Best of The Drew Barrymore Show (Sweden)"
+    },
+    {
+      "id": "BET.se@SE",
+      "name": "BET"
+    },
+    {
+      "id": "BharatExpress.in@SD",
+      "name": "Bharat Express (576p)"
+    },
+    {
+      "id": "BilyonaryoNewsChannel.ph@SD",
+      "name": "Bilyonaryo News Channel (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "BOKTV.za@SD",
+      "name": "BOKTV (720p) [Not 24/7]"
+    },
+    {
+      "id": "Boligjakten.se@NO",
+      "name": "Boligjakten"
+    },
+    {
+      "id": "Boligkjopiblinde.se@NO",
+      "name": "Boligkjop i blinde"
+    },
+    {
+      "id": "BondiRescue.se@SE",
+      "name": "Bondi Rescue (Sweden) (720p)"
+    },
+    {
+      "id": "BritainsNextTopModel.se@SE",
+      "name": "Britain's Next Top Model"
+    },
+    {
+      "id": "BroadCity.se@SE",
+      "name": "Broad City"
+    },
+    {
+      "id": "BTBInfo.pl@SD",
+      "name": "BTB Info (1080p)"
+    },
+    {
+      "id": "Bull.se@SE",
+      "name": "Bull"
+    },
+    {
+      "id": "BuyingBlindDenmark.se@SE",
+      "name": "Buying Blind Denmark"
+    },
+    {
+      "id": "CampKulinaris.se@SE",
+      "name": "Camp Kulinaris"
+    },
+    {
+      "id": "CanalMotor.no@SD",
+      "name": "Canal Motor (720p)"
+    },
+    {
+      "id": "CarChase.se@SE",
+      "name": "Car Chase (Sweden) (720p)"
+    },
+    {
+      "id": "CarolineintheCity.se@SE",
+      "name": "Caroline in the City"
+    },
+    {
+      "id": "CAtv.pr@SD",
+      "name": "CAtv (1080p) [Not 24/7]"
+    },
+    {
+      "id": "CBeebies.pl@SD",
+      "name": "CBeebies (Poland)"
+    },
+    {
+      "id": "CCTV4Asia.cn@SD",
+      "name": "CCTV-4 Asia (720p)"
+    },
+    {
+      "id": "CCTV4Europe.cn@SD",
+      "name": "CCTV-4 Europe"
+    },
+    {
+      "id": "CDMInternacional.pr@SD",
+      "name": "CDM Internacional (480p) [Not 24/7]"
+    },
+    {
+      "id": "CerritosTV3.us@SD",
+      "name": "Cerritos TV3 (360p)"
+    },
+    {
+      "id": "CGTN.cn@SD",
+      "name": "CGTN (1080p)"
+    },
+    {
+      "id": "CGTNGlobalBiz.cn@SD",
+      "name": "CGTN Global Biz (1080p)"
+    },
+    {
+      "id": "ChannelS.bd@SD",
+      "name": "Channel S (Bangladesh)"
+    },
+    {
+      "id": "ChannelS.uk@SD",
+      "name": "Channel S (United Kingdom) (576p)"
+    },
+    {
+      "id": "ChannelU.sg@SD",
+      "name": "Channel U (720p)"
+    },
+    {
+      "id": "ChappellesShow.se@SE",
+      "name": "Chappelle's Show"
+    },
+    {
+      "id": "Charterfeber.se@NO",
+      "name": "Charterfeber"
+    },
+    {
+      "id": "Cheers.se@NO",
+      "name": "Cheers (Sweden) NO"
+    },
+    {
+      "id": "ChemodanTV.ua@SD",
+      "name": "Chemodan TV (1080p)"
+    },
+    {
+      "id": "ChileChannel.cl@SD",
+      "name": "Chile Channel (720p)"
+    },
+    {
+      "id": "ChinaTravel.cn@SD",
+      "name": "China Travel (1080p)"
+    },
+    {
+      "id": "CINDIETV.br@HD",
+      "name": "CINDIE TV (1080p)"
+    },
+    {
+      "id": "Cineenespanol.us@SD",
+      "name": "Cine en espanol"
+    },
+    {
+      "id": "CineSony.us@SD",
+      "name": "Cine Sony (720p)"
+    },
+    {
+      "id": "CinemaxHits.us@East",
+      "name": "Cinemax Hits (1080p)"
+    },
+    {
+      "id": "CLTV36.ph@SD",
+      "name": "CLTV 36 (720p) [Not 24/7]"
+    },
+    {
+      "id": "CNBCMongolia.mn@SD",
+      "name": "CNBC Mongolia (720p)"
+    },
+    {
+      "id": "ComedyCentral.se@SE",
+      "name": "Comedy Central (Sweden)"
+    },
+    {
+      "id": "ConcertChannel.us@SD",
+      "name": "Concert Channel (720p)"
+    },
+    {
+      "id": "CoolFM989.aw@SD",
+      "name": "Cool FM 98.9 (720p)"
+    },
+    {
+      "id": "CrazyExGirlfriend.se@SE",
+      "name": "Crazy Ex-Girlfriend"
+    },
+    {
+      "id": "Crunchyroll.us@SD",
+      "name": "Crunchyroll (720p)"
+    },
+    {
+      "id": "CSIMiamienespanol.us@SD",
+      "name": "CSI: Miami en espanol"
+    },
+    {
+      "id": "CSINYenespanol.us@SD",
+      "name": "CSI: NY en espanol"
+    },
+    {
+      "id": "CTV.us@SD",
+      "name": "CTV (United States) (480p)"
+    },
+    {
+      "id": "DallasCowboysCheerleaders.se@SE",
+      "name": "Dallas Cowboys Cheerleaders"
+    },
+    {
+      "id": "DanceHits80.ru@SD",
+      "name": "DanceHits80"
+    },
+    {
+      "id": "DatingNakedUK.se@SE",
+      "name": "Dating Naked UK"
+    },
+    {
+      "id": "DDAssam.in@SD",
+      "name": "DD Assam (504p)"
+    },
+    {
+      "id": "DDMizoram.in@SD",
+      "name": "DD Mizoram (504p)"
+    },
+    {
+      "id": "DDSports.in@HD",
+      "name": "DD Sports (720p)"
+    },
+    {
+      "id": "DDUrdu.in@SD",
+      "name": "DD Urdu (720p)"
+    },
+    {
+      "id": "DellaTV.it@HD",
+      "name": "DellaTV (720p)"
+    },
+    {
+      "id": "DeluxeRap.de@SD",
+      "name": "Deluxe Rap (1080p)"
+    },
+    {
+      "id": "DHA.tr@SD",
+      "name": "DHA (720p) [Not 24/7]"
+    },
+    {
+      "id": "DiagnosisMurder.se@NO",
+      "name": "Diagnosis Murder NO"
+    },
+    {
+      "id": "DijlahTV.iq@SD",
+      "name": "Dijlah TV (1080p)"
+    },
+    {
+      "id": "DiscoveringChina.cn@SD",
+      "name": "Discovering China (1080p)"
+    },
+    {
+      "id": "DisneyJunior.in@SD",
+      "name": "Disney Junior (India) (576p)"
+    },
+    {
+      "id": "DisneyXD.us@East",
+      "name": "Disney XD (United States) (720p)"
+    },
+    {
+      "id": "DistritoComedia.mx@SD",
+      "name": "Distrito Comedia (1080p)"
+    },
+    {
+      "id": "DiyaTV.us@SD",
+      "name": "Diya TV (1080p)"
+    },
+    {
+      "id": "DLTV1.th@SD",
+      "name": "DLTV 1 (1080p)"
+    },
+    {
+      "id": "DLTV2.th@SD",
+      "name": "DLTV 2 (1080p)"
+    },
+    {
+      "id": "DLTV3.th@SD",
+      "name": "DLTV 3 (1080p)"
+    },
+    {
+      "id": "DLTV4.th@SD",
+      "name": "DLTV 4 (1080p)"
+    },
+    {
+      "id": "DLTV5.th@SD",
+      "name": "DLTV 5 (1080p)"
+    },
+    {
+      "id": "DLTV6.th@SD",
+      "name": "DLTV 6 (1080p)"
+    },
+    {
+      "id": "DLTV7.th@SD",
+      "name": "DLTV 7 (1080p)"
+    },
+    {
+      "id": "DLTV8.th@SD",
+      "name": "DLTV 8 (1080p)"
+    },
+    {
+      "id": "DLTV9.th@SD",
+      "name": "DLTV 9 (1080p)"
+    },
+    {
+      "id": "DLTV10.th@SD",
+      "name": "DLTV 10 (1080p)"
+    },
+    {
+      "id": "DLTV11.th@SD",
+      "name": "DLTV 11 (1080p)"
+    },
+    {
+      "id": "DLTV12.th@SD",
+      "name": "DLTV 12 (1080p)"
+    },
+    {
+      "id": "DLTV13.th@SD",
+      "name": "DLTV 13 (1080p)"
+    },
+    {
+      "id": "DLTV14.th@SD",
+      "name": "DLTV 14 (1080p)"
+    },
+    {
+      "id": "DLTV15.th@SD",
+      "name": "DLTV 15 (1080p)"
+    },
+    {
+      "id": "DocMartin.se@SE",
+      "name": "Doc Martin (Sweden)"
+    },
+    {
+      "id": "DreamTV.ug@SD",
+      "name": "Dream TV (480p)"
+    },
+    {
+      "id": "DunyaNewsUK.uk@SD",
+      "name": "Dunya News UK (720p) [Not 24/7]"
+    },
+    {
+      "id": "EbS.be@SD",
+      "name": "EbS (1080p)"
+    },
+    {
+      "id": "EBS.us@HD",
+      "name": "EBS HD (1080p)"
+    },
+    {
+      "id": "EBSEnglish.kr@SD",
+      "name": "EBS English (400p) [Not 24/7]"
+    },
+    {
+      "id": "EBSPlus2.kr@SD",
+      "name": "EBS Plus 2 (400p)"
+    },
+    {
+      "id": "EbSPlus.be@SD",
+      "name": "EbS+ (1080p)"
+    },
+    {
+      "id": "EnergiaTV.bq@SD",
+      "name": "Energia TV (720p) [Not 24/7]"
+    },
+    {
+      "id": "Enlace.cr@SD",
+      "name": "Enlace (1080p)"
+    },
+    {
+      "id": "ERiTV1.er@SD",
+      "name": "ERi-TV 1 (576p)"
+    },
+    {
+      "id": "ETVBalBharat.in@SD",
+      "name": "ETV Bal Bharat (576p)"
+    },
+    {
+      "id": "EuropaEuropa.ar@SD",
+      "name": "Europa Europa (1080p)"
+    },
+    {
+      "id": "EventyrligOppussing.se@NO",
+      "name": "Eventyrlig Oppussing"
+    },
+    {
+      "id": "EverybodyHatesChris.se@SE",
+      "name": "Everybody Hates Chris"
+    },
+    {
+      "id": "FamilyTies.se@SE",
+      "name": "Family Ties (Sweden)"
+    },
+    {
+      "id": "FBTV.tr@SD",
+      "name": "FB TV"
+    },
+    {
+      "id": "FlowersTVUSA.us@SD",
+      "name": "Flowers TV USA"
+    },
+    {
+      "id": "ForYouTV.cm@SD",
+      "name": "For You TV"
+    },
+    {
+      "id": "FoxDeportes.us@SD",
+      "name": "Fox Deportes (720p)"
+    },
+    {
+      "id": "FrusnaVagar.se@SE",
+      "name": "Frusna Vagar"
+    },
+    {
+      "id": "GeordieShore.se@SE",
+      "name": "Geordie Shore (Sweden)"
+    },
+    {
+      "id": "GexTV.cr@HD",
+      "name": "Gex TV (1080p)"
+    },
+    {
+      "id": "GodStandsTV.pk@Main",
+      "name": "God Stands TV"
+    },
+    {
+      "id": "GraceNetwork.pk@SD",
+      "name": "Grace Network (720p)"
+    },
+    {
+      "id": "GreatCommissionTV.ke@SD",
+      "name": "Great Commission TV"
+    },
+    {
+      "id": "GrjngoWesternMovies.de@SD",
+      "name": "Grjngo Western Movies (720p)"
+    },
+    {
+      "id": "HalaLondon.uk@SD",
+      "name": "Hala London (1080p)"
+    },
+    {
+      "id": "HappyDays.se@SE",
+      "name": "Happy Days (Sweden)"
+    },
+    {
+      "id": "HBOMovies.us@East",
+      "name": "HBO Movies (720p)"
+    },
+    {
+      "id": "HeartRadioAruba.aw@SD",
+      "name": "Heart Radio Aruba"
+    },
+    {
+      "id": "HistoryTV18.in@SD",
+      "name": "History TV18 (576p)"
+    },
+    {
+      "id": "Hogspanning.se@SE",
+      "name": "Hogspanning"
+    },
+    {
+      "id": "HomebaseTV.za@SD",
+      "name": "Homebase TV (480p)"
+    },
+    {
+      "id": "HopeChannelPhilippines.ph@SD",
+      "name": "Hope Channel Philippines (1080p)"
+    },
+    {
+      "id": "HouseofLies.se@SE",
+      "name": "House of Lies"
+    },
+    {
+      "id": "HypeVisualRadio.nl@SD",
+      "name": "Hype Visual Radio (1080p)"
+    },
+    {
+      "id": "IBNTV.tz@SD",
+      "name": "IBN TV (480p)"
+    },
+    {
+      "id": "IBNTVAfrica.tz@SD",
+      "name": "IBN TV Africa (720p)"
+    },
+    {
+      "id": "iCarly.se@SE",
+      "name": "iCarly (Sweden)"
+    },
+    {
+      "id": "INCRadio.ph@SD",
+      "name": "INC Radio (1080p)"
+    },
+    {
+      "id": "IqraaAfricaEurope.sa@SD",
+      "name": "Iqraa Africa & Europe (1080p)"
+    },
+    {
+      "id": "IqraaQuran.sa@SD",
+      "name": "Iqraa Quran (1080p)"
+    },
+    {
+      "id": "IuniorTV.it@SD",
+      "name": "Iunior TV (1080p)"
+    },
+    {
+      "id": "JAG.se@SE",
+      "name": "JAG (Sweden)"
+    },
+    {
+      "id": "JerseyShore.se@SE",
+      "name": "Jersey Shore (Sweden)"
+    },
+    {
+      "id": "JerseyShoreFamilyVacation.se@SE",
+      "name": "Jersey Shore Family Vacation"
+    },
+    {
+      "id": "JibekJoly.kz@SD",
+      "name": "Jibek Joly (576p)"
+    },
+    {
+      "id": "JimJam.hu@SD",
+      "name": "JimJam"
+    },
+    {
+      "id": "JooMusic.pk@SD",
+      "name": "JooMusic (720p)"
+    },
+    {
+      "id": "JudgeJudy.se@SE",
+      "name": "Judge Judy (Sweden)"
+    },
+    {
+      "id": "KantipurTV.np@HD",
+      "name": "Kantipur TV"
+    },
+    {
+      "id": "KBSWorld.kr@SD",
+      "name": "KBS World (720p)"
+    },
+    {
+      "id": "KC2.rw@SD",
+      "name": "KC2 (720p) [Not 24/7]"
+    },
+    {
+      "id": "KeyPeele.se@SE",
+      "name": "Key & Peele"
+    },
+    {
+      "id": "Klovn.se@SE",
+      "name": "Klovn"
+    },
+    {
+      "id": "KozoomTV.fr@SD",
+      "name": "Kozoom TV (1080p)"
+    },
+    {
+      "id": "KpopMix.ar@SD",
+      "name": "Kpop Mix (720p)"
+    },
+    {
+      "id": "KRCTV.ug@SD",
+      "name": "KRC TV"
+    },
+    {
+      "id": "KTVSport.kw@SD",
+      "name": "KTV Sport (1080p)"
+    },
+    {
+      "id": "LaVozdeJesusHD.do@HD",
+      "name": "La Voz de Jesus HD (720p)"
+    },
+    {
+      "id": "Live99FM.bq@SD",
+      "name": "Live99FM (1080p)"
+    },
+    {
+      "id": "LivingFaithTV.us@SD",
+      "name": "Living Faith TV (540p)"
+    },
+    {
+      "id": "LoveNature.ca@SD",
+      "name": "Love Nature (1080p)"
+    },
+    {
+      "id": "Luksusfellen.se@NO",
+      "name": "Luksusfellen"
+    },
+    {
+      "id": "LuksusfellenSverige.se@NO",
+      "name": "Luksusfellen Sverige"
+    },
+    {
+      "id": "Lyxfallan.se@SE",
+      "name": "Lyxfallan"
+    },
+    {
+      "id": "LyxfallanDanmark.se@SE",
+      "name": "Lyxfallan Danmark"
+    },
+    {
+      "id": "LyxfallanNorge.se@SE",
+      "name": "Lyxfallan Norge"
+    },
+    {
+      "id": "MaanTV.ps@SD",
+      "name": "Ma'an TV (720p)"
+    },
+    {
+      "id": "MacGyver.se@SE",
+      "name": "MacGyver (Sweden)"
+    },
+    {
+      "id": "MahaasinTV.tz@SD",
+      "name": "Mahaasin TV"
+    },
+    {
+      "id": "ManwithaPlan.se@SE",
+      "name": "Man with a Plan"
+    },
+    {
+      "id": "MasterChefsAcademyTV.uk@HD",
+      "name": "Master Chefs Academy TV (720p)"
+    },
+    {
+      "id": "Matlock.se@SE",
+      "name": "Matlock (Sweden)"
+    },
+    {
+      "id": "MBC1USA.us@SD",
+      "name": "MBC 1 USA (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "MBC3USA.us@SD",
+      "name": "MBC 3 USA (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "MBCAmerica.us@SD",
+      "name": "MBC America (1080p)"
+    },
+    {
+      "id": "MBCBollywood.ae@SD",
+      "name": "MBC Bollywood (1080p) [Geo-blocked]"
+    },
+    {
+      "id": "MCITelevision.co@SD",
+      "name": "MCI Television (1080p)"
+    },
+    {
+      "id": "Medium.se@SE",
+      "name": "Medium (Sweden)"
+    },
+    {
+      "id": "MerryChristmasfromViafree.se@SE",
+      "name": "Merry Christmas from Viafree"
+    },
+    {
+      "id": "MinikaGo.tr@SD",
+      "name": "Minika Go (720p)"
+    },
+    {
+      "id": "MissionAsia.au@SD",
+      "name": "Mission Asia (1080p)"
+    },
+    {
+      "id": "MissionImpossible.se@SE",
+      "name": "Mission Impossible (Sweden)"
+    },
+    {
+      "id": "MMATVcom.ru@SD",
+      "name": "MMA-TV.com (1080p)"
+    },
+    {
+      "id": "MMTV.mv@SD",
+      "name": "MMTV (1080p)"
+    },
+    {
+      "id": "MontrealGreekTV.ca@SD",
+      "name": "Montreal Greek TV (480p)"
+    },
+    {
+      "id": "MoviesAction.sa@SD",
+      "name": "Movies Action (1080p)"
+    },
+    {
+      "id": "MoviesThriller.sa@SD",
+      "name": "Movies Thriller (1080p)"
+    },
+    {
+      "id": "MTA4Africa.uk@SD",
+      "name": "MTA4 Africa (1080p)"
+    },
+    {
+      "id": "MTA5Africa.uk@SD",
+      "name": "MTA5 Africa (1080p)"
+    },
+    {
+      "id": "MTV2.us@East",
+      "name": "MTV2 (720p)"
+    },
+    {
+      "id": "MTVCatfish.se@SE",
+      "name": "MTV Catfish (Sweden) (720p)"
+    },
+    {
+      "id": "MTVDating.se@SE",
+      "name": "MTV Dating (Sweden) (720p)"
+    },
+    {
+      "id": "MTVenEspanol.us@SD",
+      "name": "MTV en Espanol"
+    },
+    {
+      "id": "MTVExOnTheBeach.se@SE",
+      "name": "MTV Ex On The Beach"
+    },
+    {
+      "id": "MTVFlowLatino.us@SD",
+      "name": "MTV Flow Latino (720p)"
+    },
+    {
+      "id": "MTVReality.se@SE",
+      "name": "MTV Reality (Sweden) (720p)"
+    },
+    {
+      "id": "MTVRidiculousness.se@SE",
+      "name": "MTV Ridiculousness (Sweden) (720p)"
+    },
+    {
+      "id": "MTVTeenMom.se@SE",
+      "name": "MTV Teen Mom (Sweden) (720p)"
+    },
+    {
+      "id": "MTVTheHills.se@SE",
+      "name": "MTV The Hills"
+    },
+    {
+      "id": "MuslimNetworkTV.us@SD",
+      "name": "Muslim Network TV"
+    },
+    {
+      "id": "MyZenTV.fr@SD",
+      "name": "MyZen TV (1080p)"
+    },
+    {
+      "id": "NationalGeographic.in@SD",
+      "name": "National Geographic (India) (576p)"
+    },
+    {
+      "id": "NationalGeographicWild.in@SD",
+      "name": "National Geographic Wild (India) (576p)"
+    },
+    {
+      "id": "NauticalChannel.it@SD",
+      "name": "Nautical Channel (720p)"
+    },
+    {
+      "id": "NaxcivanTV.az@SD",
+      "name": "Naxcivan TV (720p)"
+    },
+    {
+      "id": "NBCTV.pg@SD",
+      "name": "NBC TV (1080p) [Not 24/7]"
+    },
+    {
+      "id": "NewChannelPop.ca@SD",
+      "name": "New Channel Pop! (480p)"
+    },
+    {
+      "id": "News18AssamNorthEast.in@SD",
+      "name": "News18 Assam North-East (1080p)"
+    },
+    {
+      "id": "NHKWorldPremium.jp@SD",
+      "name": "NHK World Premium (720p)"
+    },
+    {
+      "id": "NHKWorldJapan.jp@SD",
+      "name": "NHK World-Japan (1080p)"
+    },
+    {
+      "id": "NickJr.in@SD",
+      "name": "Nick Jr. (India) (576p)"
+    },
+    {
+      "id": "NickJr.it@SD",
+      "name": "Nick Jr. (Italy) (720p)"
+    },
+    {
+      "id": "Nickelodeon.de@SD",
+      "name": "Nickelodeon (Germany)"
+    },
+    {
+      "id": "Nickelodeon.ru@SD",
+      "name": "Nickelodeon (Russia) (576p)"
+    },
+    {
+      "id": "Nickelodeonenespanol.us@SD",
+      "name": "Nickelodeon en espanol"
+    },
+    {
+      "id": "NonStopKungFu.se@SE",
+      "name": "NonStop Kung Fu"
+    },
+    {
+      "id": "NoorTV.uk@SD",
+      "name": "Noor TV (United Kingdom) (720p)"
+    },
+    {
+      "id": "NordiskkrimfraViaplay.se@NO",
+      "name": "Nordisk krim fra Viaplay"
+    },
+    {
+      "id": "NortheastLive.in@HD",
+      "name": "Northeast Live (720p)"
+    },
+    {
+      "id": "NTDTV.us@East",
+      "name": "NTD TV (1080p)"
+    },
+    {
+      "id": "NTDTVCanada.us@East",
+      "name": "NTD TV Canada"
+    },
+    {
+      "id": "Numb3rs.se@SE",
+      "name": "Numb3rs"
+    },
+    {
+      "id": "NVKSakha.ru@SD",
+      "name": "NVK Sakha (1080p) [Not 24/7]"
+    },
+    {
+      "id": "Okhotairybalka.ru@SD",
+      "name": "Okhota i rybalka (576p)"
+    },
+    {
+      "id": "OmanSportsTV.om@SD",
+      "name": "Oman Sports TV (1080p) [Not 24/7]"
+    },
+    {
+      "id": "OmideIranTV.us@SD",
+      "name": "Omid e Iran TV"
+    },
+    {
+      "id": "OTV.lb@SD",
+      "name": "OTV (Lebanon) (1080p)"
+    },
+    {
+      "id": "PamirTV.ca@SD",
+      "name": "Pamir TV (1080p) [Not 24/7]"
+    },
+    {
+      "id": "Panico.mx@SD",
+      "name": "Panico (576p)"
+    },
+    {
+      "id": "Paradise.se@SE",
+      "name": "Paradise"
+    },
+    {
+      "id": "ParadiseHotel.se@SE",
+      "name": "Paradise Hotel"
+    },
+    {
+      "id": "PCTChannel26.us@SD",
+      "name": "PCT Channel 26 (720p)"
+    },
+    {
+      "id": "PimpMyRide.se@SE",
+      "name": "Pimp My Ride"
+    },
+    {
+      "id": "PlousTV.ve@SD",
+      "name": "Plous TV (1080p)"
+    },
+    {
+      "id": "PlutoTVAction.se@SE",
+      "name": "Pluto TV Action (Sweden)"
+    },
+    {
+      "id": "PlutoTVAnime.us@US",
+      "name": "Pluto TV Anime"
+    },
+    {
+      "id": "PlutoTVAnimeMovies.us@SD",
+      "name": "Pluto TV Anime Movies"
+    },
+    {
+      "id": "PlutoTVBudTerence.se@SE",
+      "name": "Pluto TV Bud & Terence (Sweden)"
+    },
+    {
+      "id": "PlutoTVBuskis.se@SE",
+      "name": "Pluto TV Buskis"
+    },
+    {
+      "id": "PlutoTVDokumentar.se@SE",
+      "name": "Pluto TV Dokumentar"
+    },
+    {
+      "id": "PlutoTVFilm.se@SE",
+      "name": "Pluto TV Film (Sweden)"
+    },
+    {
+      "id": "PlutoTVHandbollHighlights.se@SE",
+      "name": "Pluto TV Handboll Highlights"
+    },
+    {
+      "id": "PlutoTVHandbollLive.se@SE",
+      "name": "Pluto TV Handboll Live"
+    },
+    {
+      "id": "PlutoTVHarlequin.se@SE",
+      "name": "Pluto TV Harlequin"
+    },
+    {
+      "id": "PlutoTVHorror.se@SE",
+      "name": "Pluto TV Horror (Sweden)"
+    },
+    {
+      "id": "PlutoTVJohnWayne.se@SE",
+      "name": "Pluto TV John Wayne"
+    },
+    {
+      "id": "PlutoTVJuniorklubben.se@SE",
+      "name": "Pluto TV Juniorklubben (720p)"
+    },
+    {
+      "id": "PlutoTVKomedi.se@SE",
+      "name": "Pluto TV Komedi"
+    },
+    {
+      "id": "PlutoTVKultfilmer.se@SE",
+      "name": "Pluto TV Kultfilmer"
+    },
+    {
+      "id": "PlutoTVMotor.se@SE",
+      "name": "Pluto TV Motor (Sweden)"
+    },
+    {
+      "id": "PlutoTVRomantik.se@SE",
+      "name": "Pluto TV Romantik"
+    },
+    {
+      "id": "PlutoTVSciFi.se@SE",
+      "name": "Pluto TV Sci-Fi (Sweden)"
+    },
+    {
+      "id": "PlutoTVSnooker900.se@SE",
+      "name": "Pluto TV Snooker 900 (Sweden) (720p)"
+    },
+    {
+      "id": "PlutoTVSport.se@NO",
+      "name": "Pluto TV Sport (Sweden) NO"
+    },
+    {
+      "id": "PlutoTVTecknadeklassiker.se@SE",
+      "name": "Pluto TV Tecknade klassiker (720p)"
+    },
+    {
+      "id": "PlutoTVTecknat.se@SE",
+      "name": "Pluto TV Tecknat (720p)"
+    },
+    {
+      "id": "PlutoTVTegnefilm.se@NO",
+      "name": "Pluto TV Tegnefilm NO (720p)"
+    },
+    {
+      "id": "PlutoTVTrueCrime.se@SE",
+      "name": "Pluto TV True Crime (Sweden)"
+    },
+    {
+      "id": "PlutoTVUngdomsserier.se@SE",
+      "name": "Pluto TV Ungdomsserier (720p)"
+    },
+    {
+      "id": "PlutoTVVarldskrigen.se@SE",
+      "name": "Pluto TV Varldskrigen"
+    },
+    {
+      "id": "PlutoTVVerdenskrigene.se@NO",
+      "name": "Pluto TV Verdenskrigene NO"
+    },
+    {
+      "id": "PlutoTVWildWest.se@SE",
+      "name": "Pluto TV Wild West"
+    },
+    {
+      "id": "PolsatJimJam.pl@SD",
+      "name": "Polsat JimJam (576p)"
+    },
+    {
+      "id": "Power1017FM.aw@SD",
+      "name": "Power 101.7 FM (720p)"
+    },
+    {
+      "id": "PowerHD.ar@SD",
+      "name": "PowerHD"
+    },
+    {
+      "id": "PROTV.ro@SD",
+      "name": "PRO TV (576i)"
+    },
+    {
+      "id": "PrudentMedia.in@SD",
+      "name": "Prudent Media (1080p)"
+    },
+    {
+      "id": "Public4KTV.np@HD",
+      "name": "Public 4K TV HD"
+    },
+    {
+      "id": "Pulse95Radio.ae@SD",
+      "name": "Pulse95 Radio (1080p)"
+    },
+    {
+      "id": "QazaqstanInternational.kz@SD",
+      "name": "Qazaqstan International"
+    },
+    {
+      "id": "QTVGambia.gm@SD",
+      "name": "QTV Gambia (720p) [Not 24/7]"
+    },
+    {
+      "id": "RaajjeTV.mv@SD",
+      "name": "Raajje TV"
+    },
+    {
+      "id": "RadioFxNet.ro@HD",
+      "name": "Radio Fx Net (720p)"
+    },
+    {
+      "id": "RadioTelePuissance.us@SD",
+      "name": "Radio Tele Puissance"
+    },
+    {
+      "id": "RakutenTVActionMovies.es@Finland",
+      "name": "Rakuten TV Action Movies Finland (1080p)"
+    },
+    {
+      "id": "RakutenTVComedyMovies.es@Finland",
+      "name": "Rakuten TV Comedy Movies Finland (1080p)"
+    },
+    {
+      "id": "RakutenTVDramaMovies.es@Finland",
+      "name": "Rakuten TV Drama Movies Finland (1080p)"
+    },
+    {
+      "id": "RakutenTVFamilyMovies.es@Finland",
+      "name": "Rakuten TV Family Movies Finland (1080p)"
+    },
+    {
+      "id": "RakutenTVTopMovies.es@Finland",
+      "name": "Rakuten TV Top Movies Finland (1080p)"
+    },
+    {
+      "id": "Rawhide.se@SE",
+      "name": "Rawhide (Sweden)"
+    },
+    {
+      "id": "RCTV3.us@SD",
+      "name": "RCTV3 (480p)"
+    },
+    {
+      "id": "Reno911.se@SE",
+      "name": "Reno 911"
+    },
+    {
+      "id": "RevryLatinX.us@SD",
+      "name": "Revry LatinX (720p)"
+    },
+    {
+      "id": "RidiculousnessNyeepisoder.se@NO",
+      "name": "Ridiculousness: Nye episoder"
+    },
+    {
+      "id": "RwandaTV.rw@SD",
+      "name": "Rwanda TV (480p) [Not 24/7]"
+    },
+    {
+      "id": "SKPop.us@HD",
+      "name": "S KPop! (480p)"
+    },
+    {
+      "id": "SabrinatheTeenageWitch.se@SE",
+      "name": "Sabrina the Teenage Witch"
+    },
+    {
+      "id": "SafeerTV.uk@SD",
+      "name": "Safeer TV (1080p)"
+    },
+    {
+      "id": "SansadTV1.in@SD",
+      "name": "Sansad TV 1 (1080p)"
+    },
+    {
+      "id": "SansadTV2.in@SD",
+      "name": "Sansad TV 2"
+    },
+    {
+      "id": "SaudiThaqafiyaTV.sa@SD",
+      "name": "Saudi Thaqafiya TV (1080p)"
+    },
+    {
+      "id": "SBNTV.us@SD",
+      "name": "SBN TV (720p)"
+    },
+    {
+      "id": "SBNTVGlobal.us@SD",
+      "name": "SBN TV Global (720p)"
+    },
+    {
+      "id": "SBNTVInternational.us@SD",
+      "name": "SBN TV International (720p)"
+    },
+    {
+      "id": "SciFi.rs@SD",
+      "name": "Sci Fi"
+    },
+    {
+      "id": "Scorpion.se@SE",
+      "name": "Scorpion (Sweden)"
+    },
+    {
+      "id": "SetantaSports1Eurasia.ie@SD",
+      "name": "Setanta Sports 1 Eurasia (1080p)"
+    },
+    {
+      "id": "SetantaSports2Eurasia.ie@SD",
+      "name": "Setanta Sports 2 Eurasia (1080p)"
+    },
+    {
+      "id": "SetantaSports.uk@HD",
+      "name": "Setanta Sports HD"
+    },
+    {
+      "id": "ShemarooBollywood.us@SD",
+      "name": "Shemaroo Bollywood (1080p)"
+    },
+    {
+      "id": "SilkWay.kz@SD",
+      "name": "Silk Way (1080p)"
+    },
+    {
+      "id": "SkjonnhetsfellenDanmark.se@NO",
+      "name": "Skjonnhetsfellen Danmark"
+    },
+    {
+      "id": "SkonhetsfallanDanmark.se@SE",
+      "name": "Skonhetsfallan Danmark"
+    },
+    {
+      "id": "SmithsonianChannelSelects.se@SE",
+      "name": "Smithsonian Channel Selects (Sweden)"
+    },
+    {
+      "id": "SorozatPlus.hu@SD",
+      "name": "Sorozat+"
+    },
+    {
+      "id": "SouthPark.se@SE",
+      "name": "South Park (Sweden)"
+    },
+    {
+      "id": "SouthParkArmageddon.se@SE",
+      "name": "South Park Armageddon"
+    },
+    {
+      "id": "SouthParkEnFrancais.us@CA",
+      "name": "South Park En Francais"
+    },
+    {
+      "id": "SouthParkRockinOut.se@SE",
+      "name": "South Park Rockin' Out"
+    },
+    {
+      "id": "SouthParkButtersCollection.se@SE",
+      "name": "South Park: Butters Collection (Sweden)"
+    },
+    {
+      "id": "SouthParkCartmanCollection.se@SE",
+      "name": "South Park: Cartman Collection (Sweden)"
+    },
+    {
+      "id": "SouthParkIntotheStars.se@SE",
+      "name": "South Park: Into the Stars"
+    },
+    {
+      "id": "SouthParkKennyCollection.se@SE",
+      "name": "South Park: Kenny Collection (Sweden)"
+    },
+    {
+      "id": "SouthParkKyleCollection.se@SE",
+      "name": "South Park: Kyle Collection (Sweden)"
+    },
+    {
+      "id": "SouthParkStanCollection.se@SE",
+      "name": "South Park: Stan Collection (Sweden)"
+    },
+    {
+      "id": "SpektraTV.es@SD",
+      "name": "SpektraTV (720p)"
+    },
+    {
+      "id": "Sport1Baltic.ua@SD",
+      "name": "Sport 1 Baltic (1080p)"
+    },
+    {
+      "id": "StarMovies.in@SD",
+      "name": "Star Movies (India) (576p)"
+    },
+    {
+      "id": "StarMoviesSelect.in@HD",
+      "name": "Star Movies Select HD (1080p)"
+    },
+    {
+      "id": "StarSports1.in@SD",
+      "name": "Star Sports 1 (576p)"
+    },
+    {
+      "id": "StarSports2.in@SD",
+      "name": "Star Sports 2 (576p)"
+    },
+    {
+      "id": "StarSportsKhel.in@SD",
+      "name": "Star Sports Khel (576p)"
+    },
+    {
+      "id": "StarTrekMovies.se@SE",
+      "name": "Star Trek Movies"
+    },
+    {
+      "id": "StarTrekTheOriginalSeries.se@SE",
+      "name": "Star Trek: The Original Series (Sweden)"
+    },
+    {
+      "id": "StarTV.md@SD",
+      "name": "Star TV (Moldova)"
+    },
+    {
+      "id": "StarVijay.in@UK",
+      "name": "Star Vijay UK (396p)"
+    },
+    {
+      "id": "StarzCinema.us@East",
+      "name": "Starz Cinema (720p)"
+    },
+    {
+      "id": "StarzComedy.us@East",
+      "name": "Starz Comedy (1080p)"
+    },
+    {
+      "id": "StarzKidsFamily.us@East",
+      "name": "Starz Kids & Family (1080p)"
+    },
+    {
+      "id": "StingrayClassica.ca@SD",
+      "name": "Stingray Classica (1080p)"
+    },
+    {
+      "id": "StingrayNaturescape.ca@SD",
+      "name": "Stingray Naturescape (1080p)"
+    },
+    {
+      "id": "StingrayRomanceLatino.ca@SD",
+      "name": "Stingray Romance Latino (1080p)"
+    },
+    {
+      "id": "StugfixarnaNorge.se@SE",
+      "name": "Stugfixarna Norge"
+    },
+    {
+      "id": "SuperHungama.in@SD",
+      "name": "Super Hungama (576p)"
+    },
+    {
+      "id": "SvampBobFyrkant.se@SE",
+      "name": "SvampBob Fyrkant (720p)"
+    },
+    {
+      "id": "SvampeBobFirkant.se@NO",
+      "name": "SvampeBob Firkant NO (720p)"
+    },
+    {
+      "id": "SvenskaHollywoodfruar.se@SE",
+      "name": "Svenska Hollywoodfruar"
+    },
+    {
+      "id": "SvenskaTruckers.se@SE",
+      "name": "Svenska Truckers"
+    },
+    {
+      "id": "TeleBoston.us@SD",
+      "name": "Tele Boston (480p)"
+    },
+    {
+      "id": "TeleHit.mx@SD",
+      "name": "TeleHit (576p)"
+    },
+    {
+      "id": "Telemundo.us@EastHD",
+      "name": "Telemundo East HD (1080p)"
+    },
+    {
+      "id": "TelemundoTelenovelasClasicas.us@SD",
+      "name": "Telemundo Telenovelas Clasicas"
+    },
+    {
+      "id": "Telepace2.it@SD",
+      "name": "Telepace 2 (1080p)"
+    },
+    {
+      "id": "Telepace4.it@SD",
+      "name": "Telepace 4 (1080p)"
+    },
+    {
+      "id": "TG4.ie@SD",
+      "name": "TG4 (1080p)"
+    },
+    {
+      "id": "TheDailyShow.se@SE",
+      "name": "The Daily Show"
+    },
+    {
+      "id": "TheLWord.se@SE",
+      "name": "The L Word"
+    },
+    {
+      "id": "TheMillers.se@SE",
+      "name": "The Millers"
+    },
+    {
+      "id": "TheNewDetectives.se@NO",
+      "name": "The New Detectives (Sweden) NO"
+    },
+    {
+      "id": "TheTwilightZone.se@SE",
+      "name": "The Twilight Zone"
+    },
+    {
+      "id": "TheWildWildWest.se@SE",
+      "name": "The Wild Wild West (Sweden)"
+    },
+    {
+      "id": "TjilTV.na@SD",
+      "name": "Tjil TV (720p)"
+    },
+    {
+      "id": "Tosh0.se@SE",
+      "name": "Tosh.0 (Sweden)"
+    },
+    {
+      "id": "TotallyTurtles.se@SE",
+      "name": "Totally Turtles (Sweden) (720p)"
+    },
+    {
+      "id": "TraceAfrica.fr@SD",
+      "name": "Trace Africa (1080p)"
+    },
+    {
+      "id": "TraceSportStars.fr@HD",
+      "name": "Trace Sport Stars (1080p)"
+    },
+    {
+      "id": "TraceUrban.fr@SD",
+      "name": "Trace Urban (1080p)"
+    },
+    {
+      "id": "TravelPlusAdventure.ru@HD",
+      "name": "Travel+Adventure HD (1080p)"
+    },
+    {
+      "id": "TrishulBroadcastingNetwork.sr@SD",
+      "name": "Trishul Broadcasting Network (720p) [Not 24/7]"
+    },
+    {
+      "id": "TruecrimefranViaplay.se@SE",
+      "name": "True crime fran Viaplay"
+    },
+    {
+      "id": "TurismoHD.do@HD",
+      "name": "Turismo HD (720p)"
+    },
+    {
+      "id": "Turkmenistan.tm@SD",
+      "name": "Turkmenistan (406p) [Not 24/7]"
+    },
+    {
+      "id": "TV1.rw@SD",
+      "name": "TV1 (Rwanda)"
+    },
+    {
+      "id": "TV2.dz@SD",
+      "name": "TV2 (Algeria) (1080p)"
+    },
+    {
+      "id": "TVfromtheDanishParliament.dk@SD",
+      "name": "TV from the Danish Parliament (1080p) [Not 24/7]"
+    },
+    {
+      "id": "TVPaiEterno.br@SD",
+      "name": "TV Pai Eterno (720p)"
+    },
+    {
+      "id": "TVTodayJanakpur.np@SD",
+      "name": "TV Today Janakpur"
+    },
+    {
+      "id": "TVWEST.ng@HD",
+      "name": "TV-WEST (720p) [Not 24/7]"
+    },
+    {
+      "id": "TVCARiBCinema.sx@SD",
+      "name": "TVCARiB Cinema (720p) [Not 24/7]"
+    },
+    {
+      "id": "TVCARiBGospel.sx@SD",
+      "name": "TVCARiB Gospel (480p) [Not 24/7]"
+    },
+    {
+      "id": "TVCARiBKidsTeens.sx@SD",
+      "name": "TVCARiB Kids & Teens (720p) [Not 24/7]"
+    },
+    {
+      "id": "TVSAPublicChannel.us@SD",
+      "name": "TVSA Public Channel (720p)"
+    },
+    {
+      "id": "UngaMammor.se@SE",
+      "name": "Unga Mammor"
+    },
+    {
+      "id": "UniMas.us@Central",
+      "name": "UniMas Central (720p)"
+    },
+    {
+      "id": "Univision.us@East",
+      "name": "Univision (1080p)"
+    },
+    {
+      "id": "UzReportTV.uz@SD",
+      "name": "UzReport TV (1080p)"
+    },
+    {
+      "id": "VAMTV.cw@SD",
+      "name": "VAM TV (720p)"
+    },
+    {
+      "id": "VevoLatino.us@SD",
+      "name": "Vevo Latino (1080p)"
+    },
+    {
+      "id": "ViafreeMovies.se@SE",
+      "name": "Viafree Movies"
+    },
+    {
+      "id": "Viasat2.hu@SD",
+      "name": "Viasat2"
+    },
+    {
+      "id": "Viasat3.hu@SD",
+      "name": "Viasat 3"
+    },
+    {
+      "id": "Viasat6.hu@SD",
+      "name": "Viasat 6"
+    },
+    {
+      "id": "ViasatKinoComedy.ua@SD",
+      "name": "Viasat Kino Comedy"
+    },
+    {
+      "id": "VietnamToday.vn@HD",
+      "name": "Vietnam Today (1080p)"
+    },
+    {
+      "id": "Wildfire.se@SE",
+      "name": "Wildfire"
+    },
+    {
+      "id": "X1027FM.aw@SD",
+      "name": "X 102.7 FM"
+    },
+    {
+      "id": "XITEHits.nl@NL",
+      "name": "XITE Hits (1080p)"
+    },
+    {
+      "id": "YuGiOhenespanol.us@SD",
+      "name": "Yu-Gi-Oh! en espanol (1080p)"
+    },
+    {
+      "id": "ZainabiaChannel.in@SD",
+      "name": "Zainabia Channel"
+    },
+    {
+      "id": "zenith.fr@HD",
+      "name": "zenith (1080p)"
+    },
+    {
+      "id": "Cineaventura.us@SD",
+      "name": "Cine aventura"
+    },
+    {
+      "id": "CineRomantico.us@SD",
+      "name": "Cine Romantico (720p)"
+    },
+    {
+      "id": "CrimenesImperfectos.us@SD",
+      "name": "Crimenes Imperfectos"
+    },
+    {
+      "id": "TortuesNinjaTV.us@CA",
+      "name": "Tortues Ninja TV (United States) (720p)"
+    }
+  ],
+  "finalizedAt": "2026-10-03T06:56:09.759Z",
+  "mainEntries": 1134
+}

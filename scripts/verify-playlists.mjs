@@ -1,3 +1,4 @@
+import { probeStream } from './stream-probe.mjs';
 import path from 'node:path';
 import {
   findPolicyViolations,
@@ -74,45 +75,8 @@ async function verifyChannel(channel, timeoutMs) {
 }
 
 async function verifyUrl(url, timeoutMs) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
-  const started = Date.now();
-
-  try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: {
-        'User-Agent': 'VLC/3.0.20 LibVLC/3.0.20',
-      },
-    });
-    const text = await response.text();
-    const probe = text.slice(0, 4096);
-    const validPlaylist = /#EXTM3U|#EXT-X-|#EXTINF/.test(probe);
-    return {
-      url,
-      ok: response.ok && validPlaylist,
-      status: response.status,
-      elapsedMs: Date.now() - started,
-      finalUrl: response.url,
-      redirected: response.url !== url,
-      bytes: text.length,
-      validPlaylist,
-    };
-  } catch (error) {
-    return {
-      url,
-      ok: false,
-      status: error.name === 'AbortError' ? 'TIMEOUT' : 'ERROR',
-      elapsedMs: Date.now() - started,
-      finalUrl: url,
-      redirected: false,
-      bytes: 0,
-      validPlaylist: false,
-      error: error.message,
-    };
-  } finally {
-    clearTimeout(timeout);
-  }
+  const result = await probeStream(url, timeoutMs);
+  return { ...result, redirected: result.finalUrl !== url };
 }
 
 async function runWithConcurrency(items, concurrency, worker) {
@@ -178,7 +142,7 @@ function buildReport({ registry, streamResults, policyResults, health, failureTh
       const consecutive = health.channels[key]?.consecutiveFailures || 0;
       lines.push(
         `- ${result.channel.name} (${result.channel.group}): ${result.primary.status}, ` +
-          `${result.primary.elapsedMs}ms, failures=${consecutive}`,
+          `${result.primary.elapsedMs}ms, failures=${consecutive}; ${result.primary.error || 'no working media'}`,
       );
     }
     lines.push('');

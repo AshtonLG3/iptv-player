@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.6.11';
+export const APP_VERSION = '1.6.12';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -17,7 +17,7 @@ export const CURATED_PLAYLISTS = [
   {
     id: 'main',
     name: 'Main M3U',
-    description: 'English Africa, UK, USA',
+    description: 'English worldwide',
     url: 'playlists/english-africa-uk-us-verified.m3u',
     publicUrl: 'https://raw.githubusercontent.com/AshtonLG3/iptv-player/refs/heads/master/playlists/english-africa-uk-us-verified.m3u',
   },
@@ -127,15 +127,6 @@ export const OFFICIAL_SERVICES = [
     androidDeepLink: 'sporty-com://com.sporty.android/channel-247',
     note: 'Official SportyTV 24/7 player',
   },
-  {
-    id: 'fancode',
-    name: 'FanCode',
-    shortLabel: 'FanCode',
-    logo: 'assets/services/fancode.svg',
-    country: 'India',
-    url: 'https://www.fancode.com/live-now/all-sports',
-    note: 'Official FanCode live sports service',
-  },
 ];
 
 export const FEATURED_OFFICIAL_SERVICE_IDS = [
@@ -144,5 +135,4 @@ export const FEATURED_OFFICIAL_SERVICE_IDS = [
   'sabc-plus',
   'zplus',
   'sportytv-app',
-  'fancode',
 ];

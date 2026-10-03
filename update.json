@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 38,
-  "versionName": "1.6.11",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.11.apk",
-  "sha256": "E0B3F874835B5E15D44072467436A80BE1C6C1393541FF4BC918441260790D7F",
-  "releaseNotes": "Refreshes NeoTV sports channels and restores Sports First TV. Updates the FanCode Live Now shortcut and browser cache. Signed with the original Rugare release key; earlier GitHub debug APKs cannot be upgraded to this release in place.",
-  "publishedAt": "2026-09-19T15:38:07.8228662+02:00"
+  "versionCode": 39,
+  "versionName": "1.6.12",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.12.apk",
+  "sha256": "54942BE2F301E0C78863766C85737D4A4E3EB1B82E76D784C60EEA2F2464066C",
+  "releaseNotes": "Removes FanCode. Expands the English lineup with the USA/UK regional exclusion retained, repairs failing feeds, carries backup sources, and adds startup timeouts and browse-more controls. Includes a bundled HLS player and dark/light themes.",
+  "publishedAt": "2026-10-03T06:59:42.3534418+00:00"
 }

@@ -1,5 +1,6 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { isExcludedRegionalChannel } from './channel-policy.mjs';
 
 export const ROOT_DIR = path.resolve(import.meta.dirname, '..');
 export const PLAYLIST_DIR = path.join(ROOT_DIR, 'playlists');
@@ -64,6 +65,7 @@ export function formatExtinf(channel) {
   const attrs = [];
   if (channel.id) attrs.push(`tvg-id="${escapeAttr(channel.id)}"`);
   if (channel.logo) attrs.push(`tvg-logo="${escapeAttr(channel.logo)}"`);
+  if (channel.backupUrls?.length) attrs.push(`backup-urls="${escapeAttr(encodeURIComponent(JSON.stringify(channel.backupUrls)))}"`);
   attrs.push(`group-title="${escapeAttr(channel.group)}"`);
   return `#EXTINF:-1 ${attrs.join(' ')},${channel.name}`;
 }
@@ -121,6 +123,13 @@ export function compileGeoRestrictionPatterns(registry) {
 
 export function findPolicyViolations(channel, registry) {
   const violations = [];
+  if (registry.rules?.excludeUsUkRegional && isExcludedRegionalChannel(channel)) {
+    violations.push('USA/UK local or regional channel is excluded');
+  }
+  const allowedLanguages = registry.rules?.allowedLanguages || [];
+  if (allowedLanguages.length && !channel.languages?.some((language) => allowedLanguages.includes(language))) {
+    violations.push('channel has no approved language');
+  }
   const allowedGroups = registry.rules?.allowedGroups || [];
   if (allowedGroups.length && !allowedGroups.includes(channel.group)) {
     violations.push(`group "${channel.group}" is not allowed`);

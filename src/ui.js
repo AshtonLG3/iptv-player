@@ -1,5 +1,5 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20260919a';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20260919a';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261003a';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261003a';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -52,8 +52,8 @@ export function sortChannelsAlphabetically(channels) {
   });
 }
 
-export function limitChannelsForRendering(channels) {
-  return channels.slice(0, MAX_RENDERED_CHANNELS);
+export function limitChannelsForRendering(channels, limit = MAX_RENDERED_CHANNELS) {
+  return channels.slice(0, limit);
 }
 
 function isGeoBlockedChannel(channel) {
@@ -152,7 +152,7 @@ export function filterChannelsForUi(
     search = '',
     country = '',
     category = '',
-    hideGeoBlocked = true,
+    hideGeoBlocked = false,
     favoritesOnly = false,
     isFavorite = () => false,
   } = {},
@@ -198,7 +198,7 @@ export function renderApp({
             <select id="country-filter"><option value="">All countries</option></select>
             <select id="category-filter"><option value="">All categories</option></select>
             <label class="blocked-label">
-              <input type="checkbox" id="hide-blocked-toggle" checked /> Hide geo-blocked (except sports)
+              <input type="checkbox" id="hide-blocked-toggle" /> Hide geo-blocked (except sports)
             </label>
             <label class="favorites-label">
               <input type="checkbox" id="favorites-toggle" /> Favorites only
@@ -287,6 +287,7 @@ export function renderApp({
   let nowPlayingUrl = null;
   let lastFocusedChannelUrl = null;
   let visibleChannels = [];
+  let renderLimit = MAX_RENDERED_CHANNELS;
 
   let canCheckForUpdates = false;
   try {
@@ -323,7 +324,8 @@ export function renderApp({
     renderPlaylistAccess();
   }
 
-  function applyFilters({ relaxCountryWhenCategoryEmpty = false } = {}) {
+  function applyFilters({ relaxCountryWhenCategoryEmpty = false, keepRenderLimit = false } = {}) {
+    if (!keepRenderLimit) renderLimit = MAX_RENDERED_CHANNELS;
     const filters = {
       search: searchBox.value,
       country: countrySelect.value,
@@ -349,7 +351,7 @@ export function renderApp({
       }
     }
 
-    visibleChannels = limitChannelsForRendering(filtered);
+    visibleChannels = limitChannelsForRendering(filtered, renderLimit);
     searchClearButton.hidden = !filters.search.trim();
     syncCategoryStrip();
     channelListTitle.textContent = filters.search.trim()
@@ -384,13 +386,6 @@ export function renderApp({
       emptyItem.textContent = 'No channels found for this filter.';
       listEl.appendChild(emptyItem);
       return;
-    }
-
-    if (totalCount > list.length) {
-      const limitNotice = document.createElement('li');
-      limitNotice.className = 'empty-state';
-      limitNotice.textContent = `Showing ${list.length} of ${totalCount} channels. Search to narrow the list.`;
-      listEl.appendChild(limitNotice);
     }
 
     for (const channel of list) {
@@ -467,6 +462,22 @@ export function renderApp({
       listEl.appendChild(item);
     }
 
+    if (totalCount > list.length) {
+      const moreItem = document.createElement('li');
+      moreItem.className = 'channel-item';
+      const moreButton = document.createElement('button');
+      moreButton.type = 'button';
+      moreButton.className = 'channel-select-button';
+      moreButton.textContent = `Show next ${Math.min(MAX_RENDERED_CHANNELS, totalCount - list.length)} channels`;
+      moreButton.addEventListener('click', () => {
+        const previousLength = visibleChannels.length;
+        renderLimit += MAX_RENDERED_CHANNELS;
+        applyFilters({ keepRenderLimit: true });
+        focusChannel(visibleChannels[previousLength]?.url);
+      });
+      moreItem.appendChild(moreButton);
+      listEl.appendChild(moreItem);
+    }
     updateNowPlayingMarkers();
     if (focusedChannelUrl) focusChannel(focusedChannelUrl);
   }

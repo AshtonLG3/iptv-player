@@ -1,9 +1,33 @@
-export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined) } = {}) {
+export function createPlayer(videoEl, {
+  HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined),
+  startupTimeoutMs = 15000,
+  timers = { set: (callback, delay) => setTimeout(callback, delay), clear: (id) => clearTimeout(id) },
+} = {}) {
   let hls = null;
   let nativeErrorListener = null;
   let errorHandler = () => {};
   let playSession = 0;
   let suspended = false;
+  let startupTimer = null;
+  let startupListener = null;
+
+  function clearStartupTimeout() {
+    if (startupTimer !== null) timers.clear(startupTimer);
+    startupTimer = null;
+    if (startupListener) videoEl.removeEventListener('playing', startupListener);
+    startupListener = null;
+  }
+
+  function watchStartup(session, fail) {
+    clearStartupTimeout();
+    startupListener = clearStartupTimeout;
+    videoEl.addEventListener('playing', startupListener, { once: true });
+    startupTimer = timers.set(() => {
+      clearStartupTimeout();
+      if (session === playSession && !suspended) fail(new Error('Stream did not start within 15 seconds'));
+    }, startupTimeoutMs);
+    startupTimer?.unref?.();
+  }
 
   function onError(handler) {
     errorHandler = handler;
@@ -16,6 +40,7 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
   }
 
   function suspend() {
+    clearStartupTimeout();
     suspended = true;
     videoEl.pause?.();
     videoEl.muted = true;
@@ -32,6 +57,7 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
   }
 
   function cleanupPlayback() {
+    clearStartupTimeout();
     if (hls) {
       hls.destroy();
       hls = null;
@@ -106,6 +132,7 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
     const fail = (error) => {
       if (failed || session !== playSession) return;
       failed = true;
+      clearStartupTimeout();
       if (nativeErrorListener) {
         videoEl.removeEventListener('error', nativeErrorListener);
         nativeErrorListener = null;
@@ -116,6 +143,7 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
     videoEl.src = url;
     nativeErrorListener = () => fail(new Error('Native playback failed'));
     videoEl.addEventListener('error', nativeErrorListener, { once: true });
+    watchStartup(session, fail);
     videoEl.play().catch(fail);
   }
 
@@ -157,6 +185,7 @@ export function createPlayer(videoEl, { HlsCtor = (typeof window !== 'undefined'
     });
     hls.loadSource(url);
     hls.attachMedia(videoEl);
+    watchStartup(session, fail);
   }
 
   function normalizeSources(sources) {

@@ -151,12 +151,20 @@ generic TV-box browsers can enter the same remote-first Rugare layout.
 
 ## Playlist maintenance
 
-Release 1.6.11 refreshes the NeoTV+ sports catalog and restores Sports First TV.
-The FanCode button opens its official Live Now page (inside Rugare on Android).
-The shared web-module cache token is refreshed with this release so returning
-website users also receive the new button. Dark/light themes and the menu
-version remain available. FanCode playback depends on the service's account,
-subscription, region, and browser support.
+Release 1.6.12 removes the FanCode shortcut and expands the English lineup worldwide.
+The USA/UK local and regional channel exception remains. Other region and genre
+exclusions are removed. Channel sources come from the upstream English playlist;
+manifest, rendition, key (when needed), and media-segment checks determine which
+feeds are active. Failed existing feeds are retried, repaired from matching channel
+IDs where possible, or retained as disabled registry entries for later recovery.
+These checks establish media reachability, not guaranteed playback in every browser
+or country. HTTP feeds require Android or an external player on an HTTPS website.
+
+Backup URLs now survive playlist generation and reach the player's fallback logic.
+Playback attempts have a 15-second startup timeout, so silent failures try a fallback.
+HLS.js is bundled locally to avoid depending on a third-party CDN at app startup.
+Large lists expose a Show next channels button. Dark/light themes and the menu
+version remain available. Browser module and playlist caches use the new release.
 
 Use the signed release from `https://mangezi.xyz/tv/update.json` for updates.
 The earlier GitHub FanCode artifacts were debug-signed and cannot update the
@@ -170,7 +178,12 @@ The source of truth is `playlists/channels.json`. Edit that file, then rebuild:
 
     npm run playlists:generate
 
-Refresh the approved NeoTV+ sports subset and its locally hosted logos:
+Refresh all eligible English feeds, preserving the USA/UK regional exception:
+
+    npm run playlists:refresh:english
+    npm run playlists:generate
+
+Refresh the NeoTV+ sports subset and its locally hosted logos:
 
     npm run playlists:import:neotv-sports
 
@@ -195,9 +208,8 @@ Create a dated restore snapshot before risky refreshes:
 
 ## Official fallbacks
 
-The in-app channel list uses curated public streams. Geo-blocked general
-channels are hidden by default, while Sports and Cue Sports may retain clearly
-labeled region-limited feeds without attempting a proxy or geo-bypass. The menu
+The in-app channel list uses curated public streams. Geo-blocked channels remain labeled, with an optional hide filter. English channels may retain
+region-limited feeds without attempting a proxy or geo-bypass. The menu
 also includes official fallbacks such as SABC+, eVOD/e.tv, Afree TV, Z+/ZBC,
 ZBC YouTube, SABC Sport, and Openview. Featured services use their official
 logos, including SportyTV. On Android, the SABC+, eVOD/e+, Z+, and

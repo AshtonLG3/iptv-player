@@ -1,4 +1,4 @@
-import { FTA_COUNTRIES } from './constants.js?v=20260919a';
+import { FTA_COUNTRIES } from './constants.js?v=20261003a';
 
 export function extractCountryCode(tvgId) {
   if (!tvgId) return null;
@@ -36,6 +36,14 @@ export function parseM3U(text) {
         country: extractCountryCode(attrs['tvg-id'] || ''),
         url: '',
       };
+      if (attrs['backup-urls']) {
+        try {
+          const backups = JSON.parse(decodeURIComponent(attrs['backup-urls']));
+          if (Array.isArray(backups)) pending.backupUrls = backups.filter((url) => typeof url === 'string' && /^https?:\/\//i.test(url));
+        } catch {
+          // A malformed optional backup attribute must not break a playlist.
+        }
+      }
     } else if (line === '' || line.startsWith('#')) {
       continue;
     } else if (pending) {
