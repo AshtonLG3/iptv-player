@@ -1,6 +1,6 @@
 export function createPlayer(videoEl, {
   HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined),
-  startupTimeoutMs = 15000,
+  startupTimeoutMs = 30000,
   timers = { set: (callback, delay) => setTimeout(callback, delay), clear: (id) => clearTimeout(id) },
 } = {}) {
   let hls = null;
@@ -10,6 +10,7 @@ export function createPlayer(videoEl, {
   let suspended = false;
   let startupTimer = null;
   let startupListener = null;
+  let quality = 'auto';
 
   function clearStartupTimeout() {
     if (startupTimer !== null) timers.clear(startupTimer);
@@ -24,7 +25,7 @@ export function createPlayer(videoEl, {
     videoEl.addEventListener('playing', startupListener, { once: true });
     startupTimer = timers.set(() => {
       clearStartupTimeout();
-      if (session === playSession && !suspended) fail(new Error('Stream did not start within 15 seconds'));
+      if (session === playSession && !suspended) fail(new Error(`Stream did not start within ${startupTimeoutMs / 1000} seconds`));
     }, startupTimeoutMs);
     startupTimer?.unref?.();
   }
@@ -70,17 +71,20 @@ export function createPlayer(videoEl, {
     videoEl.load?.();
   }
 
-  function play(sources) {
+  function play(sources, options = {}) {
+    quality = options.quality || 'auto';
     suspended = false;
     videoEl.muted = false;
     videoEl.volume = 1;
     playSession += 1;
     const session = playSession;
-    const urls = normalizeSources(sources);
+    const allUrls = normalizeSources(sources);
+    const urls = globalThis.location?.protocol === 'https:' && globalThis.location?.hostname !== 'appassets.androidplatform.net'
+      ? allUrls.filter((url) => !/^http:/i.test(url)) : allUrls;
     cleanupPlayback();
 
     if (!urls.length) {
-      errorHandler(new Error('No stream URL is available for this channel'));
+      errorHandler(new Error(allUrls.length ? 'HTTP stream blocked on secure page' : 'No stream URL is available for this channel'));
       return;
     }
 
@@ -97,13 +101,29 @@ export function createPlayer(videoEl, {
 
     const url = urls[index];
     tryNativeThenHls(url, session, (error) => {
+      if (error?.name === 'NotAllowedError' || error?.name === 'AbortError') {
+        errorHandler(error);
+        return;
+      }
       trySource(urls, index + 1, session, [...errors, error]);
     });
   }
 
   function tryNativeThenHls(url, session, next) {
+    if (/\.(mp4|webm)(?:[?#]|$)/i.test(url)) {
+      playNative(url, session, next);
+      return;
+    }
+    if (quality === 'data-saver' && HlsCtor?.isSupported()) {
+      playWithHls(url, session, next);
+      return;
+    }
     if (canPlayNativeHls()) {
       playNative(url, session, (nativeError) => {
+        if (nativeError?.name === 'NotAllowedError' || nativeError?.name === 'AbortError') {
+          next(nativeError);
+          return;
+        }
         if (HlsCtor && HlsCtor.isSupported()) {
           playWithHls(url, session, (hlsError) => next(hlsError || nativeError));
           return;
@@ -157,11 +177,12 @@ export function createPlayer(videoEl, {
     const fail = (error) => {
       if (failed || session !== playSession) return;
       failed = true;
-      cleanupPlayback();
+      if (error?.name === 'NotAllowedError') clearStartupTimeout();
+      else cleanupPlayback();
       onFailure(error);
     };
 
-    hls = new HlsCtor();
+    hls = new HlsCtor({ startLevel: -1, capLevelToPlayerSize: true, maxBufferLength: 30 });
     hls.on(HlsCtor.Events.ERROR, (_event, data) => {
       if (!data || !data.fatal) return;
 
@@ -181,6 +202,11 @@ export function createPlayer(videoEl, {
     });
     hls.on(HlsCtor.Events.MANIFEST_PARSED, () => {
       if (suspended) return;
+      if (quality === 'data-saver' && hls.levels?.length) {
+        const eligible = hls.levels.map((level, index) => ({ level, index }))
+          .filter(({ level }) => level.height > 0 && level.height <= 480);
+        hls.autoLevelCapping = eligible.length ? eligible[eligible.length - 1].index : 0;
+      }
       videoEl.play().catch(fail);
     });
     hls.loadSource(url);

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 42,
-  "versionName": "1.6.15",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.15.apk",
-  "sha256": "82FDA4806D537245D9C35C39EDC888257B56733DE48BEF980ABC2160276B875A",
-  "releaseNotes": "Adds English Nat Geo Wild at 576p alongside National Geographic. Both channels are in Wildlife. Preserves channel-list position and compact dark loading screen.",
-  "publishedAt": "2026-10-03T09:34:49.3538437Z"
+  "versionCode": 43,
+  "versionName": "1.6.16",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.16.apk",
+  "sha256": "73DC35275695E59D2690C9FE09E4591E50BE5FB8A37E8BCA70927B5DD2106B41",
+  "releaseNotes": "Live Channels, Movies and Shows with subcategories. One entry per channel quality family, Auto and Data saver playback. Clear recovery for browser autoplay restrictions, 30-second startup tolerance, and Retry. On-demand sections populate only from a playlist containing titles.",
+  "publishedAt": "2026-10-03T20:47:29.6134093Z"
 }

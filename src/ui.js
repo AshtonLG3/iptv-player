@@ -1,5 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261003d';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261003d';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261003e';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261003e';
+import { getMediaSection } from './catalog.js?v=20261003e';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -132,6 +133,7 @@ export function getCategoryNames(category) {
 
 export function getContentCategory(channel) {
   const sourceCategories = getCategoryNames(channel?.category);
+  if (getMediaSection(channel) !== 'live') return sourceCategories[0] || 'General';
   if (sourceCategories.some((category) => category === 'Sports' || category === 'Cue Sports')) {
     return 'Sports';
   }
@@ -155,11 +157,13 @@ export function filterChannelsForUi(
     hideGeoBlocked = false,
     favoritesOnly = false,
     isFavorite = () => false,
+    mediaSection = '',
   } = {},
 ) {
   const normalizedSearch = search.trim().toLowerCase();
 
   return channels.filter((channel) => {
+    if (mediaSection && getMediaSection(channel) !== mediaSection) return false;
     if (normalizedSearch && !channel.name.toLowerCase().includes(normalizedSearch)) return false;
     if (country && channel.country !== country) return false;
     if (!channelMatchesCategory(channel, category)) return false;
@@ -178,6 +182,7 @@ export function renderApp({
   onSelectChannel,
   onVisibleChannelsChange = null,
   onMenuOpenChange = null,
+  qualityApi = null,
 }) {
   root.innerHTML = `
     <aside class="sidebar">
@@ -208,6 +213,13 @@ export function renderApp({
               <select id="theme-select">
                 <option value="dark">Dark</option>
                 <option value="light">Light</option>
+              </select>
+            </label>
+            <label class="theme-control" for="quality-select">
+              <span>Playback quality</span>
+              <select id="quality-select">
+                <option value="auto">Auto (adapts to connection)</option>
+                <option value="data-saver">Data saver (up to 480p when available)</option>
               </select>
             </label>
             <a class="menu-download-link browser-download-link" download href="downloads/rugare-tv.apk">
@@ -256,7 +268,12 @@ export function renderApp({
           />
           <button id="search-clear" class="channel-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
         </div>
-        <div id="category-strip" class="category-strip" aria-label="Quick categories"></div>
+        <nav id="media-sections" class="media-sections" aria-label="Library">
+          <button type="button" data-section="live" aria-pressed="true">Live Channels</button>
+          <button type="button" data-section="movie" aria-pressed="false">Movies</button>
+          <button type="button" data-section="show" aria-pressed="false">Shows</button>
+        </nav>
+        <div id="category-strip" class="category-strip" aria-label="Subcategories"></div>
         <p class="remote-browse-hint">← Categories · ↑ Apps · Back to channels</p>
       </section>
       <ul id="channel-list"></ul>
@@ -281,6 +298,11 @@ export function renderApp({
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
   const categoryStrip = root.querySelector('#category-strip');
+  const sectionNav = root.querySelector('#media-sections');
+  let mediaSection = 'live';
+  const qualitySelect = root.querySelector('#quality-select');
+  qualitySelect.value = qualityApi?.get() || 'auto';
+  qualitySelect.addEventListener('change', () => qualityApi?.set(qualitySelect.value));
   const channelListTitle = root.querySelector('#channel-list-title');
   const channelCount = root.querySelector('#channel-count');
   const listEl = root.querySelector('#channel-list');
@@ -316,16 +338,37 @@ export function renderApp({
     countrySelect.appendChild(opt);
   }
 
-  const availableCategories = new Set(channels.map((channel) => getContentCategory(channel)));
-  const categories = CONTENT_CATEGORIES.filter((category) => availableCategories.has(category));
-  for (const category of categories) {
-    const opt = document.createElement('option');
-    opt.value = category;
-    opt.textContent = category;
-    categorySelect.appendChild(opt);
+  let categories = [];
+  function updateCategories() {
+    const available = new Set(channels.filter((channel) => getMediaSection(channel) === mediaSection)
+      .map((channel) => getContentCategory(channel)));
+    categories = mediaSection === 'live'
+      ? CONTENT_CATEGORIES.filter((category) => available.has(category)) : [...available].sort();
+    categorySelect.replaceChildren();
+    const all = document.createElement('option');
+    all.value = '';
+    all.textContent = 'All subcategories';
+    categorySelect.appendChild(all);
+    for (const category of categories) {
+      const opt = document.createElement('option');
+      opt.value = category;
+      opt.textContent = category;
+      categorySelect.appendChild(opt);
+    }
+    renderCategoryStrip();
   }
-
-  renderCategoryStrip();
+  updateCategories();
+  sectionNav.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-section]');
+    if (!button) return;
+    mediaSection = button.dataset.section;
+    searchBox.value = '';
+    for (const item of sectionNav.querySelectorAll('button')) {
+      item.setAttribute('aria-pressed', String(item === button));
+    }
+    updateCategories();
+    applyFilters();
+  });
 
   if (playlistAccessApi) {
     renderPlaylistAccess();
@@ -339,6 +382,7 @@ export function renderApp({
     }
     const listHadFocus = listEl.contains(document.activeElement);
     const filters = {
+      mediaSection,
       search: searchBox.value,
       country: countrySelect.value,
       category: categorySelect.value,
@@ -364,7 +408,7 @@ export function renderApp({
     }
 
     const nextBrowseKey = JSON.stringify([
-      filters.search, countrySelect.value, filters.category,
+      mediaSection, filters.search, countrySelect.value, filters.category,
       filters.hideGeoBlocked, filters.favoritesOnly,
     ]);
     const position = browsePositions.get(nextBrowseKey);
@@ -376,7 +420,7 @@ export function renderApp({
     syncCategoryStrip();
     channelListTitle.textContent = filters.search.trim()
       ? 'Search results'
-      : filters.category || (filters.favoritesOnly ? 'Favorites' : 'All channels');
+      : filters.category || (filters.favoritesOnly ? 'Favorites' : { live: 'Live Channels', movie: 'Movies', show: 'Shows' }[mediaSection]);
     channelCount.textContent = visibleChannels.length < filtered.length
       ? `${visibleChannels.length} of ${filtered.length}`
       : String(filtered.length);
@@ -402,7 +446,9 @@ export function renderApp({
     if (list.length === 0) {
       const emptyItem = document.createElement('li');
       emptyItem.className = 'empty-state';
-      emptyItem.textContent = 'No channels found for this filter.';
+      emptyItem.textContent = channels.some((channel) => getMediaSection(channel) === mediaSection)
+        ? 'No titles match these filters.'
+        : `No ${mediaSection === 'movie' ? 'on-demand movies' : mediaSection === 'show' ? 'shows' : 'live channels'} are supplied by the current playlist.`;
       listEl.appendChild(emptyItem);
       return;
     }
@@ -582,7 +628,7 @@ export function renderApp({
   }
 
   function getCategoryButtons() {
-    return [...categoryStrip.querySelectorAll('.category-chip')];
+    return [...sectionNav.querySelectorAll('button'), ...categoryStrip.querySelectorAll('.category-chip')];
   }
 
   function focusCategory() {

@@ -232,3 +232,5 @@ fallback.
 Requires Node 18+.
 
     npm test
+
+Release 1.6.16 adds Live Channels, Movies and Shows with section-specific subcategories. Linear movie channels stay in Live Channels; on-demand items are recognized from explicit media type, positive duration, direct video files or series groups. Quality variants share one entry. Auto keeps adaptive quality; Data saver tries the lowest labelled source first and caps HLS at 480p where available (otherwise the lowest rendition). Fixed high-resolution sources cannot be transcoded by this app. Startup allows 30 seconds per attempt. Browser autoplay interruptions, HTTP restrictions, provider failures and decoding failures have recovery messages and a Retry action.

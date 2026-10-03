@@ -12,7 +12,8 @@ class FakeHls {
     return FakeHls.supported;
   }
 
-  constructor() {
+  constructor(config) {
+    this.config = config;
     this.handlers = {};
     this.loadSourceCalls = [];
     this.attachMediaCalls = [];
@@ -50,6 +51,36 @@ class FakeHls {
     this.handlers[event]?.(null, data);
   }
 }
+
+test('data saver uses adaptive HLS and caps available renditions at 480p', () => {
+  FakeHls.supported = true;
+  FakeHls.instances = [];
+  const video = createFakeVideo({ canPlayHls: true });
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+  player.play('https://example.com/master.m3u8', { quality: 'data-saver' });
+  const hls = FakeHls.instances[0];
+  hls.levels = [{ height: 360 }, { height: 480 }, { height: 720 }, { height: 1080 }];
+  hls.trigger('manifest_parsed');
+  assert.equal(hls.autoLevelCapping, 1);
+  assert.equal(hls.config.startLevel, -1);
+  player.destroy();
+});
+
+test('autoplay rejection preserves the stream and does not cycle through backups', async () => {
+  FakeHls.supported = true;
+  FakeHls.instances = [];
+  const video = createFakeVideo({ canPlayHls: true });
+  video.play = () => Promise.reject(Object.assign(new Error('Gesture required'), { name: 'NotAllowedError' }));
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+  let error;
+  player.onError((value) => { error = value; });
+  player.play(['https://example.com/first.m3u8', 'https://example.com/backup.m3u8']);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(error.name, 'NotAllowedError');
+  assert.equal(video.src, 'https://example.com/first.m3u8');
+  assert.equal(FakeHls.instances.length, 0);
+  player.destroy();
+});
 
 function createFakeVideo({ canPlayHls = false, playResolves = true } = {}) {
   const errorListeners = [];

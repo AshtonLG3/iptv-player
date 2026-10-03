@@ -1,31 +1,32 @@
-import * as playlistModule from './src/playlist.js?v=20261003d';
+import * as playlistModule from './src/playlist.js?v=20261003e';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261003e';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261003d';
+} from './src/constants.js?v=20261003e';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261003d';
+} from './src/playlistAccess.js?v=20261003e';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261003d';
-import { createPlayer } from './src/player.js?v=20261003d';
-import { createFullscreenController } from './src/fullscreen.js?v=20261003d';
+} from './src/ui.js?v=20261003e';
+import { createPlayer } from './src/player.js?v=20261003e';
+import { createFullscreenController } from './src/fullscreen.js?v=20261003e';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261003d';
-import { updateMediaSession } from './src/mediaSession.js?v=20261003d';
+} from './src/channelRoute.js?v=20261003e';
+import { updateMediaSession } from './src/mediaSession.js?v=20261003e';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -35,7 +36,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261003d';
+} from './src/tvRemote.js?v=20261003e';
 import {
   getTheme,
   isFavorite,
@@ -43,7 +44,7 @@ import {
   toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261003d';
+} from './src/storage.js?v=20261003e';
 
 const {
   clearPrivatePlaylist,
@@ -409,6 +410,13 @@ async function main() {
   });
 
   const player = createPlayer(videoEl);
+  const qualityApi = {
+    get: () => window.localStorage.getItem('rugare:quality') === 'data-saver' ? 'data-saver' : 'auto',
+    set: (value) => {
+      window.localStorage.setItem('rugare:quality', value);
+      if (currentChannel) selectChannel(currentChannel);
+    },
+  };
   player.onError((err) => {
     renderPlayerError(err);
     statusEl.hidden = false;
@@ -464,10 +472,16 @@ async function main() {
   }
 
   function renderPlayerError(err) {
-    updatePlaybackLabel('Unavailable');
-    showPlayerPlaceholder('Channel unavailable');
+    const needsGesture = err?.name === 'NotAllowedError';
+    updatePlaybackLabel(needsGesture ? 'Ready' : 'Unavailable');
+    showPlayerPlaceholder(needsGesture ? 'Press Play to start' : 'Channel unavailable');
     statusEl.textContent = '';
-    statusEl.append(document.createTextNode(`Can't play this channel: ${err.message}`));
+    statusEl.append(document.createTextNode(describePlaybackError(err)));
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.textContent = 'Retry';
+    retry.addEventListener('click', () => { if (currentChannel) selectChannel(currentChannel); });
+    statusEl.append(document.createTextNode(' '), retry);
 
     const fallback = getOfficialFallback(currentChannel);
     if (!fallback) return;
@@ -555,6 +569,7 @@ async function main() {
   function selectChannel(channel, { historyMode = 'push' } = {}) {
     player.suspend();
     currentChannel = channel;
+    videoEl.controls = getMediaSection(channel) !== 'live';
     currentChannelHasPlayed = false;
     statusEl.hidden = true;
     showPlayerPlaceholder(`Loading ${channel.name.replace(/\s*\(\d{3,4}[pi]\)\s*$/i, '')}…`);
@@ -573,7 +588,7 @@ async function main() {
 
     clearTimeout(channelTuneTimer);
     const startPlayback = () => {
-      player.play([channel.url, ...(channel.backupUrls || [])]);
+      player.play(getPlaybackSources(channel, qualityApi.get()), { quality: qualityApi.get() });
       syncMediaSession(true);
     };
     if (isTvMode) {
@@ -891,18 +906,31 @@ async function main() {
     root.textContent = 'Loading channels...';
 
     try {
-      const channels = await loadChannels({
+      const channels = groupChannelVariants(await loadChannels({
         fetchImpl: window.fetch.bind(window),
         sessionStore: window.sessionStorage,
         privateStore: androidDeviceBridge ? window.localStorage : null,
-      });
+      }));
       channelRoutes = createChannelRouteIndex(channels);
+      // Keep stars saved against an older quality variant visible after grouping.
+      for (const channel of channels) {
+        if (!isFavorite(window.localStorage, channel.url)
+          && channel.variants.some((variant) => isFavorite(window.localStorage, variant.url))) {
+          toggleFavorite(window.localStorage, channel.url);
+        }
+        for (const variant of channel.variants) {
+          if (variant.url !== channel.url && isFavorite(window.localStorage, variant.url)) {
+            toggleFavorite(window.localStorage, variant.url);
+          }
+        }
+      }
 
       appView = renderApp({
         root,
         channels,
         favoritesApi,
         themeApi,
+        qualityApi,
         playlistAccessApi,
         onSelectChannel: selectChannel,
         onVisibleChannelsChange: setVisibleChannels,
@@ -942,7 +970,7 @@ async function main() {
       }
 
       const lastWatchedUrl = getLastWatched(window.localStorage);
-      const lastChannel = channels.find((c) => c.url === lastWatchedUrl);
+      const lastChannel = channels.find((c) => c.variants.some((variant) => variant.url === lastWatchedUrl));
       if (lastChannel) {
         selectChannel(lastChannel, { historyMode: 'replace' });
         window.requestAnimationFrame(() => appView?.scrollToChannel(lastChannel.url));
@@ -1003,6 +1031,7 @@ async function main() {
     navigateChannelFromButton(event, 1);
   });
   videoEl.addEventListener('playing', () => {
+    statusEl.hidden = true;
     updatePlaybackLabel('Now playing');
     syncMediaSession(true);
     updatePlayPauseButton();
