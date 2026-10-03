@@ -1189,10 +1189,20 @@ html.tv-mode #player-status {
 
 .player-placeholder-logo {
   display: block;
-  height: clamp(64px, 20vw, 130px);
-  object-fit: cover;
+  height: 58px;
+  object-fit: contain;
   object-position: center;
-  width: min(78%, 520px);
+  width: min(55%, 240px);
+}
+
+.player-frame.awaiting-media #video {
+  visibility: hidden;
+}
+
+#video::-webkit-media-controls,
+#video::-webkit-media-controls-enclosure,
+#video::-webkit-media-controls-panel {
+  display: none !important;
 }
 
 #player-placeholder-label {
@@ -2166,6 +2176,14 @@ html.tv-mode .channel-browser-header {
 
 html.tv-mode .category-strip {
   padding-bottom: 0.45rem;
+}
+
+.remote-browse-hint { display: none; }
+html.tv-mode .remote-browse-hint {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+  margin: 0.15rem 0;
 }
 
 html.tv-mode .category-chip:focus-visible {

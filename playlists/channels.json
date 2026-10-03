@@ -11269,7 +11269,8 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "2026-10-03: media reachable, but MPEG-2 video and MP2 audio are unsupported by the embedded web player. Replaced by verified English India feed.",
+      "status": "disabled"
     },
     {
       "id": "NationalGeographicWild.us@HDEast",
@@ -11285,7 +11286,8 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "2026-10-03: MPEG-2 video and MP2 audio unsupported by embedded web player; no verified English compatible replacement found.",
+      "status": "disabled"
     },
     {
       "id": "NatureTime.ca@AU",
@@ -18922,6 +18924,23 @@
         "main"
       ],
       "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+    },
+    {
+      "id": "NationalGeographic.in@English",
+      "name": "National Geographic (India, English) (576p)",
+      "group": "Documentary",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Natgeologo.svg/960px-Natgeologo.svg.png",
+      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
+      "languages": [
+        "eng"
+      ],
+      "primaryUrl": "http://51.75.127.199:3141/natgeo/tracks-v1a1/mono.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "Selected English H.264/AAC rendition from India SD feed; master explicitly identifies a1 as eng, and ffprobe confirms eng audio. Avoid Hindi HD feed. HTTP source may be blocked on HTTPS web player; Android allows this stream.",
+      "status": "active"
     }
   ]
 }

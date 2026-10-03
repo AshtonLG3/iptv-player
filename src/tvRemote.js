@@ -111,6 +111,7 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
   if (direction === 'left') {
     if (currentPanel === 'none') return 'channels';
     if (currentPanel === 'settings') return 'none';
+    if (currentPanel === 'channels') return 'categories';
     return currentPanel;
   }
 

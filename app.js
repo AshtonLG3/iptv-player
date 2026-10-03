@@ -1,31 +1,31 @@
-import * as playlistModule from './src/playlist.js?v=20261003a';
+import * as playlistModule from './src/playlist.js?v=20261003b';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261003a';
+} from './src/constants.js?v=20261003b';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261003a';
+} from './src/playlistAccess.js?v=20261003b';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261003a';
-import { createPlayer } from './src/player.js?v=20261003a';
-import { createFullscreenController } from './src/fullscreen.js?v=20261003a';
+} from './src/ui.js?v=20261003b';
+import { createPlayer } from './src/player.js?v=20261003b';
+import { createFullscreenController } from './src/fullscreen.js?v=20261003b';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261003a';
-import { updateMediaSession } from './src/mediaSession.js?v=20261003a';
+} from './src/channelRoute.js?v=20261003b';
+import { updateMediaSession } from './src/mediaSession.js?v=20261003b';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -35,7 +35,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261003a';
+} from './src/tvRemote.js?v=20261003b';
 import {
   getTheme,
   isFavorite,
@@ -43,7 +43,7 @@ import {
   toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261003a';
+} from './src/storage.js?v=20261003b';
 
 const {
   clearPrivatePlaylist,
@@ -418,11 +418,15 @@ async function main() {
     clearTimeout(playerPlaceholderTimer);
     playerPlaceholderLabel.textContent = label;
     playerPlaceholderEl.hidden = false;
+    playerFrameEl.classList.add('awaiting-media');
   }
+
+  window.__ftaIptvTvReturnToChannels = () => setTvPanel('channels');
 
   function hidePlayerPlaceholder() {
     clearTimeout(playerPlaceholderTimer);
     playerPlaceholderEl.hidden = true;
+    playerFrameEl.classList.remove('awaiting-media');
   }
 
   function scheduleWaitingPlaceholder() {
@@ -439,8 +443,6 @@ async function main() {
     hidePlayerPlaceholder();
   }
 
-  videoEl.addEventListener('loadeddata', markCurrentChannelMediaReady);
-  videoEl.addEventListener('canplay', markCurrentChannelMediaReady);
   videoEl.addEventListener('playing', markCurrentChannelMediaReady);
   videoEl.addEventListener('timeupdate', () => {
     if (!videoEl.paused && videoEl.currentTime > 0) markCurrentChannelMediaReady();
@@ -801,7 +803,7 @@ async function main() {
       }
       if (key === 'Escape' || key === 'BrowserBack') {
         event.preventDefault();
-        setTvPanel('none');
+        setTvPanel('channels');
         return;
       }
     }
@@ -817,7 +819,12 @@ async function main() {
         setTvPanel(getTvVerticalPanelAction(tvPanel, 'down'));
         return;
       }
-      if (key === 'ArrowUp' || key === 'Escape' || key === 'BrowserBack') {
+      if (key === 'Escape' || key === 'BrowserBack') {
+        event.preventDefault();
+        setTvPanel('channels');
+        return;
+      }
+      if (key === 'ArrowUp') {
         event.preventDefault();
         setTvPanel('none');
         return;

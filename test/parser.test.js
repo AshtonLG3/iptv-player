@@ -2,6 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parseM3U, extractCountryCode, filterByFtaCountries } from '../src/parser.js';
 
+test('parseM3U preserves channel-name commas while ignoring commas inside quoted attributes', () => {
+  const channels = parseM3U('#EXTM3U\n#EXTINF:-1 group-title="News,Documentary",National Geographic (India, English)\nhttp://example.com/live.m3u8');
+  assert.equal(channels[0].name, 'National Geographic (India, English)');
+  assert.equal(channels[0].category, 'News,Documentary');
+});
+
 const SAMPLE = `#EXTM3U
 #EXTINF:-1 tvg-id="NBC1.na@SD" tvg-logo="https://example.com/nbc.png" group-title="General",NBC1 (720p)
 https://example.com/nbc1.m3u8

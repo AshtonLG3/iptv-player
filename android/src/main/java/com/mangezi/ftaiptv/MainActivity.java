@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaMetadata;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
@@ -113,6 +115,13 @@ public final class MainActivity extends Activity {
         }
 
         webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public Bitmap getDefaultVideoPoster() {
+                Bitmap poster = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+                poster.eraseColor(Color.BLACK);
+                return poster;
+            }
+
             @Override
             public boolean onShowFileChooser(
                     WebView view,
@@ -306,7 +315,7 @@ public final class MainActivity extends Activity {
                 }
                 if ("settings".equals(tvPanelState)) {
                     evaluatePlayerCommand("__ftaIptvTvClosePanel");
-                } else if ("none".equals(tvPanelState)) {
+                } else if ("none".equals(tvPanelState) || "channels".equals(tvPanelState)) {
                     evaluatePlayerCommand("__ftaIptvTvLeft");
                 }
                 return true;
@@ -790,6 +799,11 @@ public final class MainActivity extends Activity {
     @Override
     public void onBackPressed() {
         if (isTelevisionDevice && tvPanelOpen) {
+            if ("categories".equals(tvPanelState) || "channel-services".equals(tvPanelState)) {
+                tvPanelState = "channels";
+                evaluatePlayerCommand("__ftaIptvTvReturnToChannels");
+                return;
+            }
             tvPanelOpen = false;
             tvPanelState = "none";
             evaluatePlayerCommand("__ftaIptvTvClosePanel");

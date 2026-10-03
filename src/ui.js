@@ -1,5 +1,5 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261003a';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261003a';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261003b';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261003b';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -21,7 +21,7 @@ const CONTENT_CATEGORY_RULES = [
   ['Wildlife', /\b(bbc earth|wild(?:earth| nature| tv)?|nature time|adventure earth|animal|zoo|safari)\b/i],
   ['Kids', /\b(kids?|moonbug|teletubbies|tiny pop|cartoons?|toon|baby|junior)\b/i],
   ['Music', /\b(afrobeats?|music|rock|concerts?|dance|trace uk|totalmusic)\b|that's (?:70s|80s)/i],
-  ['Documentary', /\b(history|true crime|jail|wonder|space live|documentar|bloomberg originals)\b/i],
+  ['Documentary', /\b(history|true crime|jail|wonder|space live|documentar|national geographic|nat geo|bloomberg originals)\b/i],
   ['Lifestyle', /\b(travel|top gear|hobby maker|gems tv|qvc|horse & country|english club|food|cook|home|garden|fashion|health|fitness)\b/i],
   ['Entertainment', /\b(ent channel|mr bean|graham norton|chat show|pop|competition|game show|reality|comedy)\b/i],
 ];
@@ -257,6 +257,7 @@ export function renderApp({
           <button id="search-clear" class="channel-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
         </div>
         <div id="category-strip" class="category-strip" aria-label="Quick categories"></div>
+        <p class="remote-browse-hint">← Categories · ↑ Apps · Back to channels</p>
       </section>
       <ul id="channel-list"></ul>
     </aside>
@@ -288,6 +289,12 @@ export function renderApp({
   let lastFocusedChannelUrl = null;
   let visibleChannels = [];
   let renderLimit = MAX_RENDERED_CHANNELS;
+  const browsePositions = new Map();
+  let activeBrowseKey = null;
+  listEl.addEventListener('focusin', (event) => {
+    const url = event.target.closest('.channel-item')?.dataset.channelUrl;
+    if (url) lastFocusedChannelUrl = url;
+  });
 
   let canCheckForUpdates = false;
   try {
@@ -325,7 +332,12 @@ export function renderApp({
   }
 
   function applyFilters({ relaxCountryWhenCategoryEmpty = false, keepRenderLimit = false } = {}) {
-    if (!keepRenderLimit) renderLimit = MAX_RENDERED_CHANNELS;
+    if (activeBrowseKey !== null) {
+      browsePositions.set(activeBrowseKey, {
+        renderLimit, scrollTop: listEl.scrollTop, url: lastFocusedChannelUrl,
+      });
+    }
+    const listHadFocus = listEl.contains(document.activeElement);
     const filters = {
       search: searchBox.value,
       country: countrySelect.value,
@@ -351,6 +363,14 @@ export function renderApp({
       }
     }
 
+    const nextBrowseKey = JSON.stringify([
+      filters.search, countrySelect.value, filters.category,
+      filters.hideGeoBlocked, filters.favoritesOnly,
+    ]);
+    const position = browsePositions.get(nextBrowseKey);
+    if (!keepRenderLimit) renderLimit = position?.renderLimit || MAX_RENDERED_CHANNELS;
+    lastFocusedChannelUrl = position?.url || null;
+    activeBrowseKey = nextBrowseKey;
     visibleChannels = limitChannelsForRendering(filtered, renderLimit);
     searchClearButton.hidden = !filters.search.trim();
     syncCategoryStrip();
@@ -361,6 +381,8 @@ export function renderApp({
       ? `${visibleChannels.length} of ${filtered.length}`
       : String(filtered.length);
     renderList(visibleChannels, filtered.length);
+    listEl.scrollTop = position?.scrollTop || 0;
+    if (listHadFocus && lastFocusedChannelUrl) focusChannel(lastFocusedChannelUrl);
     onVisibleChannelsChange?.(visibleChannels);
   }
 
@@ -376,9 +398,6 @@ export function renderApp({
   }
 
   function renderList(list, totalCount = list.length) {
-    const focusedChannelUrl = document.activeElement
-      ?.closest?.('.channel-item')
-      ?.dataset.channelUrl;
     listEl.innerHTML = '';
     if (list.length === 0) {
       const emptyItem = document.createElement('li');
@@ -479,7 +498,6 @@ export function renderApp({
       listEl.appendChild(moreItem);
     }
     updateNowPlayingMarkers();
-    if (focusedChannelUrl) focusChannel(focusedChannelUrl);
   }
 
   function updateNowPlayingMarkers() {

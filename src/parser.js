@@ -1,4 +1,4 @@
-import { FTA_COUNTRIES } from './constants.js?v=20261003a';
+import { FTA_COUNTRIES } from './constants.js?v=20261003b';
 
 export function extractCountryCode(tvgId) {
   if (!tvgId) return null;
@@ -15,8 +15,15 @@ function parseExtinfLine(line) {
   while ((match = attrRegex.exec(line)) !== null) {
     attrs[match[1]] = match[2];
   }
-  const nameMatch = line.match(/,([^,]*)$/);
-  const name = nameMatch ? nameMatch[1].trim() : '';
+  let quoted = false;
+  let name = '';
+  for (let index = 0; index < line.length; index += 1) {
+    if (line[index] === '"') quoted = !quoted;
+    if (line[index] === ',' && !quoted) {
+      name = line.slice(index + 1).trim();
+      break;
+    }
+  }
   return { attrs, name };
 }
 

@@ -62,7 +62,7 @@ test('getGlobalTvRemoteAction keeps horizontal remote directions distinct', () =
 
 test('getTvHorizontalPanelAction opens and exits side panels without looping', () => {
   assert.equal(getTvHorizontalPanelAction('none', 'left'), 'channels');
-  assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'categories');
   assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
   assert.equal(getTvHorizontalPanelAction('none', 'right'), 'settings');
   assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'settings');

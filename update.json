@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 39,
-  "versionName": "1.6.12",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.12.apk",
-  "sha256": "54942BE2F301E0C78863766C85737D4A4E3EB1B82E76D784C60EEA2F2464066C",
-  "releaseNotes": "Removes FanCode. Expands the English lineup with the USA/UK regional exclusion retained, repairs failing feeds, carries backup sources, and adds startup timeouts and browse-more controls. Includes a bundled HLS player and dark/light themes.",
-  "publishedAt": "2026-10-03T06:59:42.3534418+00:00"
+  "versionCode": 40,
+  "versionName": "1.6.13",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.13.apk",
+  "sha256": "DF34053178E5AD6A88DD3A5B732788243E573396AA0EFF1B751BBDE0700B80D3",
+  "releaseNotes": "Preserves deep channel-list position across categories and apps. Left opens categories, Up opens apps, Back returns to the saved channel. Compact loading screen and plain black Android video poster. Replaces incompatible National Geographic USA with a verified English India SD H.264/AAC feed.",
+  "publishedAt": "2026-10-03T09:00:22.1437755Z"
 }

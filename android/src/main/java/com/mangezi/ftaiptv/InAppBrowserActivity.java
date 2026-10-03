@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -343,6 +344,13 @@ public final class InAppBrowserActivity extends Activity {
     }
 
     private final class BrowserChromeClient extends WebChromeClient {
+        @Override
+        public Bitmap getDefaultVideoPoster() {
+            Bitmap poster = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+            poster.eraseColor(Color.BLACK);
+            return poster;
+        }
+
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             progressBar.setProgress(newProgress);
