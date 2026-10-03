@@ -18928,7 +18928,7 @@
     {
       "id": "NationalGeographic.in@English",
       "name": "National Geographic (India, English) (576p)",
-      "group": "Documentary",
+      "group": "Wildlife",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Natgeologo.svg/960px-Natgeologo.svg.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
       "languages": [
@@ -18945,7 +18945,7 @@
     {
       "id": "NationalGeographicWild.in@English",
       "name": "Nat Geo Wild (India, English) (576p)",
-      "group": "Documentary",
+      "group": "Wildlife",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/National_Geographic_Wild_logo.svg/960px-National_Geographic_Wild_logo.svg.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
       "languages": [

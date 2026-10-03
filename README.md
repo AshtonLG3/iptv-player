@@ -153,7 +153,7 @@ generic TV-box browsers can enter the same remote-first Rugare layout.
 
 Release 1.6.13 remembers each browse filter's expanded range, scroll position and focused channel. On TV, Left from any channel opens categories, Up reaches apps, and Back returns to the saved channel. The loading surface stays compact and covers the native poster until playback starts; Android uses a plain black poster.
 
-National Geographic USA and Wild USA were withdrawn after codec checks found MPEG-2/MP2 media unsupported in the embedded player. National Geographic India SD replaces USA with its explicitly selected English H.264/AAC rendition. No usable English UK/Canada replacement was verified; the India HD feed is Hindi and is excluded. Release 1.6.14 also adds the separate English Nat Geo Wild India feed at 576p, preserving National Geographic. These replacements use HTTP and may be blocked by HTTPS browsers; Android permits HTTP playback.
+National Geographic USA and Wild USA were withdrawn after codec checks found MPEG-2/MP2 media unsupported in the embedded player. National Geographic India SD replaces USA with its explicitly selected English H.264/AAC rendition. No usable English UK/Canada replacement was verified; the India HD feed is Hindi and is excluded. Release 1.6.15 places both feeds under Wildlife and adds the separate English Nat Geo Wild India feed at 576p, preserving National Geographic. These replacements use HTTP and may be blocked by HTTPS browsers; Android permits HTTP playback.
 
 Release 1.6.12 removes the FanCode shortcut and expands the English lineup worldwide.
 The USA/UK local and regional channel exception remains. Other region and genre

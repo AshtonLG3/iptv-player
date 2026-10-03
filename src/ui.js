@@ -1,5 +1,5 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261003c';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261003c';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261003d';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261003d';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -18,7 +18,7 @@ export const MAX_RENDERED_CHANNELS = 500;
 const CONTENT_CATEGORY_RULES = [
   ['News', /\b(news|newsy|newsmax|newsnet|cnbc|bloomberg|al jazeera|france 24|talktv|ln24sa|k24|africanews|tv brics|knbc|wxii|ksnv|kcra|kob|ksby|lehae)\b/i],
   ['Movies', /(movie|film|cinema|flix|romance)/i],
-  ['Wildlife', /\b(bbc earth|wild(?:earth| nature| tv)?|nature time|adventure earth|animal|zoo|safari)\b/i],
+  ['Wildlife', /\b(national geographic|nat geo|bbc earth|wild(?:earth| nature| tv)?|nature time|adventure earth|animal|zoo|safari)\b/i],
   ['Kids', /\b(kids?|moonbug|teletubbies|tiny pop|cartoons?|toon|baby|junior)\b/i],
   ['Music', /\b(afrobeats?|music|rock|concerts?|dance|trace uk|totalmusic)\b|that's (?:70s|80s)/i],
   ['Documentary', /\b(history|true crime|jail|wonder|space live|documentar|national geographic|nat geo|bloomberg originals)\b/i],

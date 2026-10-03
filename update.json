@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 41,
-  "versionName": "1.6.14",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.14.apk",
-  "sha256": "7C2D4CF1C5F776C95E705162E2A51B106C4A06A28D211E6717BDBE0DE995A918",
-  "releaseNotes": "Adds Nat Geo Wild (India, English) at 576p alongside National Geographic. Both are separate English H.264/AAC feeds; navigation and appearance improvements retained.",
-  "publishedAt": "2026-10-03T09:28:54.6803274Z"
+  "versionCode": 42,
+  "versionName": "1.6.15",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.15.apk",
+  "sha256": "82FDA4806D537245D9C35C39EDC888257B56733DE48BEF980ABC2160276B875A",
+  "releaseNotes": "Adds English Nat Geo Wild at 576p alongside National Geographic. Both channels are in Wildlife. Preserves channel-list position and compact dark loading screen.",
+  "publishedAt": "2026-10-03T09:34:49.3538437Z"
 }
