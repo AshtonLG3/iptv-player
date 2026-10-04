@@ -2,6 +2,36 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createPlayer } from '../src/player.js';
 
+test('Android delegates sources, title and quality without starting browser playback', async () => {
+  const calls = [];
+  const video = createFakeVideo();
+  const player = createPlayer(video, {
+    HlsCtor: FakeHls,
+    androidBridge: { playChannel: (...args) => calls.push(args) },
+  });
+  player.play(['http://example.com/live.m3u8', 'https://example.com/backup.m3u8'],
+    { title: 'Pluto TV', quality: 'data-saver' });
+  assert.deepEqual(JSON.parse(calls[0][0]), ['http://example.com/live.m3u8', 'https://example.com/backup.m3u8']);
+  assert.deepEqual(calls[0].slice(1), ['Pluto TV', 'data-saver']);
+  assert.equal(video.playCalls, 0);
+  player.suspend();
+  assert.equal(calls.length, 1);
+  await player.resume();
+  assert.equal(calls.length, 2);
+  player.destroy();
+});
+
+test('Android bridge failures report the error without launching browser requests', () => {
+  const video = createFakeVideo();
+  const player = createPlayer(video, { androidBridge: { playChannel: () => { throw new Error('Launch failed'); } } });
+  let error;
+  player.onError(value => { error = value; });
+  player.play('https://example.com/live.m3u8');
+  assert.equal(error.message, 'Launch failed');
+  assert.equal(video.playCalls, 0);
+  player.destroy();
+});
+
 class FakeHls {
   static supported = true;
   static Events = { ERROR: 'error', MANIFEST_PARSED: 'manifest_parsed' };

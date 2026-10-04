@@ -1,32 +1,32 @@
-import * as playlistModule from './src/playlist.js?v=20261003f';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261003f';
+import * as playlistModule from './src/playlist.js?v=20261004a';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261004a';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261003f';
+} from './src/constants.js?v=20261004a';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261003f';
+} from './src/playlistAccess.js?v=20261004a';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261003f';
-import { createPlayer } from './src/player.js?v=20261003f';
-import { createFullscreenController } from './src/fullscreen.js?v=20261003f';
+} from './src/ui.js?v=20261004a';
+import { createPlayer } from './src/player.js?v=20261004a';
+import { createFullscreenController } from './src/fullscreen.js?v=20261004a';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261003f';
-import { updateMediaSession } from './src/mediaSession.js?v=20261003f';
+} from './src/channelRoute.js?v=20261004a';
+import { updateMediaSession } from './src/mediaSession.js?v=20261004a';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -36,7 +36,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261003f';
+} from './src/tvRemote.js?v=20261004a';
 import {
   getTheme,
   isFavorite,
@@ -44,7 +44,7 @@ import {
   toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261003f';
+} from './src/storage.js?v=20261004a';
 
 const {
   clearPrivatePlaylist,
@@ -103,6 +103,8 @@ async function main() {
   let tvPanel = 'none';
   let syncingTvPanel = false;
   const androidDeviceBridge = globalThis.AndroidDevice;
+  const usesNativeChannelPlayer = typeof androidDeviceBridge?.playChannel === 'function';
+  if (usesNativeChannelPlayer) fullscreenToggle.hidden = true;
   let isTvMode = detectTelevision({
     bridge: androidDeviceBridge,
     userAgent: navigator.userAgent,
@@ -588,8 +590,14 @@ async function main() {
 
     clearTimeout(channelTuneTimer);
     const startPlayback = () => {
-      player.play(getPlaybackSources(channel, qualityApi.get()), { quality: qualityApi.get() });
-      syncMediaSession(true);
+      player.play(getPlaybackSources(channel, qualityApi.get()), { quality: qualityApi.get(), title: channel.name });
+      if (usesNativeChannelPlayer) {
+        showPlayerPlaceholder('Press Play to open this channel');
+        updatePlaybackLabel('Selected');
+        syncMediaSession(false);
+      } else {
+        syncMediaSession(true);
+      }
     };
     if (isTvMode) {
       channelTuneTimer = window.setTimeout(startPlayback, 180);

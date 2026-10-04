@@ -1,5 +1,6 @@
 export function createPlayer(videoEl, {
   HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined),
+  androidBridge = globalThis.AndroidDevice,
   startupTimeoutMs = 30000,
   timers = { set: (callback, delay) => setTimeout(callback, delay), clear: (id) => clearTimeout(id) },
 } = {}) {
@@ -11,6 +12,7 @@ export function createPlayer(videoEl, {
   let startupTimer = null;
   let startupListener = null;
   let quality = 'auto';
+  let nativeRequest = null;
 
   function clearStartupTimeout() {
     if (startupTimer !== null) timers.clear(startupTimer);
@@ -35,6 +37,7 @@ export function createPlayer(videoEl, {
   }
 
   function destroy() {
+    nativeRequest = null;
     suspended = false;
     playSession += 1;
     cleanupPlayback();
@@ -51,6 +54,10 @@ export function createPlayer(videoEl, {
 
   function resume() {
     suspended = false;
+    if (nativeRequest) {
+      androidBridge.playChannel(...nativeRequest);
+      return Promise.resolve();
+    }
     videoEl.muted = false;
     videoEl.volume = 1;
     hls?.startLoad?.(-1);
@@ -82,6 +89,18 @@ export function createPlayer(videoEl, {
     const urls = globalThis.location?.protocol === 'https:' && globalThis.location?.hostname !== 'appassets.androidplatform.net'
       ? allUrls.filter((url) => !/^http:/i.test(url)) : allUrls;
     cleanupPlayback();
+
+    nativeRequest = null;
+    if (typeof androidBridge?.playChannel === 'function' && allUrls.length) {
+      nativeRequest = [JSON.stringify(allUrls), options.title || 'Rugare TV', quality];
+      try {
+        androidBridge.playChannel(...nativeRequest);
+      } catch (error) {
+        nativeRequest = null;
+        errorHandler(error);
+      }
+      return;
+    }
 
     if (!urls.length) {
       errorHandler(new Error(allUrls.length ? 'HTTP stream blocked on secure page' : 'No stream URL is available for this channel'));

@@ -870,6 +870,17 @@ public final class MainActivity extends Activity {
 
     private final class AndroidDeviceBridge {
         @JavascriptInterface
+        public void playChannel(String sourcesJson, String title, String quality) {
+            runOnUiThread(() -> {
+                // Only the bundled app can request native playback.
+                if (webView == null || webView.getUrl() == null
+                        || !webView.getUrl().startsWith("https://" + APP_ASSET_HOST + "/assets/")) return;
+                clearNativeMediaSession();
+                NativeHlsPlayerActivity.openChannel(MainActivity.this, sourcesJson, title, quality);
+            });
+        }
+
+        @JavascriptInterface
         public boolean isTelevision() {
             return isTelevisionDevice;
         }

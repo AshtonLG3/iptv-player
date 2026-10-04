@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 43,
-  "versionName": "1.6.16",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.16.apk",
-  "sha256": "107DAA544ECF4FA7EFE61B43417683441D7D62C440FA481E2B1289ECB8AEA69C",
-  "releaseNotes": "Live Channels, Movies and Shows with subcategories. One entry per channel quality family, Auto and Data saver playback. Clear recovery for browser autoplay restrictions, 30-second startup tolerance, and Retry. On-demand sections populate only from a playlist containing titles.",
-  "publishedAt": "2026-10-03T20:56:32.3147006Z"
+  "versionCode": 44,
+  "versionName": "1.6.17",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.17.apk",
+  "sha256": "B132E249125F9581D111AF14A91AB9DB820C2431BDE300BB6FD33CD27606B5B0",
+  "releaseNotes": "Android channels now use native ExoPlayer playback, including Pluto feeds blocked in WebView. Fullscreen native controls, a Channels button to return to browsing, Auto/Data saver quality, backup sources and bounded retries. Dark/light themes remain in the menu.",
+  "publishedAt": "2026-10-04T13:16:39.4020186Z"
 }
