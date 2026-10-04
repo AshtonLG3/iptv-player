@@ -238,3 +238,9 @@ still refuse playback outside its permitted market.
   SABC Lehae `[ZA IP only]`, GNF TV, Homebase TV, Redemption TV Ministry) and
   UK official free feeds (GB News, Bloomberg TV Europe, FIFA+, GREAT! movies,
   GREAT! romance, Pop, Tiny Pop, TBN UK, QVC UK, Space Live powered by sen).
+
+### African movie update — 2026-10-04
+
+Added Nolly Africa HD and AfroLand Nollywood, Drama and Romance from Freevision's public players. All four feeds passed HLS manifest/media-segment checks and audio/video decode. AfroLandTV now appears in Africa alongside them. These are linear channels under Live Channels; they are not on-demand movie entries.
+
+Nolly Africa carries English-language Nollywood films and series. AfroLand carries African and diaspora programming; country and language can vary by programme. No dedicated English Kenyan or Zambian movie feed was verified. UTV Kenya's published HLS feed returned 404; older Nolly Africa distributor feeds returned 403. The requested Greater Glory channel still needs its exact broadcaster identity.

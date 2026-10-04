@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-03T06:33:09.734Z",
+  "updated": "2026-10-04T16:31:58.046Z",
   "rules": {
     "allowedLanguages": [
       "eng"
@@ -3593,7 +3593,7 @@
     {
       "id": "AfroLandTV.us@SD",
       "name": "AfroLandTV (1080p)",
-      "group": "USA",
+      "group": "Africa",
       "logo": "https://i.imgur.com/jvnkrEF.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
       "languages": [
@@ -18958,6 +18958,70 @@
       ],
       "notes": "English H.264/AAC feed, actual 1024x576. Added at user request accepting SD quality. HTTP may be blocked by HTTPS browsers; Android permits mixed content.",
       "status": "active"
+    },
+    {
+      "id": "NollyAfrica.uk@SD",
+      "name": "Nolly Africa HD",
+      "group": "Africa",
+      "logo": "",
+      "source": "https://freevisiontv.co.za/live/453/Nolly-Africa-HD",
+      "languages": [
+        "eng"
+      ],
+      "primaryUrl": "https://amg02784-amg02784c1-freevisionplay-worldwide-9725.playouts.now.amagi.tv/manifest.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "English-language Nollywood movies and series. Public broadcaster player source; manifest, media segments and audio/video decode checked 2026-10-04. Programming and availability may change."
+    },
+    {
+      "id": "AfrolandNollywood.za@SD",
+      "name": "AfroLand Nollywood",
+      "group": "Africa",
+      "logo": "",
+      "source": "https://freevisiontv.co.za/live/411/Afroland-Nollywood",
+      "languages": [
+        "eng"
+      ],
+      "primaryUrl": "https://stream.ads.ottera.tv/playlist.m3u8?network_id=17246&livestream=1&avod=1",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "African and Nigerian movies; English-language feed. Public broadcaster player source; manifest, media segments and audio/video decode checked 2026-10-04. Programming and availability may change."
+    },
+    {
+      "id": "AfrolandDrama.za@SD",
+      "name": "AfroLand Drama",
+      "group": "Africa",
+      "logo": "",
+      "source": "https://freevisiontv.co.za/live/413/Afroland-Drama",
+      "languages": [
+        "eng"
+      ],
+      "primaryUrl": "https://stream.ads.ottera.tv/playlist.m3u8?network_id=17244&livestream=1&avod=1",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "African and diaspora drama; English-language feed. Public broadcaster player source; manifest, media segments and audio/video decode checked 2026-10-04. Programming and availability may change."
+    },
+    {
+      "id": "AfrolandRomance.za@SD",
+      "name": "AfroLand Romance",
+      "group": "Africa",
+      "logo": "",
+      "source": "https://freevisiontv.co.za/live/410/Afroland-Romance",
+      "languages": [
+        "eng"
+      ],
+      "primaryUrl": "https://stream.ads.ottera.tv/playlist.m3u8?network_id=17248&livestream=1&avod=1",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "notes": "African and diaspora romance; English-language feed. Public broadcaster player source; manifest, media segments and audio/video decode checked 2026-10-04. Programming and availability may change."
     }
   ]
 }

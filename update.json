@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 45,
-  "versionName": "1.6.18",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.18.apk",
-  "sha256": "A2B4F5B28BA84247F39FDFD9710529B9D19B679DD2CA447C765F19AD4A40310D",
-  "releaseNotes": "Restores the original inline Android player and convenient channel browsing. Native ExoPlayer now renders within the existing player frame, including Pluto playback. Original settings, light/dark themes, rotation, channel navigation and play/pause controls work together with native playback.",
-  "publishedAt": "2026-10-04T14:34:09.2880857Z"
+  "versionCode": 46,
+  "versionName": "1.6.19",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.19.apk",
+  "sha256": "7D906BEB477B9418FBFD337A02C7E8AC39D4C00208017B29F93E7E172DF580D9",
+  "releaseNotes": "Adds Nolly Africa HD and AfroLand Nollywood, Drama and Romance to the Africa live-channel lineup and Movies category. AfroLandTV is now grouped under Africa. Preserves inline native playback, settings and light/dark themes.",
+  "publishedAt": "2026-10-04T16:36:05.0876444Z"
 }
