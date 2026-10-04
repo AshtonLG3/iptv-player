@@ -2249,29 +2249,6 @@ html.tv-mode .layout.drawer-open .player-panel {
 html.tv-mode .layout.settings-open .player-panel {
   right: min(44vw, 520px);
 }
-:root .media-sections {
-  display: flex;
-  gap: 6px;
-  padding: 12px 0 8px;
-}
-.media-sections button {
-  flex: 1;
-  min-width: 0;
-  padding: 10px 6px;
-  border-radius: 10px;
-  border: 1px solid var(--border, #445064);
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-}
-.media-sections button[aria-pressed="true"] {
-  background: #2162bb;
-  color: #fff;
-  border-color: #2162bb;
-}
-.media-sections button:focus-visible { outline: 3px solid #74b9ff; outline-offset: 2px; }
 /* XMLTV controls share the existing theme and remain below inline playback. */
 .epg-settings { margin-top: 12px; }
 .epg-settings label { display: block; margin: 10px 0 4px; }

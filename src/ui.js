@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261004d';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261004d';
-import { getMediaSection } from './catalog.js?v=20261004d';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261004e';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261004e';
+import { getMediaSection } from './catalog.js?v=20261004e';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -285,11 +285,6 @@ export function renderApp({
           />
           <button id="search-clear" class="channel-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
         </div>
-        <nav id="media-sections" class="media-sections" aria-label="Library">
-          <button type="button" data-section="live" aria-pressed="true">Live Channels</button>
-          <button type="button" data-section="movie" aria-pressed="false">Movies</button>
-          <button type="button" data-section="show" aria-pressed="false">Shows</button>
-        </nav>
         <div id="category-strip" class="category-strip" aria-label="Subcategories"></div>
         <p class="remote-browse-hint">← Categories · ↑ Apps · Back to channels</p>
       </section>
@@ -315,8 +310,8 @@ export function renderApp({
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
   const categoryStrip = root.querySelector('#category-strip');
-  const sectionNav = root.querySelector('#media-sections');
-  let mediaSection = 'live';
+
+  const mediaSection = 'live';
   const qualitySelect = root.querySelector('#quality-select');
   qualitySelect.value = qualityApi?.get() || 'auto';
   qualitySelect.addEventListener('change', () => qualityApi?.set(qualitySelect.value));
@@ -375,17 +370,6 @@ export function renderApp({
     renderCategoryStrip();
   }
   updateCategories();
-  sectionNav.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-section]');
-    if (!button) return;
-    mediaSection = button.dataset.section;
-    searchBox.value = '';
-    for (const item of sectionNav.querySelectorAll('button')) {
-      item.setAttribute('aria-pressed', String(item === button));
-    }
-    updateCategories();
-    applyFilters();
-  });
 
   if (playlistAccessApi) {
     renderPlaylistAccess();

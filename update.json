@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 47,
-  "versionName": "1.6.20",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.20.apk",
-  "sha256": "A0374E3C8A81289159BF73FBF51EE5A7FD0C1FCCC287F1AB638A8240F5E768D7",
-  "releaseNotes": "Adds XMLTV program guide support: URL and XML/XML.GZ file import, optional Pluto UK/US and Plex UK guides, now/next and upcoming programmes, automatic and manual channel matching, and local guide caching. Android downloads guide URLs natively. Themes and inline playback are preserved.",
-  "publishedAt": "2026-10-04T17:08:35.4467062Z"
+  "versionCode": 48,
+  "versionName": "1.6.21",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.21.apk",
+  "sha256": "A903F33430BF684549F99F0C34E3AD091B00CB9B0AD296048448BD7C156DB716",
+  "releaseNotes": "Removes the Live Channels, Movies, and Shows navigation menu. Channel browsing, search, categories, dark/light themes, program guide, and playback remain available.",
+  "publishedAt": "2026-10-04T20:42:16.8100555Z"
 }
