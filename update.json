@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 44,
-  "versionName": "1.6.17",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.17.apk",
-  "sha256": "B132E249125F9581D111AF14A91AB9DB820C2431BDE300BB6FD33CD27606B5B0",
-  "releaseNotes": "Android channels now use native ExoPlayer playback, including Pluto feeds blocked in WebView. Fullscreen native controls, a Channels button to return to browsing, Auto/Data saver quality, backup sources and bounded retries. Dark/light themes remain in the menu.",
-  "publishedAt": "2026-10-04T13:16:39.4020186Z"
+  "versionCode": 45,
+  "versionName": "1.6.18",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.18.apk",
+  "sha256": "47877FE6024C3E0FB84435DEFC30A01B19E3CADE137574C70910CCAB35639600",
+  "releaseNotes": "Restores the original inline Android player and convenient channel browsing. Native ExoPlayer now renders within the existing player frame, including Pluto playback. Original settings, light/dark themes, rotation, channel navigation and play/pause controls work together with native playback.",
+  "publishedAt": "2026-10-04T14:26:23.7442337Z"
 }

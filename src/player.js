@@ -1,6 +1,7 @@
 export function createPlayer(videoEl, {
   HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined),
   androidBridge = globalThis.AndroidDevice,
+  nativeEvents = globalThis.window,
   startupTimeoutMs = 30000,
   timers = { set: (callback, delay) => setTimeout(callback, delay), clear: (id) => clearTimeout(id) },
 } = {}) {
@@ -13,6 +14,19 @@ export function createPlayer(videoEl, {
   let startupListener = null;
   let quality = 'auto';
   let nativeRequest = null;
+  let nativePlaying = false;
+
+  function receiveNativeState(event) {
+    const state = event.detail;
+    if (!nativeRequest || state?.session !== playSession) return;
+    const wasPlaying = nativePlaying;
+    nativePlaying = Boolean(state.playing) && !suspended;
+    if (state.error) { errorHandler(new Error(state.error)); return; }
+    if (state.ended) videoEl.dispatchEvent?.(new Event('ended'));
+    else if (state.ready && nativePlaying) videoEl.dispatchEvent?.(new Event('playing'));
+    else if (!nativePlaying && (wasPlaying || state.ready)) videoEl.dispatchEvent?.(new Event('pause'));
+  }
+  nativeEvents?.addEventListener?.('rugare-native-playback', receiveNativeState);
 
   function clearStartupTimeout() {
     if (startupTimer !== null) timers.clear(startupTimer);
@@ -37,7 +51,10 @@ export function createPlayer(videoEl, {
   }
 
   function destroy() {
+    if (nativeRequest) androidBridge.stopChannel?.();
+    nativeEvents?.removeEventListener?.('rugare-native-playback', receiveNativeState);
     nativeRequest = null;
+    nativePlaying = false;
     suspended = false;
     playSession += 1;
     cleanupPlayback();
@@ -46,6 +63,8 @@ export function createPlayer(videoEl, {
   function suspend() {
     clearStartupTimeout();
     suspended = true;
+    if (nativeRequest) androidBridge.pauseChannel?.();
+    nativePlaying = false;
     videoEl.pause?.();
     videoEl.muted = true;
     videoEl.volume = 0;
@@ -55,7 +74,7 @@ export function createPlayer(videoEl, {
   function resume() {
     suspended = false;
     if (nativeRequest) {
-      androidBridge.playChannel(...nativeRequest);
+      androidBridge.resumeChannel?.();
       return Promise.resolve();
     }
     videoEl.muted = false;
@@ -90,9 +109,11 @@ export function createPlayer(videoEl, {
       ? allUrls.filter((url) => !/^http:/i.test(url)) : allUrls;
     cleanupPlayback();
 
+    if (nativeRequest) androidBridge.stopChannel?.();
     nativeRequest = null;
-    if (typeof androidBridge?.playChannel === 'function' && allUrls.length) {
-      nativeRequest = [JSON.stringify(allUrls), options.title || 'Rugare TV', quality];
+    nativePlaying = false;
+    if (typeof androidBridge?.playChannel === 'function' && allUrls.length && options.nativePlayback !== false) {
+      nativeRequest = [JSON.stringify(allUrls), options.title || 'Rugare TV', quality, session];
       try {
         androidBridge.playChannel(...nativeRequest);
       } catch (error) {
@@ -246,5 +267,16 @@ export function createPlayer(videoEl, {
     return data.type === HlsCtor.ErrorTypes?.MEDIA_ERROR || data.type === 'mediaError';
   }
 
-  return { play, onError, destroy, suspend, resume };
+  function pause() {
+    if (nativeRequest) {
+      nativePlaying = false;
+      androidBridge.pauseChannel?.();
+    } else videoEl.pause?.();
+  }
+
+  function isPlaying() {
+    return nativeRequest ? nativePlaying : !videoEl.paused && !videoEl.ended;
+  }
+
+  return { play, onError, destroy, suspend, resume, pause, isPlaying };
 }

@@ -35,12 +35,19 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import android.widget.FrameLayout;
+import android.view.LayoutInflater;
+import android.view.WindowManager;
+import androidx.annotation.OptIn;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.ui.PlayerView;
 import androidx.webkit.WebViewAssetLoader;
 import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.json.JSONObject;
 
+@OptIn(markerClass = UnstableApi.class)
 public final class MainActivity extends Activity {
     private static final String APP_ASSET_HOST = "appassets.androidplatform.net";
     private static final String MEDIA_NOTIFICATION_CHANNEL_ID = "playback";
@@ -61,6 +68,9 @@ public final class MainActivity extends Activity {
                     + "});"
                     + "}catch(error){}return true;})()";
     private WebView webView;
+    private FrameLayout mainRoot;
+    private FrameLayout nativeFrame;
+    private EmbeddedChannelPlayer channelPlayer;
     private MediaSession mediaSession;
     private NotificationManager notificationManager;
     private UpdateManager updateManager;
@@ -98,6 +108,7 @@ public final class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        webView.setBackgroundColor(Color.TRANSPARENT);
         webView.setFocusable(true);
         webView.setFocusableInTouchMode(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -199,6 +210,7 @@ public final class MainActivity extends Activity {
                 if (parent != null) parent.removeView(view);
                 view.destroy();
                 webView = null;
+                if (channelPlayer != null) channelPlayer.stop();
                 tvPanelOpen = false;
                 tvPanelState = "none";
                 if (!isFinishing() && !isDestroyed()) {
@@ -208,7 +220,23 @@ public final class MainActivity extends Activity {
             }
         });
 
-        setContentView(webView);
+        mainRoot = new FrameLayout(this);
+        mainRoot.setBackgroundColor(Color.rgb(13, 15, 18));
+        nativeFrame = new FrameLayout(this);
+        nativeFrame.setBackgroundColor(Color.BLACK);
+        nativeFrame.setVisibility(View.GONE);
+        PlayerView inlineView = (PlayerView) LayoutInflater.from(this)
+                .inflate(R.layout.inline_channel_player, nativeFrame, false);
+        nativeFrame.addView(inlineView);
+        channelPlayer = new EmbeddedChannelPlayer(this, inlineView, state -> {
+            if (state.optBoolean("playing")) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            if (webView != null) webView.evaluateJavascript(
+                    "window.dispatchEvent(new CustomEvent('rugare-native-playback',{detail:" + state + "}));", null);
+        });
+        mainRoot.addView(nativeFrame, new FrameLayout.LayoutParams(1, 1));
+        mainRoot.addView(webView);
+        setContentView(mainRoot);
         updateSystemUiForOrientation(getResources().getConfiguration().orientation);
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
         webView.postDelayed(() -> {
@@ -771,6 +799,7 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
+        if (channelPlayer != null) channelPlayer.pause();
         suppressMediaSessionUpdates = true;
         if (webView != null) {
             WebView pausingWebView = webView;
@@ -818,6 +847,7 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if (channelPlayer != null) channelPlayer.stop();
         if (pendingPlaylistFileCallback != null) {
             pendingPlaylistFileCallback.onReceiveValue(null);
             pendingPlaylistFileCallback = null;
@@ -870,13 +900,45 @@ public final class MainActivity extends Activity {
 
     private final class AndroidDeviceBridge {
         @JavascriptInterface
-        public void playChannel(String sourcesJson, String title, String quality) {
+        public void playChannel(String sourcesJson, String title, String quality, int session) {
             runOnUiThread(() -> {
                 // Only the bundled app can request native playback.
                 if (webView == null || webView.getUrl() == null
                         || !webView.getUrl().startsWith("https://" + APP_ASSET_HOST + "/assets/")) return;
-                clearNativeMediaSession();
-                NativeHlsPlayerActivity.openChannel(MainActivity.this, sourcesJson, title, quality);
+                channelPlayer.play(sourcesJson, title, quality, session);
+                nativeFrame.setVisibility(View.VISIBLE);
+            });
+        }
+
+        @JavascriptInterface public void pauseChannel() {
+            runOnUiThread(() -> { if (channelPlayer != null) channelPlayer.pause(); });
+        }
+        @JavascriptInterface public void resumeChannel() {
+            runOnUiThread(() -> { if (channelPlayer != null) channelPlayer.resume(); });
+        }
+        @JavascriptInterface public void stopChannel() {
+            runOnUiThread(() -> {
+                if (channelPlayer != null) channelPlayer.stop();
+                if (nativeFrame != null) nativeFrame.setVisibility(View.GONE);
+            });
+        }
+        @JavascriptInterface public void setChannelBounds(String json) {
+            runOnUiThread(() -> {
+                if (webView == null || nativeFrame == null) return;
+                try {
+                    JSONObject bounds = new JSONObject(json);
+                    float scale = (float) (webView.getWidth() / bounds.getDouble("viewportWidth"));
+                    if (Float.isNaN(scale) || Float.isInfinite(scale) || scale <= 0) return;
+                    mainRoot.setBackgroundColor(Color.parseColor(bounds.getString("background")));
+                    int width = Math.max(0, Math.round((float) bounds.getDouble("width") * scale));
+                    int height = Math.max(0, Math.round((float) bounds.getDouble("height") * scale));
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(width, height);
+                    params.leftMargin = Math.round((float) bounds.getDouble("left") * scale);
+                    params.topMargin = Math.round((float) bounds.getDouble("top") * scale);
+                    nativeFrame.setLayoutParams(params);
+                    nativeFrame.setVisibility(bounds.optBoolean("visible") && width > 0 && height > 0
+                            ? View.VISIBLE : View.GONE);
+                } catch (Exception ignored) { }
             });
         }
 

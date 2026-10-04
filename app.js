@@ -1,32 +1,32 @@
-import * as playlistModule from './src/playlist.js?v=20261004a';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261004a';
+import * as playlistModule from './src/playlist.js?v=20261004b';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261004b';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261004a';
+} from './src/constants.js?v=20261004b';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261004a';
+} from './src/playlistAccess.js?v=20261004b';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261004a';
-import { createPlayer } from './src/player.js?v=20261004a';
-import { createFullscreenController } from './src/fullscreen.js?v=20261004a';
+} from './src/ui.js?v=20261004b';
+import { createPlayer } from './src/player.js?v=20261004b';
+import { createFullscreenController } from './src/fullscreen.js?v=20261004b';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261004a';
-import { updateMediaSession } from './src/mediaSession.js?v=20261004a';
+} from './src/channelRoute.js?v=20261004b';
+import { updateMediaSession } from './src/mediaSession.js?v=20261004b';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -36,7 +36,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261004a';
+} from './src/tvRemote.js?v=20261004b';
 import {
   getTheme,
   isFavorite,
@@ -44,7 +44,7 @@ import {
   toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261004a';
+} from './src/storage.js?v=20261004b';
 
 const {
   clearPrivatePlaylist,
@@ -104,7 +104,29 @@ async function main() {
   let syncingTvPanel = false;
   const androidDeviceBridge = globalThis.AndroidDevice;
   const usesNativeChannelPlayer = typeof androidDeviceBridge?.playChannel === 'function';
-  if (usesNativeChannelPlayer) fullscreenToggle.hidden = true;
+  document.documentElement.classList.toggle('native-channel-player', usesNativeChannelPlayer);
+  if (usesNativeChannelPlayer) {
+    let lastBounds = '';
+    function syncNativeBounds() {
+      const rect = playerFrameEl.getBoundingClientRect();
+      const bounds = JSON.stringify({
+        left: rect.left, top: rect.top, width: rect.width, height: rect.height,
+        viewportWidth: window.innerWidth,
+        background: getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0d0f12',
+        visible: document.documentElement.classList.contains('native-channel-active')
+          && document.visibilityState !== 'hidden',
+      });
+      if (bounds !== lastBounds) {
+        lastBounds = bounds;
+        androidDeviceBridge.setChannelBounds(bounds);
+      }
+    }
+    new ResizeObserver(syncNativeBounds).observe(playerFrameEl);
+    new MutationObserver(syncNativeBounds).observe(document.documentElement, { attributes: true });
+    window.addEventListener('resize', syncNativeBounds);
+    document.addEventListener('scroll', syncNativeBounds, true);
+    document.addEventListener('visibilitychange', syncNativeBounds);
+  }
   let isTvMode = detectTelevision({
     bridge: androidDeviceBridge,
     userAgent: navigator.userAgent,
@@ -571,6 +593,8 @@ async function main() {
   function selectChannel(channel, { historyMode = 'push' } = {}) {
     player.suspend();
     currentChannel = channel;
+    document.documentElement.classList.toggle('native-channel-active',
+      usesNativeChannelPlayer && getMediaSection(channel) === 'live');
     videoEl.controls = getMediaSection(channel) !== 'live';
     currentChannelHasPlayed = false;
     statusEl.hidden = true;
@@ -590,14 +614,10 @@ async function main() {
 
     clearTimeout(channelTuneTimer);
     const startPlayback = () => {
-      player.play(getPlaybackSources(channel, qualityApi.get()), { quality: qualityApi.get(), title: channel.name });
-      if (usesNativeChannelPlayer) {
-        showPlayerPlaceholder('Press Play to open this channel');
-        updatePlaybackLabel('Selected');
-        syncMediaSession(false);
-      } else {
-        syncMediaSession(true);
-      }
+      player.play(getPlaybackSources(channel, qualityApi.get()), {
+        quality: qualityApi.get(), title: channel.name, nativePlayback: getMediaSection(channel) === 'live',
+      });
+      syncMediaSession(true);
     };
     if (isTvMode) {
       channelTuneTimer = window.setTimeout(startPlayback, 180);
@@ -666,7 +686,7 @@ async function main() {
   }
 
   function isPlaybackActive(forcePlaying = false) {
-    return Boolean(currentChannel) && (forcePlaying || (!videoEl.paused && !videoEl.ended));
+    return Boolean(currentChannel) && (forcePlaying || player.isPlaying());
   }
 
   function syncMediaSession(forcePlaying = false) {
@@ -688,7 +708,7 @@ async function main() {
   }
 
   function pauseCurrentVideo() {
-    videoEl.pause();
+    player.pause();
     syncMediaSession(false);
     updatePlayPauseButton();
   }
@@ -700,7 +720,7 @@ async function main() {
   }
 
   function toggleCurrentVideo() {
-    if (videoEl.paused) {
+    if (!player.isPlaying()) {
       playCurrentVideo();
       return;
     }

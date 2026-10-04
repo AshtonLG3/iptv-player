@@ -4,20 +4,69 @@ import { createPlayer } from '../src/player.js';
 
 test('Android delegates sources, title and quality without starting browser playback', async () => {
   const calls = [];
+  let pauses = 0;
+  let resumes = 0;
   const video = createFakeVideo();
   const player = createPlayer(video, {
     HlsCtor: FakeHls,
-    androidBridge: { playChannel: (...args) => calls.push(args) },
+    androidBridge: { playChannel: (...args) => calls.push(args), pauseChannel: () => pauses++, resumeChannel: () => resumes++ },
   });
   player.play(['http://example.com/live.m3u8', 'https://example.com/backup.m3u8'],
     { title: 'Pluto TV', quality: 'data-saver' });
   assert.deepEqual(JSON.parse(calls[0][0]), ['http://example.com/live.m3u8', 'https://example.com/backup.m3u8']);
-  assert.deepEqual(calls[0].slice(1), ['Pluto TV', 'data-saver']);
+  assert.deepEqual(calls[0].slice(1, 3), ['Pluto TV', 'data-saver']);
   assert.equal(video.playCalls, 0);
   player.suspend();
+  assert.equal(pauses, 1);
   assert.equal(calls.length, 1);
   await player.resume();
-  assert.equal(calls.length, 2);
+  assert.equal(calls.length, 1);
+  assert.equal(resumes, 1);
+  player.destroy();
+});
+
+test('inline native playback state drives controls and ignores events from an earlier channel', () => {
+  const events = new EventTarget();
+  const video = createFakeVideo();
+  const rendered = [];
+  video.dispatchEvent = event => rendered.push(event.type);
+  let lastRequest;
+  let stops = 0;
+  let error;
+  const player = createPlayer(video, { nativeEvents: events, androidBridge: {
+    playChannel: (...args) => { lastRequest = args[3]; },
+    stopChannel: () => stops++, pauseChannel() {},
+  } });
+  player.onError(value => { error = value; });
+  player.play('https://example.com/first.m3u8');
+  const firstRequest = lastRequest;
+  const emit = detail => events.dispatchEvent(Object.assign(new Event('rugare-native-playback'), { detail }));
+  emit({ session: firstRequest, ready: true, playing: true });
+  assert.equal(player.isPlaying(), true);
+  assert.ok(rendered.includes('playing'));
+  player.pause();
+  emit({ session: firstRequest, ready: true, playing: false });
+  assert.equal(player.isPlaying(), false);
+  assert.ok(rendered.includes('pause'));
+  player.play('https://example.com/second.m3u8');
+  assert.equal(stops, 1);
+  emit({ session: firstRequest, ready: true, playing: true, error: 'stale error' });
+  assert.equal(player.isPlaying(), false);
+  assert.equal(error, undefined);
+  emit({ session: lastRequest, error: 'ERROR_CODE_IO_NETWORK_CONNECTION_FAILED' });
+  assert.match(error.message, /NETWORK/);
+  player.destroy();
+});
+
+test('on-demand playback can use the original browser player and stop native channel playback', () => {
+  const calls = [];
+  const video = createFakeVideo({ canPlayHls: true });
+  const player = createPlayer(video, { androidBridge: { playChannel: () => calls.push('play'), stopChannel: () => calls.push('stop') } });
+  player.play('https://example.com/live.m3u8');
+  player.play('https://example.com/movie.mp4', { nativePlayback: false });
+  assert.deepEqual(calls, ['play', 'stop']);
+  assert.equal(video.src, 'https://example.com/movie.mp4');
+  assert.equal(video.playCalls, 1);
   player.destroy();
 });
 

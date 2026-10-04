@@ -97,6 +97,18 @@ body {
   line-height: 1.2;
 }
 
+/* ExoPlayer draws through the video area; the existing web UI stays above it. */
+html.native-channel-player body,
+html.native-channel-player .player-panel {
+  background: transparent !important;
+}
+html.native-channel-active .player-frame {
+  background: transparent;
+}
+html.native-channel-active #video {
+  opacity: 0;
+}
+
 .app-brand-logo {
   display: block;
   height: 34px;
