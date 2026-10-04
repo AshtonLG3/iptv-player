@@ -4,7 +4,7 @@
   "versionCode": 45,
   "versionName": "1.6.18",
   "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.18.apk",
-  "sha256": "47877FE6024C3E0FB84435DEFC30A01B19E3CADE137574C70910CCAB35639600",
+  "sha256": "A2B4F5B28BA84247F39FDFD9710529B9D19B679DD2CA447C765F19AD4A40310D",
   "releaseNotes": "Restores the original inline Android player and convenient channel browsing. Native ExoPlayer now renders within the existing player frame, including Pluto playback. Original settings, light/dark themes, rotation, channel navigation and play/pause controls work together with native playback.",
-  "publishedAt": "2026-10-04T14:26:23.7442337Z"
+  "publishedAt": "2026-10-04T14:34:09.2880857Z"
 }

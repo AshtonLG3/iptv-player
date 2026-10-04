@@ -84,6 +84,8 @@ final class EmbeddedChannelPlayer {
             @Override public void onPlaybackStateChanged(int state) {
                 if (player != active) return;
                 handler.removeCallbacks(timeout);
+                if (state == Player.STATE_READY && !player.getCurrentTracks().isTypeSelected(C.TRACK_TYPE_VIDEO))
+                    firstFrame = true;
                 if (state == Player.STATE_BUFFERING && player.getPlayWhenReady() && !failed)
                     handler.postDelayed(timeout, 30000);
                 emit(null);
