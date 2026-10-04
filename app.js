@@ -1,32 +1,33 @@
-import * as playlistModule from './src/playlist.js?v=20261004c';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261004c';
+import * as playlistModule from './src/playlist.js?v=20261004d';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261004d';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261004c';
+} from './src/constants.js?v=20261004d';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261004c';
+} from './src/playlistAccess.js?v=20261004d';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261004c';
-import { createPlayer } from './src/player.js?v=20261004c';
-import { createFullscreenController } from './src/fullscreen.js?v=20261004c';
+} from './src/ui.js?v=20261004d';
+import { createPlayer } from './src/player.js?v=20261004d';
+import { createEpgController } from './src/epg.js?v=20261004d';
+import { createFullscreenController } from './src/fullscreen.js?v=20261004d';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261004c';
-import { updateMediaSession } from './src/mediaSession.js?v=20261004c';
+} from './src/channelRoute.js?v=20261004d';
+import { updateMediaSession } from './src/mediaSession.js?v=20261004d';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -36,7 +37,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261004c';
+} from './src/tvRemote.js?v=20261004d';
 import {
   getTheme,
   isFavorite,
@@ -44,7 +45,7 @@ import {
   toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261004c';
+} from './src/storage.js?v=20261004d';
 
 const {
   clearPrivatePlaylist,
@@ -98,6 +99,8 @@ async function main() {
   let playerHudHideTimer = null;
   let appView = null;
   let currentChannel = null;
+  const epg = createEpgController({ storage: window.localStorage, androidBridge: window.AndroidDevice });
+  epg.start();
   let visibleChannels = [];
   let channelRoutes = createChannelRouteIndex([]);
   let tvPanel = 'none';
@@ -593,6 +596,7 @@ async function main() {
   function selectChannel(channel, { historyMode = 'push' } = {}) {
     player.suspend();
     currentChannel = channel;
+    epg.setChannel(getMediaSection(channel) === 'live' ? channel : null);
     document.documentElement.classList.toggle('native-channel-active',
       usesNativeChannelPlayer && getMediaSection(channel) === 'live');
     videoEl.controls = getMediaSection(channel) !== 'live';
@@ -970,6 +974,8 @@ async function main() {
         },
       });
       window.__rugareTvReady = true;
+      epg.bind();
+      epg.restore();
       renderFeaturedServices(
         document.getElementById('channel-featured-service-list'),
         { focusable: true },

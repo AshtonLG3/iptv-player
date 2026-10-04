@@ -899,6 +899,45 @@ public final class MainActivity extends Activity {
     }
 
     private final class AndroidDeviceBridge {
+        private final AtomicBoolean guideDownloading = new AtomicBoolean(false);
+
+        @JavascriptInterface public void fetchEpg(String url, int request) {
+            runOnUiThread(() -> {
+                if (webView == null || webView.getUrl() == null
+                        || !webView.getUrl().startsWith("https://" + APP_ASSET_HOST + "/assets/")) return;
+                if (!guideDownloading.compareAndSet(false, true)) {
+                    sendGuideResult(request, null, "A guide download is already running.");
+                    return;
+                }
+                Thread worker = new Thread(() -> {
+                    String text = null; String error = null;
+                    try { text = GuideDownloader.download(url); }
+                    catch (Exception failure) { error = failure.getMessage(); }
+                    final String resultText = text;
+                    final String resultError = error;
+                    runOnUiThread(() -> {
+                        guideDownloading.set(false);
+                        sendGuideResult(request, resultText, resultError);
+                    });
+                }, "rugare-epg");
+                worker.setDaemon(true);
+                worker.start();
+            });
+        }
+
+        private void sendGuideResult(int request, String text, String error) {
+            if (webView == null || webView.getUrl() == null
+                    || !webView.getUrl().startsWith("https://" + APP_ASSET_HOST + "/assets/")) return;
+            try {
+                JSONObject detail = new JSONObject();
+                detail.put("request", request);
+                if (error != null) detail.put("error", error);
+                else detail.put("text", text);
+                webView.evaluateJavascript("window.dispatchEvent(new CustomEvent('rugare-epg-download',{detail:"
+                        + detail + "}));", null);
+            } catch (Exception ignored) { /* The requesting document may have closed. */ }
+        }
+
         @JavascriptInterface
         public void playChannel(String sourcesJson, String title, String quality, int session) {
             runOnUiThread(() -> {

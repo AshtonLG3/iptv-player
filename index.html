@@ -14,7 +14,7 @@
     }
   </script>
   <link rel="icon" href="https://mangezi.xyz/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261004c" />
+  <link rel="stylesheet" href="style.css?v=20261004d" />
   <script src="assets/vendor/hls.min.js"></script>
 </head>
 <body>
@@ -77,6 +77,14 @@
         </span>
       </section>
       <p id="player-status" hidden></p>
+      <details id="programme-guide" class="programme-guide" hidden>
+        <summary>Program guide · <span id="epg-now-next">No guide data</span></summary>
+        <strong id="epg-channel-label"></strong>
+        <p id="epg-hint"></p>
+        <label for="epg-channel-match">Guide channel</label>
+        <select id="epg-channel-match" disabled><option value="">Automatic matching</option></select>
+        <ol id="epg-programmes"></ol>
+      </details>
     </section>
   </main>
   <script>
@@ -93,6 +101,6 @@
       retryButton.onclick = () => window.location.reload();
     }, 12000);
   </script>
-  <script type="module" src="app.js?v=20261004c"></script>
+  <script type="module" src="app.js?v=20261004d"></script>
 </body>
 </html>

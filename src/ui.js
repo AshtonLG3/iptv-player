@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261004c';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261004c';
-import { getMediaSection } from './catalog.js?v=20261004c';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261004d';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261004d';
+import { getMediaSection } from './catalog.js?v=20261004d';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -231,6 +231,23 @@ export function renderApp({
               </button>
               <p id="update-status" class="menu-update-status" role="status" hidden></p>
             </div>
+            <details class="epg-settings">
+              <summary>Program guide (EPG)</summary>
+              <label for="epg-example">Optional starter guide</label>
+              <select id="epg-example">
+                <option value="">Custom / provider guide</option>
+                <option value="https://raw.githubusercontent.com/matthuisman/i.mjh.nz/refs/heads/master/PlutoTV/gb.xml.gz">Pluto TV · UK feed</option>
+                <option value="https://raw.githubusercontent.com/matthuisman/i.mjh.nz/refs/heads/master/PlutoTV/us.xml.gz">Pluto TV · US feed</option>
+                <option value="https://raw.githubusercontent.com/matthuisman/i.mjh.nz/refs/heads/master/Plex/gb.xml.gz">Plex · UK feed</option>
+              </select>
+              <label for="epg-url">XMLTV guide URL</label>
+              <input id="epg-url" type="url" placeholder="https://…/guide.xml.gz" autocomplete="off" />
+              <button id="epg-refresh" type="button">Load / refresh guide</button>
+              <label for="epg-file">Or import XML / XML.GZ (up to 20 MB)</label>
+              <input id="epg-file" type="file" accept=".xml,.gz,application/xml,text/xml,application/gzip" />
+              <button id="epg-clear" type="button">Remove guide</button>
+              <p id="epg-status" role="status">Choose a starter guide or use your provider’s XMLTV URL. Match the channel’s provider and region; coverage varies. Times use your device timezone.</p>
+            </details>
             <details class="playlist-access">
               <summary>Playlist links</summary>
               <div id="playlist-link-list" class="playlist-link-list"></div>
