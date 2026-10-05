@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 52,
-  "versionName": "1.6.25",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.25.apk",
-  "sha256": "A5582F142DC7A05110EEA10DCE1ABA30F34989C6EDD342223A5A2C904695BC06",
-  "releaseNotes": "Routes Android TV directional and OK buttons directly to the app so remote navigation works independently of WebView keyboard focus. Preserves responsive favorites and automatic channel scrolling.",
-  "publishedAt": "2026-10-05T16:34:17.5074224Z"
+  "versionCode": 53,
+  "versionName": "1.6.26",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.26.apk",
+  "sha256": "5370CCDA0977729EBABF6C8B049883A56E981AD0865592FE4615A230227A718D",
+  "releaseNotes": "Adds verified Great Commission TV Kenya and a Morning Cloud backup. Removes failing Willow Sports and Inooro direct feeds. Adds labelled official Willow subscription, ZNBC YouTube and MBC Plus app shortcuts; direct Willow, Zambia and Malawi playback remains unavailable.",
+  "publishedAt": "2026-10-05T19:53:28.9130077Z"
 }

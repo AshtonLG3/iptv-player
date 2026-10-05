@@ -11,11 +11,11 @@ test('featured official services keep the requested direct-button order and labe
 
   assert.deepEqual(
     featured.map((service) => service.shortLabel),
-    ['AfreeTV', 'e+', 'SABC+', 'Z+', 'SportyTV'],
+    ['AfreeTV', 'e+', 'SABC+', 'Z+', 'SportyTV', 'Willow TV · paid', 'ZNBC · YouTube', 'MBC Plus · app'],
   );
   assert.equal(featured.every((service) => service.url.startsWith('https://')), true);
   assert.equal(
-    featured.every((service) => service.logo.startsWith('assets/services/')),
+    featured.every((service) => !service.logo || service.logo.startsWith('assets/services/')),
     true,
   );
 
@@ -29,6 +29,7 @@ test('featured official services keep the requested direct-button order and labe
       'tv.sabcplus.vod',
       'com.zbc.ottapp',
       'com.sporty.android',
+      'com.mbc.mbcplus',
     ],
   );
   assert.equal(

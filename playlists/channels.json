@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-04T16:31:58.046Z",
+  "updated": "2026-10-05T19:49:11.889Z",
   "rules": {
     "allowedLanguages": [
       "eng"
@@ -2316,7 +2316,7 @@
         "main",
         "sports"
       ],
-      "notes": "Withdrawn 2026-10-03: manifest/media probe failed twice; retained for future repair.",
+      "notes": "Disabled 2026-10-05: repeated probes return HTTP 403 for actual video segments. Free Willow Sports differs from subscription Willow TV. Use the official Willow service; direct playback is unverified.",
       "status": "disabled"
     },
     {
@@ -2331,7 +2331,7 @@
         "main",
         "sports"
       ],
-      "notes": "Withdrawn 2026-10-03: manifest/media probe failed twice; retained for future repair.",
+      "notes": "Disabled 2026-10-05: repeated probes return HTTP 403 for actual video segments. Free Willow Sports differs from subscription Willow TV. Use the official Willow service; direct playback is unverified.",
       "status": "disabled"
     },
     {
@@ -9284,7 +9284,8 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Disabled 2026-10-05: repeated manifest HTTP 404; broadcaster currently offers its own player.",
+      "status": "disabled"
     },
     {
       "id": "InsaytTV.ru@4K",
@@ -10728,11 +10729,13 @@
         "eng"
       ],
       "primaryUrl": "https://livecdn.live247stream.com/mc/tv/playlist.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://viewmedia7219.bozztv.com/wmedia/viewmedia100/web_026/Stream/playlist.m3u8"
+      ],
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Primary and backup passed manifest and media segment probes 2026-10-05."
     },
     {
       "id": "Motorvision.de@SD",
@@ -19022,6 +19025,23 @@
         "main"
       ],
       "notes": "African and diaspora romance; English-language feed. Public broadcaster player source; manifest, media segments and audio/video decode checked 2026-10-04. Programming and availability may change."
+    },
+    {
+      "id": "GreatCommissionTV.ke@SD",
+      "name": "Great Commission TV",
+      "group": "Africa",
+      "logo": "",
+      "source": "https://theiammediaministries.com/tv/",
+      "primaryUrl": "https://stream-server9-jupiter.muxlive.com/hls/gctvghana/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng",
+        "swa"
+      ],
+      "notes": "Official broadcaster player source. Manifest, media segment and FFmpeg video decode checked 2026-10-05; channel branding observed. Programming includes English and Swahili."
     }
   ]
 }
