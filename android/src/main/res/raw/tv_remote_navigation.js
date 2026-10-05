@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var CONTROLLER_VERSION = 13;
+  var CONTROLLER_VERSION = 14;
   var FOCUS_CLASS = 'rugare-tv-remote-focus';
   var PLAYER_CLASS = 'rugare-tv-player-shell';
   var activeElement = null;
@@ -10,6 +10,7 @@
   var selectAdjustmentElement = null;
   var sportyMode = false;
   var sportyCardsMode = false;
+  var sportyPaused = false;
   var unmuteMode = false;
   var refreshTimer = 0;
 
@@ -412,7 +413,7 @@
     if (media && media.tagName === 'VIDEO') {
       media.playsInline = true;
       media.setAttribute('playsinline', '');
-      media.play().catch(function () {});
+      if (!sportyPaused) media.play().catch(function () {});
     }
 
     var cards = sportyLiveCards();
@@ -433,10 +434,10 @@
   function moveSporty(direction) {
     if (!sportyMode) return null;
     if (!sportyCardsMode) {
-      return direction === 'down' ? enterSportyCards() : null;
+      return direction === 'down' ? enterSportyCards() : true;
     }
 
-    var cards = sportyLiveCards();
+    var cards = sportyProgramCards();
     if (!cards.length) {
       return direction === 'up' ? returnToSportyPlayer() : true;
     }
@@ -445,16 +446,19 @@
     if (currentIndex < 0) {
       return direction === 'up' ? returnToSportyPlayer() : setActive(cards[0]);
     }
-    if (direction === 'up') {
-      return currentIndex === 0
-        ? returnToSportyPlayer()
-        : setActive(cards[currentIndex - 1]);
-    }
-    if (direction === 'down') {
-      return currentIndex < cards.length - 1
-        ? setActive(cards[currentIndex + 1])
-        : true;
-    }
+    var origin = elementCenter(activeElement);
+    var best = null;
+    var bestScore = Number.POSITIVE_INFINITY;
+    cards.forEach(function (card) {
+      if (card === activeElement) return;
+      var score = scoreCandidate(origin, card, direction);
+      if (score < bestScore) { best = card; bestScore = score; }
+    });
+    if (best) return setActive(best);
+    if (direction === 'up') return returnToSportyPlayer();
+    // Horizontal keys also work for the provider's single-column guide.
+    if (direction === 'left' && currentIndex > 0) return setActive(cards[currentIndex - 1]);
+    if (direction === 'right' && currentIndex < cards.length - 1) return setActive(cards[currentIndex + 1]);
     return true;
   }
 
@@ -472,6 +476,7 @@
     ensureUnmutedMedia();
     var video = largestMedia();
     if (!video || video.tagName !== 'VIDEO') return false;
+    if (sportyMode) sportyPaused = !video.paused;
     if (video.paused) {
       video.play().catch(function () {});
     } else {
@@ -482,6 +487,7 @@
 
   function activate() {
     ensureUnmutedMedia();
+    if (sportyMode && !sportyCardsMode) return playPause();
     var element = activeElement && isVisible(activeElement) ? activeElement : document.activeElement;
     if (!element || element === document.body || element === document.documentElement) {
       element = largestMedia();
@@ -489,12 +495,6 @@
     if (!element) return false;
     if (element.tagName === 'SELECT') return toggleSelectAdjustment(element);
     if (element.tagName === 'VIDEO') {
-      if (sportyMode && element.requestFullscreen) {
-        try {
-          var request = element.requestFullscreen();
-          if (request && request.catch) request.catch(function () {});
-        } catch (_error) {}
-      }
       return playPause();
     }
     var activatingSportyCard = sportyMode
@@ -510,8 +510,14 @@
       var activationTarget = pointedElement && element.contains(pointedElement)
         ? pointedElement
         : element;
-      if (activatingSportyCard) sportyCardsMode = false;
-      activationTarget.click();
+      if (activatingSportyCard) {
+        sportyCardsMode = false;
+        sportyPaused = false;
+        clearActive();
+        element.click();
+      } else {
+        activationTarget.click();
+      }
       if (activatingSportyCard) window.setTimeout(refresh, 250);
       return true;
     } catch (_error) {
@@ -683,7 +689,7 @@
       if (media.tagName === 'VIDEO') {
         media.playsInline = true;
         media.setAttribute('playsinline', '');
-        media.play().catch(function () {});
+        if (!sportyPaused) media.play().catch(function () {});
       }
       preferHighQuality(shell);
       return;
@@ -697,7 +703,7 @@
       media.preload = 'auto';
       media.playsInline = false;
       media.removeAttribute('playsinline');
-      media.play().catch(function () {});
+      if (!sportyPaused) media.play().catch(function () {});
     }
     preferHighQuality(shell);
   }
@@ -708,7 +714,7 @@
       stopSelectAdjustment();
     }
     if (activeElement && !isVisible(activeElement)) {
-      var restoreItems = sportyMode && sportyCardsMode ? sportyLiveCards() : candidates();
+      var restoreItems = sportyMode && sportyCardsMode ? sportyProgramCards() : candidates();
       if (!restoreActive(restoreItems)) activeElement = null;
     }
     ensureUnmutedMedia();
@@ -718,6 +724,8 @@
   function configure(options) {
     sportyMode = Boolean(options && options.sporty);
     sportyCardsMode = false;
+    sportyPaused = false;
+    clearActive();
     unmuteMode = Boolean(options && options.unmute);
     refresh();
     if (refreshTimer) window.clearInterval(refreshTimer);
@@ -726,6 +734,10 @@
 
   window.__rugareTvRemote = {
     version: CONTROLLER_VERSION,
+    back: function () {
+      if (selectAdjustmentElement) { stopSelectAdjustment(); return true; }
+      return sportyMode && sportyCardsMode ? returnToSportyPlayer() : false;
+    },
     activate: activate,
     configure: configure,
     move: move,

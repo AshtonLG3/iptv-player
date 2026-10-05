@@ -433,6 +433,8 @@ test('Sporty mode starts player-first and jumps directly to live cards', async (
   controller.move('up');
   assert.equal(firstGame.classes.has('rugare-tv-remote-focus'), true);
   controller.move('up');
+  assert.equal(replayCard.classes.has('rugare-tv-remote-focus'), true);
+  controller.move('up');
   assert.equal(documentObj.documentElement.classes.has('rugare-sporty-full'), true);
   assert.equal(video.paused, false);
 });
@@ -493,4 +495,50 @@ test('Android browser unmutes AfreeTV, ZBC, and Sporty and forwards remote keys'
     /openOfficialFallback\(fallbackUrl, true\)/,
   );
   assert.doesNotMatch(mainActivitySource, /sporty\.com\/football\/matches\/all/);
+});
+
+
+test('Sporty remote crosses columns, activates replays and returns with Back', async () => {
+  const { controller, documentObj } = await createController();
+  const cards = [
+    new FakeElement(documentObj, { tagName: 'BUTTON', rect: createRect(20, 300, 220, 100), text: '15:00Live Game Start: today | Duration: 120 Mins' }),
+    new FakeElement(documentObj, { tagName: 'BUTTON', rect: createRect(300, 300, 220, 100), text: 'Replay Game Start: today | Duration: 120 Mins' }),
+    new FakeElement(documentObj, { tagName: 'BUTTON', rect: createRect(300, 800, 220, 100), text: 'Replay Offscreen Start: today | Duration: 120 Mins' }),
+  ];
+  documentObj.elements = cards;
+  controller.configure({ sporty: true });
+  controller.move('down');
+  assert.equal(documentObj.activeElement, cards[0]);
+  controller.move('right');
+  assert.equal(documentObj.activeElement, cards[1]);
+  controller.move('down');
+  assert.equal(documentObj.activeElement, cards[2]);
+  controller.move('up');
+  controller.move('left');
+  assert.equal(documentObj.activeElement, cards[0]);
+  assert.equal(controller.back(), true);
+  assert.equal(controller.back(), false);
+  controller.move('down');
+  controller.move('right');
+  controller.activate();
+  assert.equal(cards[1].clickCount, 1);
+  assert.equal(cards[1].classes.has('rugare-tv-remote-focus'), false);
+  assert.equal(controller.back(), false);
+});
+
+test('Sporty OK pauses inline without native fullscreen and refresh preserves pause', async () => {
+  const { controller, documentObj } = await createController();
+  const video = new FakeElement(documentObj, { tagName: 'VIDEO', rect: createRect(0, 0, 1000, 300) });
+  video.paused = true;
+  video.play = () => { video.paused = false; return Promise.resolve(); };
+  video.pause = () => { video.paused = true; };
+  video.requestFullscreen = () => { throw new Error('Remote must keep the guide reachable'); };
+  documentObj.elements = [video];
+  controller.configure({ sporty: true });
+  assert.equal(video.paused, false);
+  controller.activate();
+  controller.refresh();
+  assert.equal(video.paused, true);
+  controller.activate();
+  assert.equal(video.paused, false);
 });

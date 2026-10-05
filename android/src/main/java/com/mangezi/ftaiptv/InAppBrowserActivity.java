@@ -705,7 +705,14 @@ public final class InAppBrowserActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        navigateBack();
+        if (webView != null && customView == null && fullscreenPlayback) {
+            webView.evaluateJavascript(
+                    "Boolean(window.__rugareTvRemote && window.__rugareTvRemote.back())",
+                    handled -> { if (!"true".equals(handled)) navigateBack(); }
+            );
+        } else {
+            navigateBack();
+        }
     }
 
     @Override
