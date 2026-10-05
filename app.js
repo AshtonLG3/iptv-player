@@ -1,33 +1,33 @@
-import * as playlistModule from './src/playlist.js?v=20261005b';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261005b';
+import * as playlistModule from './src/playlist.js?v=20261005c';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261005c';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261005b';
+} from './src/constants.js?v=20261005c';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261005b';
+} from './src/playlistAccess.js?v=20261005c';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261005b';
-import { createPlayer } from './src/player.js?v=20261005b';
-import { createEpgController } from './src/epg.js?v=20261005b';
-import { createFullscreenController } from './src/fullscreen.js?v=20261005b';
+} from './src/ui.js?v=20261005c';
+import { createPlayer } from './src/player.js?v=20261005c';
+import { createEpgController } from './src/epg.js?v=20261005c';
+import { createFullscreenController } from './src/fullscreen.js?v=20261005c';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261005b';
-import { updateMediaSession } from './src/mediaSession.js?v=20261005b';
+} from './src/channelRoute.js?v=20261005c';
+import { updateMediaSession } from './src/mediaSession.js?v=20261005c';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -37,15 +37,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261005b';
+} from './src/tvRemote.js?v=20261005c';
 import {
   getTheme,
-  isFavorite,
+  createFavoritesApi,
   setTheme,
-  toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261005b';
+} from './src/storage.js?v=20261005c';
 
 const {
   clearPrivatePlaylist,
@@ -256,10 +255,7 @@ async function main() {
     document.documentElement.dataset.theme = theme;
   }
 
-  const favoritesApi = {
-    isFavorite: (url) => isFavorite(window.localStorage, url),
-    toggle: (url) => toggleFavorite(window.localStorage, url),
-  };
+  const favoritesApi = createFavoritesApi(window.localStorage);
 
   const themeApi = {
     get: () => getTheme(window.localStorage),
@@ -948,13 +944,13 @@ async function main() {
       channelRoutes = createChannelRouteIndex(channels);
       // Keep stars saved against an older quality variant visible after grouping.
       for (const channel of channels) {
-        if (!isFavorite(window.localStorage, channel.url)
-          && channel.variants.some((variant) => isFavorite(window.localStorage, variant.url))) {
-          toggleFavorite(window.localStorage, channel.url);
+        if (!favoritesApi.isFavorite(channel.url)
+          && channel.variants.some((variant) => favoritesApi.isFavorite(variant.url))) {
+          favoritesApi.toggle(channel.url);
         }
         for (const variant of channel.variants) {
-          if (variant.url !== channel.url && isFavorite(window.localStorage, variant.url)) {
-            toggleFavorite(window.localStorage, variant.url);
+          if (variant.url !== channel.url && favoritesApi.isFavorite(variant.url)) {
+            favoritesApi.toggle(variant.url);
           }
         }
       }
@@ -968,6 +964,7 @@ async function main() {
         playlistAccessApi,
         onSelectChannel: selectChannel,
         onVisibleChannelsChange: setVisibleChannels,
+        onFavoriteChange: () => updateNowPlayingSummary(currentChannel),
         onMenuOpenChange: (isOpen) => {
           layoutEl.classList.toggle('settings-open', isOpen);
           if (!isTvMode || syncingTvPanel) return;
@@ -1023,7 +1020,14 @@ async function main() {
     if (!currentChannel) return;
     favoritesApi.toggle(currentChannel.url);
     updateNowPlayingSummary(currentChannel);
-    appView?.refresh();
+    appView?.refreshFavorites(currentChannel.url);
+  });
+
+  window.addEventListener('storage', (event) => {
+    if (event.key !== 'fta-iptv:favorites' && event.key !== null) return;
+    favoritesApi.reload();
+    appView?.refreshFavorites();
+    updateNowPlayingSummary(currentChannel);
   });
 
   settingsToggle.addEventListener('click', () => appView?.setMenuOpen(true));

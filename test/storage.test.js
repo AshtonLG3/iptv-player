@@ -4,6 +4,7 @@ import {
   loadFavorites,
   toggleFavorite,
   isFavorite,
+  createFavoritesApi,
   getLastWatched,
   setLastWatched,
   getTheme,
@@ -22,6 +23,27 @@ function createFakeStorage() {
 test('loadFavorites returns an empty list when nothing is stored', () => {
   const storage = createFakeStorage();
   assert.deepEqual(loadFavorites(storage), []);
+});
+
+test('favorite membership checks reuse cached storage and synchronize toggles and external changes', () => {
+  const storage = createFakeStorage();
+  let reads = 0;
+  const getItem = storage.getItem;
+  storage.getItem = (key) => { reads += 1; return getItem(key); };
+  const favorites = createFavoritesApi(storage);
+  favorites.toggle('alpha');
+  const readsAfterToggle = reads;
+  for (let index = 0; index < 10000; index += 1) {
+    assert.equal(favorites.isFavorite('alpha'), true);
+    assert.equal(favorites.isFavorite('beta'), false);
+  }
+  assert.equal(reads, readsAfterToggle);
+  toggleFavorite(storage, 'beta');
+  favorites.reload();
+  assert.equal(favorites.isFavorite('beta'), true);
+  favorites.toggle('alpha');
+  assert.equal(favorites.isFavorite('alpha'), false);
+  assert.deepEqual(loadFavorites(storage), ['beta']);
 });
 
 test('toggleFavorite adds then removes a channel url', () => {

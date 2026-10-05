@@ -28,6 +28,21 @@ export function isFavorite(storage, channelUrl) {
   return loadFavorites(storage).includes(channelUrl);
 }
 
+export function createFavoritesApi(storage) {
+  let favorites = new Set(loadFavorites(storage));
+  return {
+    isFavorite: (url) => favorites.has(url),
+    toggle(url) {
+      const updated = toggleFavorite(storage, url);
+      favorites = new Set(updated);
+      return updated;
+    },
+    reload() {
+      favorites = new Set(loadFavorites(storage));
+    },
+  };
+}
+
 export function getLastWatched(storage) {
   return storage.getItem(LAST_WATCHED_KEY) || null;
 }
