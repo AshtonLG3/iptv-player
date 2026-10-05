@@ -724,6 +724,15 @@ public final class MainActivity extends Activity {
 
     private void openInstalledApp(String packageName, String fallbackUrl, String deepLinkUrl) {
         if (isTelevisionDevice && isSportyPlayback(packageName, fallbackUrl)) {
+            Intent sportyTv = getPackageManager().getLeanbackLaunchIntentForPackage("com.sporty.android.tv");
+            if (sportyTv == null) {
+                sportyTv = getPackageManager().getLaunchIntentForPackage("com.sporty.android.tv");
+            }
+            if (sportyTv != null) {
+                sportyTv.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(sportyTv);
+                return;
+            }
             openOfficialFallback(fallbackUrl, true);
             return;
         }

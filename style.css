@@ -1021,11 +1021,13 @@ html.tv-mode .overflow-menu-button {
 }
 
 html.tv-mode .overflow-menu-panel {
+  align-content: start;
   background: rgba(18, 20, 26, 0.97);
   border-radius: 0;
   bottom: 0;
   box-shadow: -18px 0 42px rgba(0, 0, 0, 0.42);
   gap: 0.85rem;
+  grid-auto-rows: max-content;
   left: auto;
   max-height: none;
   overflow-y: auto;

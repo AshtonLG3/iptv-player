@@ -2,6 +2,8 @@
 
 Release 1.6.26. Tests run from South Africa; availability elsewhere can differ.
 
+Update for 1.6.27: the added Willow subscription, ZNBC YouTube and MBC Plus shortcuts have been removed at the user's request. The regional feed results below remain historical evidence, not claims of current playback through those shortcuts. Great Commission TV was also played successfully on the attached Android TV during the 1.6.27 device run.
+
 - Added Great Commission TV (Kenya), from its official player at https://theiammediaministries.com/tv/. Its HLS manifest and media segment passed, FFmpeg decoded five seconds of video, and a captured frame showed the Great Commission branding. Upstream identifies English and Swahili programming.
 - Rechecked Akili Kids!, K24, Capuchin TV, MERU TV, Morning Cloud TV and YOUNIB Media TV: manifests and media segments passed. Added the passing 480p Morning Cloud source as a backup.
 - Disabled Inooro's expired direct URL after repeated manifest 404 responses.

@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.6.26';
+export const APP_VERSION = '1.6.27';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -53,32 +53,6 @@ export const COMPATIBLE_PLAYERS = [
 ];
 
 export const OFFICIAL_SERVICES = [
-  {
-    id: 'willow-official',
-    name: 'Willow TV (subscription)',
-    shortLabel: 'Willow TV · paid',
-    country: 'United States / Canada',
-    url: 'https://www.willow.tv/',
-    note: 'Official cricket service. Subscription and regional availability apply; direct Rugare playback is unavailable.',
-  },
-  {
-    id: 'znbc-youtube',
-    name: 'ZNBC Zambia YouTube',
-    shortLabel: 'ZNBC · YouTube',
-    country: 'Zambia',
-    url: 'https://www.youtube.com/@znbctoday9720/streams',
-    note: 'Official ZNBC broadcasts on YouTube; live availability follows the broadcaster schedule.',
-  },
-  {
-    id: 'mbc-plus',
-    name: 'MBC Plus Malawi',
-    shortLabel: 'MBC Plus · app',
-    country: 'Malawi',
-    url: 'https://mbc.mw/',
-    androidPackage: 'com.mbc.mbcplus',
-    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.mbc.mbcplus',
-    note: 'Official Malawi broadcaster app for TV and radio. Direct Rugare stream unavailable; app playback has not been verified.',
-  },
   {
     id: 'sabc-plus',
     name: 'SABC+',
@@ -162,7 +136,4 @@ export const FEATURED_OFFICIAL_SERVICE_IDS = [
   'sabc-plus',
   'zplus',
   'sportytv-app',
-  'willow-official',
-  'znbc-youtube',
-  'mbc-plus',
 ];

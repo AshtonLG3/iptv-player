@@ -495,6 +495,7 @@ test('Android browser unmutes AfreeTV, ZBC, and Sporty and forwards remote keys'
     /openOfficialFallback\(fallbackUrl, true\)/,
   );
   assert.doesNotMatch(mainActivitySource, /sporty\.com\/football\/matches\/all/);
+  assert.match(mainActivitySource, /getLeanbackLaunchIntentForPackage\("com\.sporty\.android\.tv"\)/);
 });
 
 

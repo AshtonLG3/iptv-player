@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 53,
-  "versionName": "1.6.26",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.26.apk",
-  "sha256": "5370CCDA0977729EBABF6C8B049883A56E981AD0865592FE4615A230227A718D",
-  "releaseNotes": "Adds verified Great Commission TV Kenya and a Morning Cloud backup. Removes failing Willow Sports and Inooro direct feeds. Adds labelled official Willow subscription, ZNBC YouTube and MBC Plus app shortcuts; direct Willow, Zambia and Malawi playback remains unavailable.",
-  "publishedAt": "2026-10-05T19:53:28.9130077Z"
+  "versionCode": 54,
+  "versionName": "1.6.27",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.27.apk",
+  "sha256": "828D48F2181D3A8539061F2CB1680EB98366ABE46BBB4509A33324F75142FC47",
+  "releaseNotes": "Removes the extra YouTube and paid shortcuts. SportyTV now opens its dedicated Android TV app when installed, with the official website as fallback. Fixes overlapping TV settings controls. Includes the verified Kenya catalog additions.",
+  "publishedAt": "2026-10-05T20:58:21.9999044Z"
 }
