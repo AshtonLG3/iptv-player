@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   detectTelevision,
+  dispatchNativeTvKey,
   getBoundedFocusIndex,
   getGlobalTvRemoteAction,
   getTvNavigationKey,
@@ -11,6 +12,33 @@ import {
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
 } from '../src/tvRemote.js';
+
+test('native Android D-pad reaches navigation and OK activates once without browser defaults', () => {
+  const keys = [];
+  let clicks = 0;
+  const target = { tagName: 'BUTTON', click() { clicks += 1; } };
+  const handlers = { activeElement: () => target, onKeydown(event) { keys.push(event.key); } };
+  for (const code of [19, 20, 21, 22]) assert.equal(dispatchNativeTvKey(code, 0, handlers), true);
+  assert.deepEqual(keys, ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']);
+  for (const code of [23, 66, 160]) {
+    dispatchNativeTvKey(code, 0, handlers);
+    dispatchNativeTvKey(code, 1, handlers);
+  }
+  assert.equal(clicks, 3);
+  assert.equal(dispatchNativeTvKey(99, 0, handlers), false);
+});
+
+test('native OK honors handled actions and leaves select/text fields to the WebView', () => {
+  let clicks = 0;
+  const target = { tagName: 'BUTTON', click() { clicks += 1; } };
+  assert.equal(dispatchNativeTvKey(23, 0, { activeElement: () => target,
+    onKeydown(event) { event.preventDefault(); } }), true);
+  assert.equal(clicks, 0);
+  for (const field of [{ tagName: 'SELECT' }, { tagName: 'INPUT', type: 'text' }, { tagName: 'TEXTAREA' }]) {
+    assert.equal(dispatchNativeTvKey(23, 0, { activeElement: () => field,
+      onKeydown() { assert.fail('Native input should be preserved'); } }), false);
+  }
+});
 
 test('detectTelevision prefers the native Android TV bridge', () => {
   assert.equal(detectTelevision({ bridge: { isTelevision: () => true } }), true);

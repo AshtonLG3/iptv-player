@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 51,
-  "versionName": "1.6.24",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.24.apk",
-  "sha256": "39DAF7A1C53979B0212D68BDBAB2F747A5671DEA9323E28018B21E6DB0887C0A",
-  "releaseNotes": "Removes favorite-toggle stalls by updating stars in place and caching saved favorites. Channels load automatically while scrolling or navigating with the TV remote, without a Next 500 button. Includes the latest SportyTV remote navigation fixes.",
-  "publishedAt": "2026-10-05T16:02:00.5612318Z"
+  "versionCode": 52,
+  "versionName": "1.6.25",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.25.apk",
+  "sha256": "A5582F142DC7A05110EEA10DCE1ABA30F34989C6EDD342223A5A2C904695BC06",
+  "releaseNotes": "Routes Android TV directional and OK buttons directly to the app so remote navigation works independently of WebView keyboard focus. Preserves responsive favorites and automatic channel scrolling.",
+  "publishedAt": "2026-10-05T16:34:17.5074224Z"
 }

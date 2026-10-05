@@ -111,6 +111,7 @@ public final class MainActivity extends Activity {
         webView.setBackgroundColor(Color.TRANSPARENT);
         webView.setFocusable(true);
         webView.setFocusableInTouchMode(true);
+        webView.requestFocus();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             webView.setRendererPriorityPolicy(WebView.RENDERER_PRIORITY_IMPORTANT, true);
         }
@@ -329,6 +330,10 @@ public final class MainActivity extends Activity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        if (isTelevisionDevice && isTvNavigationKey(event.getKeyCode())) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) forwardTvNavigationKey(event);
+            return true; // Consume key-up too, preventing duplicate WebView activation.
+        }
         if (!isTelevisionDevice || event.getAction() != KeyEvent.ACTION_DOWN) {
             return super.dispatchKeyEvent(event);
         }
@@ -640,6 +645,30 @@ public final class MainActivity extends Activity {
         webView.post(() -> webView.evaluateJavascript(script, null));
     }
 
+    private static boolean isTvNavigationKey(int keyCode) {
+        return keyCode == KeyEvent.KEYCODE_DPAD_UP
+                || keyCode == KeyEvent.KEYCODE_DPAD_DOWN
+                || keyCode == KeyEvent.KEYCODE_DPAD_LEFT
+                || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+                || keyCode == KeyEvent.KEYCODE_DPAD_CENTER
+                || keyCode == KeyEvent.KEYCODE_ENTER
+                || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER;
+    }
+
+    private void forwardTvNavigationKey(KeyEvent event) {
+        if (webView == null) return;
+        final KeyEvent down = new KeyEvent(event);
+        String script = "Boolean(window.__ftaIptvTvKey && window.__ftaIptvTvKey("
+                + event.getKeyCode() + "," + event.getRepeatCount() + "))";
+        webView.evaluateJavascript(script, handled -> {
+            if (webView != null && !"true".equals(handled)) {
+                // Native select dialogs/text fields need a real down/up pair.
+                webView.dispatchKeyEvent(down);
+                webView.dispatchKeyEvent(KeyEvent.changeAction(down, KeyEvent.ACTION_UP));
+            }
+        });
+    }
+
     private void sendUpdateStatus(String message) {
         if (webView == null || message == null) return;
         String quotedMessage = JSONObject.quote(message);
@@ -821,7 +850,10 @@ public final class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         suppressMediaSessionUpdates = false;
-        if (webView != null) webView.onResume();
+        if (webView != null) {
+            webView.onResume();
+            if (isTelevisionDevice) webView.requestFocus();
+        }
         if (updateManager != null) updateManager.resumePendingInstall();
     }
 

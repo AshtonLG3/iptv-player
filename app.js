@@ -1,35 +1,36 @@
-import * as playlistModule from './src/playlist.js?v=20261005c';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261005c';
+import * as playlistModule from './src/playlist.js?v=20261005d';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261005d';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261005c';
+} from './src/constants.js?v=20261005d';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261005c';
+} from './src/playlistAccess.js?v=20261005d';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261005c';
-import { createPlayer } from './src/player.js?v=20261005c';
-import { createEpgController } from './src/epg.js?v=20261005c';
-import { createFullscreenController } from './src/fullscreen.js?v=20261005c';
+} from './src/ui.js?v=20261005d';
+import { createPlayer } from './src/player.js?v=20261005d';
+import { createEpgController } from './src/epg.js?v=20261005d';
+import { createFullscreenController } from './src/fullscreen.js?v=20261005d';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261005c';
-import { updateMediaSession } from './src/mediaSession.js?v=20261005c';
+} from './src/channelRoute.js?v=20261005d';
+import { updateMediaSession } from './src/mediaSession.js?v=20261005d';
 import {
   detectTelevision,
+  dispatchNativeTvKey,
   getGlobalTvRemoteAction,
   getTvNavigationKey,
   getToggledTvPanel,
@@ -37,14 +38,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261005c';
+} from './src/tvRemote.js?v=20261005d';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261005c';
+} from './src/storage.js?v=20261005d';
 
 const {
   clearPrivatePlaylist,
@@ -1091,6 +1092,13 @@ async function main() {
     updatePlayPauseButton();
   });
   document.addEventListener('keydown', handleTvKeydown);
+  window.__ftaIptvTvKey = (keyCode, repeatCount = 0) => {
+    activateTelevisionMode();
+    return dispatchNativeTvKey(keyCode, repeatCount, {
+      onKeydown: handleTvKeydown,
+      activeElement: () => document.activeElement,
+    });
+  };
   window.addEventListener('popstate', () => {
     const slug = getRequestedChannelSlug(window.location.pathname, channelRouteBase);
     const channel = channelRoutes.channelBySlug.get(slug);

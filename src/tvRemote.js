@@ -34,6 +34,7 @@ export function getTvNavigationKey({ key = '', code = '', keyCode = 0 } = {}) {
     || keyCode === 13
     || keyCode === 23
     || keyCode === 66
+    || keyCode === 160
   ) {
     return 'Enter';
   }
@@ -49,6 +50,24 @@ export function getTvNavigationKey({ key = '', code = '', keyCode = 0 } = {}) {
     return 'BrowserBack';
   }
   return key;
+}
+
+// Native Android key forwarding bypasses WebView's focus-dependent default actions.
+export function dispatchNativeTvKey(keyCode, repeatCount, { onKeydown, activeElement }) {
+  const key = getTvNavigationKey({ keyCode });
+  if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'].includes(key)) return false;
+  const target = activeElement();
+  if (key === 'Enter' && (target?.tagName === 'SELECT'
+    || target?.tagName === 'TEXTAREA'
+    || (target?.tagName === 'INPUT' && !['checkbox', 'radio', 'button', 'submit'].includes(target.type)))) {
+    return false; // Let the focused WebView open native pickers and the keyboard.
+  }
+  if (key === 'Enter' && repeatCount > 0) return true;
+  let prevented = false;
+  onKeydown({ key, keyCode, repeat: repeatCount > 0, target,
+    preventDefault() { prevented = true; } });
+  if (key === 'Enter' && !prevented) activeElement()?.click?.();
+  return true;
 }
 
 export function shouldActivateTelevisionFromRemote({
