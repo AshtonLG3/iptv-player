@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261004e';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261004e';
-import { getMediaSection } from './catalog.js?v=20261004e';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261005a';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261005a';
+import { getMediaSection } from './catalog.js?v=20261005a';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -286,7 +286,7 @@ export function renderApp({
           <button id="search-clear" class="channel-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
         </div>
         <div id="category-strip" class="category-strip" aria-label="Subcategories"></div>
-        <p class="remote-browse-hint">← Categories · ↑ Apps · Back to channels</p>
+        <p class="remote-browse-hint">→ Star · OK saves favorite · ← Categories · ↑ Apps</p>
       </section>
       <ul id="channel-list"></ul>
     </aside>
@@ -447,7 +447,9 @@ export function renderApp({
     if (list.length === 0) {
       const emptyItem = document.createElement('li');
       emptyItem.className = 'empty-state';
-      emptyItem.textContent = channels.some((channel) => getMediaSection(channel) === mediaSection)
+      emptyItem.textContent = favoritesToggle.checked
+        ? 'No favorites yet. Choose All, then press Right and OK on a channel star to save it.'
+        : channels.some((channel) => getMediaSection(channel) === mediaSection)
         ? 'No titles match these filters.'
         : `No ${mediaSection === 'movie' ? 'on-demand movies' : mediaSection === 'show' ? 'shows' : 'live channels'} are supplied by the current playlist.`;
       listEl.appendChild(emptyItem);
@@ -506,13 +508,26 @@ export function renderApp({
       const favButton = document.createElement('button');
       favButton.type = 'button';
       favButton.className = 'favorite-btn';
-      favButton.textContent = favoritesApi.isFavorite(channel.url) ? '★' : '☆';
-      favButton.setAttribute('aria-label', `Toggle favorite for ${channel.name}`);
-      if (document.documentElement.classList.contains('tv-mode')) favButton.tabIndex = -1;
+      const favorite = favoritesApi.isFavorite(channel.url);
+      favButton.textContent = favorite ? '★' : '☆';
+      favButton.setAttribute('aria-label', `${favorite ? 'Remove' : 'Add'} ${channel.name} ${favorite ? 'from' : 'to'} favorites`);
+      favButton.setAttribute('aria-pressed', String(favorite));
       favButton.addEventListener('click', (event) => {
         event.stopPropagation();
+        const hadFocus = document.activeElement === favButton;
+        const rowIndex = visibleChannels.findIndex((item) => item.url === channel.url);
         favoritesApi.toggle(channel.url);
         applyFilters();
+        if (hadFocus) {
+          const url = visibleChannels.some((item) => item.url === channel.url)
+            ? channel.url : visibleChannels[Math.min(rowIndex, visibleChannels.length - 1)]?.url;
+          if (url) {
+            focusChannel(url);
+            moveChannelActionFocus('right');
+          } else {
+            focusCategory();
+          }
+        }
       });
 
       item.appendChild(favButton);
@@ -557,13 +572,22 @@ export function renderApp({
 
   function renderCategoryStrip() {
     categoryStrip.innerHTML = '';
-    for (const category of ['', ...categories]) {
+    for (const category of ['', 'favorites', ...categories]) {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'category-chip';
       button.dataset.category = category;
-      button.textContent = category || 'All';
+      button.textContent = category === 'favorites' ? '★ Favorites' : category || 'All';
       button.addEventListener('click', () => {
+        if (category === 'favorites') {
+          searchBox.value = '';
+          setSearchOpen(false);
+          countrySelect.value = '';
+          categorySelect.value = '';
+          favoritesToggle.checked = true;
+          applyFilters();
+          return;
+        }
         if (!category) {
           searchBox.value = '';
           setSearchOpen(false);
@@ -574,6 +598,7 @@ export function renderApp({
           return;
         }
         categorySelect.value = category;
+        favoritesToggle.checked = false;
         applyFilters({ relaxCountryWhenCategoryEmpty: true });
       });
       categoryStrip.appendChild(button);
@@ -582,7 +607,9 @@ export function renderApp({
 
   function syncCategoryStrip() {
     for (const button of categoryStrip.querySelectorAll('.category-chip')) {
-      const selected = button.dataset.category === categorySelect.value;
+      const selected = button.dataset.category === 'favorites'
+        ? favoritesToggle.checked
+        : !favoritesToggle.checked && button.dataset.category === categorySelect.value;
       button.classList.toggle('selected', selected);
       button.setAttribute('aria-pressed', String(selected));
     }
@@ -618,18 +645,32 @@ export function renderApp({
 
   function moveChannelFocus(direction) {
     const buttons = [...listEl.querySelectorAll('.channel-select-button')];
-    const currentIndex = buttons.indexOf(document.activeElement);
+    const favoriteFocused = document.activeElement?.classList.contains('favorite-btn');
+    const row = document.activeElement?.closest('.channel-item');
+    const currentIndex = buttons.indexOf(row?.querySelector('.channel-select-button'));
     if (!buttons.length) return false;
     const nextIndex = getBoundedFocusIndex(buttons.length, currentIndex, direction);
-    const button = buttons[nextIndex];
+    const button = favoriteFocused
+      ? buttons[nextIndex].closest('.channel-item').querySelector('.favorite-btn') : buttons[nextIndex];
     lastFocusedChannelUrl = button.closest('.channel-item')?.dataset.channelUrl || null;
     button.focus({ preventScroll: true });
     button.closest('.channel-item')?.scrollIntoView({ block: 'nearest' });
     return true;
   }
 
+  function moveChannelActionFocus(direction) {
+    const row = document.activeElement?.closest('.channel-item');
+    if (!row) return false;
+    const favoriteFocused = document.activeElement.classList.contains('favorite-btn');
+    if ((direction === 'right' && !favoriteFocused) || (direction === 'left' && favoriteFocused)) {
+      row.querySelector(direction === 'right' ? '.favorite-btn' : '.channel-select-button')?.focus({ preventScroll: true });
+      return true;
+    }
+    return false;
+  }
+
   function getCategoryButtons() {
-    return [...sectionNav.querySelectorAll('button'), ...categoryStrip.querySelectorAll('.category-chip')];
+    return [...categoryStrip.querySelectorAll('.category-chip')];
   }
 
   function focusCategory() {
@@ -654,7 +695,7 @@ export function renderApp({
 
   function isFirstChannelFocused() {
     const firstButton = listEl.querySelector('.channel-select-button');
-    return Boolean(firstButton && document.activeElement === firstButton);
+    return Boolean(firstButton && firstButton.closest('.channel-item').contains(document.activeElement));
   }
 
   function getChannelServiceLinks() {
@@ -945,6 +986,7 @@ export function renderApp({
     focusChannel,
     scrollToChannel,
     moveChannelFocus,
+    moveChannelActionFocus,
     focusCategory,
     moveCategoryFocus,
     isFirstChannelFocused,

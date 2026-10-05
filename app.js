@@ -1,33 +1,33 @@
-import * as playlistModule from './src/playlist.js?v=20261004e';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261004e';
+import * as playlistModule from './src/playlist.js?v=20261005a';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261005a';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261004e';
+} from './src/constants.js?v=20261005a';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261004e';
+} from './src/playlistAccess.js?v=20261005a';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261004e';
-import { createPlayer } from './src/player.js?v=20261004e';
-import { createEpgController } from './src/epg.js?v=20261004e';
-import { createFullscreenController } from './src/fullscreen.js?v=20261004e';
+} from './src/ui.js?v=20261005a';
+import { createPlayer } from './src/player.js?v=20261005a';
+import { createEpgController } from './src/epg.js?v=20261005a';
+import { createFullscreenController } from './src/fullscreen.js?v=20261005a';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261004e';
-import { updateMediaSession } from './src/mediaSession.js?v=20261004e';
+} from './src/channelRoute.js?v=20261005a';
+import { updateMediaSession } from './src/mediaSession.js?v=20261005a';
 import {
   detectTelevision,
   getGlobalTvRemoteAction,
@@ -37,7 +37,7 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261004e';
+} from './src/tvRemote.js?v=20261005a';
 import {
   getTheme,
   isFavorite,
@@ -45,7 +45,7 @@ import {
   toggleFavorite,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261004e';
+} from './src/storage.js?v=20261005a';
 
 const {
   clearPrivatePlaylist,
@@ -634,6 +634,7 @@ async function main() {
     visibleChannels = channels;
     updateChannelNavButtons();
     syncMediaSession();
+    if (!channels.length && isTvMode && tvPanel === 'channels') setTvPanel('categories');
   }
 
   function navigateChannel(direction) {
@@ -778,6 +779,7 @@ async function main() {
     switch (action) {
       case 'left':
       case 'right':
+        if (tvPanel === 'channels' && appView?.moveChannelActionFocus(action)) return true;
         setTvPanel(getTvHorizontalPanelAction(tvPanel, action));
         return true;
       case 'settings':

@@ -1092,7 +1092,19 @@ html.tv-mode .channel-name {
 }
 
 html.tv-mode .favorite-btn {
-  display: none;
+  display: block;
+  flex-shrink: 0;
+  min-width: 56px;
+  min-height: 56px;
+  margin-right: 0.4rem;
+  font-size: 1.8rem;
+  border-radius: 8px;
+}
+
+html.tv-mode .favorite-btn:focus-visible {
+  background: var(--panel-strong);
+  outline: 4px solid var(--accent);
+  outline-offset: -4px;
 }
 
 html.tv-mode .channel-item:hover,

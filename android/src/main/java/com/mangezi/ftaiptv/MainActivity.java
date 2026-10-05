@@ -355,7 +355,7 @@ public final class MainActivity extends Activity {
                     return super.dispatchKeyEvent(event);
                 }
                 if ("channels".equals(tvPanelState)) {
-                    evaluatePlayerCommand("__ftaIptvTvClosePanel");
+                    evaluatePlayerCommand("__ftaIptvTvRight");
                 } else if ("none".equals(tvPanelState)) {
                     evaluatePlayerCommand("__ftaIptvTvRight");
                 }
