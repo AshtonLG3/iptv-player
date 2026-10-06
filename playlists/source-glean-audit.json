@@ -355,12 +355,6 @@
       "soccer": false
     },
     {
-      "id": "CNN.us",
-      "name": "CNN",
-      "english": true,
-      "soccer": false
-    },
-    {
       "id": "BBCFood.us",
       "name": "BBC Food",
       "english": true,
@@ -846,9 +840,9 @@
   ],
   "existingChannelCount": 1145,
   "summary": {
-    "newDisplayedChannels": 55,
+    "newDisplayedChannels": 54,
     "newSoccerChannels": 44,
-    "newEnglishChannels": 11,
+    "newEnglishChannels": 10,
     "verifiedBackups": 21
   },
   "languageAmbiguitiesOmitted": [
@@ -859,6 +853,12 @@
     {
       "id": "Sportitalia.it@SD",
       "error": "Manifest HTTP 404 on final repeated probe"
+    }
+  ],
+  "contentOmissions": [
+    {
+      "id": "CNN.us",
+      "reason": "Provider slate rather than channel programming"
     }
   ]
 }

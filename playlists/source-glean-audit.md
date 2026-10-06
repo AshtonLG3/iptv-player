@@ -68,7 +68,6 @@ Both lists were inspected. English selection uses exact stream/feed metadata whe
 | Jewellery Maker | English |  |
 | Now 70's | English |  |
 | Now 80s | English |  |
-| CNN | English |  |
 | BBC Food | English |  |
 | Global News | English |  |
 | Russia Today | English |  |
@@ -77,6 +76,8 @@ Both lists were inspected. English selection uses exact stream/feed metadata whe
 
 21 verified backup feeds were attached to existing entries. 16 candidate feeds failed video decoding and were omitted. Full audit: source-glean-audit.json. Local probe and decoding evidence: build/glean/.
 
-Displayed after quality/language variant grouping: 55 additional channels (44 soccer, 11 English), plus 21 verified backup feeds. Rai Italia and ICI Montreal were omitted from this import because their language identity was ambiguous despite upstream English labels.
+Displayed after quality/language variant grouping: 54 additional channels (44 soccer, 10 English), plus 21 verified backup feeds. Rai Italia and ICI Montreal were omitted from this import because their language identity was ambiguous despite upstream English labels.
 
 Sportitalia passed initial decoding but returned HTTP 404 on the final repeated probe and was omitted.
+
+CNN was omitted because the supplied feed is a provider slate.
