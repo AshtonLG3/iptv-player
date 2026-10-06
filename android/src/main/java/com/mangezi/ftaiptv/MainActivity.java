@@ -868,15 +868,12 @@ public final class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (isTelevisionDevice && tvPanelOpen) {
-            if ("categories".equals(tvPanelState) || "channel-services".equals(tvPanelState)) {
-                tvPanelState = "channels";
-                evaluatePlayerCommand("__ftaIptvTvReturnToChannels");
-                return;
-            }
-            tvPanelOpen = false;
-            tvPanelState = "none";
-            evaluatePlayerCommand("__ftaIptvTvClosePanel");
+        if (isTelevisionDevice && webView != null) {
+            webView.evaluateJavascript(
+                    "Boolean(window.__ftaIptvTvClosePanel && window.__ftaIptvTvClosePanel())",
+                    handled -> {
+                        if (!"true".equals(handled)) finish();
+                    });
             return;
         }
         if (webView != null && webView.canGoBack()) {

@@ -1,51 +1,52 @@
-import * as playlistModule from './src/playlist.js?v=20261006b';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261006b';
+import * as playlistModule from './src/playlist.js?v=20261006c';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261006c';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261006b';
+} from './src/constants.js?v=20261006c';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261006b';
+} from './src/playlistAccess.js?v=20261006c';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261006b';
-import { createPlayer } from './src/player.js?v=20261006b';
-import { createEpgController } from './src/epg.js?v=20261006b';
-import { createFullscreenController } from './src/fullscreen.js?v=20261006b';
+} from './src/ui.js?v=20261006c';
+import { createPlayer } from './src/player.js?v=20261006c';
+import { createEpgController } from './src/epg.js?v=20261006c';
+import { createFullscreenController } from './src/fullscreen.js?v=20261006c';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261006b';
-import { updateMediaSession } from './src/mediaSession.js?v=20261006b';
+} from './src/channelRoute.js?v=20261006c';
+import { updateMediaSession } from './src/mediaSession.js?v=20261006c';
 import {
   detectTelevision,
   dispatchNativeTvKey,
   getGlobalTvRemoteAction,
   getTvNavigationKey,
+  getTvBackPanel,
   getToggledTvPanel,
   getTvHorizontalPanelAction,
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261006b';
+} from './src/tvRemote.js?v=20261006c';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261006b';
+} from './src/storage.js?v=20261006c';
 
 const {
   clearPrivatePlaylist,
@@ -792,8 +793,18 @@ async function main() {
         if (currentChannel) toggleCurrentVideo();
         return true;
       case 'close':
-        if (tvPanel === 'none') return false;
-        setTvPanel('none');
+        if (tvPanel === 'settings') {
+          const expanded = [...root.querySelectorAll('.overflow-menu-panel details[open]')];
+          const submenu = expanded.find((item) => item.contains(document.activeElement)) || expanded.at(-1);
+          if (submenu) {
+            submenu.open = false;
+            submenu.querySelector('summary')?.focus();
+            return true;
+          }
+        }
+        const parentPanel = getTvBackPanel(tvPanel);
+        if (parentPanel === null) return false;
+        setTvPanel(parentPanel);
         return true;
       default:
         return false;
@@ -812,6 +823,10 @@ async function main() {
     if (!isTvMode) return;
 
     const key = getTvNavigationKey(event);
+    if (key === 'Escape' || key === 'BrowserBack') {
+      if (handleTvRemoteAction('close')) event.preventDefault();
+      return;
+    }
 
     if (tvPanel === 'playback') {
       const horizontalDirection = key === 'ArrowLeft' ? -1 : key === 'ArrowRight' ? 1 : 0;
@@ -970,7 +985,7 @@ async function main() {
           layoutEl.classList.toggle('settings-open', isOpen);
           if (!isTvMode || syncingTvPanel) return;
           if (isOpen && tvPanel !== 'settings') setTvPanel('settings');
-          if (!isOpen && tvPanel === 'settings') setTvPanel('none');
+          if (!isOpen && tvPanel === 'settings') setTvPanel('channels');
         },
       });
       window.__rugareTvReady = true;

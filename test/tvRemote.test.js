@@ -6,6 +6,7 @@ import {
   getBoundedFocusIndex,
   getGlobalTvRemoteAction,
   getTvNavigationKey,
+  getTvBackPanel,
   getToggledTvPanel,
   getTvHorizontalPanelAction,
   getTvVerticalPanelAction,
@@ -90,11 +91,26 @@ test('getGlobalTvRemoteAction keeps horizontal remote directions distinct', () =
 
 test('getTvHorizontalPanelAction opens and exits side panels without looping', () => {
   assert.equal(getTvHorizontalPanelAction('none', 'left'), 'channels');
-  assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'categories');
+  assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'settings');
   assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
-  assert.equal(getTvHorizontalPanelAction('none', 'right'), 'settings');
-  assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'settings');
-  assert.equal(getTvHorizontalPanelAction('settings', 'left'), 'none');
+  assert.equal(getTvHorizontalPanelAction('none', 'right'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('settings', 'left'), 'settings');
+});
+
+test('Back unwinds playback and channel layers before permitting exit at the menu root', () => {
+  let panel = 'services';
+  const visited = [];
+  while (panel !== null) {
+    visited.push(panel);
+    panel = getTvBackPanel(panel);
+  }
+  assert.deepEqual(visited, ['services', 'playback', 'none', 'channels', 'settings']);
+  for (const child of ['categories', 'channel-services']) {
+    assert.equal(getTvBackPanel(child), 'channels');
+  }
+  assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
 });
 
 test('getWrappedFocusIndex wraps remote focus through a list', () => {

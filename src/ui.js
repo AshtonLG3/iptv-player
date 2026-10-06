@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006b';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006b';
-import { getMediaSection } from './catalog.js?v=20261006b';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006c';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006c';
+import { getMediaSection } from './catalog.js?v=20261006c';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -201,6 +201,7 @@ export function renderApp({
               </div>
               <button class="menu-close-button" type="button" aria-label="Close settings"></button>
             </div>
+            <p class="remote-browse-hint">→ Channels · Back closes submenus, then exits</p>
             <select id="country-filter"><option value="">All countries</option></select>
             <select id="category-filter"><option value="">All categories</option></select>
             <label class="blocked-label">
@@ -287,7 +288,7 @@ export function renderApp({
           <button id="search-clear" class="channel-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
         </div>
         <div id="category-strip" class="category-strip" aria-label="Subcategories"></div>
-        <p class="remote-browse-hint">→ Star · OK saves favorite · ← Categories · ↑ Apps</p>
+        <p class="remote-browse-hint">→ Star · OK saves favorite · ← Menu · ↑ Categories · Back opens menu</p>
       </section>
       <ul id="channel-list"></ul>
     </aside>
