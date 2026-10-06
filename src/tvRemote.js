@@ -129,12 +129,11 @@ export function getToggledTvPanel(currentPanel, requestedPanel) {
 export function getTvHorizontalPanelAction(currentPanel, direction) {
   if (direction === 'left') {
     if (currentPanel === 'none') return 'channels';
-    if (currentPanel === 'settings') return 'settings';
+    if (currentPanel === 'settings') return 'browse';
     if (currentPanel === 'channels') return 'categories';
     if (currentPanel === 'categories' || currentPanel === 'browse') return 'settings';
     if (currentPanel === 'favorite') return 'none';
-  if (currentPanel === 'countries') return 'settings';
-  if (currentPanel === 'preferences') return 'settings';
+    if (currentPanel === 'countries' || currentPanel === 'preferences') return 'settings';
     if (currentPanel === 'apps') return 'browse';
     return currentPanel;
   }
@@ -151,9 +150,9 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
   return currentPanel;
 }
 
-// Back walks out through the left menu hierarchy. Null means the root was reached.
+// Back opens the menu layers and closes the root to playback. Exit is explicit.
 export function getTvBackPanel(currentPanel) {
-  if (currentPanel === 'settings') return null;
+  if (currentPanel === 'settings') return 'none';
   if (currentPanel === 'favorite') return 'none';
   if (currentPanel === 'countries') return 'settings';
   if (currentPanel === 'preferences') return 'settings';

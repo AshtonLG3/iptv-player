@@ -208,6 +208,7 @@ export function renderApp({
               <select id="country-filter"><option value="">All countries</option></select>
             </label>
             <button id="tv-settings-button" class="tv-only tv-root-action" type="button">Settings</button>
+            <button id="tv-exit-button" class="tv-only tv-root-action" type="button">Exit app</button>
             <h2 class="tv-only tv-preferences-title">Settings</h2>
             <div class="tv-settings-content">
             <select id="category-filter"><option value="">All categories</option></select>
@@ -323,6 +324,7 @@ export function renderApp({
   const overflowMenu = root.querySelector('#overflow-menu');
   const overflowMenuButton = root.querySelector('.overflow-menu-button');
   const menuCloseButton = root.querySelector('.menu-close-button');
+  root.querySelector('#tv-exit-button').addEventListener('click', () => window.AndroidDevice?.exitApp?.());
   root.querySelector('#tv-countries-button').addEventListener('click', () => onBrowseSelection?.('countries'));
   root.querySelector('#tv-settings-button').addEventListener('click', () => onSettingsSelection?.());
   const playlistLinkList = root.querySelector('#playlist-link-list');

@@ -1025,6 +1025,11 @@ public final class MainActivity extends Activity {
         }
 
         @JavascriptInterface
+        public void exitApp() {
+            if (isTelevisionDevice) runOnUiThread(MainActivity.this::finish);
+        }
+
+        @JavascriptInterface
         public void setPanelOpen(boolean isOpen) {
             tvPanelOpen = isOpen;
             tvPanelState = isOpen ? "channels" : "none";

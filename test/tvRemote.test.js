@@ -95,17 +95,15 @@ test('getTvHorizontalPanelAction opens and exits side panels without looping', (
   assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
   assert.equal(getTvHorizontalPanelAction('none', 'right'), 'channels');
   assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'browse');
-  assert.equal(getTvHorizontalPanelAction('settings', 'left'), 'settings');
+  assert.equal(getTvHorizontalPanelAction('settings', 'left'), 'browse');
 });
 
-test('Back opens categories first and the root menu second before permitting exit', () => {
-  let panel = 'none';
-  const visited = [];
-  while (panel !== null) {
-    visited.push(panel);
-    panel = getTvBackPanel(panel);
-  }
-  assert.deepEqual(visited, ['none', 'browse', 'settings']);
+test('Back opens categories and root, then returns to playback without exiting', () => {
+  assert.equal(getTvBackPanel('none'), 'browse');
+  assert.equal(getTvBackPanel('browse'), 'settings');
+  assert.equal(getTvBackPanel('settings'), 'none');
+  assert.equal(getTvBackPanel('countries'), 'settings');
+  assert.equal(getTvBackPanel('favorite'), 'none');
   for (const child of ['categories', 'channels', 'apps', 'playback', 'services']) {
     assert.equal(getTvBackPanel(child), 'browse');
   }

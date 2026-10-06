@@ -2416,3 +2416,4 @@ html.tv-mode .tv-theme-choices button { padding: 0; min-height: 36px; height: 36
 html.tv-mode .tv-theme-choices button[aria-pressed="true"] { background: transparent; color: var(--accent); }
 html.tv-mode .tv-theme-choices button:focus-visible { background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html.tv-mode .overflow-menu-panel .menu-update-button { font-weight: 500; }
+html.tv-mode[data-tv-panel="preferences"] #tv-exit-button { display: none; } html.tv-mode[data-tv-panel="settings"] #tv-exit-button { margin-top: auto; color: var(--muted); } html.tv-mode[data-tv-panel="settings"] .overflow-menu-panel { display: flex; flex-direction: column; }
