@@ -129,7 +129,8 @@ export function findPolicyViolations(channel, registry) {
   }
   const allowedLanguages = registry.rules?.allowedLanguages || [];
   const country = (channel.country || channel.id?.split('@')[0].split('.').pop() || '').toLowerCase();
-  const languageExempt = registry.rules?.languageExemptCountries?.includes(country);
+  const languageExempt = registry.rules?.languageExemptCountries?.includes(country)
+    || channel.contentTags?.some((tag) => registry.rules?.languageExemptTags?.includes(tag));
   if (!languageExempt && allowedLanguages.length && !channel.languages?.some((language) => allowedLanguages.includes(language))) {
     violations.push('channel has no approved language');
   }

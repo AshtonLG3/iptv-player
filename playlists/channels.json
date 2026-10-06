@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-06T08:41:45.092Z",
+  "updated": "2026-10-06T09:15:26.174Z",
   "rules": {
     "allowedLanguages": [
       "eng"
@@ -9,26 +9,29 @@
     "languageExemptCountries": [
       "tz",
       "et"
+    ],
+    "languageExemptTags": [
+      "soccer"
     ]
   },
   "outputs": {
     "main": {
       "path": "playlists/english-africa-uk-us-verified.m3u",
-      "description": "Worldwide English channels; Tanzania and Ethiopia in all languages",
+      "description": "English worldwide; soccer, Tanzania and Ethiopia in all languages",
       "header": [
         "#EXTM3U",
         "# Generated from playlists/channels.json.",
-        "# English worldwide plus Tanzania/Ethiopia in all languages; USA/UK regional exclusions retained.",
+        "# English worldwide; soccer and Tanzania/Ethiopia in all languages; USA/UK regional exclusions retained.",
         "# Active feeds passed manifest and media-segment probes at last refresh; availability can change."
       ]
     },
     "sports": {
       "path": "playlists/sports-africa-uk-us-verified.m3u",
-      "description": "Sports-only playlist",
+      "description": "English sports and soccer in all languages",
       "header": [
         "#EXTM3U",
         "# Generated from playlists/channels.json.",
-        "# English worldwide plus Tanzania/Ethiopia in all languages; USA/UK regional exclusions retained.",
+        "# English sports and soccer in all languages; USA/UK regional exclusions retained.",
         "# Active feeds passed manifest and media-segment probes at last refresh; availability can change."
       ]
     }
@@ -715,7 +718,8 @@
       "source": "iptv-org curated source",
       "primaryUrl": "http://23.237.104.106:8080/USA_BBC_NEWS/index.m3u8",
       "backupUrls": [
-        "https://xemzi.short.gy/1000015"
+        "https://xemzi.short.gy/1000015",
+        "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/t=3840/v=pv14/b=5070016/main.m3u8"
       ],
       "outputs": [
         "main"
@@ -796,7 +800,9 @@
       "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/35/GB_News_Logo.svg/960px-GB_News_Logo.svg.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://xemzi.short.gy/1000017",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://live-gbnews.simplestreamcdn.com/live5/gbnews/bitrate1.isml/manifest.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -815,7 +821,8 @@
       "backupUrls": [
         "http://23.237.104.106:8080/USA_BLOOMBERG/index.m3u8",
         "https://d8975dc3.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/U2Ftc3VuZy1nYl9CbG9vbWJlcmdUVlBsdXNfSExT/playlist.m3u8",
-        "https://bloomberg.com/media-manifest/streams/asia.m3u8"
+        "https://bloomberg.com/media-manifest/streams/asia.m3u8",
+        "https://bloomberg.com/media-manifest/streams/eu.m3u8"
       ],
       "outputs": [
         "main"
@@ -956,7 +963,9 @@
       "logo": "https://i.imgur.com/JZt2qh5.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://d1si3n1st4nkgb.cloudfront.net/10502/88896001/hls/master.m3u8?ads.xumo_channelId=88896001",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://d1bl6tskrpq9ze.cloudfront.net/hls/master.m3u8?ads.xumo_channelId=99984003"
+      ],
       "outputs": [
         "main"
       ],
@@ -1105,7 +1114,9 @@
       "logo": "https://provider-static.plex.tv/epg/cms/production/f3f74374-7cf6-4fdc-8056-7ef9e8eb989b/N2_logo_color.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://amg00217-newsmax-newsmax-zeasn-022k9.amagi.tv/playlist.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -1169,7 +1180,9 @@
       "logo": "https://i.imgur.com/W0Jvi5o.png",
       "source": "iptv-org curated source",
       "primaryUrl": "https://aegis-cloudfront-1.tubi.video/7e1c26b7-7975-4240-9a4f-480eaa8f3ea4/playlist.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://content.uplynk.com/channel/4bb4901b934c4e029fd4c1abfc766c37.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -2283,15 +2296,17 @@
       "name": "USA Network (1080p)",
       "group": "Sports",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/USA_Network_logo_%282016%29.svg/960px-USA_Network_logo_%282016%29.svg.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "http://40.160.24.55/USA_NETWORK/index.m3u8",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://190.197.41.183/USA_NETWORK/index.m3u8",
       "backupUrls": [],
       "outputs": [
         "main",
         "sports"
       ],
-      "notes": "Withdrawn 2026-10-03: manifest/media probe failed twice; retained for future repair.",
-      "status": "disabled"
+      "notes": "Reactivated after manifest, media segment and video decoding checks 2026-10-06.",
+      "languages": [
+        "eng"
+      ]
     },
     {
       "id": "USANetwork.us@West",
@@ -3359,7 +3374,9 @@
         "eng"
       ],
       "primaryUrl": "https://abc-news-dmd-streams-1.akamaized.net/out/v1/701126012d044971b3fa89406a440133/index.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://c.mjh.nz/abc-news.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -3880,7 +3897,9 @@
         "eng"
       ],
       "primaryUrl": "https://content.uplynk.com/channel/26bd482ffe364a1282bc3df28bd3c21f.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://d2jiqiw4g5lj5k.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/AmericasVoiceChannel-prod/AVSamsung/AVSamsung.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -4109,7 +4128,8 @@
       ],
       "primaryUrl": "http://amdlive-ch01.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8",
       "backupUrls": [
-        "http://45.162.64.114/ARIRANG/index.m3u8"
+        "http://45.162.64.114/ARIRANG/index.m3u8",
+        "http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8"
       ],
       "outputs": [
         "main"
@@ -6358,7 +6378,9 @@
         "eng"
       ],
       "primaryUrl": "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01438-ewscrippscompan-courttv-tablo/playlist.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://content.uplynk.com/channel/6c0bd0f94b1d4526a98676e9699a10ef.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -7084,7 +7106,9 @@
         "eng"
       ],
       "primaryUrl": "https://drybar-drybarcomedy-1-au.samsung.wurl.tv/playlist.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://drybar-drybarcomedy-1-us.samsung.wurl.tv/playlist.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -7133,7 +7157,8 @@
       ],
       "primaryUrl": "https://jmp2.uk/stvp-ESBC4700001GR",
       "backupUrls": [
-        "https://dash3.antik.sk/live/duck_tv/index.m3u8"
+        "https://dash3.antik.sk/live/duck_tv/index.m3u8",
+        "https://d6lk10bkdgfae.cloudfront.net/playlist.m3u8"
       ],
       "outputs": [
         "main"
@@ -9218,7 +9243,9 @@
         "eng"
       ],
       "primaryUrl": "https://d1rc86nwwc9fag.cloudfront.net/vglive-sk-293160/master.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://indiatodaylive.akamaized.net/hls/live/2014320/indiatoday/indiatodaylive/playlist.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -11451,7 +11478,9 @@
         "eng"
       ],
       "primaryUrl": "https://ndtvprofit.akamaized.net/hls/live/2107404/ndtvprofit/chunklist_5.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://ndtvprofit.akamaized.net/hls/live/2107404/ndtvprofit/master_1.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -12385,7 +12414,8 @@
       ],
       "primaryUrl": "https://mumbai-edge.smartplaytv.in/PeopleAreAwesome/index.m3u8",
       "backupUrls": [
-        "https://3ab76e42.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X1Blb3BsZUFyZUF3ZXNvbWVfSExT/playlist.m3u8"
+        "https://3ab76e42.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X1Blb3BsZUFyZUF3ZXNvbWVfSExT/playlist.m3u8",
+        "https://jukin-peopleareawesome-2-it.samsung.wurl.tv/playlist.m3u8"
       ],
       "outputs": [
         "main"
@@ -14112,7 +14142,8 @@
       "primaryUrl": "https://3ea22335.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWdiX1JlZEJ1bGxUVl9ITFM/playlist.m3u8",
       "backupUrls": [
         "https://db34cc6127ac459db55cab5f97cd66b9.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-680-WORBAUENFAST-WHALETVPLUS/680/whaletvplus/hls/master/playlist.m3u8",
-        "https://1a3566cb46914c5499fbc86fbc4ac87e.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-932-WORBUKENFAST-WHALETVPLUS/932/whaletvplus/hls/master/playlist.m3u8"
+        "https://1a3566cb46914c5499fbc86fbc4ac87e.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-932-WORBUKENFAST-WHALETVPLUS/932/whaletvplus/hls/master/playlist.m3u8",
+        "https://0b73ace69ebb45eaa249bb87837cb958.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-644-WORBUSENFAST-LG_US/644/lgtv/hls/master/playlist.m3u8"
       ],
       "outputs": [
         "main",
@@ -15243,7 +15274,9 @@
         "eng"
       ],
       "primaryUrl": "http://tvsen7.aynascope.net/ssport2hd/index.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "http://103.151.60.162:2122/play/a027/index.m3u8?hls"
+      ],
       "outputs": [
         "main",
         "sports"
@@ -15724,7 +15757,9 @@
         "eng"
       ],
       "primaryUrl": "https://fffffff110156200.tvustream.com:8298/ryfy.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "https://FFFFFFF110156200.tvustream.com/ryfy.m3u8"
+      ],
       "outputs": [
         "main"
       ],
@@ -17175,7 +17210,8 @@
       ],
       "primaryUrl": "https://mumbai-edge.smartplaytv.in/TRTWorld/index.m3u8",
       "backupUrls": [
-        "https://dash2.antik.sk/live/test_trt_world_atktv/playlist.m3u8"
+        "https://dash2.antik.sk/live/test_trt_world_atktv/playlist.m3u8",
+        "https://tv-trtworld.medya.trt.com.tr/master.m3u8"
       ],
       "outputs": [
         "main"
@@ -18219,7 +18255,9 @@
         "eng"
       ],
       "primaryUrl": "https://d2ferbiwcx1539.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-8zd06wicndthf-ssai-prd/WNNationalSamsung/WNNationalSamsung.m3u8",
-      "backupUrls": [],
+      "backupUrls": [
+        "http://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5d2cb7ac552e3773bc48982e/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2d1028-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=dcca8395-396e-4be0-9049-564f29c5ac9b"
+      ],
       "outputs": [
         "main"
       ],
@@ -19186,6 +19224,1277 @@
         "amh"
       ],
       "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
+    },
+    {
+      "id": "ASpor.tr@SD",
+      "name": "A Spor SD (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/ZhkZzLf.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/aspor/aspor.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "tur"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.aspor.com.tr/"
+    },
+    {
+      "id": "Africa24Sport.fr@SD",
+      "name": "Africa 24 Sport (1080p)",
+      "group": "Sports",
+      "logo": "https://i0.wp.com/africa24tv.com/wp-content/uploads/2023/12/LOGO-AFRICASPORT-4-HD-sans-fond.png?fit=512%2C107&ssl=1",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://africa24.vedge.infomaniak.com/livecast/ik:africa24sport/manifest.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "fra"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://africa24tv.com/sport"
+    },
+    {
+      "id": "Arryadia.ma@SD",
+      "name": "Arryadia (720p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/XjzK3gZ.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://149.100.11.252:8000/play/a065/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ara"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.snrt.ma/fr/arryadia-chabab-football"
+    },
+    {
+      "id": "CanalShowsport.ar@SD",
+      "name": "Canal Showsport (720p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/0L9tW3Z.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://livestream.lumpentv.com.ar/hls/lumpen.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://canalshowsport.com.ar/"
+    },
+    {
+      "id": "CanalPlusSport.fr@SD",
+      "name": "Canal+ Sport (1080p) [Geo-blocked]",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/EOXnU15.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://tv.streambox.fr/live/testlivestream/testlivestream/31.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "fra"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://www.canalplus.fr/pid1747-c-sport.html"
+    },
+    {
+      "id": "CCTVStormFootball.cn@HD",
+      "name": "CCTV-Storm Football (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/Fy6HkX0.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://38.75.136.137:98/gslb/dsdqpub/fyzq.m3u8?auth=testpub",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "zho"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://tv.cctv.com/"
+    },
+    {
+      "id": "CDNDeportes.do@SD",
+      "name": "CDN Deportes (720p) [Not 24/7]",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/yU5LqTL.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://hls.tvabierta.net/hls/036.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://cdndeportes.com.do/"
+    },
+    {
+      "id": "ClaroSports.mx@SD",
+      "name": "Claro Sports (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/n0kd17r.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://168.196.127.137:6001/play/a08r/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.marca.com/claro-mx/"
+    },
+    {
+      "id": "CRTV.cl@SD",
+      "name": "CRTV (Chile) (720p)",
+      "group": "Sports",
+      "logo": "https://i2.paste.pics/bf68b159547597c39574aec9dd7c626a.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://stmv2.voxtvhd.com.br/crtvchile/crtvchile/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://crtvchile.cl/"
+    },
+    {
+      "id": "DDSports.in@HD",
+      "name": "DD Sports (720p)",
+      "group": "Sports",
+      "logo": "https://dtil.tmsimg.com/assets/s158255_ld_h15_aa.png?lock=720x540",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://mumbai-edge.smartplaytv.in/DDSportsHD/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "hin",
+        "eng",
+        "tam",
+        "kan",
+        "ben",
+        "bho",
+        "sgn",
+        "tel"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://prasarbharati.gov.in/en/dd-sports-homepage/"
+    },
+    {
+      "id": "DDSports.in@SD",
+      "name": "DD Sports SD (1080p)",
+      "group": "Sports",
+      "logo": "https://dtil.tmsimg.com/assets/s158255_ld_h15_aa.png?lock=720x540",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/b17adfe543354fdd8d189b110617cddd/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "hin"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://prasarbharati.gov.in/en/dd-sports-homepage/"
+    },
+    {
+      "id": "ElHeddafTV.dz@SD",
+      "name": "El-Heddaf TV (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/cDkIDIA.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://live.elheddaftv.com:8081/elheddaftv/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ara"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.elheddaf.com/"
+    },
+    {
+      "id": "ESPN4.br@SD",
+      "name": "ESPN 4 (1080p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/ESPN_4_logo.svg/960px-ESPN_4_logo.svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://181.78.197.59:8000/play/a07n/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "por"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://www.espn.com.br/"
+    },
+    {
+      "id": "ESPN.br@SD",
+      "name": "ESPN (1080p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/960px-ESPN_wordmark.svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://181.78.197.59:8000/play/a07z/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "por"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://www.espn.com.br/"
+    },
+    {
+      "id": "Esport3.es@Originals",
+      "name": "Esport3 Originals (1080p) [Not 24/7]",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Esport3.svg/960px-Esport3.svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://directes-tv-int.3catdirectes.cat/live-content/esport3-hls/master.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "cat"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://www.ccma.cat/esport3/"
+    },
+    {
+      "id": "FBTV.tr@SD",
+      "name": "FB TV",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/qBVqtYd.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://1hskrdto.rocketcdn.com/fenerbahcetv.smil/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "tur",
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.fenerbahce.org/fbtv/"
+    },
+    {
+      "id": "FIFAPlus.uk@French",
+      "name": "FIFA+ French (720p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/FIFA%2B_(2025).svg/960px-FIFA%2B_(2025).svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://37b4c228.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWZyX0ZJRkFQbHVzRnJlbmNoX0hMUw/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "fra"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@German",
+      "name": "FIFA+ German (720p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/FIFA%2B_(2025).svg/960px-FIFA%2B_(2025).svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://4397879b.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWRlX0ZJRkFQbHVzR2VybWFuX0hMUw/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "deu"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@HispanicAmerica",
+      "name": "FIFA+ Hispanic America (720p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/FIFA%2B_(2025).svg/960px-FIFA%2B_(2025).svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://6c849fb3.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/TEctbXhfRklGQVBsdXNTcGFuaXNoLTFfSExT/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@Italy",
+      "name": "FIFA+ Italy (720p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/FIFA%2B_(2025).svg/960px-FIFA%2B_(2025).svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://5d95f7d7.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWl0X0ZJRkFQbHVzSXRhbGlhbl9ITFM/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ita"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@Portuguese",
+      "name": "FIFA+ Portuguese (720p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/FIFA%2B_(2025).svg/960px-FIFA%2B_(2025).svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://e3be9ac5.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/TEctYnJfRklGQVBsdXNQb3J0dWd1ZXNlX0hMUw/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "por"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@Spain",
+      "name": "FIFA+ Spain (720p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/FIFA%2B_(2025).svg/960px-FIFA%2B_(2025).svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://d63fabad.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWVzX0ZJRkFQbHVzU3BhbmlzaF9ITFM/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@UnitedStates",
+      "name": "FIFA+ United States (720p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/FIFA%2B_(2025).svg/960px-FIFA%2B_(2025).svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://d2w9q46ikgrcwx.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-of5cbk3sav3w5/v1/sysdata_s_p_a_fifa_7/samsungheadend_us/latest/main/hls/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FoxDeportes.us@SD",
+      "name": "Fox Deportes (720p)",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/FOX_Deportes_logo.png/960px-FOX_Deportes_logo.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://23.237.104.106:8080/USA_FOX_DEPORTES/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa",
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.foxdeportes.com/"
+    },
+    {
+      "id": "FutbolTV.uz@HD",
+      "name": "Futbol TV (1080p)",
+      "group": "Sports",
+      "logo": "https://i.ibb.co/h1gQSkbB/Futbol-TV.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream3.cinerama.uz/1010/tracks-v1a1/mono.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "uzb"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://futboltv.uz/"
+    },
+    {
+      "id": "FUTV.cr@SD",
+      "name": "FUTV",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/f8BkLql.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://190.61.90.17:40000/play/a03v/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://www.futvcr.com/"
+    },
+    {
+      "id": "geFast.br@SD",
+      "name": "ge Fast (1080p)",
+      "group": "Sports",
+      "logo": "https://i.ibb.co/WGXHDnF/logo-ge-fast.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://amg00716-globo-amg00716c1-tcl-br-9495.playouts.now.amagi.tv/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "por"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://ge.globo.com/ge-fast/ao-vivo/ge-fast-assista-agora-ao-canal-com-24-horas-de-esporte.ghtml"
+    },
+    {
+      "id": "Go3Sport1.ee@SD",
+      "name": "Go3 Sport 1 (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/0eZa0qh.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/416/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "est",
+        "lav",
+        "lit"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://go3.lv/live_tv/sports"
+    },
+    {
+      "id": "HTSporTV.tr@SD",
+      "name": "HTSpor TV (1080p)",
+      "group": "Sports",
+      "logo": "https://www.htspor.com/images/manifest/social-share-logo.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://ciner.daioncdn.net/ht-spor/ht-spor.m3u8?app=web",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "tur"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.htspor.com/canli-yayin"
+    },
+    {
+      "id": "InterTV.it@SD",
+      "name": "Inter TV (Italy) (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/FUTqh2L.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://d3k8wzt41aflvx.cloudfront.net/INTERTV/Live.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ita"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.inter.it/it/intertv"
+    },
+    {
+      "id": "L1Max.pe@SD",
+      "name": "L1 Max (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/2fziU2B.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://190.93.224.42/LIGA-1-MAX/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.l1max.com/"
+    },
+    {
+      "id": "MadeinBOTV.it@SD",
+      "name": "MadeinBO TV (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/47X44DD.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://srvx1.selftv.video/dmchannel/live/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ita"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.madeinbo.tv/"
+    },
+    {
+      "id": "Match4.hu@SD",
+      "name": "Match4 (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/hzexBLX.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://141.94.193.53:80/Match4_HD/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "hun"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://qqrq.network4.hu/press/match4-a-tarr-kft-nel-is"
+    },
+    {
+      "id": "MeridianoTV.ve@SD",
+      "name": "Meridiano TV (576p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/I6gsUqD.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://181.78.8.199:8000/play/a0fr/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://meridiano.net/"
+    },
+    {
+      "id": "OkkoFutbol.ru@SD",
+      "name": "Okko Futbol (1080p)",
+      "group": "Sports",
+      "logo": "https://xml-epgservice.cdnvideo.ru/EPGService/hs/xmldata/852f4b92-cae5-463e-aad6-cd8844c5a49/logo/8986.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/491/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "rus"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://help.okko.tv/sport/sports"
+    },
+    {
+      "id": "OvacionTV.pe@SD",
+      "name": "Ovacion TV (720p) [Not 24/7]",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/7Xndgxk.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://cdn2.ujjina.com:1935/iptvovacion1/liveovacion1tv/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://ovacion.pe/"
+    },
+    {
+      "id": "QazSport.kz@SD",
+      "name": "QazSport (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/UDJ0P5Q.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/72/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "kaz"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://qazsporttv.kz/"
+    },
+    {
+      "id": "RealMadridTV.es@SD",
+      "name": "Real Madrid TV (726p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/5pMo7dL.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://rmtv.akamaized.net/hls/live/2043153/rmtv-es-web/master.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.realmadrid.com/real-madrid-tv"
+    },
+    {
+      "id": "SetantaSports1.ru@HD",
+      "name": "Setanta Sports 1 HD",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/8ANUZAu.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://fs.uplink.kz/setanta_sports_1_hd/mono.m3u8?token=onlinetv",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "rus"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.setantaeurasia.com/ru/"
+    },
+    {
+      "id": "SetantaSports1Eurasia.ie@SD",
+      "name": "Setanta Sports 1 Eurasia (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/zlJK7ca.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/234/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "rus",
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.setantaeurasia.com/"
+    },
+    {
+      "id": "SetantaSports2Eurasia.ie@SD",
+      "name": "Setanta Sports 2 Eurasia (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/ouHunnK.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/235/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "rus",
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.setantaeurasia.com/"
+    },
+    {
+      "id": "Sport1.ua@SD",
+      "name": "Sport 1 (Ukraine) (576p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/Zjb8awW.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/391/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ukr"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.poverkhnost.tv/pages/index.php?c=10"
+    },
+    {
+      "id": "Sport1Baltic.ua@SD",
+      "name": "Sport 1 Baltic (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/aBY7QK4.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/461/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "rus",
+        "eng",
+        "ukr"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.poverkhnost.tv/pages/index.php?c=10&s=152"
+    },
+    {
+      "id": "Sport2.ua@SD",
+      "name": "Sport 2 (Ukraine) (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/vk0j1mY.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/392/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ukr"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.poverkhnost.tv/pages/index.php?c=10&s=121"
+    },
+    {
+      "id": "SportPlusQazaqstan.kz@SD",
+      "name": "Sport+ Qazaqstan (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/vIV7x6n.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://fs.uplink.kz/sport+/mono.m3u8?token=onlinetv",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "kaz"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.sportplustv.kz/"
+    },
+    {
+      "id": "SporTV2.br@SD",
+      "name": "SporTV 2 (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/pBiUnb2.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://195.178.110.110/sportv2/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "por"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://sportv.globo.com/site/futebol/nacional/futebol-nacional/"
+    },
+    {
+      "id": "SporTV3.br@SD",
+      "name": "SporTV 3 (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/mWOR8pi.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://195.178.110.110/sportv3/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "por"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://sportv.globo.com/"
+    },
+    {
+      "id": "SporTV.br@SD",
+      "name": "SporTV (1080p)",
+      "group": "Sports",
+      "logo": "https://i.postimg.cc/gr9x3z71/Spor-TV-2021.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://195.178.110.110/sportv/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "por"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://sportv.globo.com/"
+    },
+    {
+      "id": "SuspilneSport.ua@SD",
+      "name": "Suspilne. Sport (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/16IhU0M.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://stream.mcquack.net/444/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ukr"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://suspilne.media/sport/"
+    },
+    {
+      "id": "Teledeporte.es@SD",
+      "name": "Teledeporte",
+      "group": "Sports",
+      "logo": "https://i.ibb.co/0jxLdjnY/TDP.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://rtve01p.origin.c21livecloud.com/live-origin/tdp-hls/bitrate_1.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://www.rtve.es/television/"
+    },
+    {
+      "id": "TenCricket.in@SD",
+      "name": "Ten Cricket (576p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/K5XIFuW.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://103.151.60.162:2122/play/a0fj/index.m3u8?hls",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "TraceSportStars.fr@SD",
+      "name": "Trace Sport Stars SD",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/FabFP5A.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://channels.trace.plus/Traceprod/TRACE_SPORT_STARS_sd/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "TVRSport.ro@SD",
+      "name": "TVR Sport",
+      "group": "Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/TVR_Sport_Logo_2023.svg/960px-TVR_Sport_Logo_2023.svg.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "https://tvr-sport.lg.mncdn.com/tvrsport/smil:tvrsport.smil/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "ron"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "http://sport.tvr.ro/"
+    },
+    {
+      "id": "WinSports.co@SD",
+      "name": "Win Sports (1080p)",
+      "group": "Sports",
+      "logo": "https://i.imgur.com/DuSSrHV.png",
+      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "primaryUrl": "http://138.121.15.230:9002/WIN-SPORT/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main",
+        "sports"
+      ],
+      "languages": [
+        "spa"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
+      "contentTags": [
+        "soccer"
+      ],
+      "soccerEvidence": "https://www.winsports.co/"
+    },
+    {
+      "id": "JewelleryMaker.uk",
+      "name": "Jewellery Maker",
+      "group": "UK",
+      "logo": "https://i.imgur.com/O7SdkBh.png",
+      "source": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "primaryUrl": "https://lo3.gemporia.com/abrjewellerymaker/smil:livestreamFullHD.smil/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "Now70s.uk@SD",
+      "name": "Now 70's",
+      "group": "UK",
+      "logo": "",
+      "source": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "primaryUrl": "https://lightning-now70s-samsungnz.amagi.tv/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "Now80s.uk",
+      "name": "Now 80s",
+      "group": "UK",
+      "logo": "https://i.imgur.com/8paz37m.png",
+      "source": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "primaryUrl": "https://lightning-now80s-samsunguk.amagi.tv/playlist.m3u8",
+      "backupUrls": [
+        "https://lightning-now80s-samsungnz.amagi.tv/playlist.m3u8"
+      ],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "CNN.us",
+      "name": "CNN",
+      "group": "USA",
+      "logo": "https://i.imgur.com/vyrc1I1.png",
+      "source": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "primaryUrl": "https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "BBCFood.us",
+      "name": "BBC Food",
+      "group": "USA",
+      "logo": "https://i.imgur.com/N3xiz4m.png",
+      "source": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "primaryUrl": "https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/5fb5844bf5514d0007945bda/master.m3u8?deviceId=channel&deviceModel=web&deviceVersion=1.0&appVersion=1.0&deviceType=rokuChannel&deviceMake=rokuChannel&deviceDNT=1&advertisingId=channel&embedPartner=rokuChannel&appName=rokuchannel&is_lat=1&bmodel=bm1&content=channel&platform=web&tags=ROKU_CONTENT_TAGS&coppa=false&content_type=livefeed&rdid=channel&genre=ROKU_ADS_CONTENT_GENRE&content_rating=ROKU_ADS_CONTENT_RATING&studio_id=viacom&channel_id=channel",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "GlobalNews.ca",
+      "name": "Global News",
+      "group": "International",
+      "logo": "https://i.imgur.com/xk1QOhW.png",
+      "source": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "primaryUrl": "https://live.corusdigitaldev.com/groupd/live/49a91e7f-1023-430f-8d66-561055f3d0f7/live.isml/.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "RT.ru@SD",
+      "name": "Russia Today",
+      "group": "International",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Russia-today-logo.svg/500px-Russia-today-logo.svg.png",
+      "source": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "primaryUrl": "https://rt-glb.rttv.com/live/rtnews/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
+    },
+    {
+      "id": "MoconomyEconomyFinanceInfotainment.us",
+      "name": "Moconomy",
+      "group": "USA",
+      "logo": "https://i.imgur.com/GvqbLZB.png",
+      "source": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "primaryUrl": "https://amogonetworx-moconomy-2-us.tcl.wurl.tv/playlist.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng"
+      ],
+      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. English feed metadata verified. Availability and match schedules may change."
     }
   ]
 }

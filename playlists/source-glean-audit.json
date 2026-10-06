@@ -1,0 +1,864 @@
+{
+  "checkedAt": "2026-10-06T09:15:26.174Z",
+  "sources": [
+    {
+      "url": "https://iptv-org.github.io/iptv/categories/sports.m3u",
+      "sha256": "d614fc7890348a3982478c3f050a44aa7cf7d343926547cc2097bbb84ec6b085"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+      "sha256": "df218d5c80e01d0491aae60a5738ca432c406e40504e32dd74136a4ee0d86e5d"
+    }
+  ],
+  "checkedFeeds": 569,
+  "added": [
+    {
+      "id": "ASpor.tr@SD",
+      "name": "A Spor SD (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Africa24Sport.fr@SD",
+      "name": "Africa 24 Sport (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Arryadia.ma@SD",
+      "name": "Arryadia (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "CanalShowsport.ar@SD",
+      "name": "Canal Showsport (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "CanalPlusSport.fr@SD",
+      "name": "Canal+ Sport (1080p) [Geo-blocked]",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "CCTVStormFootball.cn@HD",
+      "name": "CCTV-Storm Football (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "CDNDeportes.do@SD",
+      "name": "CDN Deportes (720p) [Not 24/7]",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "ClaroSports.mx@SD",
+      "name": "Claro Sports (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "CRTV.cl@SD",
+      "name": "CRTV (Chile) (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "DDSports.in@HD",
+      "name": "DD Sports (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "DDSports.in@SD",
+      "name": "DD Sports SD (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "ElHeddafTV.dz@SD",
+      "name": "El-Heddaf TV (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "ESPN4.br@SD",
+      "name": "ESPN 4 (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "ESPN.br@SD",
+      "name": "ESPN (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Esport3.es@Originals",
+      "name": "Esport3 Originals (1080p) [Not 24/7]",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FBTV.tr@SD",
+      "name": "FB TV",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FIFAPlus.uk@French",
+      "name": "FIFA+ French (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FIFAPlus.uk@German",
+      "name": "FIFA+ German (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FIFAPlus.uk@HispanicAmerica",
+      "name": "FIFA+ Hispanic America (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FIFAPlus.uk@Italy",
+      "name": "FIFA+ Italy (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FIFAPlus.uk@Portuguese",
+      "name": "FIFA+ Portuguese (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FIFAPlus.uk@Spain",
+      "name": "FIFA+ Spain (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FIFAPlus.uk@UnitedStates",
+      "name": "FIFA+ United States (720p)",
+      "english": true,
+      "soccer": true
+    },
+    {
+      "id": "FoxDeportes.us@SD",
+      "name": "Fox Deportes (720p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FutbolTV.uz@HD",
+      "name": "Futbol TV (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "FUTV.cr@SD",
+      "name": "FUTV",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "geFast.br@SD",
+      "name": "ge Fast (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Go3Sport1.ee@SD",
+      "name": "Go3 Sport 1 (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "HTSporTV.tr@SD",
+      "name": "HTSpor TV (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "InterTV.it@SD",
+      "name": "Inter TV (Italy) (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "L1Max.pe@SD",
+      "name": "L1 Max (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "MadeinBOTV.it@SD",
+      "name": "MadeinBO TV (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Match4.hu@SD",
+      "name": "Match4 (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "MeridianoTV.ve@SD",
+      "name": "Meridiano TV (576p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "OkkoFutbol.ru@SD",
+      "name": "Okko Futbol (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "OvacionTV.pe@SD",
+      "name": "Ovacion TV (720p) [Not 24/7]",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "QazSport.kz@SD",
+      "name": "QazSport (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "RealMadridTV.es@SD",
+      "name": "Real Madrid TV (726p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "SetantaSports1.ru@HD",
+      "name": "Setanta Sports 1 HD",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "SetantaSports1Eurasia.ie@SD",
+      "name": "Setanta Sports 1 Eurasia (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "SetantaSports2Eurasia.ie@SD",
+      "name": "Setanta Sports 2 Eurasia (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Sport1.ua@SD",
+      "name": "Sport 1 (Ukraine) (576p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Sport1Baltic.ua@SD",
+      "name": "Sport 1 Baltic (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Sport2.ua@SD",
+      "name": "Sport 2 (Ukraine) (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "SportPlusQazaqstan.kz@SD",
+      "name": "Sport+ Qazaqstan (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "SporTV2.br@SD",
+      "name": "SporTV 2 (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "SporTV3.br@SD",
+      "name": "SporTV 3 (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "SporTV.br@SD",
+      "name": "SporTV (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "SuspilneSport.ua@SD",
+      "name": "Suspilne. Sport (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "Teledeporte.es@SD",
+      "name": "Teledeporte",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "TenCricket.in@SD",
+      "name": "Ten Cricket (576p)",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "TraceSportStars.fr@SD",
+      "name": "Trace Sport Stars SD",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "TVRSport.ro@SD",
+      "name": "TVR Sport",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "WinSports.co@SD",
+      "name": "Win Sports (1080p)",
+      "english": false,
+      "soccer": true
+    },
+    {
+      "id": "JewelleryMaker.uk",
+      "name": "Jewellery Maker",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "Now70s.uk@SD",
+      "name": "Now 70's",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "Now80s.uk",
+      "name": "Now 80s",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "CNN.us",
+      "name": "CNN",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "BBCFood.us",
+      "name": "BBC Food",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "GlobalNews.ca",
+      "name": "Global News",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "RT.ru@SD",
+      "name": "Russia Today",
+      "english": true,
+      "soccer": false
+    },
+    {
+      "id": "MoconomyEconomyFinanceInfotainment.us",
+      "name": "Moconomy",
+      "english": true,
+      "soccer": false
+    }
+  ],
+  "reactivated": [
+    {
+      "id": "USANetwork.us@East",
+      "name": "USA Network (1080p)",
+      "english": true,
+      "soccer": false
+    }
+  ],
+  "backups": [
+    {
+      "id": "RedBullTV.at@EUMENA",
+      "name": "Red Bull TV (1080p)",
+      "url": "https://0b73ace69ebb45eaa249bb87837cb958.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-644-WORBUSENFAST-LG_US/644/lgtv/hls/master/playlist.m3u8"
+    },
+    {
+      "id": "StarSportsSelect2.in@HD",
+      "name": "Star Sports Select 2 HD (720p)",
+      "url": "http://103.151.60.162:2122/play/a027/index.m3u8?hls"
+    },
+    {
+      "id": "ABCNews.au@Sydney",
+      "name": "ABC News (Australia) (720p)",
+      "url": "https://c.mjh.nz/abc-news.m3u8"
+    },
+    {
+      "id": "NDTVProfit.in@SD",
+      "name": "NDTV Profit (1080p)",
+      "url": "https://ndtvprofit.akamaized.net/hls/live/2107404/ndtvprofit/master_1.m3u8"
+    },
+    {
+      "id": "ArirangTV.kr@SD",
+      "name": "Arirang TV (1080p)",
+      "url": "http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8"
+    },
+    {
+      "id": "TRTWorld.tr@SD",
+      "name": "TRT World (720p)",
+      "url": "https://tv-trtworld.medya.trt.com.tr/master.m3u8"
+    },
+    {
+      "id": "BBCNews.uk@NorthAmerica",
+      "name": "BBC News North America (1080p)",
+      "url": "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/t=3840/v=pv14/b=5070016/main.m3u8"
+    },
+    {
+      "id": "GBNews.uk@SD",
+      "name": "GB News (1080p)",
+      "url": "https://live-gbnews.simplestreamcdn.com/live5/gbnews/bitrate1.isml/manifest.m3u8"
+    },
+    {
+      "id": "BloombergTV.us@Plus",
+      "name": "Bloomberg TV+ (1080p)",
+      "url": "https://bloomberg.com/media-manifest/streams/eu.m3u8"
+    },
+    {
+      "id": "NBCNewsNOW.us@SD",
+      "name": "NBC News NOW (1080p)",
+      "url": "https://d1bl6tskrpq9ze.cloudfront.net/hls/master.m3u8?ads.xumo_channelId=99984003"
+    },
+    {
+      "id": "DryBarComedyPlus.us@SD",
+      "name": "Dry Bar Comedy+ (720p)",
+      "url": "https://drybar-drybarcomedy-1-us.samsung.wurl.tv/playlist.m3u8"
+    },
+    {
+      "id": "StrykTV.us@HD",
+      "name": "Stryk TV (1080p)",
+      "url": "https://FFFFFFF110156200.tvustream.com/ryfy.m3u8"
+    },
+    {
+      "id": "CourtTV.us@SD",
+      "name": "Court TV (1080p)",
+      "url": "https://content.uplynk.com/channel/6c0bd0f94b1d4526a98676e9699a10ef.m3u8"
+    },
+    {
+      "id": "AmericasVoice.us@SD",
+      "name": "America's Voice (720p)",
+      "url": "https://d2jiqiw4g5lj5k.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/AmericasVoiceChannel-prod/AVSamsung/AVSamsung.m3u8"
+    },
+    {
+      "id": "Newsmax2.us@SD",
+      "name": "Newsmax 2 (1080p)",
+      "url": "https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8"
+    },
+    {
+      "id": "Now80s.uk",
+      "name": "Now 80s",
+      "url": "https://lightning-now80s-samsungnz.amagi.tv/playlist.m3u8"
+    },
+    {
+      "id": "IndiaToday.in@SD",
+      "name": "India Today (720p)",
+      "url": "https://indiatodaylive.akamaized.net/hls/live/2014320/indiatoday/indiatodaylive/playlist.m3u8"
+    },
+    {
+      "id": "ScrippsNews.us@SD",
+      "name": "Scripps News (1080p)",
+      "url": "https://content.uplynk.com/channel/4bb4901b934c4e029fd4c1abfc766c37.m3u8"
+    },
+    {
+      "id": "WeatherNation.us@SD",
+      "name": "WeatherNation (1080p)",
+      "url": "http://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5d2cb7ac552e3773bc48982e/master.m3u8?appName=web&appVersion=unknown&clientTime=0&deviceDNT=0&deviceId=6c2d1028-30d3-11ef-9cf5-e9ddff8ff496&deviceMake=Chrome&deviceModel=web&deviceType=web&deviceVersion=unknown&includeExtendedEvents=false&serverSideAds=false&sid=dcca8395-396e-4be0-9049-564f29c5ac9b"
+    },
+    {
+      "id": "PeopleAreAwesome.us@SD",
+      "name": "People Are Awesome (1080p)",
+      "url": "https://jukin-peopleareawesome-2-it.samsung.wurl.tv/playlist.m3u8"
+    },
+    {
+      "id": "ducktv.sk@SD",
+      "name": "ducktv (720p)",
+      "url": "https://d6lk10bkdgfae.cloudfront.net/playlist.m3u8"
+    }
+  ],
+  "soccerTagged": [
+    {
+      "id": "ASpor.tr@SD",
+      "name": "A Spor SD (1080p)",
+      "evidence": "https://www.aspor.com.tr/"
+    },
+    {
+      "id": "Africa24Sport.fr@SD",
+      "name": "Africa 24 Sport (1080p)",
+      "evidence": "https://africa24tv.com/sport"
+    },
+    {
+      "id": "Arryadia.ma@SD",
+      "name": "Arryadia (720p)",
+      "evidence": "https://www.snrt.ma/fr/arryadia-chabab-football"
+    },
+    {
+      "id": "CanalShowsport.ar@SD",
+      "name": "Canal Showsport (720p)",
+      "evidence": "https://canalshowsport.com.ar/"
+    },
+    {
+      "id": "CanalPlusSport.fr@SD",
+      "name": "Canal+ Sport (1080p) [Geo-blocked]",
+      "evidence": "http://www.canalplus.fr/pid1747-c-sport.html"
+    },
+    {
+      "id": "CCTVStormFootball.cn@HD",
+      "name": "CCTV-Storm Football (1080p)",
+      "evidence": "https://tv.cctv.com/"
+    },
+    {
+      "id": "CDNDeportes.do@SD",
+      "name": "CDN Deportes (720p) [Not 24/7]",
+      "evidence": "https://cdndeportes.com.do/"
+    },
+    {
+      "id": "ClaroSports.mx@SD",
+      "name": "Claro Sports (1080p)",
+      "evidence": "https://www.marca.com/claro-mx/"
+    },
+    {
+      "id": "CRTV.cl@SD",
+      "name": "CRTV (Chile) (720p)",
+      "evidence": "https://crtvchile.cl/"
+    },
+    {
+      "id": "DDSports.in@HD",
+      "name": "DD Sports (720p)",
+      "evidence": "https://prasarbharati.gov.in/en/dd-sports-homepage/"
+    },
+    {
+      "id": "DDSports.in@SD",
+      "name": "DD Sports SD (1080p)",
+      "evidence": "https://prasarbharati.gov.in/en/dd-sports-homepage/"
+    },
+    {
+      "id": "ElHeddafTV.dz@SD",
+      "name": "El-Heddaf TV (1080p)",
+      "evidence": "https://www.elheddaf.com/"
+    },
+    {
+      "id": "ESPN4.br@SD",
+      "name": "ESPN 4 (1080p)",
+      "evidence": "http://www.espn.com.br/"
+    },
+    {
+      "id": "ESPN.br@SD",
+      "name": "ESPN (1080p)",
+      "evidence": "http://www.espn.com.br/"
+    },
+    {
+      "id": "Esport3.es@Originals",
+      "name": "Esport3 Originals (1080p) [Not 24/7]",
+      "evidence": "http://www.ccma.cat/esport3/"
+    },
+    {
+      "id": "FBTV.tr@SD",
+      "name": "FB TV",
+      "evidence": "https://www.fenerbahce.org/fbtv/"
+    },
+    {
+      "id": "FIFAPlus.uk@French",
+      "name": "FIFA+ French (720p)",
+      "evidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@German",
+      "name": "FIFA+ German (720p)",
+      "evidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@HispanicAmerica",
+      "name": "FIFA+ Hispanic America (720p)",
+      "evidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@Italy",
+      "name": "FIFA+ Italy (720p)",
+      "evidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@Portuguese",
+      "name": "FIFA+ Portuguese (720p)",
+      "evidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@Spain",
+      "name": "FIFA+ Spain (720p)",
+      "evidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FIFAPlus.uk@UnitedStates",
+      "name": "FIFA+ United States (720p)",
+      "evidence": "https://www.plus.fifa.com/en/"
+    },
+    {
+      "id": "FoxDeportes.us@SD",
+      "name": "Fox Deportes (720p)",
+      "evidence": "https://www.foxdeportes.com/"
+    },
+    {
+      "id": "FutbolTV.uz@HD",
+      "name": "Futbol TV (1080p)",
+      "evidence": "https://futboltv.uz/"
+    },
+    {
+      "id": "FUTV.cr@SD",
+      "name": "FUTV",
+      "evidence": "http://www.futvcr.com/"
+    },
+    {
+      "id": "geFast.br@SD",
+      "name": "ge Fast (1080p)",
+      "evidence": "https://ge.globo.com/ge-fast/ao-vivo/ge-fast-assista-agora-ao-canal-com-24-horas-de-esporte.ghtml"
+    },
+    {
+      "id": "Go3Sport1.ee@SD",
+      "name": "Go3 Sport 1 (1080p)",
+      "evidence": "https://go3.lv/live_tv/sports"
+    },
+    {
+      "id": "HTSporTV.tr@SD",
+      "name": "HTSpor TV (1080p)",
+      "evidence": "https://www.htspor.com/canli-yayin"
+    },
+    {
+      "id": "InterTV.it@SD",
+      "name": "Inter TV (Italy) (1080p)",
+      "evidence": "https://www.inter.it/it/intertv"
+    },
+    {
+      "id": "L1Max.pe@SD",
+      "name": "L1 Max (1080p)",
+      "evidence": "https://www.l1max.com/"
+    },
+    {
+      "id": "MadeinBOTV.it@SD",
+      "name": "MadeinBO TV (1080p)",
+      "evidence": "https://www.madeinbo.tv/"
+    },
+    {
+      "id": "Match4.hu@SD",
+      "name": "Match4 (1080p)",
+      "evidence": "https://qqrq.network4.hu/press/match4-a-tarr-kft-nel-is"
+    },
+    {
+      "id": "MeridianoTV.ve@SD",
+      "name": "Meridiano TV (576p)",
+      "evidence": "https://meridiano.net/"
+    },
+    {
+      "id": "OkkoFutbol.ru@SD",
+      "name": "Okko Futbol (1080p)",
+      "evidence": "https://help.okko.tv/sport/sports"
+    },
+    {
+      "id": "OvacionTV.pe@SD",
+      "name": "Ovacion TV (720p) [Not 24/7]",
+      "evidence": "https://ovacion.pe/"
+    },
+    {
+      "id": "QazSport.kz@SD",
+      "name": "QazSport (1080p)",
+      "evidence": "https://qazsporttv.kz/"
+    },
+    {
+      "id": "RealMadridTV.es@SD",
+      "name": "Real Madrid TV (726p)",
+      "evidence": "https://www.realmadrid.com/real-madrid-tv"
+    },
+    {
+      "id": "SetantaSports1.ru@HD",
+      "name": "Setanta Sports 1 HD",
+      "evidence": "https://www.setantaeurasia.com/ru/"
+    },
+    {
+      "id": "SetantaSports1Eurasia.ie@SD",
+      "name": "Setanta Sports 1 Eurasia (1080p)",
+      "evidence": "https://www.setantaeurasia.com/"
+    },
+    {
+      "id": "SetantaSports2Eurasia.ie@SD",
+      "name": "Setanta Sports 2 Eurasia (1080p)",
+      "evidence": "https://www.setantaeurasia.com/"
+    },
+    {
+      "id": "Sport1.ua@SD",
+      "name": "Sport 1 (Ukraine) (576p)",
+      "evidence": "https://www.poverkhnost.tv/pages/index.php?c=10"
+    },
+    {
+      "id": "Sport1Baltic.ua@SD",
+      "name": "Sport 1 Baltic (1080p)",
+      "evidence": "https://www.poverkhnost.tv/pages/index.php?c=10&s=152"
+    },
+    {
+      "id": "Sport2.ua@SD",
+      "name": "Sport 2 (Ukraine) (1080p)",
+      "evidence": "https://www.poverkhnost.tv/pages/index.php?c=10&s=121"
+    },
+    {
+      "id": "SportPlusQazaqstan.kz@SD",
+      "name": "Sport+ Qazaqstan (1080p)",
+      "evidence": "https://www.sportplustv.kz/"
+    },
+    {
+      "id": "SporTV2.br@SD",
+      "name": "SporTV 2 (1080p)",
+      "evidence": "https://sportv.globo.com/site/futebol/nacional/futebol-nacional/"
+    },
+    {
+      "id": "SporTV3.br@SD",
+      "name": "SporTV 3 (1080p)",
+      "evidence": "http://sportv.globo.com/"
+    },
+    {
+      "id": "SporTV.br@SD",
+      "name": "SporTV (1080p)",
+      "evidence": "http://sportv.globo.com/"
+    },
+    {
+      "id": "SuspilneSport.ua@SD",
+      "name": "Suspilne. Sport (1080p)",
+      "evidence": "https://suspilne.media/sport/"
+    },
+    {
+      "id": "Teledeporte.es@SD",
+      "name": "Teledeporte",
+      "evidence": "http://www.rtve.es/television/"
+    },
+    {
+      "id": "TVRSport.ro@SD",
+      "name": "TVR Sport",
+      "evidence": "http://sport.tvr.ro/"
+    },
+    {
+      "id": "WinSports.co@SD",
+      "name": "Win Sports (1080p)",
+      "evidence": "https://www.winsports.co/"
+    }
+  ],
+  "decodeFailures": [
+    {
+      "id": "ArenaSport1.sk@SD",
+      "name": "Arena Sport 1",
+      "error": "[http @ 000001b109db8f80] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 000001b109e3e840] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.19/live/test_arenasport/playlist.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "ArenaSport2.sk@SD",
+      "name": "Arena Sport 2",
+      "error": "[http @ 000001c4a66c3540] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 000001c4a66c5800] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.19/live/test_arenasport_dva/playlist.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "CTSport.cz@SD",
+      "name": "CT Sport (720p)",
+      "error": "[http @ 000001531d067b40] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 000001531d0eeb80] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.19/live/test_ctsport_25p/playlist.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "DigiSport1.ro@HD",
+      "name": "Digi Sport 1 HD (576i)",
+      "error": ""
+    },
+    {
+      "id": "DigiSport3.ro@SD",
+      "name": "Digi Sport 3 (576i)",
+      "error": ""
+    },
+    {
+      "id": "DigiSport4.ro@SD",
+      "name": "Digi Sport 4 (576i)",
+      "error": ""
+    },
+    {
+      "id": "FUELTV.pt@AU",
+      "name": "FUEL TV AU (1080p)",
+      "error": "7e663d7c6cc81ba234abd773a4f1d54a9899cf64f328842505eededcc8511957de28833872f61e94ec91dca61da3ad869dd8144c2f5e33f23ffae56723dccb84191ec6900fad8a06724b77873b6/640x360_1020800?bcn=1&ca=0&cid=FUSHB-2201&dur=6.000000&media_type=C&redirect_url=https%3A%2F%2Famg01074-fueltv-fueltvau-samsungau-g09kq.amagi.tv%2Fplaylist360p_6543846.ts&seen-ad=1&seg_id=6543846&user_id=47d5bac6-c166-11f1-b044-2e958ea5d77a'\r\n[in#0 @ 000001c32590bd40] Error opening input: Invalid data found when processing input\r\nError opening input file https://amg01074-fueltv-fueltvau-samsungau-g09kq.amagi.tv/playlist/amg01074-fueltv-fueltvau-samsungau/playlist.m3u8.\r\nError opening input files: Invalid data found when processing input\r\n"
+    },
+    {
+      "id": "HTVSports.vn@SD",
+      "name": "HTV Sports",
+      "error": ",3g2,mj2,psp,m4b,ism,ismv,isma,f4v,avif,heic,heif mismatches allowed extensions in url https://livecdn-vthcm-bp.vieon.vn/5904134487b5e97822e17ccf96b96a94/1791364446000/livetv/group-05/d3d81ce359479433b1ccf8d14c1d6578/tracks-a1/seg-0-568793.hls.fmp4\r\n[in#0 @ 0000022053c1a580] Error when loading first segment 'https://livecdn-vthcm-bp.vieon.vn/5904134487b5e97822e17ccf96b96a94/1791364446000/livetv/group-05/d3d81ce359479433b1ccf8d14c1d6578/tracks-a1/seg-0-568793.hls.fmp4'\r\n[in#0 @ 0000022053c9cc80] Error opening input: Invalid data found when processing input\r\nError opening input file https://dethich.pw/htvthethao/index.m3u8.\r\nError opening input files: Invalid data found when processing input\r\n"
+    },
+    {
+      "id": "M4Sport.hu@SD",
+      "name": "M4 Sport (1080p)",
+      "error": "[http @ 000001c577ee4100] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 000001c577f6c080] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.19/live/uatlmvixrr/index.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "PrimaSport5.ro@SD",
+      "name": "Prima Sport 5 (480p)",
+      "error": ""
+    },
+    {
+      "id": "Sport1.cz@SD",
+      "name": "Sport1",
+      "error": "[http @ 0000029152874380] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 00000291528fd440] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.19/live/test_sport1_25p/playlist.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "Sport1.hu@SD",
+      "name": "Sport 1 (Hungary)",
+      "error": "[http @ 00000152b1a72bc0] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 00000152b1afd1c0] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.19/live/sport1_hun/index.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "Sport2.cz@SD",
+      "name": "Sport2",
+      "error": "[http @ 0000025ce8334780] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 0000025ce83bc580] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.19/live/test_sport_2/playlist.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "Sport2.hu@SD",
+      "name": "Sport 2 (Hungary)",
+      "error": "[http @ 000001a86e555180] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 000001a86e5dd180] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.19/live/sport2_hun/index.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "Sport.sk@SD",
+      "name": "Sport (Slovakia) (1080p)",
+      "error": "[http @ 000002865b774bc0] Error reading HTTP response: Error number -138 occurred\r\n[in#0 @ 000002865b7fcb40] Error opening input: Error number -138 occurred\r\nError opening input file http://88.212.15.27/live/test_rtvs_sport_hevc/playlist.m3u8.\r\nError opening input files: Error number -138 occurred\r\n"
+    },
+    {
+      "id": "MNBWorld.mn@SD",
+      "name": "MNB International",
+      "error": "[in#0 @ 000001692af6da00] Error opening input: Server returned 403 Forbidden (access denied)\r\nError opening input file https://cdn4.skygo.mn/live/disk1/MNB_World/HLSv3-FTA/MNB_World.m3u8.\r\nError opening input files: Server returned 403 Forbidden (access denied)\r\n"
+    }
+  ],
+  "existingChannelCount": 1145,
+  "summary": {
+    "newDisplayedChannels": 55,
+    "newSoccerChannels": 44,
+    "newEnglishChannels": 11,
+    "verifiedBackups": 21
+  },
+  "languageAmbiguitiesOmitted": [
+    "RaiItalia.it",
+    "IciRadioCanadaTele.ca"
+  ],
+  "finalProbeFailures": [
+    {
+      "id": "Sportitalia.it@SD",
+      "error": "Manifest HTTP 404 on final repeated probe"
+    }
+  ]
+}

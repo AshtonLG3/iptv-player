@@ -37,6 +37,14 @@ test('sports groups are exempt from geo-restriction policy patterns', () => {
   assert.deepEqual(findPolicyViolations(channel('Cue Tour [ZA IP only]', 'Cue Sports'), registry), []);
 });
 
+test('only reviewed soccer entries receive the sports language exception', () => {
+  const policy = { rules: { allowedLanguages: ['eng'], languageExemptTags: ['soccer'] } };
+  const sports = { ...channel('FIFA+ French', 'Sports'), languages: ['fra'] };
+  assert.deepEqual(findPolicyViolations(sports, policy), ['channel has no approved language']);
+  assert.deepEqual(findPolicyViolations({ ...sports, contentTags: ['soccer'] }, policy), []);
+  assert.deepEqual(findPolicyViolations({ ...sports, contentTags: ['cricket'] }, policy), ['channel has no approved language']);
+});
+
 test('geo restriction patterns remain blocked outside sports', () => {
   assert.deepEqual(
     findPolicyViolations(channel('Regional News [Geo-blocked]', 'Africa'), registry),

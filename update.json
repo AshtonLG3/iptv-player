@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 55,
-  "versionName": "1.6.28",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.28.apk",
-  "sha256": "98D07B69FFB6761D1F33168A048703AFE1228084F3423703055E9BA04FAB2FF0",
-  "releaseNotes": "Adds verified Tanzania channels (IBN TV, IBN TV Africa, Mahaasin TV and TBC2) and Ethiopian channels (EBS HD, EBS Cinema, EBS Musika and Nesiha TV), regardless of language. Adds Tanzania and Ethiopia country filters and preserves their language exceptions during playlist refreshes.",
-  "publishedAt": "2026-10-06T08:45:25.4743462Z"
+  "versionCode": 56,
+  "versionName": "1.6.29",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.29.apk",
+  "sha256": "77B8EAB966F904F64FF77C47A3C923290CA35AD61ECAD89C1CC5ABD86C88E4C8",
+  "releaseNotes": "Adds 44 soccer channels in any language and 11 English channels from the supplied iptv-org Sports and Free-TV lists, plus 21 verified backup feeds. Each imported feed passed media-segment and video decoding checks. Preserves soccer language exceptions, existing Tanzania/Ethiopia exceptions and USA/UK regional exclusions.",
+  "publishedAt": "2026-10-06T09:23:53Z"
 }

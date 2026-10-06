@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.6.28';
+export const APP_VERSION = '1.6.29';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -20,7 +20,7 @@ export const CURATED_PLAYLISTS = [
   {
     id: 'main',
     name: 'Main M3U',
-    description: 'English worldwide, Tanzania and Ethiopia in all languages',
+    description: 'English worldwide; soccer, Tanzania and Ethiopia in all languages',
     url: 'playlists/english-africa-uk-us-verified.m3u',
     publicUrl: 'https://raw.githubusercontent.com/AshtonLG3/iptv-player/refs/heads/master/playlists/english-africa-uk-us-verified.m3u',
   },

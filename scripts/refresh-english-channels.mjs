@@ -46,12 +46,14 @@ const now = new Date().toISOString();
 const audit = { checkedAt: now, sourceUrl, probedFeeds: candidates.size, added: [], repaired: [], withdrawn: [], retained: 0, probes: Object.fromEntries(candidates) };
 const existingIds = new Set(registry.channels.map((channel) => baseId(channel.id)));
 for (const channel of registry.channels) {
+  const languageExempt = registry.rules.languageExemptCountries?.includes(channel.country)
+    || channel.contentTags?.some((tag) => registry.rules.languageExemptTags?.includes(tag));
   if (excludedRegional(channel)) {
     channel.status = 'disabled';
     channel.notes = 'Excluded by the retained USA/UK local and regional channel exception.';
     continue;
   }
-  if (channel.source === sourceUrl && !isEnglishOnlyFeed(channel, feeds.get(channel.id))) {
+  if (!languageExempt && channel.source === sourceUrl && !isEnglishOnlyFeed(channel, feeds.get(channel.id))) {
     channel.status = 'disabled';
     channel.notes = 'Excluded by the English-only language filter.';
     continue;
@@ -69,7 +71,7 @@ for (const channel of registry.channels) {
   delete channel.status;
   channel.primaryUrl = working[0];
   channel.backupUrls = working.slice(1, 4);
-  if (!registry.rules.languageExemptCountries?.includes(channel.country)) channel.languages = ['eng'];
+  if (!languageExempt) channel.languages = ['eng'];
   if (oldUrl !== channel.primaryUrl) audit.repaired.push({ id: channel.id, name: channel.name, oldUrl, newUrl: channel.primaryUrl });
   else audit.retained++;
 }
@@ -89,10 +91,10 @@ for (const [id, variants] of upstreamById) {
 }
 registry.updated = now;
 registry.rules = { ...registry.rules, allowedLanguages: ['eng'], excludeUsUkRegional: true };
-registry.outputs.main.description = 'Worldwide English channels; Tanzania and Ethiopia in all languages';
+registry.outputs.main.description = 'English worldwide; soccer, Tanzania and Ethiopia in all languages';
 for (const [name, output] of Object.entries(registry.outputs)) {
   output.header = ['#EXTM3U', '# Generated from playlists/channels.json.',
-    name === 'sports' ? '# English sports worldwide; Tanzania/Ethiopia language exceptions and USA/UK regional exclusions retained.' : '# English channels worldwide plus Tanzania/Ethiopia in all languages; USA/UK regional exclusions retained.',
+    name === 'sports' ? '# English sports and soccer in all languages; USA/UK regional exclusions retained.' : '# English worldwide; soccer and Tanzania/Ethiopia in all languages; USA/UK regional exclusions retained.',
     '# Active feeds passed manifest and media-segment probes at last refresh; availability can change.'];
 }
 await writeJson(REGISTRY_PATH, registry);
