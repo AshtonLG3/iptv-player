@@ -2397,3 +2397,11 @@ html.tv-mode .tv-favorite-panel button { border: 0; border-radius: 4px; padding:
 html.tv-mode .menu-update-control { margin-top: auto; padding-top: 20px; }
 html.tv-mode .overflow-menu-panel .menu-update-button { background: var(--panel-strong); font-weight: 600; text-align: center; }
 html.tv-mode[data-tv-panel="preferences"] .overflow-menu-panel { display: flex; flex-direction: column; } html.tv-mode[data-tv-panel="preferences"] .tv-settings-content { display: flex; flex-direction: column; flex: 1; }
+
+html.tv-mode .legacy-quality-control { display: none !important; }
+html.tv-mode #tv-quality-value { float: right; margin-right: 12px; color: var(--muted); }
+html.tv-mode #tv-quality-button:focus-visible #tv-quality-value { color: inherit; }
+html.tv-mode #tv-quality-options { display: flex; flex-direction: column; padding-left: 12px; gap: 4px; }
+html.tv-mode #tv-quality-options[hidden] { display: none; }
+html.tv-mode .tv-theme-choices button[aria-pressed="true"] { color: var(--text); }
+html.tv-mode .tv-theme-choices button:focus-visible { background: var(--chip-selected-bg); color: var(--chip-selected-text); }

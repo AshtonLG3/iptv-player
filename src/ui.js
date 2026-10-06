@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006f';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006f';
-import { getMediaSection } from './catalog.js?v=20261006f';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006g';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006g';
+import { getMediaSection } from './catalog.js?v=20261006g';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -225,7 +225,9 @@ export function renderApp({
                 <option value="light">Light</option>
               </select>
             </label>
-            <label class="theme-control" for="quality-select">
+            <button id="tv-quality-button" class="tv-only tv-root-action" type="button">Quality <span id="tv-quality-value"></span> ▾</button>
+            <div id="tv-quality-options" class="tv-only" hidden><button type="button" data-quality="auto">Auto</button><button type="button" data-quality="data-saver">Data saver</button></div>
+            <label class="theme-control legacy-quality-control" for="quality-select">
               <span>Quality</span>
               <select id="quality-select">
                 <option value="auto">Auto (adapts to connection)</option>
@@ -331,7 +333,33 @@ export function renderApp({
   const mediaSection = 'live';
   const qualitySelect = root.querySelector('#quality-select');
   qualitySelect.value = qualityApi?.get() || 'auto';
-  qualitySelect.addEventListener('change', () => qualityApi?.set(qualitySelect.value));
+  const qualityButton = root.querySelector('#tv-quality-button');
+  const qualityOptions = root.querySelector('#tv-quality-options');
+  const qualityValue = root.querySelector('#tv-quality-value');
+  function syncQualityValue() { qualityValue.textContent = qualitySelect.value === 'data-saver' ? 'Data saver' : 'Auto'; }
+  syncQualityValue();
+  qualityButton.setAttribute('aria-expanded', 'false');
+  qualityButton.addEventListener('click', () => {
+    qualityOptions.hidden = !qualityOptions.hidden;
+    qualityButton.setAttribute('aria-expanded', String(!qualityOptions.hidden));
+    if (!qualityOptions.hidden) qualityOptions.querySelector(`[data-quality="${qualitySelect.value}"]`)?.focus();
+  });
+  for (const option of qualityOptions.querySelectorAll('button')) option.addEventListener('click', () => {
+    qualitySelect.value = option.dataset.quality;
+    qualityApi?.set(qualitySelect.value);
+    syncQualityValue();
+    qualityOptions.hidden = true;
+    qualityButton.setAttribute('aria-expanded', 'false');
+    qualityButton.focus();
+  });
+  function closeQualityOptions() {
+    if (qualityOptions.hidden) return false;
+    qualityOptions.hidden = true;
+    qualityButton.setAttribute('aria-expanded', 'false');
+    qualityButton.focus();
+    return true;
+  }
+  qualitySelect.addEventListener('change', () => { qualityApi?.set(qualitySelect.value); syncQualityValue(); });
   const channelListTitle = root.querySelector('#channel-list-title');
   const channelCount = root.querySelector('#channel-count');
   const listEl = root.querySelector('#channel-list');
@@ -1094,6 +1122,7 @@ export function renderApp({
     isFirstChannelFocused,
     focusChannelService,
     moveChannelServiceFocus,
+    closeQualityOptions,
     focusCountry,
     moveCountryFocus,
     focusMenu,
