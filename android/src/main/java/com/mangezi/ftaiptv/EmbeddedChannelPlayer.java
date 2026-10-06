@@ -102,6 +102,16 @@ final class EmbeddedChannelPlayer {
             @Override public void onPlayerError(PlaybackException error) {
                 if (player != active) return;
                 Log.w(TAG, "error=" + error.getErrorCodeName() + " request=" + request);
+                if (error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW) {
+                    // A live window can move while the app is paused. Rejoin its live edge.
+                    handler.removeCallbacks(timeout);
+                    handler.removeCallbacks(retry);
+                    player.seekToDefaultPosition();
+                    player.prepare();
+                    player.play();
+                    handler.postDelayed(timeout, 30000);
+                    return;
+                }
                 recover(error.getErrorCodeName());
             }
         });
