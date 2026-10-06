@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006d';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006d';
-import { getMediaSection } from './catalog.js?v=20261006d';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006e';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006e';
+import { getMediaSection } from './catalog.js?v=20261006e';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -340,7 +340,8 @@ export function renderApp({
   let lastFocusedChannelUrl = null;
   let visibleChannels = [];
   let filteredChannels = [];
-  let renderLimit = MAX_RENDERED_CHANNELS;
+  const initialRenderLimit = isTvMode ? 100 : MAX_RENDERED_CHANNELS;
+  let renderLimit = initialRenderLimit;
   const browsePositions = new Map();
   const favoriteButtons = new Map();
   const sortedChannels = sortChannelsAlphabetically(channels);
@@ -440,7 +441,7 @@ export function renderApp({
       filters.hideGeoBlocked, filters.favoritesOnly,
     ]);
     const position = browsePositions.get(nextBrowseKey);
-    if (!keepRenderLimit) renderLimit = position?.renderLimit || MAX_RENDERED_CHANNELS;
+    if (!keepRenderLimit) renderLimit = position?.renderLimit || initialRenderLimit;
     lastFocusedChannelUrl = position?.url || null;
     activeBrowseKey = nextBrowseKey;
     filteredChannels = filtered;
@@ -568,7 +569,7 @@ export function renderApp({
   function appendNextChannels() {
     const previousLength = visibleChannels.length;
     if (previousLength >= filteredChannels.length) return false;
-    renderLimit = Math.min(previousLength + 100, filteredChannels.length);
+    renderLimit = Math.min(previousLength + (isTvMode ? 50 : 100), filteredChannels.length);
     visibleChannels = limitChannelsForRendering(filteredChannels, renderLimit);
     renderList(visibleChannels.slice(previousLength), { append: true });
     channelCount.textContent = visibleChannels.length < filteredChannels.length
