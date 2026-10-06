@@ -876,8 +876,14 @@ public final class MainActivity extends Activity {
                     });
             return;
         }
-        if (webView != null && webView.canGoBack()) {
-            webView.goBack();
+        if (webView != null) {
+            webView.evaluateJavascript(
+                    "Boolean(window.__ftaIptvCloseMenu && window.__ftaIptvCloseMenu())",
+                    handled -> {
+                        if ("true".equals(handled)) return;
+                        if (webView.canGoBack()) webView.goBack();
+                        else finish();
+                    });
             return;
         }
         super.onBackPressed();
@@ -1026,7 +1032,7 @@ public final class MainActivity extends Activity {
 
         @JavascriptInterface
         public void exitApp() {
-            if (isTelevisionDevice) runOnUiThread(MainActivity.this::finish);
+            runOnUiThread(MainActivity.this::finish);
         }
 
         @JavascriptInterface

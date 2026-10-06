@@ -92,6 +92,7 @@ test('getGlobalTvRemoteAction keeps horizontal remote directions distinct', () =
 test('getTvHorizontalPanelAction opens and exits side panels without looping', () => {
   assert.equal(getTvHorizontalPanelAction('none', 'left'), 'channels');
   assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'categories');
+  assert.equal(getTvHorizontalPanelAction('categories', 'left'), 'none');
   assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
   assert.equal(getTvHorizontalPanelAction('none', 'right'), 'channels');
   assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'browse');
@@ -115,6 +116,7 @@ test('Back opens categories and root, then returns to playback without exiting',
 test('Left reveals channels then categories; Right reverses the overlay layers', () => {
   assert.equal(getTvHorizontalPanelAction('none', 'left'), 'channels');
   assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'categories');
+  assert.equal(getTvHorizontalPanelAction('categories', 'left'), 'none');
   assert.equal(getTvHorizontalPanelAction('categories', 'right'), 'channels');
   assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
   assert.equal(getTvHorizontalPanelAction('apps', 'left'), 'browse');

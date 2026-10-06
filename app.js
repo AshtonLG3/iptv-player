@@ -622,7 +622,7 @@ async function main() {
     updateChannelNavButtons();
     if (isTvMode) {
       if (!keepTvPanel) setTvPanel('none');
-    } else if (isLandscapeDrawerActive()) {
+    } else if (isLandscapeDrawerActive() && !keepTvPanel) {
       setDrawerOpen(false);
     }
 
@@ -826,6 +826,7 @@ async function main() {
   }
 
   function handleTvKeydown(event) {
+    if (!isTvMode && ['Escape', 'BrowserBack'].includes(event.key) && appView?.closeMenuPanel()) { event.preventDefault(); return; }
     if (!isTvMode && shouldActivateTelevisionFromRemote({
       event,
       viewportWidth: window.innerWidth,
@@ -931,7 +932,7 @@ async function main() {
         onSelectChannel: selectChannel,
         onVisibleChannelsChange: setVisibleChannels,
         onFavoriteChange: () => updateNowPlayingSummary(currentChannel),
-        onBrowseSelection: (panel) => { if (isTvMode) setTvPanel(panel); },
+        onBrowseSelection: (panel) => { if (isTvMode) setTvPanel(panel); else if (panel === 'channels') appView?.setMenuOpen(false); },
         onSettingsSelection: () => setTvPanel('preferences'),
         onMenuOpenChange: (isOpen) => {
           layoutEl.classList.toggle('settings-open', isOpen);
@@ -1116,6 +1117,7 @@ async function main() {
   window.__ftaIptvTvRight = () => handleTvRemoteAction('right');
   window.__ftaIptvTvToggleChannels = () => toggleTvPanel('channels');
   window.__ftaIptvTvToggleMenu = () => toggleTvPanel('settings');
+  window.__ftaIptvCloseMenu = () => Boolean(appView?.closeMenuPanel());
   window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
   window.addEventListener('pagehide', () => {
     delete window.__ftaIptvUpdateStatus;

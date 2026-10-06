@@ -131,7 +131,8 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
     if (currentPanel === 'none') return 'channels';
     if (currentPanel === 'settings') return 'browse';
     if (currentPanel === 'channels') return 'categories';
-    if (currentPanel === 'categories' || currentPanel === 'browse') return 'settings';
+    if (currentPanel === 'categories') return 'none';
+    if (currentPanel === 'browse') return 'settings';
     if (currentPanel === 'favorite') return 'none';
     if (currentPanel === 'countries' || currentPanel === 'preferences') return 'settings';
     if (currentPanel === 'apps') return 'browse';

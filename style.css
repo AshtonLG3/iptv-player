@@ -2417,3 +2417,70 @@ html.tv-mode .tv-theme-choices button[aria-pressed="true"] { background: transpa
 html.tv-mode .tv-theme-choices button:focus-visible { background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html.tv-mode .overflow-menu-panel .menu-update-button { font-weight: 500; }
 html.tv-mode[data-tv-panel="preferences"] #tv-exit-button { display: none; } html.tv-mode[data-tv-panel="settings"] #tv-exit-button { margin-top: auto; color: var(--muted); } html.tv-mode[data-tv-panel="settings"] .overflow-menu-panel { display: flex; flex-direction: column; }
+/* Shared compact touch menus use the same fields and theme as TV. */
+.mobile-menu-back { display: none; }
+html:not(.tv-mode) .overflow-menu-panel { display: flex; flex-direction: column; position: fixed; top: auto; bottom: 0; left: 0; right: 0; width: auto; min-height: min(52dvh, 480px); max-height: min(64dvh, 560px); box-sizing: border-box; padding: 18px 16px; gap: 8px; border: 0; border-radius: 12px 12px 0 0; background: var(--panel); color: var(--text); box-shadow: none; }
+html:not(.tv-mode) .overflow-menu-panel .menu-kicker,
+html:not(.tv-mode) .overflow-menu-panel .menu-close-button,
+html:not(.tv-mode) .overflow-menu-panel .country-control,
+html:not(.tv-mode) .overflow-menu-panel #category-filter,
+html:not(.tv-mode) .overflow-menu-panel .favorites-label,
+html:not(.tv-mode) .overflow-menu-panel .legacy-theme-control,
+html:not(.tv-mode) .overflow-menu-panel .legacy-quality-control,
+html:not(.tv-mode) .overflow-menu-panel .epg-settings,
+html:not(.tv-mode) .overflow-menu-panel .playlist-access,
+html:not(.tv-mode) .overflow-menu-panel .menu-download-link,
+html:not(.tv-mode) .overflow-menu-panel .tv-hide { display: none; }
+html:not(.tv-mode) .overflow-menu-panel .menu-panel-title { border: 0; padding: 0; margin: 0 0 12px; }
+html:not(.tv-mode) .overflow-menu-panel .app-brand-logo { width: 160px; max-height: 42px; object-fit: cover; }
+html:not(.tv-mode) .overflow-menu-panel .tv-root-action { display: block; }
+html:not(.tv-mode) .tv-settings-content,
+html:not(.tv-mode) .tv-preferences-title { display: none; }
+html:not(.tv-mode)[data-menu-panel="preferences"] .tv-settings-content { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+html:not(.tv-mode)[data-menu-panel="preferences"] .tv-preferences-title { display: block; margin: 0 0 16px; font-size: 1.05rem; }
+html:not(.tv-mode)[data-menu-panel="preferences"] .menu-panel-title,
+html:not(.tv-mode)[data-menu-panel="preferences"] #tv-countries-button,
+html:not(.tv-mode)[data-menu-panel="preferences"] #tv-settings-button,
+html:not(.tv-mode)[data-menu-panel="preferences"] #tv-exit-button { display: none; }
+html:not(.tv-mode) .overflow-menu-panel button,
+html:not(.tv-mode) .overflow-menu-panel .blocked-label { font: inherit; font-size: .95rem; color: var(--text); background: transparent; border: 0; border-radius: 4px; min-height: 42px; padding: 10px 12px; text-align: left; box-sizing: border-box; }
+html:not(.tv-mode) .overflow-menu-panel .blocked-label { display: flex; align-items: center; gap: 10px; }
+html:not(.tv-mode) .overflow-menu-panel .tv-theme-choices { display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: .95rem; }
+html:not(.tv-mode) .tv-theme-choices span { flex: 1; }
+html:not(.tv-mode) .overflow-menu-panel .tv-theme-choices button { padding: 0; width: 42px; height: 42px; font-size: 24px; text-align: center; }
+html:not(.tv-mode) .tv-theme-choices button[aria-pressed="true"] { color: var(--accent); }
+html:not(.tv-mode) #tv-quality-value { float: right; color: var(--muted); }
+html:not(.tv-mode) #tv-quality-options { display: flex; flex-direction: column; padding-left: 12px; }
+html:not(.tv-mode) #tv-quality-options[hidden] { display: none; }
+html:not(.tv-mode) .menu-update-control { margin-top: auto; padding-top: 12px; }
+html:not(.tv-mode) .overflow-menu-panel .menu-update-button { width: 100%; background: var(--panel-strong); text-align: center; font-weight: 500; }
+html:not(.tv-mode) .overflow-menu-panel .mobile-menu-back,
+html:not(.tv-mode) .tv-countries-panel .mobile-menu-back,
+html:not(.tv-mode) .tv-apps-panel .mobile-menu-back { display: block; position: absolute; top: 12px; right: 16px; width: 36px; height: 36px; min-height: 36px; padding: 0; border: 0; background: transparent; color: var(--text); font-size: 30px; text-align: center; }
+html:not(.tv-mode)[data-menu-panel="countries"] .overflow-menu-panel,
+html:not(.tv-mode)[data-menu-panel="apps"] .overflow-menu-panel { visibility: hidden; pointer-events: none; }
+html:not(.tv-mode)[data-menu-panel="countries"] .tv-countries-panel,
+html:not(.tv-mode)[data-menu-panel="apps"] .tv-apps-panel { display: block; position: fixed; z-index: 20; bottom: 0; left: 0; right: 0; width: auto; height: min(64dvh, 560px); padding: 18px 16px; box-sizing: border-box; overflow-y: auto; background: var(--panel); color: var(--text); border-radius: 12px 12px 0 0; }
+html:not(.tv-mode) .tv-countries-panel h2,
+html:not(.tv-mode) .tv-apps-panel h2 { margin: 0 0 16px; font-size: 1.05rem; }
+html:not(.tv-mode) #tv-country-list,
+html:not(.tv-mode) #tv-app-list { display: flex; flex-direction: column; gap: 4px; }
+html:not(.tv-mode) #tv-country-list button,
+html:not(.tv-mode) #tv-app-list .featured-service-link { min-height: 42px; padding: 10px 12px; border: 0; border-radius: 4px; background: transparent; color: var(--text); text-align: left; font: inherit; font-size: .95rem; flex-shrink: 0; }
+html:not(.tv-mode) #tv-app-list .featured-service-link { display: flex; gap: 16px; justify-content: flex-start; }
+html:not(.tv-mode) #tv-app-list .featured-service-logo { width: 38px; height: 32px; object-fit: contain; }
+html:not(.tv-mode) #tv-app-list .featured-service-label { display: inline; }
+html:not(.tv-mode) .category-chip[data-category="apps"] { display: inline-block; }
+html:not(.tv-mode) #channel-featured-service-list,
+html:not(.tv-mode) #featured-service-list { display: none; }
+html:not(.tv-mode) .overflow-menu-panel :focus-visible,
+html:not(.tv-mode) #tv-country-list button:focus-visible,
+html:not(.tv-mode) #tv-app-list a:focus-visible { outline: none; box-shadow: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html:not(.tv-mode) .overflow-menu-panel button[hidden] { display: none; }
+.mobile-category-back { display: none; }
+html:not(.tv-mode)[data-menu-panel="browse"] .overflow-menu-panel { visibility: hidden; pointer-events: none; }
+html:not(.tv-mode)[data-menu-panel="browse"] .category-strip { display: flex; flex-direction: column; align-items: stretch; position: fixed; z-index: 20; bottom: 0; left: 0; right: 0; height: min(64dvh, 560px); padding: 48px 16px 16px; gap: 4px; background: var(--panel); border-radius: 12px 12px 0 0; box-sizing: border-box; overflow: auto; }
+html:not(.tv-mode)[data-menu-panel="browse"] .category-chip { flex-shrink: 0; min-height: 42px; padding: 10px 12px; border: 0; text-align: left; font-size: .95rem; background: transparent; color: var(--text); }
+html:not(.tv-mode)[data-menu-panel="browse"] .category-chip.selected { background: var(--panel-strong); }
+html:not(.tv-mode)[data-menu-panel="browse"] .mobile-category-back { display: block; position: absolute; top: 12px; right: 16px; border: 0; background: transparent; color: var(--text); font-size: 30px; width: 36px; height: 36px; padding: 0; }
+html.tv-mode .mobile-category-back { display: none; }

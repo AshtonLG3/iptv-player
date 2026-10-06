@@ -195,6 +195,7 @@ export function renderApp({
             <span class="hamburger-icon" aria-hidden="true"></span>
           </summary>
           <div class="overflow-menu-panel">
+            <button class="mobile-menu-back" type="button" aria-label="Back">‹</button>
             <div class="menu-panel-title">
               <div>
                 <p class="menu-kicker">Player</p>
@@ -304,10 +305,10 @@ export function renderApp({
       <ul id="channel-list" tabindex="-1"></ul>
     </aside>
     <section class="tv-only tv-apps-panel" aria-label="Official TV Apps">
-      <h2>Official TV Apps</h2>
+      <button class="mobile-menu-back" type="button" aria-label="Back">‹</button><h2>Official TV Apps</h2>
       <nav id="tv-app-list" aria-label="TV apps"></nav>
     </section>
-    <section class="tv-only tv-countries-panel"><h2>Countries</h2><nav id="tv-country-list"></nav></section>
+    <section class="tv-only tv-countries-panel"><button class="mobile-menu-back" type="button" aria-label="Back">‹</button><h2>Countries</h2><nav id="tv-country-list"></nav></section>
   `;
 
   const searchBox = root.querySelector('#search-box');
@@ -324,9 +325,11 @@ export function renderApp({
   const overflowMenu = root.querySelector('#overflow-menu');
   const overflowMenuButton = root.querySelector('.overflow-menu-button');
   const menuCloseButton = root.querySelector('.menu-close-button');
+  root.querySelector('#tv-exit-button').hidden = typeof window.AndroidDevice?.exitApp !== 'function';
   root.querySelector('#tv-exit-button').addEventListener('click', () => window.AndroidDevice?.exitApp?.());
-  root.querySelector('#tv-countries-button').addEventListener('click', () => onBrowseSelection?.('countries'));
-  root.querySelector('#tv-settings-button').addEventListener('click', () => onSettingsSelection?.());
+  root.querySelector('#tv-countries-button').addEventListener('click', () => isTvMode ? onBrowseSelection?.('countries') : openMenuPanel('countries'));
+  root.querySelector('#tv-settings-button').addEventListener('click', () => isTvMode ? onSettingsSelection?.() : openMenuPanel('preferences'));
+  root.querySelectorAll('.mobile-menu-back').forEach(button => button.addEventListener('click', closeMenuPanel));
   const playlistLinkList = root.querySelector('#playlist-link-list');
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
@@ -423,7 +426,8 @@ export function renderApp({
     button.addEventListener('click', () => {
       countrySelect.value = option.value;
       applyFilters();
-      onBrowseSelection?.('browse');
+      if (isTvMode) onBrowseSelection?.('browse');
+      else setMenuOpen(false);
     });
     countryList.appendChild(button);
   }
@@ -646,15 +650,23 @@ export function renderApp({
 
   function renderCategoryStrip() {
     categoryStrip.innerHTML = '';
+    const back = document.createElement('button');
+    back.className = 'mobile-category-back';
+    back.type = 'button';
+    back.textContent = '‹';
+    back.setAttribute('aria-label', 'Back');
+    back.addEventListener('click', closeMenuPanel);
+    categoryStrip.appendChild(back);
     for (const category of ['apps', '', 'favorites', ...categories]) {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = category === 'apps' ? 'category-chip tv-only' : 'category-chip';
+      button.className = 'category-chip';
       button.dataset.category = category;
       button.textContent = category === 'apps' ? 'Official TV Apps' : category === 'favorites' ? 'Favorites' : category || 'All Channels';
       button.addEventListener('click', () => {
         if (category === 'apps') {
-          onBrowseSelection?.('apps');
+          if (isTvMode) onBrowseSelection?.('apps');
+          else openMenuPanel('apps');
           return;
         }
         if (category === 'favorites') {
@@ -702,7 +714,24 @@ export function renderApp({
   }
 
   function setMenuOpen(isOpen) {
+    if (!isTvMode) {
+      if (isOpen && !overflowMenu.open) document.documentElement.dataset.menuPanel = 'settings';
+      if (!isOpen) delete document.documentElement.dataset.menuPanel;
+    }
     overflowMenu.open = Boolean(isOpen);
+  }
+  function openMenuPanel(panel) {
+    setMenuOpen(true);
+    document.documentElement.dataset.menuPanel = panel;
+  }
+  function closeMenuPanel() {
+    if (isTvMode) return false;
+    if (!overflowMenu.open) { openMenuPanel('browse'); return true; }
+    if (closeQualityOptions()) return true;
+    const panel = document.documentElement.dataset.menuPanel;
+    if (panel === 'preferences' || panel === 'countries' || panel === 'browse') document.documentElement.dataset.menuPanel = 'settings';
+    else setMenuOpen(false);
+    return true;
   }
 
   function focusChannel(url = lastFocusedChannelUrl || nowPlayingUrl) {
@@ -1040,10 +1069,14 @@ export function renderApp({
       event.preventDefault();
       window.AndroidDevice.openOfficialUrl(inAppLink.href);
     }
-    if (!isTvMode && !overflowMenu.contains(event.target)) overflowMenu.removeAttribute('open');
+    if (!isTvMode && !overflowMenu.contains(event.target) && !event.target.closest('.tv-countries-panel, .tv-apps-panel, .category-strip')) setMenuOpen(false);
   });
 
   overflowMenu.addEventListener('toggle', () => {
+    if (!isTvMode) {
+      if (overflowMenu.open && !document.documentElement.dataset.menuPanel) document.documentElement.dataset.menuPanel = 'settings';
+      if (!overflowMenu.open) delete document.documentElement.dataset.menuPanel;
+    }
     overflowMenuButton.setAttribute(
       'aria-label',
       overflowMenu.open ? 'Close menu' : 'Open menu',
@@ -1124,6 +1157,7 @@ export function renderApp({
     isFirstChannelFocused,
     focusChannelService,
     moveChannelServiceFocus,
+    closeMenuPanel,
     closeQualityOptions,
     focusCountry,
     moveCountryFocus,
