@@ -330,6 +330,7 @@ public final class MainActivity extends Activity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getRepeatCount() > 0) return true;
         if (isTelevisionDevice && isTvNavigationKey(event.getKeyCode())) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) forwardTvNavigationKey(event);
             return true; // Consume key-up too, preventing duplicate WebView activation.
@@ -861,6 +862,7 @@ public final class MainActivity extends Activity {
         suppressMediaSessionUpdates = false;
         if (webView != null) {
             webView.onResume();
+            evaluatePlayerCommand("__ftaIptvResumeChannel");
             if (isTelevisionDevice) webView.requestFocus();
         }
         if (updateManager != null) updateManager.resumePendingInstall();
@@ -881,8 +883,7 @@ public final class MainActivity extends Activity {
                     "Boolean(window.__ftaIptvCloseMenu && window.__ftaIptvCloseMenu())",
                     handled -> {
                         if ("true".equals(handled)) return;
-                        if (webView.canGoBack()) webView.goBack();
-                        else finish();
+                        finish();
                     });
             return;
         }

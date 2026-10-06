@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   detectTelevision,
+  createBackExitPolicy,
   dispatchNativeTvKey,
   getBoundedFocusIndex,
   getGlobalTvRemoteAction,
@@ -13,6 +14,22 @@ import {
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
 } from '../src/tvRemote.js';
+
+test('four deliberate Back presses exit, rapid double Back exits, held Back and resets do not', () => {
+  let time = 0;
+  const policy = createBackExitPolicy({ now: () => time });
+  for (let index = 0; index < 4; index += 1) {
+    time += 1000;
+    assert.equal(policy.press().exit, index === 3);
+  }
+  policy.reset();
+  assert.equal(policy.press().exit, false);
+  time += 150;
+  assert.deepEqual(policy.press({ repeat: true }), { exit: false, ignored: true });
+  assert.equal(policy.press().exit, true);
+  policy.reset();
+  assert.equal(policy.press().exit, false);
+});
 
 test('native Android D-pad reaches navigation and OK activates once without browser defaults', () => {
   const keys = [];

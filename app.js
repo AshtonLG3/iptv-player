@@ -1,35 +1,36 @@
-import * as playlistModule from './src/playlist.js?v=20261006h';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261006h';
+import * as playlistModule from './src/playlist.js?v=20261006i';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261006i';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261006h';
+} from './src/constants.js?v=20261006i';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261006h';
+} from './src/playlistAccess.js?v=20261006i';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261006h';
-import { createPlayer } from './src/player.js?v=20261006h';
-import { createEpgController } from './src/epg.js?v=20261006h';
-import { createFullscreenController } from './src/fullscreen.js?v=20261006h';
+} from './src/ui.js?v=20261006i';
+import { createPlayer } from './src/player.js?v=20261006i';
+import { createEpgController } from './src/epg.js?v=20261006i';
+import { createFullscreenController } from './src/fullscreen.js?v=20261006i';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261006h';
-import { updateMediaSession } from './src/mediaSession.js?v=20261006h';
+} from './src/channelRoute.js?v=20261006i';
+import { updateMediaSession } from './src/mediaSession.js?v=20261006i';
 import {
   detectTelevision,
+  createBackExitPolicy,
   dispatchNativeTvKey,
   getGlobalTvRemoteAction,
   getTvNavigationKey,
@@ -39,14 +40,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261006h';
+} from './src/tvRemote.js?v=20261006i';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261006h';
+} from './src/storage.js?v=20261006i';
 
 const {
   clearPrivatePlaylist,
@@ -87,6 +88,7 @@ async function main() {
   const playerHudTitle = document.getElementById('player-hud-title');
   const playerHudMeta = document.getElementById('player-hud-meta');
   const landscapeDrawerQuery = window.matchMedia('(orientation: landscape) and (max-height: 540px)');
+  const mobileFullscreenQuery = window.matchMedia('(orientation: landscape)');
   const officialServiceById = Object.fromEntries(OFFICIAL_SERVICES.map((service) => [service.id, service]));
   const vlcAndroid = COMPATIBLE_PLAYERS.find((playerLink) => playerLink.id === 'vlc-android');
   const CHANNEL_NAV_AUTO_HIDE_MS = 2600;
@@ -135,6 +137,8 @@ async function main() {
     bridge: androidDeviceBridge,
     userAgent: navigator.userAgent,
   });
+  const televisionDevice = isTvMode;
+  const backExit = createBackExitPolicy();
   const channelRouteBase = getPlayerBasePath(window.location.pathname);
   const channelRoutingEnabled = supportsChannelRoutes({
     locationObj: window.location,
@@ -217,7 +221,7 @@ async function main() {
 
   const fullscreenController = createFullscreenController({
     documentObj: document,
-    playerElement: playerFrameEl,
+    playerElement: layoutEl,
     videoElement: videoEl,
   });
 
@@ -227,6 +231,23 @@ async function main() {
     fullscreenToggle.setAttribute('aria-pressed', String(active));
     fullscreenToggle.title = active ? 'Exit full screen' : 'Full screen';
     playerFrameEl.classList.toggle('is-fullscreen', active);
+    if (!televisionDevice) {
+      const mobileFullscreen = active || (mobileFullscreenQuery.matches && (Boolean(androidDeviceBridge) || navigator.maxTouchPoints > 0));
+      const changed = isTvMode !== mobileFullscreen;
+      isTvMode = mobileFullscreen;
+      document.documentElement.classList.toggle('tv-mode', mobileFullscreen);
+      document.documentElement.classList.toggle('mobile-fullscreen', mobileFullscreen);
+      if (changed) {
+        backExit.reset();
+        delete document.documentElement.dataset.menuPanel;
+        if (mobileFullscreen) setTvPanel('none');
+        else {
+          tvPanel = 'none'; delete document.documentElement.dataset.tvPanel;
+          layoutEl.classList.remove('tv-transparent-browse');
+          appView?.setMenuOpen(false); setDrawerOpen(false);
+        }
+      }
+    }
   }
 
   fullscreenToggle.hidden = isTvMode
@@ -243,7 +264,7 @@ async function main() {
   });
   document.addEventListener('fullscreenchange', updateFullscreenControl);
   document.addEventListener('webkitfullscreenchange', updateFullscreenControl);
-  updateFullscreenControl();
+  mobileFullscreenQuery.addEventListener('change', updateFullscreenControl);
 
   videoEl.removeAttribute('controls');
   videoEl.controls = false;
@@ -355,6 +376,7 @@ async function main() {
     tvPanel = nextPanel;
     document.documentElement.dataset.tvPanel = nextPanel;
     layoutEl.classList.toggle('tv-transparent-browse', overlay && ['channels', 'categories'].includes(nextPanel));
+    if (['none', 'channels', 'categories', 'browse'].includes(nextPanel)) showPlayerHud(currentChannel);
     syncingTvPanel = true;
     setDrawerOpen([
       'channels',
@@ -431,11 +453,13 @@ async function main() {
     if (!drawerIsOpen && !isTvMode && channelDrawerGestureStarted && dx < -70 && dy < 60) {
       setDrawerOpen(true);
     } else if (!drawerIsOpen && isTvMode && touchStartX < 36 && dx > 70 && dy < 60) {
-      setDrawerOpen(true);
+      handleTvRemoteAction('left');
     } else if (drawerIsOpen && !isTvMode && dx > 70 && dy < 60) {
       setDrawerOpen(false);
     } else if (drawerIsOpen && isTvMode && dx < -70 && dy < 60) {
-      setDrawerOpen(false);
+      handleTvRemoteAction('right');
+    } else if (drawerIsOpen && isTvMode && dx > 70 && dy < 60) {
+      handleTvRemoteAction('left');
     }
     channelDrawerGestureStarted = false;
   }, { capture: true, passive: true });
@@ -583,6 +607,7 @@ async function main() {
     playerHud.hidden = false;
     window.requestAnimationFrame(() => playerHud.classList.add('visible'));
     playerHudHideTimer = window.setTimeout(() => {
+      if (tvPanel !== 'none') return;
       playerHud.classList.remove('visible');
       window.setTimeout(() => {
         if (!playerHud.classList.contains('visible')) playerHud.hidden = true;
@@ -604,6 +629,7 @@ async function main() {
   }
 
   function selectChannel(channel, { historyMode = 'push', keepTvPanel = false } = {}) {
+    backExit.reset();
     player.suspend();
     currentChannel = channel;
     epg.setChannel(getMediaSection(channel) === 'live' ? channel : null);
@@ -785,6 +811,7 @@ async function main() {
   }
 
   function handleTvRemoteAction(action) {
+    if (action !== 'close') backExit.reset();
     switch (action) {
       case 'left':
       case 'right':
@@ -806,6 +833,7 @@ async function main() {
         if (currentChannel) toggleCurrentVideo();
         return true;
       case 'close':
+        if (backExit.press().exit) return false;
         if (tvPanel === 'preferences') {
           if (appView?.closeQualityOptions()) return true;
           const expanded = [...root.querySelectorAll('.overflow-menu-panel details[open]')];
@@ -826,7 +854,13 @@ async function main() {
   }
 
   function handleTvKeydown(event) {
-    if (!isTvMode && ['Escape', 'BrowserBack'].includes(event.key) && appView?.closeMenuPanel()) { event.preventDefault(); return; }
+    if (['Escape', 'BrowserBack'].includes(event.key) && event.repeat) { event.preventDefault(); return; }
+    if (!['Escape', 'BrowserBack'].includes(event.key)) backExit.reset();
+    if (!isTvMode && ['Escape', 'BrowserBack'].includes(event.key)) {
+      if (handleAppBack()) event.preventDefault();
+      else androidDeviceBridge?.exitApp?.();
+      return;
+    }
     if (!isTvMode && shouldActivateTelevisionFromRemote({
       event,
       viewportWidth: window.innerWidth,
@@ -840,6 +874,7 @@ async function main() {
     const key = getTvNavigationKey(event);
     if (key === 'Escape' || key === 'BrowserBack') {
       if (handleTvRemoteAction('close')) event.preventDefault();
+      else androidDeviceBridge?.exitApp?.();
       return;
     }
 
@@ -932,7 +967,8 @@ async function main() {
         onSelectChannel: selectChannel,
         onVisibleChannelsChange: setVisibleChannels,
         onFavoriteChange: () => updateNowPlayingSummary(currentChannel),
-        onBrowseSelection: (panel) => { if (isTvMode) setTvPanel(panel); else if (panel === 'channels') appView?.setMenuOpen(false); },
+        onBack: () => { if (!handleAppBack()) androidDeviceBridge?.exitApp?.(); },
+        onBrowseSelection: (panel) => { if (isTvMode) setTvPanel(panel, { overlay: ['channels', 'categories'].includes(panel) }); else if (panel === 'channels') appView?.setMenuOpen(false); },
         onSettingsSelection: () => setTvPanel('preferences'),
         onMenuOpenChange: (isOpen) => {
           layoutEl.classList.toggle('settings-open', isOpen);
@@ -973,7 +1009,7 @@ async function main() {
       }
 
       const lastWatchedUrl = getLastWatched(window.localStorage);
-      const lastChannel = channels.find((c) => c.variants.some((variant) => variant.url === lastWatchedUrl));
+      const lastChannel = channels.find((c) => c.url === lastWatchedUrl || c.variants?.some((variant) => variant.url === lastWatchedUrl));
       if (lastChannel) {
         selectChannel(lastChannel, { historyMode: 'replace' });
         window.requestAnimationFrame(() => appView?.scrollToChannel(lastChannel.url));
@@ -1018,7 +1054,7 @@ async function main() {
     updateNowPlayingSummary(currentChannel);
   });
 
-  settingsToggle.addEventListener('click', () => appView?.setMenuOpen(true));
+  settingsToggle.addEventListener('click', () => { backExit.reset(); if (isTvMode) setTvPanel('settings'); else appView?.setMenuOpen(true); });
 
   function updateOrientationButton() {
     const landscape = window.matchMedia('(orientation: landscape)').matches;
@@ -1109,7 +1145,8 @@ async function main() {
     }
   };
   window.__ftaIptvOpenChannels = () => {
-    if (isTvMode || !isLandscapeDrawerActive()) return;
+    if (isTvMode) { handleTvRemoteAction('left'); return; }
+    if (!isLandscapeDrawerActive()) return;
     appView?.setMenuOpen(false);
     setDrawerOpen(true);
   };
@@ -1117,7 +1154,32 @@ async function main() {
   window.__ftaIptvTvRight = () => handleTvRemoteAction('right');
   window.__ftaIptvTvToggleChannels = () => toggleTvPanel('channels');
   window.__ftaIptvTvToggleMenu = () => toggleTvPanel('settings');
-  window.__ftaIptvCloseMenu = () => Boolean(appView?.closeMenuPanel());
+  function handleAppBack() {
+    if (isTvMode) return handleTvRemoteAction('close');
+    if (backExit.press().exit) return false;
+    return Boolean(appView?.closeMenuPanel());
+  }
+  window.__ftaIptvCloseMenu = handleAppBack;
+  window.__ftaIptvResumeChannel = () => {
+    if (currentChannel) selectChannel(currentChannel, { historyMode: 'none', keepTvPanel: true });
+  };
+  root.addEventListener('click', event => { if (!event.target.closest('.mobile-menu-back, .mobile-category-back')) backExit.reset(); });
+  const touchControls = document.createElement('nav');
+  touchControls.className = 'mobile-fullscreen-controls';
+  touchControls.setAttribute('aria-label', 'Fullscreen navigation');
+  for (const [label, glyph, action] of [
+    ['Channels and categories', '☰', () => handleTvRemoteAction('left')],
+    ['Back', '‹', () => { if (!handleAppBack()) androidDeviceBridge?.exitApp?.(); }],
+    ['Favorite current channel', '☆', () => { backExit.reset(); setTvPanel('favorite'); }],
+    ['Play or pause', '⏯', toggleCurrentVideo],
+    ['Exit full screen', '↗', () => { backExit.reset(); if (androidDeviceBridge) androidDeviceBridge.toggleOrientation?.(); else fullscreenController.toggle(); }],
+  ]) {
+    const button = document.createElement('button');
+    button.type = 'button'; button.textContent = glyph; button.setAttribute('aria-label', label);
+    button.addEventListener('click', action); touchControls.appendChild(button);
+  }
+  layoutEl.appendChild(touchControls);
+  updateFullscreenControl();
   window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
   window.addEventListener('pagehide', () => {
     delete window.__ftaIptvUpdateStatus;

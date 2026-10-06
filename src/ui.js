@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006h';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006h';
-import { getMediaSection } from './catalog.js?v=20261006h';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006i';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006i';
+import { getMediaSection } from './catalog.js?v=20261006i';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -182,6 +182,7 @@ export function renderApp({
   onSelectChannel,
   onVisibleChannelsChange = null,
   onFavoriteChange = null,
+  onBack = null,
   onMenuOpenChange = null,
   onBrowseSelection = null,
   onSettingsSelection = null,
@@ -282,6 +283,8 @@ export function renderApp({
           <div>
             <span class="channel-list-kicker">Browse</span>
             <strong id="channel-list-title">All channels</strong>
+            <button id="favorite-sort" type="button" hidden></button>
+            <button id="browse-now-playing" type="button" hidden></button>
           </div>
           <span id="channel-count" class="channel-count">0</span>
         </div>
@@ -327,9 +330,9 @@ export function renderApp({
   const menuCloseButton = root.querySelector('.menu-close-button');
   root.querySelector('#tv-exit-button').hidden = typeof window.AndroidDevice?.exitApp !== 'function';
   root.querySelector('#tv-exit-button').addEventListener('click', () => window.AndroidDevice?.exitApp?.());
-  root.querySelector('#tv-countries-button').addEventListener('click', () => isTvMode ? onBrowseSelection?.('countries') : openMenuPanel('countries'));
-  root.querySelector('#tv-settings-button').addEventListener('click', () => isTvMode ? onSettingsSelection?.() : openMenuPanel('preferences'));
-  root.querySelectorAll('.mobile-menu-back').forEach(button => button.addEventListener('click', closeMenuPanel));
+  root.querySelector('#tv-countries-button').addEventListener('click', () => isPanelMode() ? onBrowseSelection?.('countries') : openMenuPanel('countries'));
+  root.querySelector('#tv-settings-button').addEventListener('click', () => isPanelMode() ? onSettingsSelection?.() : openMenuPanel('preferences'));
+  root.querySelectorAll('.mobile-menu-back').forEach(button => button.addEventListener('click', () => onBack?.()));
   const playlistLinkList = root.querySelector('#playlist-link-list');
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
@@ -366,10 +369,25 @@ export function renderApp({
   }
   qualitySelect.addEventListener('change', () => { qualityApi?.set(qualitySelect.value); syncQualityValue(); });
   const channelListTitle = root.querySelector('#channel-list-title');
+  const favoriteSort = root.querySelector('#favorite-sort');
+  const browseNowPlaying = root.querySelector('#browse-now-playing');
+  favoriteSort.addEventListener('click', () => {
+    const modes = ['az', 'za', 'saved'];
+    favoritesApi.setSort(modes[(modes.indexOf(favoritesApi.getSort()) + 1) % modes.length]);
+    applyFilters();
+    favoriteSort.focus({ preventScroll: true });
+  });
+  browseNowPlaying.addEventListener('click', () => {
+    searchBox.value = ''; countrySelect.value = ''; categorySelect.value = '';
+    favoritesToggle.checked = false;
+    applyFilters();
+    scrollToChannel(nowPlayingUrl);
+    onBrowseSelection?.('channels');
+  });
   const channelCount = root.querySelector('#channel-count');
   const listEl = root.querySelector('#channel-list');
-  const isTvMode = document.documentElement.classList.contains('tv-mode');
-  if (isTvMode) {
+  function isPanelMode() { return document.documentElement.classList.contains('tv-mode'); }
+  if (isPanelMode()) {
     qualitySelect.options[0].textContent = 'Auto';
     qualitySelect.options[1].textContent = 'Data saver';
   }
@@ -377,7 +395,7 @@ export function renderApp({
   let lastFocusedChannelUrl = null;
   let visibleChannels = [];
   let filteredChannels = [];
-  const initialRenderLimit = isTvMode ? 100 : MAX_RENDERED_CHANNELS;
+  const initialRenderLimit = isPanelMode() ? 100 : MAX_RENDERED_CHANNELS;
   let renderLimit = initialRenderLimit;
   const browsePositions = new Map();
   const favoriteButtons = new Map();
@@ -426,7 +444,7 @@ export function renderApp({
     button.addEventListener('click', () => {
       countrySelect.value = option.value;
       applyFilters();
-      if (isTvMode) onBrowseSelection?.('browse');
+      if (isPanelMode()) onBrowseSelection?.('browse');
       else setMenuOpen(false);
     });
     countryList.appendChild(button);
@@ -506,6 +524,17 @@ export function renderApp({
     if (!keepRenderLimit) renderLimit = position?.renderLimit || initialRenderLimit;
     lastFocusedChannelUrl = position?.url || null;
     activeBrowseKey = nextBrowseKey;
+    if (filters.favoritesOnly) {
+      const sort = favoritesApi.getSort();
+      if (sort === 'za') filtered.reverse();
+      if (sort === 'saved') {
+        const order = new Map(favoritesApi.order().map((url, index) => [url, index]));
+        filtered.sort((a, b) => order.get(a.url) - order.get(b.url));
+      }
+    }
+    favoriteSort.hidden = !filters.favoritesOnly;
+    favoriteSort.textContent = `Sort: ${{ az: 'A–Z', za: 'Z–A', saved: 'My order' }[favoritesApi.getSort()]}`;
+    favoriteSort.title = 'Change Favorites order: A–Z, Z–A, My order';
     filteredChannels = filtered;
     visibleChannels = limitChannelsForRendering(filteredChannels, renderLimit);
     searchClearButton.hidden = !filters.search.trim();
@@ -614,6 +643,21 @@ export function renderApp({
       });
 
       item.appendChild(favButton);
+      if (favoritesToggle.checked && favoritesApi.getSort() === 'saved') {
+        for (const [direction, glyph, label] of [[-1, '↑', 'Move up'], [1, '↓', 'Move down']]) {
+          const move = document.createElement('button');
+          move.type = 'button'; move.className = 'favorite-move'; move.textContent = glyph;
+          move.setAttribute('aria-label', `${label}: ${channel.name}`);
+          const order = favoritesApi.order();
+          const position = order.indexOf(channel.url);
+          move.disabled = direction < 0 ? position === 0 : position === order.length - 1;
+          move.addEventListener('click', () => {
+            favoritesApi.move(channel.url, direction);
+            applyFilters(); focusChannel(channel.url);
+          });
+          item.appendChild(move);
+        }
+      }
       selectButton.addEventListener('click', () => {
         if (searchBox.value.trim()) {
           searchBox.value = '';
@@ -631,7 +675,7 @@ export function renderApp({
   function appendNextChannels() {
     const previousLength = visibleChannels.length;
     if (previousLength >= filteredChannels.length) return false;
-    renderLimit = Math.min(previousLength + (isTvMode ? 50 : 100), filteredChannels.length);
+    renderLimit = Math.min(previousLength + (isPanelMode() ? 50 : 100), filteredChannels.length);
     visibleChannels = limitChannelsForRendering(filteredChannels, renderLimit);
     renderList(visibleChannels.slice(previousLength), { append: true });
     channelCount.textContent = visibleChannels.length < filteredChannels.length
@@ -655,7 +699,7 @@ export function renderApp({
     back.type = 'button';
     back.textContent = '‹';
     back.setAttribute('aria-label', 'Back');
-    back.addEventListener('click', closeMenuPanel);
+    back.addEventListener('click', () => onBack?.());
     categoryStrip.appendChild(back);
     for (const category of ['apps', '', 'favorites', ...categories]) {
       const button = document.createElement('button');
@@ -665,7 +709,7 @@ export function renderApp({
       button.textContent = category === 'apps' ? 'Official TV Apps' : category === 'favorites' ? 'Favorites' : category || 'All Channels';
       button.addEventListener('click', () => {
         if (category === 'apps') {
-          if (isTvMode) onBrowseSelection?.('apps');
+          if (isPanelMode()) onBrowseSelection?.('apps');
           else openMenuPanel('apps');
           return;
         }
@@ -682,7 +726,7 @@ export function renderApp({
         if (!category) {
           searchBox.value = '';
           setSearchOpen(false);
-          if (!isTvMode) countrySelect.value = '';
+          if (!isPanelMode()) countrySelect.value = '';
           categorySelect.value = '';
           favoritesToggle.checked = false;
           applyFilters();
@@ -710,11 +754,15 @@ export function renderApp({
 
   function setNowPlaying(url) {
     nowPlayingUrl = url;
+    browseNowPlaying.hidden = !url;
+    const channel = channels.find((item) => item.url === url);
+    browseNowPlaying.textContent = channel ? `▶ ${channel.name}` : '';
+    browseNowPlaying.setAttribute('aria-label', `Show playing channel: ${channel?.name || ''}`);
     updateNowPlayingMarkers();
   }
 
   function setMenuOpen(isOpen) {
-    if (!isTvMode) {
+    if (!isPanelMode()) {
       if (isOpen && !overflowMenu.open) document.documentElement.dataset.menuPanel = 'settings';
       if (!isOpen) delete document.documentElement.dataset.menuPanel;
     }
@@ -725,7 +773,7 @@ export function renderApp({
     document.documentElement.dataset.menuPanel = panel;
   }
   function closeMenuPanel() {
-    if (isTvMode) return false;
+    if (isPanelMode()) return false;
     if (!overflowMenu.open) { openMenuPanel('browse'); return true; }
     if (closeQualityOptions()) return true;
     const panel = document.documentElement.dataset.menuPanel;
@@ -734,7 +782,17 @@ export function renderApp({
     return true;
   }
 
-  function focusChannel(url = lastFocusedChannelUrl || nowPlayingUrl) {
+  function ensureChannelRendered(url) {
+    const index = filteredChannels.findIndex((channel) => channel.url === url);
+    if (index >= renderLimit) {
+      renderLimit = index + 1;
+      visibleChannels = limitChannelsForRendering(filteredChannels, renderLimit);
+      renderList(visibleChannels);
+      onVisibleChannelsChange?.(visibleChannels);
+    }
+  }
+  function focusChannel(url = nowPlayingUrl || lastFocusedChannelUrl) {
+    ensureChannelRendered(url);
     const items = [...listEl.querySelectorAll('.channel-item')];
     const target = items.find((item) => item.dataset.channelUrl === url) || items[0];
     const button = target?.querySelector('.channel-select-button');
@@ -749,6 +807,7 @@ export function renderApp({
   }
 
   function scrollToChannel(url = nowPlayingUrl) {
+    ensureChannelRendered(url);
     const target = [...listEl.querySelectorAll('.channel-item')]
       .find((item) => item.dataset.channelUrl === url);
     if (!target) return false;
@@ -762,6 +821,9 @@ export function renderApp({
     const row = document.activeElement?.closest('.channel-item');
     const currentIndex = buttons.indexOf(row?.querySelector('.channel-select-button'));
     if (!buttons.length) return false;
+    if (direction < 0 && currentIndex === 0 && !favoriteSort.hidden) {
+      favoriteSort.focus({ preventScroll: true }); return true;
+    }
     if (direction > 0 && currentIndex === buttons.length - 1 && appendNextChannels()) {
       buttons = [...listEl.querySelectorAll('.channel-select-button')];
     }
@@ -808,9 +870,11 @@ export function renderApp({
   function moveChannelActionFocus(direction) {
     const row = document.activeElement?.closest('.channel-item');
     if (!row) return false;
-    const favoriteFocused = document.activeElement.classList.contains('favorite-btn');
-    if ((direction === 'right' && !favoriteFocused) || (direction === 'left' && favoriteFocused)) {
-      row.querySelector(direction === 'right' ? '.favorite-btn' : '.channel-select-button')?.focus({ preventScroll: true });
+    const actions = [...row.querySelectorAll('button:not(:disabled)')];
+    const index = actions.indexOf(document.activeElement);
+    const next = index + (direction === 'right' ? 1 : -1);
+    if (next >= 0 && next < actions.length) {
+      actions[next].focus({ preventScroll: true });
       return true;
     }
     return false;
@@ -877,7 +941,7 @@ export function renderApp({
 
   function focusMenu() {
     const target = document.documentElement.dataset.tvPanel === 'preferences'
-      ? hideBlockedToggle : isTvMode ? root.querySelector('#tv-countries-button') : countrySelect;
+      ? hideBlockedToggle : isPanelMode() ? root.querySelector('#tv-countries-button') : countrySelect;
     if (!target) return false;
     target.focus({ preventScroll: true });
     target.scrollIntoView({ block: 'nearest' });
@@ -1069,11 +1133,11 @@ export function renderApp({
       event.preventDefault();
       window.AndroidDevice.openOfficialUrl(inAppLink.href);
     }
-    if (!isTvMode && !overflowMenu.contains(event.target) && !event.target.closest('.tv-countries-panel, .tv-apps-panel, .category-strip')) setMenuOpen(false);
+    if (!isPanelMode() && !overflowMenu.contains(event.target) && !event.target.closest('.tv-countries-panel, .tv-apps-panel, .category-strip')) setMenuOpen(false);
   });
 
   overflowMenu.addEventListener('toggle', () => {
-    if (!isTvMode) {
+    if (!isPanelMode()) {
       if (overflowMenu.open && !document.documentElement.dataset.menuPanel) document.documentElement.dataset.menuPanel = 'settings';
       if (!overflowMenu.open) delete document.documentElement.dataset.menuPanel;
     }
@@ -1102,7 +1166,7 @@ export function renderApp({
   searchClearButton.addEventListener('click', () => {
     searchBox.value = '';
     applyFilters();
-    if (isTvMode) focusChannel();
+    if (isPanelMode()) focusChannel();
     else {
       setSearchOpen(false);
       searchToggleButton.focus({ preventScroll: true });

@@ -2419,6 +2419,24 @@ html.tv-mode .overflow-menu-panel .menu-update-button { font-weight: 500; }
 html.tv-mode[data-tv-panel="preferences"] #tv-exit-button { display: none; } html.tv-mode[data-tv-panel="settings"] #tv-exit-button { margin-top: auto; color: var(--muted); } html.tv-mode[data-tv-panel="settings"] .overflow-menu-panel { display: flex; flex-direction: column; }
 /* Shared compact touch menus use the same fields and theme as TV. */
 .mobile-menu-back { display: none; }
+
+/* Shared fullscreen panels remain above the live picture on touch devices. */
+.mobile-fullscreen-controls { display: none; }
+html.mobile-fullscreen { --tv-category-width: min(25vw, 240px); --tv-list-width: min(36vw, 340px); --tv-menu-width: min(36vw, 320px); }
+html.mobile-fullscreen .player-panel { inset: 0 !important; }
+html.mobile-fullscreen .mobile-fullscreen-controls { display: flex; position: fixed; right: 12px; bottom: max(10px, env(safe-area-inset-bottom)); gap: 4px; z-index: 60; padding: 4px; border-radius: 6px; background: rgba(13,15,18,.6); }
+html.mobile-fullscreen .mobile-fullscreen-controls button { width: 40px; height: 36px; border: 0; background: transparent; color: white; font-size: 22px; }
+html.mobile-fullscreen .mobile-menu-back { display: block; position: absolute; right: 6px; top: 6px; width: 32px; padding: 0; text-align: center; z-index: 2; }
+html.mobile-fullscreen .sidebar { padding: 10px; }
+html.mobile-fullscreen .channel-select-button { padding: 6px; }
+html.mobile-fullscreen .channel-name { font-size: .85rem; }
+html.mobile-fullscreen .channel-detail { font-size: .7rem; }
+html.mobile-fullscreen .tv-favorite-panel { bottom: 62px; }
+#favorite-sort, #browse-now-playing { border: 0; border-radius: 4px; background: transparent; color: var(--accent); text-align: left; padding: 6px 0; font-size: .8rem; }
+#browse-now-playing { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.favorite-move { border: 0; background: transparent; color: var(--text); width: 28px; flex: 0 0 28px; padding: 4px; font-size: 20px; }
+.favorite-move:disabled { opacity: .25; }
+:is(#favorite-sort, #browse-now-playing, .favorite-move, .mobile-fullscreen-controls button):focus-visible { outline: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html:not(.tv-mode) .overflow-menu-panel { display: flex; flex-direction: column; position: fixed; top: auto; bottom: 0; left: 0; right: 0; width: auto; min-height: min(52dvh, 480px); max-height: min(64dvh, 560px); box-sizing: border-box; padding: 18px 16px; gap: 8px; border: 0; border-radius: 12px 12px 0 0; background: var(--panel); color: var(--text); box-shadow: none; }
 html:not(.tv-mode) .overflow-menu-panel .menu-kicker,
 html:not(.tv-mode) .overflow-menu-panel .menu-close-button,

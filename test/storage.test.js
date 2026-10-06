@@ -20,6 +20,22 @@ function createFakeStorage() {
   };
 }
 
+test('favorite sort and manual order persist across reopening without losing membership', () => {
+  const storage = createFakeStorage();
+  const api = createFavoritesApi(storage);
+  for (const url of ['a', 'b', 'c']) api.toggle(url);
+  api.setSort('saved');
+  assert.equal(api.move('c', -1), true);
+  assert.equal(api.move('a', -1), false);
+  assert.equal(api.move('missing', 1), false);
+  const reopened = createFavoritesApi(storage);
+  assert.equal(reopened.getSort(), 'saved');
+  assert.deepEqual(reopened.order(), ['a', 'c', 'b']);
+  assert.equal(reopened.isFavorite('c'), true);
+  reopened.setSort('za');
+  assert.equal(createFavoritesApi(storage).getSort(), 'za');
+});
+
 test('loadFavorites returns an empty list when nothing is stored', () => {
   const storage = createFakeStorage();
   assert.deepEqual(loadFavorites(storage), []);

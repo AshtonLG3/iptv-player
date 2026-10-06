@@ -32,6 +32,22 @@ export function createFavoritesApi(storage) {
   let favorites = new Set(loadFavorites(storage));
   return {
     isFavorite: (url) => favorites.has(url),
+    order: () => [...favorites],
+    getSort: () => ['saved', 'za'].includes(storage.getItem('fta-iptv:favorite-sort'))
+      ? storage.getItem('fta-iptv:favorite-sort') : 'az',
+    setSort(value) {
+      storage.setItem('fta-iptv:favorite-sort', ['saved', 'za'].includes(value) ? value : 'az');
+    },
+    move(url, direction) {
+      const ordered = [...favorites];
+      const index = ordered.indexOf(url);
+      const next = index + Math.sign(direction);
+      if (index < 0 || next < 0 || next >= ordered.length) return false;
+      [ordered[index], ordered[next]] = [ordered[next], ordered[index]];
+      favorites = new Set(ordered);
+      storage.setItem(FAVORITES_KEY, JSON.stringify(ordered));
+      return true;
+    },
     toggle(url) {
       const updated = toggleFavorite(storage, url);
       favorites = new Set(updated);

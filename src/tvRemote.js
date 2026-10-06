@@ -151,7 +151,24 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
   return currentPanel;
 }
 
-// Back opens the menu layers and closes the root to playback. Exit is explicit.
+// Count deliberate Back presses; a held key must never trigger an exit.
+export function createBackExitPolicy({ now = () => Date.now(), rapidMs = 450 } = {}) {
+  let count = 0;
+  let previous = null;
+  return {
+    reset() { count = 0; previous = null; },
+    press({ repeat = false } = {}) {
+      if (repeat) return { exit: false, ignored: true };
+      const time = now();
+      const rapid = previous !== null && time - previous <= rapidMs;
+      previous = time;
+      count += 1;
+      return { exit: rapid || count >= 4, ignored: false };
+    },
+  };
+}
+
+// Back opens the menu layers and closes the root to playback.
 export function getTvBackPanel(currentPanel) {
   if (currentPanel === 'settings') return 'none';
   if (currentPanel === 'favorite') return 'none';
