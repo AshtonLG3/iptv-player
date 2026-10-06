@@ -65,6 +65,7 @@ export function formatExtinf(channel) {
   const attrs = [];
   if (channel.id) attrs.push(`tvg-id="${escapeAttr(channel.id)}"`);
   if (channel.logo) attrs.push(`tvg-logo="${escapeAttr(channel.logo)}"`);
+  if (channel.country) attrs.push(`tvg-country="${escapeAttr(channel.country)}"`);
   if (channel.backupUrls?.length) attrs.push(`backup-urls="${escapeAttr(encodeURIComponent(JSON.stringify(channel.backupUrls)))}"`);
   attrs.push(`group-title="${escapeAttr(channel.group)}"`);
   return `#EXTINF:-1 ${attrs.join(' ')},${channel.name}`;
@@ -127,7 +128,9 @@ export function findPolicyViolations(channel, registry) {
     violations.push('USA/UK local or regional channel is excluded');
   }
   const allowedLanguages = registry.rules?.allowedLanguages || [];
-  if (allowedLanguages.length && !channel.languages?.some((language) => allowedLanguages.includes(language))) {
+  const country = (channel.country || channel.id?.split('@')[0].split('.').pop() || '').toLowerCase();
+  const languageExempt = registry.rules?.languageExemptCountries?.includes(country);
+  if (!languageExempt && allowedLanguages.length && !channel.languages?.some((language) => allowedLanguages.includes(language))) {
     violations.push('channel has no approved language');
   }
   const allowedGroups = registry.rules?.allowedGroups || [];

@@ -69,7 +69,7 @@ for (const channel of registry.channels) {
   delete channel.status;
   channel.primaryUrl = working[0];
   channel.backupUrls = working.slice(1, 4);
-  channel.languages = ['eng'];
+  if (!registry.rules.languageExemptCountries?.includes(channel.country)) channel.languages = ['eng'];
   if (oldUrl !== channel.primaryUrl) audit.repaired.push({ id: channel.id, name: channel.name, oldUrl, newUrl: channel.primaryUrl });
   else audit.retained++;
 }
@@ -88,11 +88,11 @@ for (const [id, variants] of upstreamById) {
   audit.added.push({ id: source.id, name: source.name });
 }
 registry.updated = now;
-registry.rules = { allowedLanguages: ['eng'], excludeUsUkRegional: true };
-registry.outputs.main.description = 'Worldwide English channels';
+registry.rules = { ...registry.rules, allowedLanguages: ['eng'], excludeUsUkRegional: true };
+registry.outputs.main.description = 'Worldwide English channels; Tanzania and Ethiopia in all languages';
 for (const [name, output] of Object.entries(registry.outputs)) {
   output.header = ['#EXTM3U', '# Generated from playlists/channels.json.',
-    name === 'sports' ? '# English sports worldwide; USA/UK local and regional exceptions retained.' : '# English channels worldwide; USA/UK local and regional exceptions retained.',
+    name === 'sports' ? '# English sports worldwide; Tanzania/Ethiopia language exceptions and USA/UK regional exclusions retained.' : '# English channels worldwide plus Tanzania/Ethiopia in all languages; USA/UK regional exclusions retained.',
     '# Active feeds passed manifest and media-segment probes at last refresh; availability can change.'];
 }
 await writeJson(REGISTRY_PATH, registry);

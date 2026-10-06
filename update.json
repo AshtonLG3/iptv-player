@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 54,
-  "versionName": "1.6.27",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.27.apk",
-  "sha256": "828D48F2181D3A8539061F2CB1680EB98366ABE46BBB4509A33324F75142FC47",
-  "releaseNotes": "Removes the extra YouTube and paid shortcuts. SportyTV now opens its dedicated Android TV app when installed, with the official website as fallback. Fixes overlapping TV settings controls. Includes the verified Kenya catalog additions.",
-  "publishedAt": "2026-10-05T20:58:21.9999044Z"
+  "versionCode": 55,
+  "versionName": "1.6.28",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.28.apk",
+  "sha256": "98D07B69FFB6761D1F33168A048703AFE1228084F3423703055E9BA04FAB2FF0",
+  "releaseNotes": "Adds verified Tanzania channels (IBN TV, IBN TV Africa, Mahaasin TV and TBC2) and Ethiopian channels (EBS HD, EBS Cinema, EBS Musika and Nesiha TV), regardless of language. Adds Tanzania and Ethiopia country filters and preserves their language exceptions during playlist refreshes.",
+  "publishedAt": "2026-10-06T08:45:25.4743462Z"
 }

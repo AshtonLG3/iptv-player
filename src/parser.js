@@ -1,4 +1,4 @@
-import { FTA_COUNTRIES } from './constants.js?v=20261005f';
+import { FTA_COUNTRIES } from './constants.js?v=20261006a';
 
 export function extractCountryCode(tvgId) {
   if (!tvgId) return null;
@@ -40,7 +40,7 @@ export function parseM3U(text) {
         tvgId: attrs['tvg-id'] || '',
         logo: attrs['tvg-logo'] || '',
         category: attrs['group-title'] || '',
-        country: extractCountryCode(attrs['tvg-id'] || ''),
+        country: /^[a-z]{2}$/i.test(attrs['tvg-country'] || '') ? attrs['tvg-country'].toLowerCase() : extractCountryCode(attrs['tvg-id'] || ''),
         url: '',
       };
       const duration = Number(line.match(/^#EXTINF:([^,\s]+)/)?.[1]);

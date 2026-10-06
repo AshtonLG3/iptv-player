@@ -1,20 +1,24 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-05T19:49:11.889Z",
+  "updated": "2026-10-06T08:41:45.092Z",
   "rules": {
     "allowedLanguages": [
       "eng"
     ],
-    "excludeUsUkRegional": true
+    "excludeUsUkRegional": true,
+    "languageExemptCountries": [
+      "tz",
+      "et"
+    ]
   },
   "outputs": {
     "main": {
       "path": "playlists/english-africa-uk-us-verified.m3u",
-      "description": "Worldwide English channels",
+      "description": "Worldwide English channels; Tanzania and Ethiopia in all languages",
       "header": [
         "#EXTM3U",
         "# Generated from playlists/channels.json.",
-        "# English worldwide; USA/UK local and regional channel exception retained.",
+        "# English worldwide plus Tanzania/Ethiopia in all languages; USA/UK regional exclusions retained.",
         "# Active feeds passed manifest and media-segment probes at last refresh; availability can change."
       ]
     },
@@ -24,7 +28,7 @@
       "header": [
         "#EXTM3U",
         "# Generated from playlists/channels.json.",
-        "# English worldwide; USA/UK local and regional channel exception retained.",
+        "# English worldwide plus Tanzania/Ethiopia in all languages; USA/UK regional exclusions retained.",
         "# Active feeds passed manifest and media-segment probes at last refresh; availability can change."
       ]
     }
@@ -19042,6 +19046,146 @@
         "swa"
       ],
       "notes": "Official broadcaster player source. Manifest, media segment and FFmpeg video decode checked 2026-10-05; channel branding observed. Programming includes English and Swahili."
+    },
+    {
+      "id": "EBS.us@HD",
+      "name": "EBS HD (1080p)",
+      "group": "Africa",
+      "country": "et",
+      "logo": "https://i.imgur.com/zqbK2IB.png",
+      "source": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/et.m3u",
+      "primaryUrl": "https://rpn.bozztv.com/ebstv/ebstv/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "amh",
+        "eng"
+      ],
+      "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
+    },
+    {
+      "id": "IBNTV.tz@SD",
+      "name": "IBN TV (480p)",
+      "group": "Africa",
+      "country": "tz",
+      "logo": "https://i.imgur.com/hkV51ij.png",
+      "source": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/tz.m3u",
+      "primaryUrl": "http://138.68.138.119:8080/live/5a8993709ea19/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng",
+        "swa"
+      ],
+      "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
+    },
+    {
+      "id": "IBNTVAfrica.tz@SD",
+      "name": "IBN TV Africa (720p)",
+      "group": "Africa",
+      "country": "tz",
+      "logo": "https://i.imgur.com/eKy2ocd.png",
+      "source": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/tz.m3u",
+      "primaryUrl": "http://68.183.41.209:8080/live/5d9a537c64b9c/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng",
+        "swa"
+      ],
+      "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
+    },
+    {
+      "id": "MahaasinTV.tz@SD",
+      "name": "Mahaasin TV",
+      "group": "Africa",
+      "country": "tz",
+      "logo": "https://i.imgur.com/wdfdKvC.png",
+      "source": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/tz.m3u",
+      "primaryUrl": "https://mahaasintv.livebox.co.in/mahaasintvhls/mahaasintv.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "eng",
+        "swa"
+      ],
+      "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
+    },
+    {
+      "id": "TBC2.tz@SD",
+      "name": "TBC2 (1080p)",
+      "group": "Africa",
+      "country": "tz",
+      "logo": "https://i.imgur.com/VkUJt2q.png",
+      "source": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/tz.m3u",
+      "primaryUrl": "https://stream-134630.castr.net/5fe35eae8c53540cab83659a/live_44ed95e05b6d11f18d5d85805abbdd6f/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "swa"
+      ],
+      "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
+    },
+    {
+      "id": "EBSCinema.us@SD",
+      "name": "EBS Cinema (720p)",
+      "group": "Africa",
+      "country": "et",
+      "logo": "",
+      "source": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/et.m3u",
+      "primaryUrl": "https://rpn.bozztv.com/ebstv/ebscinema/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "amh"
+      ],
+      "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
+    },
+    {
+      "id": "EBSMusika.us@SD",
+      "name": "EBS Musika (720p)",
+      "group": "Africa",
+      "country": "et",
+      "logo": "",
+      "source": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/et.m3u",
+      "primaryUrl": "https://rpn.bozztv.com/ebstv/ebsmusika/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "amh"
+      ],
+      "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
+    },
+    {
+      "id": "NesihaTV.et@SD",
+      "name": "Nesiha TV (720p)",
+      "group": "Africa",
+      "country": "et",
+      "logo": "https://i.imgur.com/rqEyzjE.png",
+      "source": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/et.m3u",
+      "primaryUrl": "https://str.cantechhub.com/nasihatv/index.m3u8",
+      "backupUrls": [],
+      "outputs": [
+        "main"
+      ],
+      "languages": [
+        "amh"
+      ],
+      "notes": "Manifest and media segment verified 2026-10-06. Included regardless of language. Availability may change."
     }
   ]
 }

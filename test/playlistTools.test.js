@@ -1,6 +1,17 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { findPolicyViolations } from '../scripts/playlist-tools.mjs';
+import { formatM3U } from '../scripts/playlist-tools.mjs';
+import { parseM3U } from '../src/parser.js';
+
+test('country language exceptions preserve Ethiopian diaspora IDs and other language restrictions', () => {
+  const policy = { rules: { allowedLanguages: ['eng'], languageExemptCountries: ['et', 'tz'] } };
+  const ethiopian = { ...channel('EBS', 'Africa'), id: 'EBS.us@HD', country: 'et', languages: ['amh'] };
+  assert.deepEqual(findPolicyViolations(ethiopian, policy), []);
+  assert.equal(parseM3U(formatM3U(['#EXTM3U'], [ethiopian]))[0].country, 'et');
+  assert.deepEqual(findPolicyViolations({ ...ethiopian, country: 'tz', languages: ['swa'] }, policy), []);
+  assert.deepEqual(findPolicyViolations({ ...ethiopian, country: 'ke' }, policy), ['channel has no approved language']);
+});
 
 const registry = {
   rules: {
