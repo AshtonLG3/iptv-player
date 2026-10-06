@@ -91,26 +91,35 @@ test('getGlobalTvRemoteAction keeps horizontal remote directions distinct', () =
 
 test('getTvHorizontalPanelAction opens and exits side panels without looping', () => {
   assert.equal(getTvHorizontalPanelAction('none', 'left'), 'channels');
-  assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'settings');
+  assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'categories');
   assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
   assert.equal(getTvHorizontalPanelAction('none', 'right'), 'channels');
-  assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'browse');
   assert.equal(getTvHorizontalPanelAction('settings', 'left'), 'settings');
 });
 
-test('Back unwinds playback and channel layers before permitting exit at the menu root', () => {
-  let panel = 'services';
+test('Back opens categories first and the root menu second before permitting exit', () => {
+  let panel = 'none';
   const visited = [];
   while (panel !== null) {
     visited.push(panel);
     panel = getTvBackPanel(panel);
   }
-  assert.deepEqual(visited, ['services', 'playback', 'none', 'channels', 'settings']);
-  for (const child of ['categories', 'channel-services']) {
-    assert.equal(getTvBackPanel(child), 'channels');
+  assert.deepEqual(visited, ['none', 'browse', 'settings']);
+  for (const child of ['categories', 'channels', 'apps', 'playback', 'services']) {
+    assert.equal(getTvBackPanel(child), 'browse');
   }
-  assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'channels');
+  assert.equal(getTvBackPanel('preferences'), 'settings');
+  assert.equal(getTvHorizontalPanelAction('settings', 'right'), 'browse');
   assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
+});
+
+test('Left reveals channels then categories; Right reverses the overlay layers', () => {
+  assert.equal(getTvHorizontalPanelAction('none', 'left'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('channels', 'left'), 'categories');
+  assert.equal(getTvHorizontalPanelAction('categories', 'right'), 'channels');
+  assert.equal(getTvHorizontalPanelAction('channels', 'right'), 'none');
+  assert.equal(getTvHorizontalPanelAction('apps', 'left'), 'browse');
 });
 
 test('getWrappedFocusIndex wraps remote focus through a list', () => {
@@ -126,11 +135,9 @@ test('getBoundedFocusIndex keeps long TV lists at their real boundaries', () => 
   assert.equal(getBoundedFocusIndex(3, 1, -1), 0);
 });
 
-test('vertical TV navigation reaches official services above categories', () => {
-  assert.equal(getTvVerticalPanelAction('channels', 'up'), 'categories');
-  assert.equal(getTvVerticalPanelAction('categories', 'up'), 'channel-services');
-  assert.equal(getTvVerticalPanelAction('channel-services', 'down'), 'categories');
-  assert.equal(getTvVerticalPanelAction('categories', 'down'), 'channels');
+test('vertical navigation exposes the standalone category panel from channels', () => {
+  assert.equal(getTvVerticalPanelAction('channels', 'up'), 'browse');
+  assert.equal(getTvVerticalPanelAction('channel-services', 'down'), 'browse');
 });
 
 test('getToggledTvPanel closes a panel when its remote key is pressed again', () => {

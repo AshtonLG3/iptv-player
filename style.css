@@ -2279,3 +2279,97 @@ html.tv-mode .layout.settings-open .player-panel {
 @media (orientation: landscape) and (max-height: 540px) {
   .programme-guide { display: none; }
 }
+/* Compact TV menu layers. Left browsing overlays the unchanged fullscreen picture. */
+.tv-only { display: none; }
+html.tv-mode { --tv-category-width: min(22vw, 260px); --tv-list-width: min(32vw, 380px); --tv-menu-width: min(28vw, 340px); }
+html.tv-mode .tv-only { display: block; }
+html.tv-mode .sidebar { width: var(--tv-list-width); padding: 16px; gap: 8px; }
+html.tv-mode .sidebar .app-menu,
+html.tv-mode .channel-tools,
+html.tv-mode .remote-browse-hint,
+html.tv-mode .menu-close-button,
+html.tv-mode .overflow-menu-panel .menu-kicker,
+html.tv-mode #category-filter,
+html.tv-mode .favorites-label,
+html.tv-mode .category-strip { display: none; }
+html.tv-mode[data-tv-panel="settings"] .sidebar .app-menu,
+html.tv-mode[data-tv-panel="preferences"] .sidebar .app-menu { display: block; }
+html.tv-mode .overflow-menu-panel { width: var(--tv-menu-width); padding: 16px; gap: 12px; border: 0; }
+html.tv-mode .menu-panel-title { border: 0; padding: 0; margin: 0 0 20px; }
+html.tv-mode .menu-panel-title .app-brand-logo { width: 170px; height: 42px; object-fit: cover; }
+html.tv-mode .tv-settings-content { display: none; }
+html.tv-mode[data-tv-panel="preferences"] .tv-settings-content { display: grid; gap: 12px; }
+html.tv-mode .tv-preferences-title { display: none; }
+html.tv-mode[data-tv-panel="preferences"] .tv-preferences-title { display: block; margin: 0 0 12px; font-size: 1.1rem; }
+html.tv-mode[data-tv-panel="preferences"] .country-control,
+html.tv-mode[data-tv-panel="preferences"] #tv-settings-button,
+html.tv-mode[data-tv-panel="preferences"] .menu-panel-title { display: none; }
+html.tv-mode .country-control { display: grid; gap: 4px; font-size: .95rem; }
+html.tv-mode .country-control > span { color: var(--muted); padding: 8px 12px 0; }
+html.tv-mode .overflow-menu-panel select,
+html.tv-mode .overflow-menu-panel button,
+html.tv-mode .overflow-menu-panel summary,
+html.tv-mode .overflow-menu-panel a,
+html.tv-mode .overflow-menu-panel input:not([type="checkbox"]),
+html.tv-mode .tv-root-action { border: 0; border-radius: 4px; box-shadow: none; background: transparent; color: var(--text); font: inherit; font-size: .95rem; min-height: 38px; padding: 9px 12px; text-align: left; width: 100%; }
+html.tv-mode .overflow-menu-panel .theme-control,
+html.tv-mode .overflow-menu-panel .blocked-label { font-size: .95rem; margin: 0; padding: 8px 12px; }
+html.tv-mode .overflow-menu-panel .blocked-label:focus-within { background: var(--chip-selected-bg); color: var(--chip-selected-text); border-radius: 4px; }
+html.tv-mode .overflow-menu-panel :is(button, select, summary, a, input):focus-visible { outline: none; box-shadow: none; border-color: transparent; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode .overflow-menu-panel input[type="checkbox"]:focus-visible { background: transparent; }
+html.tv-mode[data-tv-panel="browse"] .sidebar { width: var(--tv-category-width); background: transparent; }
+html.tv-mode[data-tv-panel="browse"] #channel-list,
+html.tv-mode[data-tv-panel="browse"] .channel-list-heading { display: none; }
+html.tv-mode[data-tv-panel="browse"] .category-strip,
+html.tv-mode[data-tv-panel="categories"] .category-strip { display: flex; flex-direction: column; align-items: stretch; position: fixed; top: 0; bottom: 0; left: 0; width: var(--tv-category-width); box-sizing: border-box; overflow-y: auto; overflow-x: hidden; padding: 24px 12px; gap: 4px; background: var(--panel); visibility: visible; pointer-events: auto; }
+html.tv-mode .category-chip { border: 0; border-radius: 4px; min-height: 38px; padding: 9px 12px; text-align: left; font-size: .95rem; font-weight: 450; flex: 0 0 auto; }
+html.tv-mode .category-chip.selected { background: var(--panel-strong); color: var(--text); }
+html.tv-mode .category-chip:focus-visible,
+html.tv-mode .category-chip.selected:focus-visible { outline: none; border: 0; box-shadow: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode[data-tv-panel="categories"] .sidebar { left: var(--tv-category-width); }
+html.tv-mode .channel-browser-header { padding: 0; }
+html.tv-mode .channel-list-heading { padding: 4px 6px 12px; }
+html.tv-mode .channel-list-kicker { display: none; }
+html.tv-mode #channel-list-title { font-size: 1rem; font-weight: 500; }
+html.tv-mode .channel-count { font-size: .75rem; background: transparent; padding: 0; }
+html.tv-mode .channel-item,
+html.tv-mode .channel-item:hover,
+html.tv-mode .channel-item.now-playing { border: 0; border-radius: 4px; background: transparent; min-height: 48px; }
+html.tv-mode .channel-item + .channel-item { margin-top: 2px; }
+html.tv-mode .channel-select-button { min-height: 48px; padding: 6px 8px; gap: 10px; }
+html.tv-mode .channel-artwork { height: 32px; width: 38px; background: transparent; border: 0; }
+html.tv-mode .channel-name { font-size: .9rem; font-weight: 450; }
+html.tv-mode .channel-detail { font-size: .68rem; }
+html.tv-mode .now-playing-badge { display: none; }
+html.tv-mode .channel-select-button:focus-visible,
+html.tv-mode .channel-item.now-playing .channel-select-button:focus-visible,
+html.tv-mode .favorite-btn:focus-visible { outline: none; box-shadow: none; border: 0; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode .channel-select-button:focus-visible .channel-name,
+html.tv-mode .channel-select-button:focus-visible .channel-detail { color: inherit; }
+html.tv-mode .favorite-btn { border: 0; background: transparent; font-size: 24px; flex-basis: 36px; width: 36px; }
+html.tv-mode .layout.drawer-open .player-panel { left: var(--tv-list-width); }
+html.tv-mode[data-tv-panel="browse"] .layout.drawer-open .player-panel { left: var(--tv-category-width); }
+html.tv-mode .layout.settings-open .player-panel { left: var(--tv-menu-width); }
+html.tv-mode .layout.tv-transparent-browse .player-panel { inset: 0; }
+html.tv-mode .layout.tv-transparent-browse .sidebar,
+html.tv-mode .layout.tv-transparent-browse .category-strip { background: rgba(13, 15, 18, .65); }
+html.tv-mode[data-theme="light"] .layout.tv-transparent-browse .sidebar,
+html.tv-mode[data-theme="light"] .layout.tv-transparent-browse .category-strip { background: rgba(255, 255, 255, .65); }
+html.tv-mode .tv-apps-panel { display: none; }
+html.tv-mode[data-tv-panel="apps"] .tv-apps-panel { display: block; position: fixed; inset: 0 auto 0 0; width: var(--tv-list-width); padding: 20px; box-sizing: border-box; overflow-y: auto; background: var(--panel); }
+html.tv-mode .tv-apps-panel h2 { margin: 0 0 16px; font-size: 1.1rem; font-weight: 500; }
+html.tv-mode #tv-app-list { display: flex; flex-direction: column; gap: 4px; }
+html.tv-mode #tv-app-list .featured-service-link { display: flex; justify-content: flex-start; gap: 16px; min-height: 48px; padding: 8px 12px; border: 0; border-radius: 4px; background: transparent; color: var(--text); }
+html.tv-mode #tv-app-list .featured-service-logo { width: 38px; height: 32px; object-fit: contain; }
+html.tv-mode #tv-app-list .featured-service-label { display: inline; font-size: .95rem; }
+html.tv-mode #tv-app-list .featured-service-link:focus-visible { outline: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode[data-tv-panel="apps"] .player-panel { left: var(--tv-list-width); }
+html.tv-mode[data-tv-panel="categories"] .layout:not(.tv-transparent-browse) .player-panel { left: calc(var(--tv-category-width) + var(--tv-list-width)); }
+html.tv-mode .tv-hide { display: none; }
+html.tv-mode .overflow-menu-panel .playlist-access,
+html.tv-mode .overflow-menu-panel .epg-settings { border: 0; background: transparent; border-radius: 0; padding: 0; margin: 0; }
+html.tv-mode .overflow-menu-panel :focus-visible { outline: none !important; box-shadow: none !important; }
+html.tv-mode #tv-app-list .featured-service-label { font-weight: 450; }
+html.tv-mode #tv-app-list .featured-service-link:focus-visible .featured-service-label { color: inherit; }
+html.tv-mode #tv-app-list .featured-service-logo { background: #16191e; border-radius: 3px; padding: 3px; }
+html.tv-mode .channel-item.now-playing .now-playing-badge { display: none; }

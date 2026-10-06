@@ -130,13 +130,18 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
   if (direction === 'left') {
     if (currentPanel === 'none') return 'channels';
     if (currentPanel === 'settings') return 'settings';
-    if (currentPanel === 'channels') return 'settings';
+    if (currentPanel === 'channels') return 'categories';
+    if (currentPanel === 'categories' || currentPanel === 'browse') return 'settings';
+    if (currentPanel === 'preferences') return 'settings';
+    if (currentPanel === 'apps') return 'browse';
     return currentPanel;
   }
 
   if (direction === 'right') {
     if (currentPanel === 'none') return 'channels';
-    if (currentPanel === 'settings') return 'channels';
+    if (currentPanel === 'settings') return 'browse';
+    if (currentPanel === 'categories' || currentPanel === 'browse') return 'channels';
+    if (currentPanel === 'apps') return 'none';
     if (currentPanel === 'channels') return 'none';
     return currentPanel;
   }
@@ -147,22 +152,18 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
 // Back walks out through the left menu hierarchy. Null means the root was reached.
 export function getTvBackPanel(currentPanel) {
   if (currentPanel === 'settings') return null;
-  if (currentPanel === 'channels') return 'settings';
-  if (currentPanel === 'categories' || currentPanel === 'channel-services') return 'channels';
-  if (currentPanel === 'services') return 'playback';
-  if (currentPanel === 'playback') return 'none';
-  return 'channels';
+  if (currentPanel === 'preferences') return 'settings';
+  if (currentPanel === 'browse') return 'settings';
+  return 'browse';
 }
 
 export function getTvVerticalPanelAction(currentPanel, direction) {
   if (direction === 'up') {
-    if (currentPanel === 'channels') return 'categories';
-    if (currentPanel === 'categories') return 'channel-services';
+    if (currentPanel === 'channels') return 'browse';
   }
 
   if (direction === 'down') {
-    if (currentPanel === 'channel-services') return 'categories';
-    if (currentPanel === 'categories') return 'channels';
+    if (currentPanel === 'channel-services') return 'browse';
   }
 
   return currentPanel;

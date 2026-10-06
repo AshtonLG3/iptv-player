@@ -1037,6 +1037,9 @@ public final class MainActivity extends Activity {
                     || "categories".equals(nextPanel)
                     || "channel-services".equals(nextPanel)
                     || "settings".equals(nextPanel)
+                    || "browse".equals(nextPanel)
+                    || "apps".equals(nextPanel)
+                    || "preferences".equals(nextPanel)
                     || "playback".equals(nextPanel)
                     || "services".equals(nextPanel))) {
                 nextPanel = "none";

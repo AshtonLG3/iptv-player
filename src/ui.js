@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006c';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006c';
-import { getMediaSection } from './catalog.js?v=20261006c';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006d';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006d';
+import { getMediaSection } from './catalog.js?v=20261006d';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -183,6 +183,8 @@ export function renderApp({
   onVisibleChannelsChange = null,
   onFavoriteChange = null,
   onMenuOpenChange = null,
+  onBrowseSelection = null,
+  onSettingsSelection = null,
   qualityApi = null,
 }) {
   root.innerHTML = `
@@ -201,11 +203,15 @@ export function renderApp({
               </div>
               <button class="menu-close-button" type="button" aria-label="Close settings"></button>
             </div>
-            <p class="remote-browse-hint">→ Channels · Back closes submenus, then exits</p>
-            <select id="country-filter"><option value="">All countries</option></select>
+            <label class="country-control"><span class="tv-only">Countries</span>
+              <select id="country-filter"><option value="">All countries</option></select>
+            </label>
+            <button id="tv-settings-button" class="tv-only tv-root-action" type="button">Settings</button>
+            <h2 class="tv-only tv-preferences-title">Settings</h2>
+            <div class="tv-settings-content">
             <select id="category-filter"><option value="">All categories</option></select>
-            <label class="blocked-label">
-              <input type="checkbox" id="hide-blocked-toggle" /> Hide geo-blocked (except sports)
+            <label class="blocked-label" title="Sports channels remain visible">
+              <input type="checkbox" id="hide-blocked-toggle" aria-label="Hide geo-blocked except sports" /> Hide geo-blocked<span class="tv-hide"> (except sports)</span>
             </label>
             <label class="favorites-label">
               <input type="checkbox" id="favorites-toggle" /> Favorites only
@@ -256,6 +262,7 @@ export function renderApp({
               <p id="playlist-action-status" class="playlist-action-status" role="status"></p>
               <div id="compatible-player-list" class="compatible-player-list"></div>
             </details>
+            </div>
           </div>
         </details>
         <div class="app-title">
@@ -288,10 +295,13 @@ export function renderApp({
           <button id="search-clear" class="channel-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
         </div>
         <div id="category-strip" class="category-strip" aria-label="Subcategories"></div>
-        <p class="remote-browse-hint">→ Star · OK saves favorite · ← Menu · ↑ Categories · Back opens menu</p>
       </section>
-      <ul id="channel-list"></ul>
+      <ul id="channel-list" tabindex="-1"></ul>
     </aside>
+    <section class="tv-only tv-apps-panel" aria-label="Apps">
+      <h2>Apps</h2>
+      <nav id="tv-app-list" aria-label="TV apps"></nav>
+    </section>
   `;
 
   const searchBox = root.querySelector('#search-box');
@@ -308,6 +318,7 @@ export function renderApp({
   const overflowMenu = root.querySelector('#overflow-menu');
   const overflowMenuButton = root.querySelector('.overflow-menu-button');
   const menuCloseButton = root.querySelector('.menu-close-button');
+  root.querySelector('#tv-settings-button').addEventListener('click', () => onSettingsSelection?.());
   const playlistLinkList = root.querySelector('#playlist-link-list');
   const playlistActionStatus = root.querySelector('#playlist-action-status');
   const compatiblePlayerList = root.querySelector('#compatible-player-list');
@@ -321,6 +332,10 @@ export function renderApp({
   const channelCount = root.querySelector('#channel-count');
   const listEl = root.querySelector('#channel-list');
   const isTvMode = document.documentElement.classList.contains('tv-mode');
+  if (isTvMode) {
+    qualitySelect.options[0].textContent = 'Auto';
+    qualitySelect.options[1].textContent = 'Data saver';
+  }
   let nowPlayingUrl = null;
   let lastFocusedChannelUrl = null;
   let visibleChannels = [];
@@ -572,13 +587,17 @@ export function renderApp({
 
   function renderCategoryStrip() {
     categoryStrip.innerHTML = '';
-    for (const category of ['', 'favorites', ...categories]) {
+    for (const category of ['apps', '', 'favorites', ...categories]) {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'category-chip';
+      button.className = category === 'apps' ? 'category-chip tv-only' : 'category-chip';
       button.dataset.category = category;
-      button.textContent = category === 'favorites' ? '★ Favorites' : category || 'All';
+      button.textContent = category === 'apps' ? 'Apps' : category === 'favorites' ? 'Favorites' : category || 'All';
       button.addEventListener('click', () => {
+        if (category === 'apps') {
+          onBrowseSelection?.('apps');
+          return;
+        }
         if (category === 'favorites') {
           searchBox.value = '';
           setSearchOpen(false);
@@ -586,20 +605,23 @@ export function renderApp({
           categorySelect.value = '';
           favoritesToggle.checked = true;
           applyFilters();
+          onBrowseSelection?.('channels');
           return;
         }
         if (!category) {
           searchBox.value = '';
           setSearchOpen(false);
-          countrySelect.value = '';
+          if (!isTvMode) countrySelect.value = '';
           categorySelect.value = '';
           favoritesToggle.checked = false;
           applyFilters();
+          onBrowseSelection?.('channels');
           return;
         }
         categorySelect.value = category;
         favoritesToggle.checked = false;
         applyFilters({ relaxCountryWhenCategoryEmpty: true });
+        onBrowseSelection?.('channels');
       });
       categoryStrip.appendChild(button);
     }
@@ -607,7 +629,7 @@ export function renderApp({
 
   function syncCategoryStrip() {
     for (const button of categoryStrip.querySelectorAll('.category-chip')) {
-      const selected = button.dataset.category === 'favorites'
+      const selected = button.dataset.category === 'apps' ? false : button.dataset.category === 'favorites'
         ? favoritesToggle.checked
         : !favoritesToggle.checked && button.dataset.category === categorySelect.value;
       button.classList.toggle('selected', selected);
@@ -628,7 +650,10 @@ export function renderApp({
     const items = [...listEl.querySelectorAll('.channel-item')];
     const target = items.find((item) => item.dataset.channelUrl === url) || items[0];
     const button = target?.querySelector('.channel-select-button');
-    if (!button) return false;
+    if (!button) {
+      listEl.focus({ preventScroll: true });
+      return false;
+    }
     lastFocusedChannelUrl = target.dataset.channelUrl || null;
     button.focus({ preventScroll: true });
     target.scrollIntoView({ block: 'nearest' });
@@ -733,7 +758,9 @@ export function renderApp({
   }
 
   function getChannelServiceLinks() {
-    return [...root.querySelectorAll('#channel-featured-service-list .featured-service-link')];
+    const selector = document.documentElement.dataset.tvPanel === 'apps'
+      ? '#tv-app-list .featured-service-link' : '#channel-featured-service-list .featured-service-link';
+    return [...root.querySelectorAll(selector)];
   }
 
   function focusChannelService(index = 0) {
@@ -761,7 +788,8 @@ export function renderApp({
   }
 
   function focusMenu() {
-    const target = countrySelect || getMenuFocusables()[0];
+    const target = document.documentElement.dataset.tvPanel === 'preferences'
+      ? hideBlockedToggle : countrySelect;
     if (!target) return false;
     target.focus({ preventScroll: true });
     target.scrollIntoView({ block: 'nearest' });
@@ -953,7 +981,7 @@ export function renderApp({
       event.preventDefault();
       window.AndroidDevice.openOfficialUrl(inAppLink.href);
     }
-    if (!overflowMenu.contains(event.target)) overflowMenu.removeAttribute('open');
+    if (!isTvMode && !overflowMenu.contains(event.target)) overflowMenu.removeAttribute('open');
   });
 
   overflowMenu.addEventListener('toggle', () => {
