@@ -19,7 +19,7 @@ test('four deliberate Back presses exit, rapid double Back exits, held Back and 
   let time = 0;
   const policy = createBackExitPolicy({ now: () => time });
   for (let index = 0; index < 4; index += 1) {
-    time += 1000;
+    time += 2000;
     assert.equal(policy.press().exit, index === 3);
   }
   policy.reset();

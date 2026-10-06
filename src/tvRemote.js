@@ -152,7 +152,7 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
 }
 
 // Count deliberate Back presses; a held key must never trigger an exit.
-export function createBackExitPolicy({ now = () => Date.now(), rapidMs = 450 } = {}) {
+export function createBackExitPolicy({ now = () => Date.now(), rapidMs = 1500 } = {}) {
   let count = 0;
   let previous = null;
   return {

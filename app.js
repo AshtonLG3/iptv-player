@@ -854,9 +854,10 @@ async function main() {
   }
 
   function handleTvKeydown(event) {
-    if (['Escape', 'BrowserBack'].includes(event.key) && event.repeat) { event.preventDefault(); return; }
-    if (!['Escape', 'BrowserBack'].includes(event.key)) backExit.reset();
-    if (!isTvMode && ['Escape', 'BrowserBack'].includes(event.key)) {
+    const key = getTvNavigationKey(event);
+    if (['Escape', 'BrowserBack'].includes(key) && event.repeat) { event.preventDefault(); return; }
+    if (!['Escape', 'BrowserBack'].includes(key)) backExit.reset();
+    if (!isTvMode && ['Escape', 'BrowserBack'].includes(key)) {
       if (handleAppBack()) event.preventDefault();
       else androidDeviceBridge?.exitApp?.();
       return;
@@ -871,7 +872,6 @@ async function main() {
     }
     if (!isTvMode) return;
 
-    const key = getTvNavigationKey(event);
     if (key === 'Escape' || key === 'BrowserBack') {
       if (handleTvRemoteAction('close')) event.preventDefault();
       else androidDeviceBridge?.exitApp?.();
