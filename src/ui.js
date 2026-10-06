@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006e';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006e';
-import { getMediaSection } from './catalog.js?v=20261006e';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006f';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006f';
+import { getMediaSection } from './catalog.js?v=20261006f';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -203,7 +203,8 @@ export function renderApp({
               </div>
               <button class="menu-close-button" type="button" aria-label="Close settings"></button>
             </div>
-            <label class="country-control"><span class="tv-only">Countries</span>
+            <button id="tv-countries-button" class="tv-only tv-root-action" type="button">Countries</button>
+            <label class="country-control">
               <select id="country-filter"><option value="">All countries</option></select>
             </label>
             <button id="tv-settings-button" class="tv-only tv-root-action" type="button">Settings</button>
@@ -216,7 +217,8 @@ export function renderApp({
             <label class="favorites-label">
               <input type="checkbox" id="favorites-toggle" /> Favorites only
             </label>
-            <label class="theme-control" for="theme-select">
+            <div class="tv-only tv-theme-choices" aria-label="Theme"><span>Theme</span><button type="button" data-theme-choice="light" aria-label="Light theme">☀</button><button type="button" data-theme-choice="dark" aria-label="Dark theme">☾</button></div>
+            <label class="theme-control legacy-theme-control" for="theme-select">
               <span>Theme</span>
               <select id="theme-select">
                 <option value="dark">Dark</option>
@@ -224,7 +226,7 @@ export function renderApp({
               </select>
             </label>
             <label class="theme-control" for="quality-select">
-              <span>Playback quality</span>
+              <span>Quality</span>
               <select id="quality-select">
                 <option value="auto">Auto (adapts to connection)</option>
                 <option value="data-saver">Data saver (up to 480p when available)</option>
@@ -233,12 +235,6 @@ export function renderApp({
             <a class="menu-download-link browser-download-link" download href="downloads/rugare-tv.apk">
               Download Rugare TV for Android
             </a>
-            <div class="menu-update-control">
-              <button id="check-update-button" class="menu-update-button" type="button" hidden>
-                Check for updates
-              </button>
-              <p id="update-status" class="menu-update-status" role="status" hidden></p>
-            </div>
             <details class="epg-settings">
               <summary>Program guide (EPG)</summary>
               <label for="epg-example">Optional starter guide</label>
@@ -262,6 +258,12 @@ export function renderApp({
               <p id="playlist-action-status" class="playlist-action-status" role="status"></p>
               <div id="compatible-player-list" class="compatible-player-list"></div>
             </details>
+            <div class="menu-update-control">
+              <button id="check-update-button" class="menu-update-button" type="button" hidden>
+                Check for updates
+              </button>
+              <p id="update-status" class="menu-update-status" role="status" hidden></p>
+            </div>
             </div>
           </div>
         </details>
@@ -298,10 +300,11 @@ export function renderApp({
       </section>
       <ul id="channel-list" tabindex="-1"></ul>
     </aside>
-    <section class="tv-only tv-apps-panel" aria-label="Apps">
-      <h2>Apps</h2>
+    <section class="tv-only tv-apps-panel" aria-label="Official TV Apps">
+      <h2>Official TV Apps</h2>
       <nav id="tv-app-list" aria-label="TV apps"></nav>
     </section>
+    <section class="tv-only tv-countries-panel"><h2>Countries</h2><nav id="tv-country-list"></nav></section>
   `;
 
   const searchBox = root.querySelector('#search-box');
@@ -318,6 +321,7 @@ export function renderApp({
   const overflowMenu = root.querySelector('#overflow-menu');
   const overflowMenuButton = root.querySelector('.overflow-menu-button');
   const menuCloseButton = root.querySelector('.menu-close-button');
+  root.querySelector('#tv-countries-button').addEventListener('click', () => onBrowseSelection?.('countries'));
   root.querySelector('#tv-settings-button').addEventListener('click', () => onSettingsSelection?.());
   const playlistLinkList = root.querySelector('#playlist-link-list');
   const playlistActionStatus = root.querySelector('#playlist-action-status');
@@ -380,6 +384,30 @@ export function renderApp({
     countrySelect.appendChild(opt);
   }
 
+  const countryList = root.querySelector('#tv-country-list');
+  for (const option of countrySelect.options) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = option.textContent;
+    button.dataset.country = option.value;
+    button.addEventListener('click', () => {
+      countrySelect.value = option.value;
+      applyFilters();
+      onBrowseSelection?.('browse');
+    });
+    countryList.appendChild(button);
+  }
+  function focusCountry() {
+    const buttons = [...countryList.querySelectorAll('button')];
+    (buttons.find(button => button.dataset.country === countrySelect.value) || buttons[0])?.focus();
+  }
+  function moveCountryFocus(direction) {
+    const buttons = [...countryList.querySelectorAll('button')];
+    const index = getBoundedFocusIndex(buttons.length, buttons.indexOf(document.activeElement), direction);
+    buttons[index]?.focus();
+    buttons[index]?.scrollIntoView({ block: 'nearest' });
+    return true;
+  }
   let categories = [];
   function updateCategories() {
     const available = new Set(channels.filter((channel) => getMediaSection(channel) === mediaSection)
@@ -593,7 +621,7 @@ export function renderApp({
       button.type = 'button';
       button.className = category === 'apps' ? 'category-chip tv-only' : 'category-chip';
       button.dataset.category = category;
-      button.textContent = category === 'apps' ? 'Apps' : category === 'favorites' ? 'Favorites' : category || 'All';
+      button.textContent = category === 'apps' ? 'Official TV Apps' : category === 'favorites' ? 'Favorites' : category || 'All Channels';
       button.addEventListener('click', () => {
         if (category === 'apps') {
           onBrowseSelection?.('apps');
@@ -790,7 +818,7 @@ export function renderApp({
 
   function focusMenu() {
     const target = document.documentElement.dataset.tvPanel === 'preferences'
-      ? hideBlockedToggle : countrySelect;
+      ? hideBlockedToggle : isTvMode ? root.querySelector('#tv-countries-button') : countrySelect;
     if (!target) return false;
     target.focus({ preventScroll: true });
     target.scrollIntoView({ block: 'nearest' });
@@ -1025,7 +1053,17 @@ export function renderApp({
     }
   });
   themeSelect.value = themeApi.get();
-  themeSelect.addEventListener('change', () => themeApi.set(themeSelect.value));
+  const themeButtons = [...root.querySelectorAll('[data-theme-choice]')];
+  function syncThemeButtons() {
+    for (const button of themeButtons) button.setAttribute('aria-pressed', String(button.dataset.themeChoice === themeApi.get()));
+  }
+  for (const button of themeButtons) button.addEventListener('click', () => {
+    themeSelect.value = button.dataset.themeChoice;
+    themeApi.set(themeSelect.value);
+    syncThemeButtons();
+  });
+  syncThemeButtons();
+  themeSelect.addEventListener('change', () => { themeApi.set(themeSelect.value); syncThemeButtons(); });
   checkUpdateButton.addEventListener('click', () => {
     if (!canCheckForUpdates) return;
     setUpdateStatus('Checking for updates…');
@@ -1056,6 +1094,8 @@ export function renderApp({
     isFirstChannelFocused,
     focusChannelService,
     moveChannelServiceFocus,
+    focusCountry,
+    moveCountryFocus,
     focusMenu,
     moveMenuFocus,
     setUpdateStatus,

@@ -1,33 +1,33 @@
-import * as playlistModule from './src/playlist.js?v=20261006e';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261006e';
+import * as playlistModule from './src/playlist.js?v=20261006f';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261006f';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261006e';
+} from './src/constants.js?v=20261006f';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261006e';
+} from './src/playlistAccess.js?v=20261006f';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261006e';
-import { createPlayer } from './src/player.js?v=20261006e';
-import { createEpgController } from './src/epg.js?v=20261006e';
-import { createFullscreenController } from './src/fullscreen.js?v=20261006e';
+} from './src/ui.js?v=20261006f';
+import { createPlayer } from './src/player.js?v=20261006f';
+import { createEpgController } from './src/epg.js?v=20261006f';
+import { createFullscreenController } from './src/fullscreen.js?v=20261006f';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261006e';
-import { updateMediaSession } from './src/mediaSession.js?v=20261006e';
+} from './src/channelRoute.js?v=20261006f';
+import { updateMediaSession } from './src/mediaSession.js?v=20261006f';
 import {
   detectTelevision,
   dispatchNativeTvKey,
@@ -39,14 +39,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261006e';
+} from './src/tvRemote.js?v=20261006f';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261006e';
+} from './src/storage.js?v=20261006f';
 
 const {
   clearPrivatePlaylist,
@@ -347,6 +347,8 @@ async function main() {
       'browse',
       'apps',
       'preferences',
+      'countries',
+      'favorite',
     ].includes(panel)
       ? panel
       : 'none';
@@ -361,6 +363,7 @@ async function main() {
       'browse',
     ].includes(nextPanel));
     appView?.setMenuOpen(nextPanel === 'settings' || nextPanel === 'preferences');
+    if (nextPanel === 'favorite') updateTvFavorite();
     if (nextPanel === 'playback' || nextPanel === 'services') setChannelNavVisible(true);
     if (nextPanel !== 'playback' && nextPanel !== 'services') setChannelNavVisible(false);
     syncingTvPanel = false;
@@ -372,6 +375,8 @@ async function main() {
       if (nextPanel === 'categories' || nextPanel === 'browse') appView?.focusCategory();
       if (nextPanel === 'channel-services') appView?.focusChannelService();
       if (nextPanel === 'settings' || nextPanel === 'preferences') appView?.focusMenu();
+      if (nextPanel === 'countries') appView?.focusCountry();
+      if (nextPanel === 'favorite') tvFavoriteButton.focus();
       if (nextPanel === 'apps') appView?.focusChannelService();
       if (nextPanel === 'playback') focusPlayerControl();
       if (nextPanel === 'services') focusFeaturedService();
@@ -682,7 +687,7 @@ async function main() {
     channelNavHideTimer = null;
     layoutEl.classList.toggle(
       'channel-nav-visible',
-      Boolean(isVisible),
+      Boolean(isVisible) && !isTvMode,
     );
   }
 
@@ -843,6 +848,15 @@ async function main() {
         return;
       }
     }
+    if (tvPanel === 'countries') {
+      const direction = key === 'ArrowUp' ? -1 : key === 'ArrowDown' ? 1 : 0;
+      if (direction && appView?.moveCountryFocus(direction)) { event.preventDefault(); return; }
+    }
+    if (tvPanel === 'preferences' && document.activeElement?.matches('[data-theme-choice]') && ['ArrowLeft', 'ArrowRight'].includes(key)) {
+      const choices = [...document.querySelectorAll('[data-theme-choice]')];
+      choices[key === 'ArrowLeft' ? 0 : 1]?.focus();
+      event.preventDefault(); return;
+    }
     if (tvPanel === 'apps') {
       const direction = key === 'ArrowUp' ? -1 : key === 'ArrowDown' ? 1 : 0;
       if (direction && appView?.moveChannelServiceFocus(direction)) {
@@ -876,9 +890,9 @@ async function main() {
       event.preventDefault();
       return;
     }
-    if ((key === 'ArrowDown' || key === 'Enter' || key === ' ') && tvPanel === 'none') {
+    if (tvPanel === 'none' && ['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(key)) {
       event.preventDefault();
-      setTvPanel('playback');
+      if (key === 'Enter' || key === ' ') setTvPanel('favorite');
     }
   }
 
@@ -970,6 +984,24 @@ async function main() {
     }
   }
 
+  const tvFavoritePanel = document.createElement('section');
+  tvFavoritePanel.className = 'tv-only tv-favorite-panel';
+  const tvFavoriteTitle = document.createElement('p');
+  const tvFavoriteButton = document.createElement('button');
+  tvFavoriteButton.type = 'button';
+  tvFavoritePanel.append(tvFavoriteTitle, tvFavoriteButton);
+  layoutEl.appendChild(tvFavoritePanel);
+  function updateTvFavorite() {
+    tvFavoriteTitle.textContent = currentChannel?.name || 'Current channel';
+    const favorite = currentChannel && favoritesApi.isFavorite(currentChannel.url);
+    tvFavoriteButton.textContent = favorite ? '★ Remove from Favorites' : '☆ Add to Favorites';
+    tvFavoriteButton.setAttribute('aria-pressed', String(Boolean(favorite)));
+    tvFavoriteButton.disabled = !currentChannel;
+  }
+  tvFavoriteButton.addEventListener('click', () => {
+    nowPlayingFavorite.click();
+    updateTvFavorite();
+  });
   nowPlayingFavorite.addEventListener('click', () => {
     if (!currentChannel) return;
     favoritesApi.toggle(currentChannel.url);

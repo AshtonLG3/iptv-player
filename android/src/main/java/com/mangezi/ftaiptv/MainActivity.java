@@ -1040,6 +1040,8 @@ public final class MainActivity extends Activity {
                     || "browse".equals(nextPanel)
                     || "apps".equals(nextPanel)
                     || "preferences".equals(nextPanel)
+                    || "countries".equals(nextPanel)
+                    || "favorite".equals(nextPanel)
                     || "playback".equals(nextPanel)
                     || "services".equals(nextPanel))) {
                 nextPanel = "none";
