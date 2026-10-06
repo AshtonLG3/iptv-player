@@ -97,12 +97,6 @@
       "soccer": true
     },
     {
-      "id": "Esport3.es@Originals",
-      "name": "Esport3 Originals (1080p) [Not 24/7]",
-      "english": false,
-      "soccer": true
-    },
-    {
       "id": "FBTV.tr@SD",
       "name": "FB TV",
       "english": false,
@@ -566,11 +560,6 @@
       "evidence": "http://www.espn.com.br/"
     },
     {
-      "id": "Esport3.es@Originals",
-      "name": "Esport3 Originals (1080p) [Not 24/7]",
-      "evidence": "http://www.ccma.cat/esport3/"
-    },
-    {
       "id": "FBTV.tr@SD",
       "name": "FB TV",
       "evidence": "https://www.fenerbahce.org/fbtv/"
@@ -840,8 +829,8 @@
   ],
   "existingChannelCount": 1145,
   "summary": {
-    "newDisplayedChannels": 54,
-    "newSoccerChannels": 44,
+    "newDisplayedChannels": 53,
+    "newSoccerChannels": 43,
     "newEnglishChannels": 10,
     "verifiedBackups": 21
   },
@@ -853,6 +842,10 @@
     {
       "id": "Sportitalia.it@SD",
       "error": "Manifest HTTP 404 on final repeated probe"
+    },
+    {
+      "id": "Esport3.es@Originals",
+      "error": "Segment HTTP403 on repeated final probe"
     }
   ],
   "contentOmissions": [

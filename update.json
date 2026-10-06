@@ -4,7 +4,7 @@
   "versionCode": 56,
   "versionName": "1.6.29",
   "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.29.apk",
-  "sha256": "8593947D3EA3B02B77A1767163E23CB3D363AB63C80BB84E11F139E52C2C866B",
-  "releaseNotes": "Adds 44 soccer channels in any language and 10 English channels from the supplied iptv-org Sports and Free-TV lists, plus 21 verified backup feeds. Each imported feed passed media-segment and video decoding checks. Preserves soccer language exceptions, existing Tanzania/Ethiopia exceptions and USA/UK regional exclusions.",
-  "publishedAt": "2026-10-06T09:28:59Z"
+  "sha256": "84EEA50B46A199E917833D03595D10C4A92B38073F2CCD72F2492E0536C82B58",
+  "releaseNotes": "Adds 43 soccer channels in any language and 10 English channels from the supplied iptv-org Sports and Free-TV lists, plus 21 verified backup feeds. Each imported feed passed media-segment and video decoding checks. Preserves soccer language exceptions, existing Tanzania/Ethiopia exceptions and USA/UK regional exclusions.",
+  "publishedAt": "2026-10-06T09:31:23Z"
 }

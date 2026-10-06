@@ -19527,27 +19527,6 @@
       "soccerEvidence": "http://www.espn.com.br/"
     },
     {
-      "id": "Esport3.es@Originals",
-      "name": "Esport3 Originals (1080p) [Not 24/7]",
-      "group": "Sports",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Esport3.svg/960px-Esport3.svg.png",
-      "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
-      "primaryUrl": "https://directes-tv-int.3catdirectes.cat/live-content/esport3-hls/master.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "languages": [
-        "cat"
-      ],
-      "notes": "Manifest, media segment and FFmpeg video decode checked 2026-10-06. Soccer language exception. Availability and match schedules may change.",
-      "contentTags": [
-        "soccer"
-      ],
-      "soccerEvidence": "http://www.ccma.cat/esport3/"
-    },
-    {
       "id": "FBTV.tr@SD",
       "name": "FB TV",
       "group": "Sports",

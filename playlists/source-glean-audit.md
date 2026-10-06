@@ -25,7 +25,6 @@ Both lists were inspected. English selection uses exact stream/feed metadata whe
 | El-Heddaf TV (1080p) | Soccer, any language | https://www.elheddaf.com/ |
 | ESPN 4 (1080p) | Soccer, any language | http://www.espn.com.br/ |
 | ESPN (1080p) | Soccer, any language | http://www.espn.com.br/ |
-| Esport3 Originals (1080p) [Not 24/7] | Soccer, any language | http://www.ccma.cat/esport3/ |
 | FB TV | Soccer, any language | https://www.fenerbahce.org/fbtv/ |
 | FIFA+ French (720p) | Soccer, any language | https://www.plus.fifa.com/en/ |
 | FIFA+ German (720p) | Soccer, any language | https://www.plus.fifa.com/en/ |
@@ -76,8 +75,10 @@ Both lists were inspected. English selection uses exact stream/feed metadata whe
 
 21 verified backup feeds were attached to existing entries. 16 candidate feeds failed video decoding and were omitted. Full audit: source-glean-audit.json. Local probe and decoding evidence: build/glean/.
 
-Displayed after quality/language variant grouping: 54 additional channels (44 soccer, 10 English), plus 21 verified backup feeds. Rai Italia and ICI Montreal were omitted from this import because their language identity was ambiguous despite upstream English labels.
+Displayed after quality/language variant grouping: 53 additional channels (43 soccer, 10 English), plus 21 verified backup feeds. Rai Italia and ICI Montreal were omitted from this import because their language identity was ambiguous despite upstream English labels.
 
 Sportitalia passed initial decoding but returned HTTP 404 on the final repeated probe and was omitted.
 
 CNN was omitted because the supplied feed is a provider slate.
+
+Esport3 Originals was omitted after repeated final media-segment HTTP403 errors.
