@@ -10,9 +10,8 @@ test('featured official services keep the requested direct-button order and labe
   const featured = FEATURED_OFFICIAL_SERVICE_IDS.map((id) => serviceById[id]);
 
   assert.deepEqual(
-    featured.map((service) => service.shortLabel || service.name),
-    ['AfreeTV', 'e+', 'SABC+', 'Z+', 'SportyTV', 'TNT Sports 1–4',
-      'beIN SPORTS CONNECT', 'Sky Sports Cricket', 'FanCode', 'TSN 1–5', 'A Sports'],
+    featured.map((service) => service.shortLabel),
+    ['AfreeTV', 'e+', 'SABC+', 'Z+', 'SportyTV'],
   );
   assert.equal(featured.every((service) => service.url.startsWith('https://')), true);
   assert.equal(
@@ -20,14 +19,9 @@ test('featured official services keep the requested direct-button order and labe
     true,
   );
 
-  assert.equal(featured.filter((service) => service.externalBrowser)
-    .every((service) => Boolean(service.accessLabel)), true);
-  assert.equal(OFFICIAL_SERVICES.some((service) => service.id === 'cricfy'), false);
-  const sportsApps = featured.filter((service) => service.externalBrowser && service.androidPackage);
-  assert.equal(sportsApps.length, 4);
-  assert.equal(sportsApps.every((service) => service.androidStoreUrl.includes(service.androidPackage)), true);
+  assert.equal(OFFICIAL_SERVICES.some((service) => service.id === 'fancode'), false);
 
-  const nativeFeatured = featured.filter((service) => service.androidPackage && !service.externalBrowser);
+  const nativeFeatured = featured.filter((service) => service.androidPackage);
   assert.deepEqual(
     nativeFeatured.map((service) => service.androidPackage),
     [

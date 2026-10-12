@@ -26,7 +26,7 @@ FIFA+ had a failed primary (HTTP 403) and a working backup. The working backup i
 
 The attached Samsung SM-A165F had com.cricfytv.sports installed. Live TV → Sports displayed TNT, beIN, Sky Sports Cricket, FanCode, TSN, A Sports and other groups. The TNT chooser exposed TNT 1, 2, 3, 4 and MX. FOX Sports 1 and TNT 1 were visibly playing in Cricfy. This establishes playback inside Cricfy only, not portable public feed URLs.
 
-Menu → TV & Sports Apps includes official provider links with visible regional/access labels. Android opens installed HBO Max, Sky Sports, FanCode and TSN apps, or their verified Google Play listings when absent. FanCode prefers its TV package on Android TV. beIN opens its official country selector; A Sports opens its official website. Cricfy is excluded. No private-source import or subscription playback claim is made.
+The six newly added provider shortcuts were withdrawn at the users request because usable playback was not verified. The pre-existing service menu is restored; Cricfy is excluded.
 
 Official references:
 - https://help.hbomax.com/gb-en/Answer/Detail/000002560

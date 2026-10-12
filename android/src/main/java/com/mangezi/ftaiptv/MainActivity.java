@@ -1070,51 +1070,10 @@ public final class MainActivity extends Activity {
         }
 
         @JavascriptInterface
-        public void openExternalUrl(String url) {
-            if (url == null) return;
-            Uri uri = Uri.parse(url.trim());
-            if (!"https".equalsIgnoreCase(uri.getScheme())) return;
-            runOnUiThread(() -> pausePlayerThen(() -> {
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                try {
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException error) {
-                    android.widget.Toast.makeText(MainActivity.this,
-                            "Install a browser or the provider's app to open this service",
-                            android.widget.Toast.LENGTH_LONG).show();
-                }
-            }));
-        }
-
-        @JavascriptInterface
         public void openOfficialApp(String packageName, String fallbackUrl, String deepLinkUrl) {
             runOnUiThread(() -> pausePlayerThen(
                     () -> openInstalledApp(packageName, fallbackUrl, deepLinkUrl)
             ));
-        }
-
-        @JavascriptInterface
-        public void openSportsApp(String packageName, String tvPackageName, String fallbackUrl) {
-            runOnUiThread(() -> pausePlayerThen(() -> {
-                String[] packages = isTelevisionDevice
-                        ? new String[]{tvPackageName, packageName} : new String[]{packageName};
-                for (String candidate : packages) {
-                    if (candidate == null || !candidate.matches("[A-Za-z0-9_.]+")) continue;
-                    Intent launcher = getPackageManager().getLeanbackLaunchIntentForPackage(candidate);
-                    if (launcher == null) launcher = getPackageManager().getLaunchIntentForPackage(candidate);
-                    if (launcher != null) {
-                        launcher.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        try {
-                            startActivity(launcher);
-                            return;
-                        } catch (ActivityNotFoundException ignored) {
-                            // Use the provider website if the app cannot be opened.
-                        }
-                    }
-                }
-                openExternalUrl(fallbackUrl);
-            }));
         }
 
         @JavascriptInterface

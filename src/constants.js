@@ -201,11 +201,5 @@ export const FEATURED_OFFICIAL_SERVICE_IDS = [
   'sabc-plus',
   'zplus',
   'sportytv-app',
-  'tnt-sports',
-  'bein-sports',
-  'sky-cricket',
-  'fancode',
-  'tsn',
-  'a-sports',
 ];
 

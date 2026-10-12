@@ -5,14 +5,7 @@ Africa, Zambia, Botswana, Kenya, the UK, and worldwide providers. Sources
 include [iptv-org/iptv](https://github.com/iptv-org/iptv) and selected public,
 ad-supported NeoTV+ sports feeds.
 
-Release 1.6.37 adds TNT Sports 1–4 (HBO Max), beIN SPORTS CONNECT, Sky Sports
-Cricket, FanCode, TSN 1–5 and A Sports to Menu → TV & Sports Apps. Their
-region/subscription labels are visible; these are provider links, not imported
-free channels. On Android, TNT (HBO Max), Sky Sports, FanCode and TSN open their
-installed official apps, or their verified Google Play listings when absent.
-FanCode uses its TV app on Android TV when available. beIN opens its official
-country selector in the browser. A Sports links to its official website;
-continuous live playback is not verified. Cricfy is not included.
+Release 1.6.37 repairs the FIFA+ preferred source. The six sports-provider shortcuts added during this update were removed because usable playback was not verified. The pre-existing service menu is restored.
 
 The 2026-10-12 sports audit checked media behind 145 active registry feeds.
 129 passed initially, and A Spor passed on retry. Fifteen had no reachable
