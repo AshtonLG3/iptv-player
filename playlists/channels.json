@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-12T20:19:25.325Z",
+  "updated": "2026-10-12T20:36:15.090Z",
   "rules": {
     "allowedLanguages": [
       "eng"
@@ -20494,24 +20494,6 @@
       ],
       "country": "in",
       "notes": "Portable HLS; manifest, media, video and audio decoder verified in Rugare on Samsung SM-A165F on 2026-10-12. Actual 720x576; upstream HD title corrected. MP2 audio decoded by Samsung; other Android devices may differ. Third-party feed availability can change; HTTP source is intended for Android native playback and can be blocked by HTTPS browsers."
-    },
-    {
-      "id": "TSN4.ca@HD",
-      "name": "TSN 4 (720p)",
-      "group": "Sports",
-      "logo": "https://i.imgur.com/qJyAWU8.png",
-      "source": "iptv-org public sports catalog",
-      "primaryUrl": "http://109.104.153.220:80/TSN-4/index.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
-      ],
-      "languages": [
-        "eng"
-      ],
-      "country": "ca",
-      "notes": "Portable HLS; manifest, media, video and audio decoder verified in Rugare on Samsung SM-A165F on 2026-10-12. TSN4 watermark confirmed; AC3 decoded by Samsung. Source audio language tag is fra, despite TSN English channel identity; commentary language not independently audited. Third-party feed availability can change; HTTP source is intended for Android native playback and can be blocked by HTTPS browsers."
     },
     {
       "id": "Willow.us@HD",

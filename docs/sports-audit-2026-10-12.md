@@ -45,3 +45,7 @@ A fresh iptv-org sports catalog comparison found 17 targeted candidates absent f
 Star Sports 2 and Select 1 decode at 720x576 with English-tagged MP2 audio. TSN4 decodes at 1280x720 with AC3 audio; its audio language tag says fra although the visible channel is TSN4. Commentary language was not independently audited. Willow decodes at 1280x720 with AAC audio. Device codec support can differ, and these HTTP feeds can be blocked by HTTPS browser mixed-content rules. Availability is a point-in-time result, not a guarantee.
 
 Four entries were added to main and sports playlists in v1.6.38. No TNT, main beIN, Sky Sports Cricket or FanCode feed was verified for import in this pass. The Spanish Fox Sports candidate was excluded from this English catalog; other probe successes were duplicates or outside this requested device check. The original official-service menu is retained.
+
+### Extended TSN4 check supersedes the initial pass
+
+The final signed-app check found TSN4 freezing after startup. Its media playlist contains discontinuities and jumps from 20:30:15 to 20:32:20 to 20:34:20 for segments only around six seconds long. The initial short playing/ready result is insufficient for this feed. TSN4 was therefore withdrawn; v1.6.39 retains only the three verified Willow and Star Sports imports.
