@@ -1070,10 +1070,35 @@ public final class MainActivity extends Activity {
         }
 
         @JavascriptInterface
+        public void openExternalUrl(String url) {
+            if (url == null) return;
+            Uri uri = Uri.parse(url.trim());
+            if (!"https".equalsIgnoreCase(uri.getScheme())) return;
+            runOnUiThread(() -> pausePlayerThen(() -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                try {
+                    startActivity(intent);
+                } catch (android.content.ActivityNotFoundException error) {
+                    android.widget.Toast.makeText(MainActivity.this,
+                            "Install a browser or the provider's app to open this service",
+                            android.widget.Toast.LENGTH_LONG).show();
+                }
+            }));
+        }
+
+        @JavascriptInterface
         public void openOfficialApp(String packageName, String fallbackUrl, String deepLinkUrl) {
             runOnUiThread(() -> pausePlayerThen(
                     () -> openInstalledApp(packageName, fallbackUrl, deepLinkUrl)
             ));
+        }
+
+        @JavascriptInterface
+        public boolean isAppInstalled(String packageName) {
+            if (packageName == null || !packageName.matches("[A-Za-z0-9_.]+")) return false;
+            return getPackageManager().getLaunchIntentForPackage(packageName) != null
+                    || getPackageManager().getLeanbackLaunchIntentForPackage(packageName) != null;
         }
 
         @JavascriptInterface

@@ -2489,6 +2489,9 @@ html:not(.tv-mode) #tv-app-list .featured-service-link { display: flex; gap: 16p
 html:not(.tv-mode) #tv-app-list .featured-service-logo { width: 38px; height: 32px; object-fit: contain; }
 html:not(.tv-mode) #tv-app-list .featured-service-label { display: inline; }
 html:not(.tv-mode) .category-chip[data-category="apps"] { display: inline-block; }
+.featured-service-access { display: none; }
+#tv-app-list .featured-service-link { flex-wrap: wrap; }
+#tv-app-list .featured-service-access { display: block; flex-basis: 100%; color: var(--muted); font-size: .78rem; line-height: 1.4; }
 html:not(.tv-mode) #channel-featured-service-list,
 html:not(.tv-mode) #featured-service-list { display: none; }
 html:not(.tv-mode) .overflow-menu-panel :focus-visible,

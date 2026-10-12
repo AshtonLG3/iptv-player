@@ -6,6 +6,7 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <queries>
+        <package android:name="com.cricfytv.sports" />
         <package android:name="com.brightcove.evod" />
         <package android:name="com.sporty.android" />
         <package android:name="com.sporty.android.tv" />

@@ -1,5 +1,5 @@
 export const APP_NAME = 'Rugare TV';
-export const APP_VERSION = '1.6.36';
+export const APP_VERSION = '1.6.37';
 
 export const FTA_COUNTRIES = {
   zw: 'Zimbabwe',
@@ -55,6 +55,60 @@ export const COMPATIBLE_PLAYERS = [
 ];
 
 export const OFFICIAL_SERVICES = [
+  {
+    id: 'tnt-sports',
+    name: 'TNT Sports 1–4',
+    country: 'United Kingdom',
+    url: 'https://www.hbomax.com/gb/en/sports',
+    externalBrowser: true,
+    accessLabel: 'UK · paid subscription',
+    note: 'Official TNT Sports streaming on HBO Max; eligible UK subscription required',
+  },
+  {
+    id: 'bein-sports',
+    name: 'beIN SPORTS CONNECT',
+    country: 'Supported regions',
+    url: 'https://connect.beinsports.com/',
+    externalBrowser: true,
+    accessLabel: 'Selected regions · subscription',
+    note: 'Official beIN service; channel lineup and access depend on country and subscription',
+  },
+  {
+    id: 'sky-cricket',
+    name: 'Sky Sports Cricket',
+    country: 'United Kingdom / Ireland',
+    url: 'https://www.skysports.com/watch/sky-sports-cricket',
+    externalBrowser: true,
+    accessLabel: 'UK / Ireland · paid subscription',
+    note: 'Official Sky Sports Cricket player; eligible Sky Sports or NOW subscription required',
+  },
+  {
+    id: 'fancode',
+    name: 'FanCode',
+    country: 'India',
+    url: 'https://www.fancode.com/',
+    externalBrowser: true,
+    accessLabel: 'India · match pass may be required',
+    note: 'Official FanCode website in your browser; availability depends on territory and match pass',
+  },
+  {
+    id: 'tsn',
+    name: 'TSN 1–5',
+    country: 'Canada',
+    url: 'https://www.tsn.ca/subscribe',
+    externalBrowser: true,
+    accessLabel: 'Canada · paid subscription',
+    note: 'Official TSN service; eligible Canadian subscription required; TSN+ is a separate offering',
+  },
+  {
+    id: 'a-sports',
+    name: 'A Sports',
+    country: 'Pakistan',
+    url: 'https://a-sports.tv/',
+    externalBrowser: true,
+    accessLabel: 'Official website · live availability varies',
+    note: 'Official A Sports website for coverage and schedules; continuous live playback not verified',
+  },
   {
     id: 'sabc-plus',
     name: 'SABC+',
@@ -138,4 +192,20 @@ export const FEATURED_OFFICIAL_SERVICE_IDS = [
   'sabc-plus',
   'zplus',
   'sportytv-app',
+  'tnt-sports',
+  'bein-sports',
+  'sky-cricket',
+  'fancode',
+  'tsn',
+  'a-sports',
+];
+
+export const INSTALLED_SPORTS_APPS = [
+  {
+    id: 'cricfy',
+    name: 'Cricfy',
+    androidPackage: 'com.cricfytv.sports',
+    accessLabel: 'Installed third-party app · Live TV → Sports',
+    note: 'Opens your installed Cricfy app; its channel sources are managed by Cricfy',
+  },
 ];

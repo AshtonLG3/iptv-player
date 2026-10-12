@@ -5,6 +5,23 @@ Africa, Zambia, Botswana, Kenya, the UK, and worldwide providers. Sources
 include [iptv-org/iptv](https://github.com/iptv-org/iptv) and selected public,
 ad-supported NeoTV+ sports feeds.
 
+Release 1.6.37 adds TNT Sports 1–4 (HBO Max), beIN SPORTS CONNECT, Sky Sports
+Cricket, FanCode, TSN 1–5 and A Sports to Menu → TV & Sports Apps. Their
+region/subscription labels are visible; these are provider links, not imported
+free channels. They open in the device browser on Android because account and
+protected playback support varies in embedded WebViews. A Sports links to its
+official website; continuous live playback is not verified. Android also shows
+Cricfy when already installed, explicitly labelled as a third-party app; it
+opens that app's own catalog without importing its private streams.
+
+The 2026-10-12 sports audit checked media behind 145 active registry feeds.
+129 passed initially, and A Spor passed on retry. Fifteen had no reachable
+source after retry: twelve access-denied feeds, Real Madrid TV (HTTP 503),
+CDN Deportes (HTTP 404), and Ten Cricket (timeout). Access errors can be regional
+and do not establish a worldwide
+outage. FIFA+'s working backup is now primary. See
+[the sports audit](docs/sports-audit-2026-10-12.md) for precise counts and limits.
+
 ## Run it
 
 No build step, no dependencies to install. Serve the folder with any

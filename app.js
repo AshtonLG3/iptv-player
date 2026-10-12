@@ -1,33 +1,34 @@
-import * as playlistModule from './src/playlist.js?v=20261006j';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261006j';
+import * as playlistModule from './src/playlist.js?v=20261012a';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261012a';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261006j';
+  INSTALLED_SPORTS_APPS,
+} from './src/constants.js?v=20261012a';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261006j';
+} from './src/playlistAccess.js?v=20261012a';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261006j';
-import { createPlayer } from './src/player.js?v=20261006j';
-import { createEpgController } from './src/epg.js?v=20261006j';
-import { createFullscreenController } from './src/fullscreen.js?v=20261006j';
+} from './src/ui.js?v=20261012a';
+import { createPlayer } from './src/player.js?v=20261012a';
+import { createEpgController } from './src/epg.js?v=20261012a';
+import { createFullscreenController } from './src/fullscreen.js?v=20261012a';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261006j';
-import { updateMediaSession } from './src/mediaSession.js?v=20261006j';
+} from './src/channelRoute.js?v=20261012a';
+import { updateMediaSession } from './src/mediaSession.js?v=20261012a';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -40,14 +41,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261006j';
+} from './src/tvRemote.js?v=20261012a';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261006j';
+} from './src/storage.js?v=20261012a';
 
 const {
   clearPrivatePlaylist,
@@ -166,12 +167,16 @@ async function main() {
   function renderFeaturedServices(container, { focusable = true } = {}) {
     if (!container) return;
     container.replaceChildren();
-    for (const serviceId of FEATURED_OFFICIAL_SERVICE_IDS) {
-      const service = officialServiceById[serviceId];
+    const services = FEATURED_OFFICIAL_SERVICE_IDS.map((id) => officialServiceById[id]);
+    if (container.id === 'tv-app-list' && typeof androidDeviceBridge?.isAppInstalled === 'function') {
+      services.push(...INSTALLED_SPORTS_APPS.filter((service) =>
+        androidDeviceBridge.isAppInstalled(service.androidPackage)));
+    }
+    for (const service of services) {
       if (!service) continue;
       if (service.androidOnly && !androidDeviceBridge) continue;
       const link = document.createElement('a');
-      link.href = service.url;
+      link.href = service.url || '#';
       link.target = '_blank';
       link.rel = 'noopener';
       link.className = 'featured-service-link';
@@ -197,7 +202,27 @@ async function main() {
       label.textContent = service.shortLabel || service.name;
 
       link.appendChild(label);
+      if (service.accessLabel) {
+        const access = document.createElement('small');
+        access.className = 'featured-service-access';
+        access.textContent = service.accessLabel;
+        link.appendChild(access);
+      }
       link.addEventListener('click', (event) => {
+        if (!service.url) {
+          event.preventDefault();
+          suspendCurrentVideo();
+          androidDeviceBridge.openOfficialApp(service.androidPackage, '', '');
+          return;
+        }
+        if (service.externalBrowser) {
+          suspendCurrentVideo();
+          if (typeof androidDeviceBridge?.openExternalUrl === 'function') {
+            event.preventDefault();
+            androidDeviceBridge.openExternalUrl(service.url);
+          }
+          return;
+        }
         if (
           service.androidPackage
           && typeof androidDeviceBridge?.openOfficialApp === 'function'

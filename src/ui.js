@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261006j';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261006j';
-import { getMediaSection } from './catalog.js?v=20261006j';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261012a';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261012a';
+import { getMediaSection } from './catalog.js?v=20261012a';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -307,8 +307,8 @@ export function renderApp({
       </section>
       <ul id="channel-list" tabindex="-1"></ul>
     </aside>
-    <section class="tv-only tv-apps-panel" aria-label="Official TV Apps">
-      <button class="mobile-menu-back" type="button" aria-label="Back">‹</button><h2>Official TV Apps</h2>
+    <section class="tv-only tv-apps-panel" aria-label="TV & Sports Apps">
+      <button class="mobile-menu-back" type="button" aria-label="Back">‹</button><h2>TV & Sports Apps</h2>
       <nav id="tv-app-list" aria-label="TV apps"></nav>
     </section>
     <section class="tv-only tv-countries-panel"><button class="mobile-menu-back" type="button" aria-label="Back">‹</button><h2>Countries</h2><nav id="tv-country-list"></nav></section>
@@ -706,7 +706,7 @@ export function renderApp({
       button.type = 'button';
       button.className = 'category-chip';
       button.dataset.category = category;
-      button.textContent = category === 'apps' ? 'Official TV Apps' : category === 'favorites' ? 'Favorites' : category || 'All Channels';
+      button.textContent = category === 'apps' ? 'TV & Sports Apps' : category === 'favorites' ? 'Favorites' : category || 'All Channels';
       button.addEventListener('click', () => {
         if (category === 'apps') {
           if (isPanelMode()) onBrowseSelection?.('apps');
