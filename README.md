@@ -5,7 +5,7 @@ Africa, Zambia, Botswana, Kenya, the UK, and worldwide providers. Sources
 include [iptv-org/iptv](https://github.com/iptv-org/iptv) and selected public,
 ad-supported NeoTV+ sports feeds.
 
-Release 1.6.37 repairs the FIFA+ preferred source. The six sports-provider shortcuts added during this update were removed because usable playback was not verified. The pre-existing service menu is restored.
+Release 1.6.38 adds Willow (720p), TSN 4 (720p), Star Sports 2 (576p) and Star Sports Select 1 (576p), with native playback verified on the attached Samsung phone. These third-party HTTP feeds may be blocked in HTTPS browsers and can change availability. The FIFA+ source repair and original official-service menu remain.
 
 The 2026-10-12 sports audit checked media behind 145 active registry feeds.
 129 passed initially, and A Spor passed on retry. Fifteen had no reachable

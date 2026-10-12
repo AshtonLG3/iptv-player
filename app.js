@@ -1,33 +1,33 @@
-import * as playlistModule from './src/playlist.js?v=20261012c';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261012c';
+import * as playlistModule from './src/playlist.js?v=20261012d';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261012d';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261012c';
+} from './src/constants.js?v=20261012d';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261012c';
+} from './src/playlistAccess.js?v=20261012d';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261012c';
-import { createPlayer } from './src/player.js?v=20261012c';
-import { createEpgController } from './src/epg.js?v=20261012c';
-import { createFullscreenController } from './src/fullscreen.js?v=20261012c';
+} from './src/ui.js?v=20261012d';
+import { createPlayer } from './src/player.js?v=20261012d';
+import { createEpgController } from './src/epg.js?v=20261012d';
+import { createFullscreenController } from './src/fullscreen.js?v=20261012d';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261012c';
-import { updateMediaSession } from './src/mediaSession.js?v=20261012c';
+} from './src/channelRoute.js?v=20261012d';
+import { updateMediaSession } from './src/mediaSession.js?v=20261012d';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -40,14 +40,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261012c';
+} from './src/tvRemote.js?v=20261012d';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261012c';
+} from './src/storage.js?v=20261012d';
 
 const {
   clearPrivatePlaylist,

@@ -37,3 +37,11 @@ Official references:
 - https://a-sports.tv/
 
 Subscription playback for these providers is not verified. A Sports is an official website link, not a verified continuous player. Dark/light themes and app version remain in Settings.
+
+## Portable imports verified in Rugare
+
+A fresh iptv-org sports catalog comparison found 17 targeted candidates absent from the registry URLs. Ten passed HLS media-byte probing, and four requested channel feeds were selected for device verification: Willow, TSN4, Star Sports 2 and Star Sports Select 1. All four rendered identifiable broadcasts in Rugare on Samsung SM-A165F, with native ready=true/playing=true events and initialized audio decoders. The first Willow attempt was paused by the fresh debug app notification-permission dialog; it passed the repeat check after that dialog closed.
+
+Star Sports 2 and Select 1 decode at 720x576 with English-tagged MP2 audio. TSN4 decodes at 1280x720 with AC3 audio; its audio language tag says fra although the visible channel is TSN4. Commentary language was not independently audited. Willow decodes at 1280x720 with AAC audio. Device codec support can differ, and these HTTP feeds can be blocked by HTTPS browser mixed-content rules. Availability is a point-in-time result, not a guarantee.
+
+Four entries were added to main and sports playlists in v1.6.38. No TNT, main beIN, Sky Sports Cricket or FanCode feed was verified for import in this pass. The Spanish Fox Sports candidate was excluded from this English catalog; other probe successes were duplicates or outside this requested device check. The original official-service menu is retained.
