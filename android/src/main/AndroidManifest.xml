@@ -6,7 +6,11 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <queries>
-        <package android:name="com.cricfytv.sports" />
+        <package android:name="com.wbd.stream" />
+        <package android:name="com.bskyb.sportnews" />
+        <package android:name="com.dream11sportsguru" />
+        <package android:name="com.fancode.tv" />
+        <package android:name="ca.tsn.mobile.android" />
         <package android:name="com.brightcove.evod" />
         <package android:name="com.sporty.android" />
         <package android:name="com.sporty.android.tv" />

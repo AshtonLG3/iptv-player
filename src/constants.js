@@ -60,6 +60,8 @@ export const OFFICIAL_SERVICES = [
     name: 'TNT Sports 1–4',
     country: 'United Kingdom',
     url: 'https://www.hbomax.com/gb/en/sports',
+    androidPackage: 'com.wbd.stream',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.wbd.stream',
     externalBrowser: true,
     accessLabel: 'UK · paid subscription',
     note: 'Official TNT Sports streaming on HBO Max; eligible UK subscription required',
@@ -78,6 +80,8 @@ export const OFFICIAL_SERVICES = [
     name: 'Sky Sports Cricket',
     country: 'United Kingdom / Ireland',
     url: 'https://www.skysports.com/watch/sky-sports-cricket',
+    androidPackage: 'com.bskyb.sportnews',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.bskyb.sportnews',
     externalBrowser: true,
     accessLabel: 'UK / Ireland · paid subscription',
     note: 'Official Sky Sports Cricket player; eligible Sky Sports or NOW subscription required',
@@ -87,6 +91,9 @@ export const OFFICIAL_SERVICES = [
     name: 'FanCode',
     country: 'India',
     url: 'https://www.fancode.com/',
+    androidPackage: 'com.dream11sportsguru',
+    androidTvPackage: 'com.fancode.tv',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=com.dream11sportsguru',
     externalBrowser: true,
     accessLabel: 'India · match pass may be required',
     note: 'Official FanCode website in your browser; availability depends on territory and match pass',
@@ -96,6 +103,8 @@ export const OFFICIAL_SERVICES = [
     name: 'TSN 1–5',
     country: 'Canada',
     url: 'https://www.tsn.ca/subscribe',
+    androidPackage: 'ca.tsn.mobile.android',
+    androidStoreUrl: 'https://play.google.com/store/apps/details?id=ca.tsn.mobile.android',
     externalBrowser: true,
     accessLabel: 'Canada · paid subscription',
     note: 'Official TSN service; eligible Canadian subscription required; TSN+ is a separate offering',
@@ -200,12 +209,3 @@ export const FEATURED_OFFICIAL_SERVICE_IDS = [
   'a-sports',
 ];
 
-export const INSTALLED_SPORTS_APPS = [
-  {
-    id: 'cricfy',
-    name: 'Cricfy',
-    androidPackage: 'com.cricfytv.sports',
-    accessLabel: 'Installed third-party app · Live TV → Sports',
-    note: 'Opens your installed Cricfy app; its channel sources are managed by Cricfy',
-  },
-];

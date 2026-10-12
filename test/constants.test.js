@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import {
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-  INSTALLED_SPORTS_APPS,
 } from '../src/constants.js';
 
 test('featured official services keep the requested direct-button order and labels', () => {
@@ -24,10 +23,11 @@ test('featured official services keep the requested direct-button order and labe
   assert.equal(featured.filter((service) => service.externalBrowser)
     .every((service) => Boolean(service.accessLabel)), true);
   assert.equal(OFFICIAL_SERVICES.some((service) => service.id === 'cricfy'), false);
-  assert.equal(INSTALLED_SPORTS_APPS[0].androidPackage, 'com.cricfytv.sports');
-  assert.match(INSTALLED_SPORTS_APPS[0].accessLabel, /third-party/);
+  const sportsApps = featured.filter((service) => service.externalBrowser && service.androidPackage);
+  assert.equal(sportsApps.length, 4);
+  assert.equal(sportsApps.every((service) => service.androidStoreUrl.includes(service.androidPackage)), true);
 
-  const nativeFeatured = featured.filter((service) => service.androidPackage);
+  const nativeFeatured = featured.filter((service) => service.androidPackage && !service.externalBrowser);
   assert.deepEqual(
     nativeFeatured.map((service) => service.androidPackage),
     [

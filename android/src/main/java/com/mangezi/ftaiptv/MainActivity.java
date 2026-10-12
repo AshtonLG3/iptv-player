@@ -1095,10 +1095,26 @@ public final class MainActivity extends Activity {
         }
 
         @JavascriptInterface
-        public boolean isAppInstalled(String packageName) {
-            if (packageName == null || !packageName.matches("[A-Za-z0-9_.]+")) return false;
-            return getPackageManager().getLaunchIntentForPackage(packageName) != null
-                    || getPackageManager().getLeanbackLaunchIntentForPackage(packageName) != null;
+        public void openSportsApp(String packageName, String tvPackageName, String fallbackUrl) {
+            runOnUiThread(() -> pausePlayerThen(() -> {
+                String[] packages = isTelevisionDevice
+                        ? new String[]{tvPackageName, packageName} : new String[]{packageName};
+                for (String candidate : packages) {
+                    if (candidate == null || !candidate.matches("[A-Za-z0-9_.]+")) continue;
+                    Intent launcher = getPackageManager().getLeanbackLaunchIntentForPackage(candidate);
+                    if (launcher == null) launcher = getPackageManager().getLaunchIntentForPackage(candidate);
+                    if (launcher != null) {
+                        launcher.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        try {
+                            startActivity(launcher);
+                            return;
+                        } catch (ActivityNotFoundException ignored) {
+                            // Use the provider website if the app cannot be opened.
+                        }
+                    }
+                }
+                openExternalUrl(fallbackUrl);
+            }));
         }
 
         @JavascriptInterface

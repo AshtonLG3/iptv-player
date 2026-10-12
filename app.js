@@ -1,34 +1,33 @@
-import * as playlistModule from './src/playlist.js?v=20261012a';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261012a';
+import * as playlistModule from './src/playlist.js?v=20261012b';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261012b';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-  INSTALLED_SPORTS_APPS,
-} from './src/constants.js?v=20261012a';
+} from './src/constants.js?v=20261012b';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261012a';
+} from './src/playlistAccess.js?v=20261012b';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261012a';
-import { createPlayer } from './src/player.js?v=20261012a';
-import { createEpgController } from './src/epg.js?v=20261012a';
-import { createFullscreenController } from './src/fullscreen.js?v=20261012a';
+} from './src/ui.js?v=20261012b';
+import { createPlayer } from './src/player.js?v=20261012b';
+import { createEpgController } from './src/epg.js?v=20261012b';
+import { createFullscreenController } from './src/fullscreen.js?v=20261012b';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261012a';
-import { updateMediaSession } from './src/mediaSession.js?v=20261012a';
+} from './src/channelRoute.js?v=20261012b';
+import { updateMediaSession } from './src/mediaSession.js?v=20261012b';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -41,14 +40,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261012a';
+} from './src/tvRemote.js?v=20261012b';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261012a';
+} from './src/storage.js?v=20261012b';
 
 const {
   clearPrivatePlaylist,
@@ -168,15 +167,11 @@ async function main() {
     if (!container) return;
     container.replaceChildren();
     const services = FEATURED_OFFICIAL_SERVICE_IDS.map((id) => officialServiceById[id]);
-    if (container.id === 'tv-app-list' && typeof androidDeviceBridge?.isAppInstalled === 'function') {
-      services.push(...INSTALLED_SPORTS_APPS.filter((service) =>
-        androidDeviceBridge.isAppInstalled(service.androidPackage)));
-    }
     for (const service of services) {
       if (!service) continue;
       if (service.androidOnly && !androidDeviceBridge) continue;
       const link = document.createElement('a');
-      link.href = service.url || '#';
+      link.href = service.url;
       link.target = '_blank';
       link.rel = 'noopener';
       link.className = 'featured-service-link';
@@ -209,15 +204,12 @@ async function main() {
         link.appendChild(access);
       }
       link.addEventListener('click', (event) => {
-        if (!service.url) {
-          event.preventDefault();
-          suspendCurrentVideo();
-          androidDeviceBridge.openOfficialApp(service.androidPackage, '', '');
-          return;
-        }
         if (service.externalBrowser) {
           suspendCurrentVideo();
-          if (typeof androidDeviceBridge?.openExternalUrl === 'function') {
+          if (service.androidPackage && typeof androidDeviceBridge?.openSportsApp === 'function') {
+            event.preventDefault();
+            androidDeviceBridge.openSportsApp(service.androidPackage, service.androidTvPackage || '', service.androidStoreUrl || service.url);
+          } else if (typeof androidDeviceBridge?.openExternalUrl === 'function') {
             event.preventDefault();
             androidDeviceBridge.openExternalUrl(service.url);
           }
