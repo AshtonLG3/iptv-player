@@ -1,0 +1,331 @@
+{
+  "reportVersion": "1.0.0",
+  "observedDate": "2026-10-16",
+  "timezone": "Africa/Johannesburg",
+  "device": {
+    "model": "Smart TV Pro",
+    "platform": "Android TV"
+  },
+  "cricfy": {
+    "package": "com.cricfytv.sports",
+    "versionName": "7.1",
+    "versionCode": 51,
+    "launcherComponent": "com.cricfytv.sports/com.android.vending.activities.Splash",
+    "isOfficialProviderApp": false
+  },
+  "method": "Physical TV UI navigation, screenshots, UI hierarchy, package/media-session metadata; no app-private extraction, authentication capture, or DRM modification.",
+  "evidenceDirectory": ".codex-remote-attachments/cricfy-tv-audit-20261016 (local evidence, not committed)",
+  "providers": [
+    {
+      "provider": "TNT Sports",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "TNT 1 - AQ",
+        "TNT 2 - AQ",
+        "TNT 3 - AQ",
+        "TNT 4 - AQ",
+        "TNT MX - AQ"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "user-confirmed TNT 1; no independent sustained stall test",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [],
+      "evidence": [
+        {
+          "file": "07-tnt-options.png",
+          "sha256": "b051bc083c64bfa1747745423d1b3ff582565f19aedee8ca90c66642c63a39d8"
+        },
+        {
+          "file": "08-tnt1-player.png",
+          "sha256": "a96445e61cfdfd2ccd74425b4acb32f4108ac0d4db833b2f276b59217c585c88"
+        }
+      ]
+    },
+    {
+      "provider": "Barca",
+      "tvGroupObserved": false,
+      "observedChoices": [],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [
+        {
+          "id": "TOPBarca.pl@SD",
+          "name": "TOP Barca (1080p)"
+        }
+      ],
+      "evidence": [
+        {
+          "file": "user-barca-reference.png",
+          "sha256": "24ebe520a3c69b7aa4c066f708c629f71a9df81b6d34cb94108a33818d4ae2a3"
+        },
+        {
+          "file": "26-barca-search.png",
+          "sha256": "8659f17f7fb6aafb8752deb6f4501776763c94a8d2891e4f0415dbf791b4809f"
+        },
+        {
+          "file": "27-bar-search.png",
+          "sha256": "f413b4b8d74a1e80f7195e43b3cd9db0f3c1388e23787db250d944cf8282350d"
+        },
+        {
+          "file": "35-sports-near-combate.png",
+          "sha256": "ea0e42bd6826e1a3536a0465f712a50fdb3a80216022d693da5a36b526cd8d98"
+        },
+        {
+          "file": "36-unlabelled-card.png",
+          "sha256": "b6eefe4819e84f900ab61007aaf42085733de98a12f38b7f87af608f797f83e0"
+        },
+        {
+          "file": "42-euro-related-view.png",
+          "sha256": "fb21af71bfa3dba0d5def197e6cfe73ef447804ed874dbe8bfe90bfa46a8ec70"
+        },
+        {
+          "file": "45-sports-bottom-check.png",
+          "sha256": "73d68d9ff95367ca7ff4b7ab9f31d34a21dbb0d6b8d54beacaba2b5152782746"
+        }
+      ],
+      "status": "User supplied a phone screenshot showing BARCA TV near Combate and PFL. TV Sports searches for Barca and Bar found no names. User ruled out both unlabelled cards and explained that Barca appears intermittently among suggestions after opening other folders/channels. Not yet independently located on this TV; do not infer absence."
+    },
+    {
+      "provider": "beIN Sports",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "beIN Sports 1 - AQ",
+        "beIN Sports 2 - AQ",
+        "beIN Sports 3 - AQ",
+        "beIN Sports 1 AU - AQ",
+        "beIN Sports 2 AU - AQ",
+        "beIN Sports Xtra",
+        "beIN ENGLISH 1"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [
+        {
+          "id": "beINSPORTSXTRA.us@SD",
+          "name": "beIN SPORTS XTRA (1080p)"
+        }
+      ],
+      "evidence": [
+        {
+          "file": "13-bein-options.png",
+          "sha256": "8696e5a383f170539b8ac9181c28f4b73d17c14b46e2f44602997e76c97dac4a"
+        },
+        {
+          "file": "14-bein-options-lower.png",
+          "sha256": "8f257c37c79612bc1c70c7232c6c546af95c51c208ffa4146c84b7a36e29373d"
+        }
+      ]
+    },
+    {
+      "provider": "DAZN",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "DAZN Fast - AQ",
+        "DAZN RISE - AQ",
+        "DAZN Combat - AQ",
+        "DAZN Ringside - AQ"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [
+        {
+          "id": "DAZNCombat.uk@SD",
+          "name": "DAZN Combat (684p)"
+        }
+      ],
+      "evidence": [
+        {
+          "file": "12-dazn-options.png",
+          "sha256": "59e071cf48a29a6339a89dedd9def58901bae34c7dda9a66b321bf40bc04a8e8"
+        }
+      ]
+    },
+    {
+      "provider": "Willow",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "WILLOW - HD",
+        "INDIA IP",
+        "WILLOW - AQ",
+        "WILLOW EX"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [
+        {
+          "id": "WillowSports.us@HD",
+          "name": "Willow Sports (1080p)"
+        },
+        {
+          "id": "WillowSports.us@SD",
+          "name": "Willow Sports (1080p)"
+        },
+        {
+          "id": "Willow.us@HD",
+          "name": "Willow (720p)"
+        }
+      ],
+      "evidence": [
+        {
+          "file": "16-willow-options.png",
+          "sha256": "cfe9e60bae0e37bc74b267c6bd0020e7032c9ccdeb617a85054dbfb4e6d1704e"
+        }
+      ]
+    },
+    {
+      "provider": "Sky Sports Cricket",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "HD1",
+        "HD2"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [],
+      "evidence": [
+        {
+          "file": "17-sky-cricket-options.png",
+          "sha256": "3baa890e0cf2c49fdc69e4ce11247b55ab4cc08f284f5639f38a02937567756b"
+        }
+      ]
+    },
+    {
+      "provider": "FanCode",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "FANCODE 1 - HD",
+        "FANCODE 2 - HD",
+        "FC 1 - AQ",
+        "FC 2 - AQ",
+        "FC 1 - HD",
+        "FC 2 - HD"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [],
+      "evidence": [
+        {
+          "file": "18-fancode-options.png",
+          "sha256": "a79788cce8ffefd7cfcbca114d5401d5e7937f0004864cb51c78ebd6da853543"
+        },
+        {
+          "file": "19-fancode-lower.png",
+          "sha256": "e29cd61213846e099e887545cb383b80d4a384456f12a7221ae134a7e4ef64c2"
+        }
+      ]
+    },
+    {
+      "provider": "Ten Sports",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "PK SPORTS",
+        "TEN CRICKET"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [
+        {
+          "id": "TenCricket.in@SD",
+          "name": "Ten Cricket (576p)"
+        }
+      ],
+      "evidence": [
+        {
+          "file": "20-ten-sports-options.png",
+          "sha256": "37e9bdde276929bb71505829f8d90a2782d599b08f790ac480c87321d75c58b4"
+        }
+      ]
+    },
+    {
+      "provider": "TSN",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "TSN AQ1",
+        "TSN AQ2",
+        "TSN AQ3",
+        "TSN AQ4",
+        "TSN AQ5"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [
+        {
+          "id": "SportsNetNewYork.us@SD",
+          "name": "SportsNet New York (1080p)"
+        },
+        {
+          "id": "TSNTheOcho.ca@SD",
+          "name": "TSN The Ocho (1080p)"
+        }
+      ],
+      "evidence": [
+        {
+          "file": "21-tsn-options.png",
+          "sha256": "429ea891351aa904a953fed4db5616e8487043760093300987206c2c9e0bb45c"
+        },
+        {
+          "file": "22-tsn-lower.png",
+          "sha256": "f9310aaeaa996f9c62aa3f0b07b3588172198deddc51037593fea8ce0eef754c"
+        }
+      ]
+    },
+    {
+      "provider": "Premier Sports",
+      "tvGroupObserved": true,
+      "observedChoices": [
+        "PREMIER SPORTS 1 - AQ",
+        "PREMIER SPORTS 2 - AQ",
+        "Premier Sports 1 (2) - AQ",
+        "Premier Sports 2 (2) - AQ"
+      ],
+      "choicesExhaustive": false,
+      "tvPlayback": "not verified",
+      "portableStreamUrl": null,
+      "channelDeepLink": null,
+      "officialAppPackage": null,
+      "existingCatalogMatches": [],
+      "evidence": [
+        {
+          "file": "24-premier-options.png",
+          "sha256": "cc5ac365085dbbc70f672366e982f63a5946e5a16971c5786ddd9e218b94aa76"
+        }
+      ]
+    }
+  ],
+  "newPortableStreamsRecovered": 0,
+  "applicationOrCatalogChanged": false,
+  "limitations": [
+    "A channel choice or Cricfy playback does not establish a portable source or official provider integration.",
+    "No reusable stream URL or provider-specific app launch link was exposed by the inspected UI/media-session information.",
+    "Playlists screen showed No Playlists Found; menu Network Stream and Playlists are not evidence of an export.",
+    "Provider package-name filter found Cricfy but no separately installed apps matching requested provider names; package naming can differ.",
+    "AQ/HD labels are copied from Cricfy and do not establish measured resolution or reliability.",
+    "Barca remains a user-reference finding, not a confirmed TV channel identity."
+  ]
+}
