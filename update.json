@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 56,
-  "versionName": "1.6.29",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.29.apk",
-  "sha256": "84EEA50B46A199E917833D03595D10C4A92B38073F2CCD72F2492E0536C82B58",
-  "releaseNotes": "Adds 43 soccer channels in any language and 10 English channels from the supplied iptv-org Sports and Free-TV lists, plus 21 verified backup feeds. Each imported feed passed media-segment and video decoding checks. Preserves soccer language exceptions, existing Tanzania/Ethiopia exceptions and USA/UK regional exclusions.",
-  "publishedAt": "2026-10-06T09:31:23Z"
+  "versionCode": 67,
+  "versionName": "1.6.40",
+  "apkUrl": "https://github.com/AshtonLG3/iptv-player/releases/download/v1.6.40/rugare-tv-v1.6.40.apk",
+  "sha256": "A19FB0CFFD2B862EFB75C7B19AAAD4F01F8A12A69283CF4FDB68670D38BC3FA2",
+  "releaseNotes": "Makes TOP BARÇA English easy to find in Sports and includes it in both main and sports playlists. Free FC Barcelona archive matches and club programmes; not live first-team subscription coverage. Preserves existing services, dark/light themes and version menu.",
+  "publishedAt": "2026-10-16T18:18:02.897Z"
 }

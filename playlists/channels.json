@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-12T20:36:15.090Z",
+  "updated": "2026-10-16T18:11:13.059Z",
   "rules": {
     "allowedLanguages": [
       "eng"
@@ -16991,19 +16991,23 @@
     },
     {
       "id": "TOPBarca.pl@SD",
-      "name": "TOP Barca (1080p)",
-      "group": "International",
+      "name": "TOP BARÇA English (1080p)",
+      "group": "Sports",
       "logo": "https://images-2.rakuten.tv/storage/global-live-channel/translation/artwork/7c59e962-086b-4d64-afb3-7f83ca8c3377-width200-quality90.jpeg",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
+      "source": "FC Barcelona TOP BARÇA free FAST channel via Rakuten TV / Amagi",
       "languages": [
         "eng"
       ],
       "primaryUrl": "https://amg17560-fcb-amg17560c1-rakuten-uk-4891.playouts.now.amagi.tv/playlist/amg17560-fcbarcelona-topbarcaenglish-rakutenuk/playlist.m3u8",
       "backupUrls": [],
       "outputs": [
-        "main"
+        "main",
+        "sports"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Free ad-supported FC Barcelona archive matches, delayed broadcasts and club programmes; not a live first-team match subscription. Public English HLS decoded on PC 2026-10-16 and matched the GAL 1-1 BAR programme shown in Cricfy. Provider availability and regional restrictions can change.",
+      "tags": [
+        "soccer"
+      ]
     },
     {
       "id": "Toronto360TV.ca@SD",
