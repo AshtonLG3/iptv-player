@@ -1103,7 +1103,7 @@ html.tv-mode .favorite-btn {
   border-radius: 8px;
 }
 
-html.tv-mode .favorite-btn:focus-visible {
+html.tv-mode .favorite-btn:focus {
   background: var(--panel-strong);
   outline: 4px solid var(--accent);
   outline-offset: -4px;
@@ -1114,12 +1114,12 @@ html.tv-mode .channel-item.now-playing {
   background: transparent;
 }
 
-html.tv-mode .channel-select-button:focus-visible,
-html.tv-mode .overflow-menu-panel button:focus-visible,
-html.tv-mode .overflow-menu-panel input:focus-visible,
-html.tv-mode .overflow-menu-panel select:focus-visible,
-html.tv-mode .overflow-menu-panel summary:focus-visible,
-html.tv-mode .overflow-menu-panel a:focus-visible {
+html.tv-mode .channel-select-button:focus,
+html.tv-mode .overflow-menu-panel button:focus,
+html.tv-mode .overflow-menu-panel input:focus,
+html.tv-mode .overflow-menu-panel select:focus,
+html.tv-mode .overflow-menu-panel summary:focus,
+html.tv-mode .overflow-menu-panel a:focus {
   background: var(--panel-strong);
   outline: 4px solid var(--accent);
   outline-offset: -4px;
@@ -1130,13 +1130,13 @@ html.tv-mode .browser-download-link {
   display: none;
 }
 
-html.tv-mode .overflow-menu-panel .playlist-action.primary:focus-visible {
+html.tv-mode .overflow-menu-panel .playlist-action.primary:focus {
   background: var(--accent);
   color: var(--bg);
   outline-color: var(--text);
 }
 
-html.tv-mode .channel-item.now-playing .channel-select-button:focus-visible {
+html.tv-mode .channel-item.now-playing .channel-select-button:focus {
   color: var(--accent-strong);
 }
 
@@ -2170,7 +2170,7 @@ html.tv-mode .featured-service-link {
   min-height: 52px;
 }
 
-html.tv-mode .featured-service-link:focus-visible {
+html.tv-mode .featured-service-link:focus {
   background: var(--panel-strong);
   outline: 4px solid var(--accent);
   outline-offset: -4px;
@@ -2212,7 +2212,7 @@ html.tv-mode .remote-browse-hint {
   margin: 0.15rem 0;
 }
 
-html.tv-mode .category-chip:focus-visible {
+html.tv-mode .category-chip:focus {
   background: var(--panel-strong);
   border-color: var(--accent);
   color: var(--text);
@@ -2220,7 +2220,7 @@ html.tv-mode .category-chip:focus-visible {
   outline-offset: -4px;
 }
 
-html.tv-mode .category-chip.selected:focus-visible {
+html.tv-mode .category-chip.selected:focus {
   background: var(--chip-selected-bg);
   color: var(--chip-selected-text);
 }
@@ -2315,8 +2315,8 @@ html.tv-mode .tv-root-action { border: 0; border-radius: 4px; box-shadow: none; 
 html.tv-mode .overflow-menu-panel .theme-control,
 html.tv-mode .overflow-menu-panel .blocked-label { font-size: .95rem; margin: 0; padding: 8px 12px; }
 html.tv-mode .overflow-menu-panel .blocked-label:focus-within { background: var(--chip-selected-bg); color: var(--chip-selected-text); border-radius: 4px; }
-html.tv-mode .overflow-menu-panel :is(button, select, summary, a, input):focus-visible { outline: none; box-shadow: none; border-color: transparent; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
-html.tv-mode .overflow-menu-panel input[type="checkbox"]:focus-visible { background: transparent; }
+html.tv-mode .overflow-menu-panel :is(button, select, summary, a, input):focus { outline: none; box-shadow: none; border-color: transparent; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode .overflow-menu-panel input[type="checkbox"]:focus { background: transparent; }
 html.tv-mode[data-tv-panel="browse"] .sidebar { width: var(--tv-category-width); background: transparent; }
 html.tv-mode[data-tv-panel="browse"] #channel-list,
 html.tv-mode[data-tv-panel="browse"] .channel-list-heading { display: none; }
@@ -2324,8 +2324,8 @@ html.tv-mode[data-tv-panel="browse"] .category-strip,
 html.tv-mode[data-tv-panel="categories"] .category-strip { display: flex; flex-direction: column; align-items: stretch; position: fixed; top: 0; bottom: 0; left: 0; width: var(--tv-category-width); box-sizing: border-box; overflow-y: auto; overflow-x: hidden; padding: 24px 12px; gap: 4px; background: var(--panel); visibility: visible; pointer-events: auto; }
 html.tv-mode .category-chip { border: 0; border-radius: 4px; min-height: 38px; padding: 9px 12px; text-align: left; font-size: .95rem; font-weight: 450; flex: 0 0 auto; }
 html.tv-mode .category-chip.selected { background: var(--panel-strong); color: var(--text); }
-html.tv-mode .category-chip:focus-visible,
-html.tv-mode .category-chip.selected:focus-visible { outline: none; border: 0; box-shadow: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode .category-chip:focus,
+html.tv-mode .category-chip.selected:focus { outline: none; border: 0; box-shadow: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html.tv-mode[data-tv-panel="categories"] .sidebar { left: var(--tv-category-width); }
 html.tv-mode .channel-browser-header { padding: 0; }
 html.tv-mode .channel-list-heading { padding: 4px 6px 12px; }
@@ -2341,11 +2341,11 @@ html.tv-mode .channel-artwork { height: 32px; width: 38px; background: transpare
 html.tv-mode .channel-name { font-size: .9rem; font-weight: 450; }
 html.tv-mode .channel-detail { font-size: .68rem; }
 html.tv-mode .now-playing-badge { display: none; }
-html.tv-mode .channel-select-button:focus-visible,
-html.tv-mode .channel-item.now-playing .channel-select-button:focus-visible,
-html.tv-mode .favorite-btn:focus-visible { outline: none; box-shadow: none; border: 0; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
-html.tv-mode .channel-select-button:focus-visible .channel-name,
-html.tv-mode .channel-select-button:focus-visible .channel-detail { color: inherit; }
+html.tv-mode .channel-select-button:focus,
+html.tv-mode .channel-item.now-playing .channel-select-button:focus,
+html.tv-mode .favorite-btn:focus { outline: none; box-shadow: none; border: 0; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode .channel-select-button:focus .channel-name,
+html.tv-mode .channel-select-button:focus .channel-detail { color: inherit; }
 html.tv-mode .favorite-btn { border: 0; background: transparent; font-size: 24px; flex-basis: 36px; width: 36px; }
 html.tv-mode .layout.drawer-open .player-panel { left: var(--tv-list-width); }
 html.tv-mode[data-tv-panel="browse"] .layout.drawer-open .player-panel { left: var(--tv-category-width); }
@@ -2362,15 +2362,15 @@ html.tv-mode #tv-app-list { display: flex; flex-direction: column; gap: 4px; }
 html.tv-mode #tv-app-list .featured-service-link { display: flex; justify-content: flex-start; gap: 16px; min-height: 48px; padding: 8px 12px; border: 0; border-radius: 4px; background: transparent; color: var(--text); }
 html.tv-mode #tv-app-list .featured-service-logo { width: 38px; height: 32px; object-fit: contain; }
 html.tv-mode #tv-app-list .featured-service-label { display: inline; font-size: .95rem; }
-html.tv-mode #tv-app-list .featured-service-link:focus-visible { outline: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode #tv-app-list .featured-service-link:focus { outline: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html.tv-mode[data-tv-panel="apps"] .player-panel { left: var(--tv-list-width); }
 html.tv-mode[data-tv-panel="categories"] .layout:not(.tv-transparent-browse) .player-panel { left: calc(var(--tv-category-width) + var(--tv-list-width)); }
 html.tv-mode .tv-hide { display: none; }
 html.tv-mode .overflow-menu-panel .playlist-access,
 html.tv-mode .overflow-menu-panel .epg-settings { border: 0; background: transparent; border-radius: 0; padding: 0; margin: 0; }
-html.tv-mode .overflow-menu-panel :focus-visible { outline: none !important; box-shadow: none !important; }
+html.tv-mode .overflow-menu-panel :focus { outline: none !important; box-shadow: none !important; }
 html.tv-mode #tv-app-list .featured-service-label { font-weight: 450; }
-html.tv-mode #tv-app-list .featured-service-link:focus-visible .featured-service-label { color: inherit; }
+html.tv-mode #tv-app-list .featured-service-link:focus .featured-service-label { color: inherit; }
 html.tv-mode #tv-app-list .featured-service-logo { background: #16191e; border-radius: 3px; padding: 3px; }
 html.tv-mode .channel-item.now-playing .now-playing-badge { display: none; }
 
@@ -2389,8 +2389,8 @@ html.tv-mode[data-tv-panel="countries"] .tv-countries-panel { display: block; po
 html.tv-mode .tv-countries-panel h2 { font-size: 1.1rem; margin: 0 12px 16px; }
 html.tv-mode #tv-country-list { display: flex; flex-direction: column; gap: 4px; }
 html.tv-mode #tv-country-list button { flex-shrink: 0; min-height: 38px; padding: 9px 12px; background: transparent; border: 0; border-radius: 4px; color: inherit; text-align: left; font: inherit; font-size: .95rem; }
-html.tv-mode #tv-country-list button:focus-visible,
-html.tv-mode .tv-favorite-panel button:focus-visible { outline: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode #tv-country-list button:focus,
+html.tv-mode .tv-favorite-panel button:focus { outline: none; background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html.tv-mode[data-tv-panel="favorite"] .tv-favorite-panel { display: block; position: fixed; z-index: 20; bottom: 36px; left: 36px; background: var(--panel); color: var(--text); padding: 16px; border-radius: 6px; }
 html.tv-mode .tv-favorite-panel p { margin: 0 0 12px; }
 html.tv-mode .tv-favorite-panel button { border: 0; border-radius: 4px; padding: 12px 16px; font: inherit; }
@@ -2398,13 +2398,14 @@ html.tv-mode .menu-update-control { margin-top: auto; padding-top: 20px; }
 html.tv-mode .overflow-menu-panel .menu-update-button { background: var(--panel-strong); font-weight: 600; text-align: center; }
 html.tv-mode[data-tv-panel="preferences"] .overflow-menu-panel { display: flex; flex-direction: column; } html.tv-mode[data-tv-panel="preferences"] .tv-settings-content { display: flex; flex-direction: column; flex: 1; }
 
+.quality-hint { margin: 4px 12px; color: var(--muted); font-size: .8rem; line-height: 1.35; }
 html.tv-mode .legacy-quality-control { display: none !important; }
 html.tv-mode #tv-quality-value { float: right; margin-right: 12px; color: var(--muted); }
-html.tv-mode #tv-quality-button:focus-visible #tv-quality-value { color: inherit; }
+html.tv-mode #tv-quality-button:focus #tv-quality-value { color: inherit; }
 html.tv-mode #tv-quality-options { display: flex; flex-direction: column; padding-left: 12px; gap: 4px; }
 html.tv-mode #tv-quality-options[hidden] { display: none; }
 html.tv-mode .tv-theme-choices button[aria-pressed="true"] { color: var(--text); }
-html.tv-mode .tv-theme-choices button:focus-visible { background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode .tv-theme-choices button:focus { background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html.tv-mode { --tv-menu-width: min(24vw, 290px); }
 html.tv-mode[data-tv-panel="preferences"] .epg-settings,
 html.tv-mode[data-tv-panel="preferences"] .playlist-access { display: none; }
@@ -2414,7 +2415,7 @@ html.tv-mode .overflow-menu-panel .blocked-label { display: flex; align-items: c
 html.tv-mode .tv-theme-choices { min-height: 38px; padding: 0 12px; font-size: .95rem; }
 html.tv-mode .tv-theme-choices button { padding: 0; min-height: 36px; height: 36px; width: 40px; font-size: 24px; }
 html.tv-mode .tv-theme-choices button[aria-pressed="true"] { background: transparent; color: var(--accent); }
-html.tv-mode .tv-theme-choices button:focus-visible { background: var(--chip-selected-bg); color: var(--chip-selected-text); }
+html.tv-mode .tv-theme-choices button:focus { background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html.tv-mode .overflow-menu-panel .menu-update-button { font-weight: 500; }
 html.tv-mode[data-tv-panel="preferences"] #tv-exit-button { display: none; } html.tv-mode[data-tv-panel="settings"] #tv-exit-button { margin-top: auto; color: var(--muted); } html.tv-mode[data-tv-panel="settings"] .overflow-menu-panel { display: flex; flex-direction: column; }
 /* Shared compact touch menus use the same fields and theme as TV. */

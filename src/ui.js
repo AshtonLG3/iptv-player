@@ -1,6 +1,7 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261017a';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261017a';
-import { getMediaSection } from './catalog.js?v=20261017a';
+import { QUALITY_OPTIONS } from './quality.js?v=20261017c';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261017c';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261017c';
+import { getMediaSection } from './catalog.js?v=20261017c';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -230,14 +231,14 @@ export function renderApp({
               </select>
             </label>
             <button id="tv-quality-button" class="tv-only tv-root-action" type="button">Quality <span id="tv-quality-value"></span> ▾</button>
-            <div id="tv-quality-options" class="tv-only" hidden><button type="button" data-quality="auto">Auto</button><button type="button" data-quality="data-saver">Data saver</button></div>
+            <div id="tv-quality-options" class="tv-only" hidden>${QUALITY_OPTIONS.map((option) => `<button type="button" data-quality="${option.value}">${option.label}</button>`).join('')}</div>
             <label class="theme-control legacy-quality-control" for="quality-select">
               <span>Quality</span>
               <select id="quality-select">
-                <option value="auto">Auto (adapts to connection)</option>
-                <option value="data-saver">Data saver (up to 480p when available)</option>
+                ${QUALITY_OPTIONS.map((option) => `<option value="${option.value}">${option.description}</option>`).join('')}
               </select>
             </label>
+            <p class="quality-hint">Applies to Rugare channels. Uses available feed quality; higher settings may buffer more. Official apps control their own quality.</p>
             <a class="menu-download-link browser-download-link" download href="downloads/rugare-tv.apk">
               Download Rugare TV for Android
             </a>
@@ -345,7 +346,7 @@ export function renderApp({
   const qualityButton = root.querySelector('#tv-quality-button');
   const qualityOptions = root.querySelector('#tv-quality-options');
   const qualityValue = root.querySelector('#tv-quality-value');
-  function syncQualityValue() { qualityValue.textContent = qualitySelect.value === 'data-saver' ? 'Data saver' : 'Auto'; }
+  function syncQualityValue() { qualityValue.textContent = QUALITY_OPTIONS.find((option) => option.value === qualitySelect.value)?.label || 'Auto'; }
   syncQualityValue();
   qualityButton.setAttribute('aria-expanded', 'false');
   qualityButton.addEventListener('click', () => {
@@ -389,8 +390,7 @@ export function renderApp({
   const listEl = root.querySelector('#channel-list');
   function isPanelMode() { return document.documentElement.classList.contains('tv-mode'); }
   if (isPanelMode()) {
-    qualitySelect.options[0].textContent = 'Auto';
-    qualitySelect.options[1].textContent = 'Data saver';
+    QUALITY_OPTIONS.forEach((option, index) => { qualitySelect.options[index].textContent = option.label; });
   }
   let nowPlayingUrl = null;
   let lastFocusedChannelUrl = null;

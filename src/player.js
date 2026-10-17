@@ -1,3 +1,4 @@
+import { normalizeQuality, selectQualityLevel } from './quality.js?v=20261017c';
 export function createPlayer(videoEl, {
   HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined),
   androidBridge = globalThis.AndroidDevice,
@@ -98,7 +99,7 @@ export function createPlayer(videoEl, {
   }
 
   function play(sources, options = {}) {
-    quality = options.quality || 'auto';
+    quality = normalizeQuality(options.quality);
     suspended = false;
     videoEl.muted = false;
     videoEl.volume = 1;
@@ -154,7 +155,7 @@ export function createPlayer(videoEl, {
       playNative(url, session, next);
       return;
     }
-    if (quality === 'data-saver' && HlsCtor?.isSupported()) {
+    if (quality !== 'auto' && HlsCtor?.isSupported()) {
       playWithHls(url, session, next);
       return;
     }
@@ -222,7 +223,7 @@ export function createPlayer(videoEl, {
       onFailure(error);
     };
 
-    hls = new HlsCtor({ startLevel: -1, capLevelToPlayerSize: true, maxBufferLength: 30 });
+    hls = new HlsCtor({ startLevel: -1, capLevelToPlayerSize: quality === 'auto', maxBufferLength: 30 });
     hls.on(HlsCtor.Events.ERROR, (_event, data) => {
       if (!data || !data.fatal) return;
 
@@ -242,10 +243,10 @@ export function createPlayer(videoEl, {
     });
     hls.on(HlsCtor.Events.MANIFEST_PARSED, () => {
       if (suspended) return;
-      if (quality === 'data-saver' && hls.levels?.length) {
-        const eligible = hls.levels.map((level, index) => ({ level, index }))
-          .filter(({ level }) => level.height > 0 && level.height <= 480);
-        hls.autoLevelCapping = eligible.length ? eligible[eligible.length - 1].index : 0;
+      const level = selectQualityLevel(hls.levels, quality);
+      if (level >= 0) {
+        if (quality === 'high') hls.currentLevel = level;
+        else hls.autoLevelCapping = level;
       }
       videoEl.play().catch(fail);
     });

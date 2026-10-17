@@ -1,3 +1,4 @@
+import { getQualityHeight } from './quality.js?v=20261017c';
 export function getMediaSection(item) {
   if (item.mediaType === 'movie' || item.mediaType === 'show') return item.mediaType;
   const group = String(item.category || '');
@@ -33,9 +34,15 @@ export function getPlaybackSources(channel, quality = 'auto') {
     { url: channel.url, height: 0 },
     ...(channel.backupUrls || []).map((url) => ({ url, height: 0 })),
   ];
-  const ordered = quality === 'data-saver'
-    ? [...variants].sort((a, b) => (a.height || Infinity) - (b.height || Infinity))
-    : variants;
+  let ordered = variants;
+  if (quality === 'data-saver') ordered = [...variants].sort((a, b) => (a.height || Infinity) - (b.height || Infinity));
+  else if (quality !== 'auto') {
+    const cap = getQualityHeight(quality);
+    const ranked = [...variants].sort((a, b) => b.height - a.height);
+    ordered = [...ranked.filter((variant) => variant.height > 0 && variant.height <= cap),
+      ...ranked.filter((variant) => !variant.height),
+      ...ranked.filter((variant) => variant.height > cap).reverse()];
+  }
   return [...new Set(ordered.map((variant) => variant.url))];
 }
 

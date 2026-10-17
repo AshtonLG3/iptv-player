@@ -1,4 +1,4 @@
-import { parseM3U, readJson, writeJson, REGISTRY_PATH, ROOT_DIR } from './playlist-tools.mjs';
+import { parseM3U, readJson, writeJson, compilePolicyPatterns, REGISTRY_PATH, ROOT_DIR } from './playlist-tools.mjs';
 import { probeStream, mapConcurrent } from './stream-probe.mjs';
 import path from 'node:path';
 import { isExcludedRegionalChannel, isEnglishOnlyFeed } from './channel-policy.mjs';
@@ -17,11 +17,17 @@ const [playlist, metadataText, feedsText, registry] = await Promise.all([
 const metadata = new Map(JSON.parse(metadataText).map((channel) => [channel.id, channel]));
 const feeds = new Map(JSON.parse(feedsText).map((feed) => [`${feed.channel}@${feed.id}`, feed]));
 const excludedRegional = (channel) => isExcludedRegionalChannel(channel, metadata.get(channel.id?.split('@')[0]), feeds.get(channel.id));
-const upstream = parseM3U(playlist).entries.filter((channel) => !excludedRegional(channel) && isEnglishOnlyFeed(channel, feeds.get(channel.id)));
+const titleExclusions = compilePolicyPatterns(registry);
+const excludedTitle = (channel) => titleExclusions.some(({ regex }) => regex.test(channel.name));
+const upstream = parseM3U(playlist).entries.filter((channel) => !excludedTitle(channel) && !excludedRegional(channel) && isEnglishOnlyFeed(channel, feeds.get(channel.id)));
 if (upstream.length < 100) throw new Error('English source unexpectedly small; registry left unchanged');
 const baseId = (id) => id?.split('@')[0];
 const candidates = new Map();
 for (const channel of registry.channels) {
+  if (channel.disabledByUser || excludedTitle(channel)) {
+    channel.status = 'disabled';
+    continue;
+  }
   for (const url of [channel.primaryUrl, ...(channel.backupUrls || [])]) candidates.set(url, null);
 }
 for (const channel of upstream) candidates.set(channel.primaryUrl, null);
@@ -46,6 +52,10 @@ const now = new Date().toISOString();
 const audit = { checkedAt: now, sourceUrl, probedFeeds: candidates.size, added: [], repaired: [], withdrawn: [], retained: 0, probes: Object.fromEntries(candidates) };
 const existingIds = new Set(registry.channels.map((channel) => baseId(channel.id)));
 for (const channel of registry.channels) {
+  if (channel.disabledByUser || excludedTitle(channel)) {
+    channel.status = 'disabled';
+    continue;
+  }
   const languageExempt = registry.rules.languageExemptCountries?.includes(channel.country)
     || channel.contentTags?.some((tag) => registry.rules.languageExemptTags?.includes(tag));
   if (excludedRegional(channel)) {

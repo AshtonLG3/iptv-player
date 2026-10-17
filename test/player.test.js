@@ -145,6 +145,33 @@ test('data saver uses adaptive HLS and caps available renditions at 480p', () =>
   player.destroy();
 });
 
+test('global highest quality bypasses native browser auto and selects the best HLS rendition', () => {
+  FakeHls.instances = [];
+  const video = createFakeVideo({ canPlayHls: true });
+  const player = createPlayer(video, { HlsCtor: FakeHls });
+  player.play('https://example.com/master.m3u8', { quality: 'high' });
+  const hls = FakeHls.instances[0];
+  hls.levels = [{ height: 1080 }, { height: 360 }, { height: 720 }];
+  hls.trigger('manifest_parsed');
+  assert.equal(hls.currentLevel, 0);
+  assert.equal(hls.config.capLevelToPlayerSize, false);
+  player.destroy();
+});
+
+test('global 720p caps adaptive HLS while a later Auto session resets the cap', () => {
+  FakeHls.instances = [];
+  const player = createPlayer(createFakeVideo(), { HlsCtor: FakeHls });
+  player.play('https://example.com/master.m3u8', { quality: '720p' });
+  const hls = FakeHls.instances[0];
+  hls.levels = [{ height: 360 }, { height: 720 }, { height: 1080 }];
+  hls.trigger('manifest_parsed');
+  assert.equal(hls.autoLevelCapping, 1);
+  player.play('https://example.com/next.m3u8', { quality: 'auto' });
+  assert.equal(hls.destroyed, true);
+  assert.equal(FakeHls.instances[1].autoLevelCapping, undefined);
+  player.destroy();
+});
+
 test('autoplay rejection preserves the stream and does not cycle through backups', async () => {
   FakeHls.supported = true;
   FakeHls.instances = [];

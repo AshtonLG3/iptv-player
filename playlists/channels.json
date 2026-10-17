@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-17T05:42:41.705Z",
+  "updated": "2026-10-17T06:19:26.395Z",
   "rules": {
     "allowedLanguages": [
       "eng"
@@ -12,6 +12,9 @@
     ],
     "languageExemptTags": [
       "soccer"
+    ],
+    "excludedTitlePatterns": [
+      "^30A\\b"
     ]
   },
   "outputs": {
@@ -1445,23 +1448,6 @@
       "backupUrls": [],
       "outputs": [
         "main"
-      ],
-      "notes": "",
-      "languages": [
-        "eng"
-      ]
-    },
-    {
-      "id": "30AGolfKingdom.us@SD",
-      "name": "30A Golf Kingdom (720p)",
-      "group": "Sports",
-      "logo": "https://i.imgur.com/Lv53nh4.png",
-      "source": "iptv-org curated source",
-      "primaryUrl": "https://30a-tv.com/feeds/vidaa/golf.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main",
-        "sports"
       ],
       "notes": "",
       "languages": [
@@ -2972,182 +2958,6 @@
         "eng"
       ],
       "primaryUrl": "https://dce3793146fef017.mediapackage.us-west-2.amazonaws.com/out/v1/55cdf73af7894775ba6de8f57482b66a/CMAF_HLS/index.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30ADarcizzleOffshore.us@SD",
-      "name": "30A Darcizzle Offshore (720p)",
-      "group": "USA",
-      "logo": "https://i.imgur.com/Q4l2uao.png",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/darcizzle.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30AGeorgiaHollywoodReview.us@SD",
-      "name": "30A Georgia Hollywood Review (720p)",
-      "group": "USA",
-      "logo": "https://images.axios.com/JiG3RuYBwpU_WZFeU6HHjt03FAU=/111x0:1191x1080/320x320/2023/11/09/1699558891265.jpg",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/gh.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30AInvestmentPitch.us@SD",
-      "name": "30A Investment Pitch (720p)",
-      "group": "USA",
-      "logo": "https://i.imgur.com/CKCtZo7.png",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/feeds/xodglobal/30atv.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30ALuxeLifeDiscovered.us@SD",
-      "name": "30A Luxe Life Discovered (720p)",
-      "group": "USA",
-      "logo": "https://m.media-amazon.com/images/I/51FJ5A0mEyL.jpg",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/feeds/vidaa/luxelife.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30AMusic.us@SD",
-      "name": "30A Music (720p)",
-      "group": "USA",
-      "logo": "https://i.imgur.com/gNWg9tl.png",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/music.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30ARidiculousTV.us@SD",
-      "name": "30A Ridiculous TV (720p)",
-      "group": "USA",
-      "logo": "https://30a.media/wp-content/uploads/2023/08/pzaz-30atv-2-230x366-ridiculous.jpg",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/feeds/720p/63.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30ASidewalks.us@SD",
-      "name": "30A Sidewalks (720p)",
-      "group": "USA",
-      "logo": "https://i.imgur.com/HSdwqZN.png",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/sidewalks.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30ATelevisionChannel.us@SD",
-      "name": "30A Television Channel (720p)",
-      "group": "USA",
-      "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTHiYfIB01K44LIBG81aEGAmDuIWw8MA0f2w&s",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/feeds/masters/30atv.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30ATheBeachShow.us@SD",
-      "name": "30A The Beach Show (720p)",
-      "group": "USA",
-      "logo": "https://i.imgur.com/0j5Aget.png",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/beachy.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30ATVClassicMovies.us@SD",
-      "name": "30A TV Classic Movies (720p)",
-      "group": "USA",
-      "logo": "",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/feeds/pzaz/30atvmovies.m3u8",
-      "backupUrls": [],
-      "outputs": [
-        "main"
-      ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
-    },
-    {
-      "id": "30AWeLoveCars.us@SD",
-      "name": "30A We Love Cars (720p)",
-      "group": "USA",
-      "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxroqfE_hvEApKMQx03sSYXPeEh4ClaF5QSa8XfRwJW_So3vfSN0CjqzxN30H-qEBswqU&usqp=CAU",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
-      "languages": [
-        "eng"
-      ],
-      "primaryUrl": "https://30a-tv.com/feeds/vidaa/cars.m3u8",
       "backupUrls": [],
       "outputs": [
         "main"
@@ -14534,7 +14344,9 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Withdrawn 2026-10-17 after repeated user-reported geo-blocked playback. Use official SABC+ service. Manifest availability is not successful playback.",
+      "status": "disabled",
+      "disabledByUser": true
     },
     {
       "id": "SABC2.za@SD",
@@ -14550,7 +14362,9 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Withdrawn 2026-10-17 after repeated user-reported geo-blocked playback. Use official SABC+ service. Manifest availability is not successful playback.",
+      "status": "disabled",
+      "disabledByUser": true
     },
     {
       "id": "SalvationTV.in@SD",

@@ -65,6 +65,15 @@ final class EmbeddedChannelPlayer {
         DefaultTrackSelector selector = new DefaultTrackSelector(context);
         if ("data-saver".equals(quality)) selector.setParameters(selector.buildUponParameters()
                 .setMaxVideoSize(960, 480).setForceLowestBitrate(true));
+        else if ("high".equals(quality)) selector.setParameters(selector.buildUponParameters()
+                .setViewportSize(Integer.MAX_VALUE, Integer.MAX_VALUE, true)
+                .setForceHighestSupportedBitrate(true));
+        else if ("1080p".equals(quality) || "720p".equals(quality)) {
+            int height = "1080p".equals(quality) ? 1080 : 720;
+            selector.setParameters(selector.buildUponParameters()
+                    .setViewportSize(Integer.MAX_VALUE, Integer.MAX_VALUE, true)
+                    .setMaxVideoSize(height * 16 / 9, height));
+        }
         DefaultHttpDataSource.Factory http = new DefaultHttpDataSource.Factory()
                 .setUserAgent("Rugare TV/" + BuildConfig.VERSION_NAME + " Android")
                 .setConnectTimeoutMs(15000).setReadTimeoutMs(15000).setAllowCrossProtocolRedirects(true);

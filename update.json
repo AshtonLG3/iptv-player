@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 68,
-  "versionName": "1.6.41",
-  "apkUrl": "https://github.com/AshtonLG3/iptv-player/releases/download/v1.6.41/rugare-tv-v1.6.41.apk",
-  "sha256": "A093C909C6A4B18FBA1A9D30E1E933F7235AA910E2116E946A07DDD6FFEF4C25",
-  "releaseNotes": "Adds SABC 3 and fixes plain Barca searches matching TOP BARÇA English in Sports and All Channels. Includes dark/light themes and app version menu. Regional restrictions may apply.",
-  "publishedAt": "2026-10-17T05:46:09.2702118Z"
+  "versionCode": 69,
+  "versionName": "1.6.42",
+  "apkUrl": "https://github.com/AshtonLG3/iptv-player/releases/download/v1.6.42/rugare-tv-v1.6.42.apk",
+  "sha256": "FF97EA9353FD2499D7C1FE897B0488603A3C668E1B28AA7361FB5862B2F1D37A",
+  "releaseNotes": "Adds saved global quality choices (Auto, Highest available, 1080p, 720p, Data saver), restores reliable TV focus highlighting, removes 12 30A channels and withdraws geo-blocked SABC 1/2 direct feeds. SABC+, dark/light themes and app version menu retained.",
+  "publishedAt": "2026-10-17T06:22:58.1049935Z"
 }

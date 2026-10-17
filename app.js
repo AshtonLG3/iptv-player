@@ -1,33 +1,34 @@
-import * as playlistModule from './src/playlist.js?v=20261017a';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261017a';
+import { normalizeQuality } from './src/quality.js?v=20261017c';
+import * as playlistModule from './src/playlist.js?v=20261017c';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261017c';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261017a';
+} from './src/constants.js?v=20261017c';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261017a';
+} from './src/playlistAccess.js?v=20261017c';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261017a';
-import { createPlayer } from './src/player.js?v=20261017a';
-import { createEpgController } from './src/epg.js?v=20261017a';
-import { createFullscreenController } from './src/fullscreen.js?v=20261017a';
+} from './src/ui.js?v=20261017c';
+import { createPlayer } from './src/player.js?v=20261017c';
+import { createEpgController } from './src/epg.js?v=20261017c';
+import { createFullscreenController } from './src/fullscreen.js?v=20261017c';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261017a';
-import { updateMediaSession } from './src/mediaSession.js?v=20261017a';
+} from './src/channelRoute.js?v=20261017c';
+import { updateMediaSession } from './src/mediaSession.js?v=20261017c';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -40,14 +41,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261017a';
+} from './src/tvRemote.js?v=20261017c';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261017a';
+} from './src/storage.js?v=20261017c';
 
 const {
   clearPrivatePlaylist,
@@ -472,9 +473,9 @@ async function main() {
 
   const player = createPlayer(videoEl);
   const qualityApi = {
-    get: () => window.localStorage.getItem('rugare:quality') === 'data-saver' ? 'data-saver' : 'auto',
+    get: () => normalizeQuality(window.localStorage.getItem('rugare:quality')),
     set: (value) => {
-      window.localStorage.setItem('rugare:quality', value);
+      window.localStorage.setItem('rugare:quality', normalizeQuality(value));
       if (currentChannel) selectChannel(currentChannel, { historyMode: 'none', keepTvPanel: true });
     },
   };

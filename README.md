@@ -5,7 +5,7 @@ Africa, Zambia, Botswana, Kenya, the UK, and worldwide providers. Sources
 include [iptv-org/iptv](https://github.com/iptv-org/iptv) and selected public,
 ad-supported NeoTV+ sports feeds.
 
-Release 1.6.41 makes TOP BARÇA English easy to find in Sports and includes it in both the main and sports playlists. It is FC Barcelona’s free ad-supported archive and club channel, not a subscription for live first-team matches. Existing services, dark/light themes and the app version menu remain available.
+Release 1.6.42 makes TOP BARÇA English easy to find in Sports and includes it in both the main and sports playlists. It is FC Barcelona’s free ad-supported archive and club channel, not a subscription for live first-team matches. Existing services, dark/light themes and the app version menu remain available.
 
 The 2026-10-12 sports audit checked media behind 145 active registry feeds.
 129 passed initially, and A Spor passed on retry. Fifteen had no reachable
