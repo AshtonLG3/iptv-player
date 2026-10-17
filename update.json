@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 67,
-  "versionName": "1.6.40",
-  "apkUrl": "https://github.com/AshtonLG3/iptv-player/releases/download/v1.6.40/rugare-tv-v1.6.40.apk",
-  "sha256": "AC061182E43E51B5799505C10B71C4E9BC5972D1BCFCD2D212BC57D80A008A48",
-  "releaseNotes": "Makes TOP BARÇA English easy to find in Sports and includes it in both main and sports playlists. Free FC Barcelona archive matches and club programmes; not live first-team subscription coverage. Preserves existing services, dark/light themes and version menu.",
-  "publishedAt": "2026-10-16T18:18:02.897Z"
+  "versionCode": 68,
+  "versionName": "1.6.41",
+  "apkUrl": "https://github.com/AshtonLG3/iptv-player/releases/download/v1.6.41/rugare-tv-v1.6.41.apk",
+  "sha256": "A093C909C6A4B18FBA1A9D30E1E933F7235AA910E2116E946A07DDD6FFEF4C25",
+  "releaseNotes": "Adds SABC 3 and fixes plain Barca searches matching TOP BARÇA English in Sports and All Channels. Includes dark/light themes and app version menu. Regional restrictions may apply.",
+  "publishedAt": "2026-10-17T05:46:09.2702118Z"
 }

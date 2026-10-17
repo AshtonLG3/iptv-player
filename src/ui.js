@@ -1,6 +1,6 @@
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261016a';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261016a';
-import { getMediaSection } from './catalog.js?v=20261016a';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261017a';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261017a';
+import { getMediaSection } from './catalog.js?v=20261017a';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -160,11 +160,12 @@ export function filterChannelsForUi(
     mediaSection = '',
   } = {},
 ) {
-  const normalizedSearch = search.trim().toLowerCase();
+  const normalizeSearch = (value) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const normalizedSearch = normalizeSearch(search.trim());
 
   return channels.filter((channel) => {
     if (mediaSection && getMediaSection(channel) !== mediaSection) return false;
-    if (normalizedSearch && !channel.name.toLowerCase().includes(normalizedSearch)) return false;
+    if (normalizedSearch && !normalizeSearch(channel.name).includes(normalizedSearch)) return false;
     if (country && channel.country !== country) return false;
     if (!channelMatchesCategory(channel, category)) return false;
     if (hideGeoBlocked && isGeoBlockedChannel(channel) && !isSportsChannel(channel)) return false;

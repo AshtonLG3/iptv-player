@@ -125,6 +125,13 @@ test('resolveChannelLogoUrl uses bundled artwork inside the Android app', () => 
   assert.equal(resolveChannelLogoUrl(publicUrl, { hostname: 'mangezi.xyz' }), publicUrl);
 });
 
+test('channel search finds Barça with either accented or plain text', () => {
+  const channels = [{ name: 'TOP BARÇA English', group: 'Sports' }, { name: 'SABC 3', group: 'Africa' }];
+  for (const search of ['barca', 'BARÇA', ' Barça ']) {
+    assert.deepEqual(filterChannelsForUi(channels, { search }).map((channel) => channel.name), ['TOP BARÇA English']);
+  }
+});
+
 test('filterChannelsForUi matches a conventional content category', () => {
   const filtered = filterChannelsForUi(CHANNELS, { category: 'Sports' });
 
