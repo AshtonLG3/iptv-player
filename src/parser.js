@@ -1,4 +1,4 @@
-import { FTA_COUNTRIES } from './constants.js?v=20261017c';
+import { FTA_COUNTRIES } from './constants.js?v=20261023a';
 
 export function extractCountryCode(tvgId) {
   if (!tvgId) return null;

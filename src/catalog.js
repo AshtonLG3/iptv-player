@@ -1,4 +1,4 @@
-import { getQualityHeight } from './quality.js?v=20261017c';
+import { getQualityHeight } from './quality.js?v=20261023a';
 export function getMediaSection(item) {
   if (item.mediaType === 'movie' || item.mediaType === 'show') return item.mediaType;
   const group = String(item.category || '');

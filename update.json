@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 69,
-  "versionName": "1.6.42",
-  "apkUrl": "https://github.com/AshtonLG3/iptv-player/releases/download/v1.6.42/rugare-tv-v1.6.42.apk",
-  "sha256": "FF97EA9353FD2499D7C1FE897B0488603A3C668E1B28AA7361FB5862B2F1D37A",
-  "releaseNotes": "Adds saved global quality choices (Auto, Highest available, 1080p, 720p, Data saver), restores reliable TV focus highlighting, removes 12 30A channels and withdraws geo-blocked SABC 1/2 direct feeds. SABC+, dark/light themes and app version menu retained.",
-  "publishedAt": "2026-10-17T06:22:58.1049935Z"
+  "versionCode": 70,
+  "versionName": "1.6.43",
+  "apkUrl": "https://github.com/AshtonLG3/iptv-player/releases/download/v1.6.43/rugare-tv-v1.6.43.apk",
+  "sha256": "5E46D29AC441B1FC5848CE34E33B2B0F1D617BC9BA2B28066C422F65F913367D",
+  "releaseNotes": "Adds 48 free English NeoTV+ channels across News, Lifestyle, Movies, Music, Entertainment and Kids, filed under those categories. Disables the timed-out Willow feed. Dark/light themes and app version menu retained.",
+  "publishedAt": "2026-10-23T18:27:34.0000000Z"
 }
