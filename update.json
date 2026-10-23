@@ -3,7 +3,7 @@
   "packageName": "com.mangezi.ftaiptv",
   "versionCode": 70,
   "versionName": "1.6.43",
-  "apkUrl": "https://github.com/AshtonLG3/iptv-player/releases/download/v1.6.43/rugare-tv-v1.6.43.apk",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.43.apk",
   "sha256": "5E46D29AC441B1FC5848CE34E33B2B0F1D617BC9BA2B28066C422F65F913367D",
   "releaseNotes": "Adds 48 free English NeoTV+ channels across News, Lifestyle, Movies, Music, Entertainment and Kids, filed under those categories. Disables the timed-out Willow feed. Dark/light themes and app version menu retained.",
   "publishedAt": "2026-10-23T18:27:34.0000000Z"
