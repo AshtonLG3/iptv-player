@@ -5,7 +5,8 @@
 - `english-africa-uk-us-verified.m3u`
   - Source: `iptv-org` public playlist and streams database, selected responding
     channels from WirelessHack-listed FAST playlists, and an approved subset of
-    NeoTV+'s public worldwide sports catalog.
+    NeoTV+'s public worldwide sports, news, lifestyle, entertainment and kids
+    catalogs.
   - Focus: English-language channels from English-speaking African countries,
     UK, USA, plus verified English FAST/cue-sports channels.
   - Generated: 2026-07-12. Last updated: 2026-08-03.
@@ -23,7 +24,9 @@
     are allowed only in `Sports` and `Cue Sports`, remain labeled, and are not
     routed through a geo-bypass.
   - Folders: reduced to `Africa`, `UK`, `USA`, `Sports`, `Cue Sports`, and
-    `International`.
+    `International`, plus `News`, `Lifestyle`, `Movies`, `Music`,
+    `Entertainment` and `Kids` for NeoTV+ imports. Rugare uses those six
+    folder names directly as its browsing categories.
   - Use this as the main TiviMate/VLC playlist.
 - `sports-africa-uk-us-verified.m3u`
   - Source: `https://iptv-org.github.io/iptv/categories/sports.m3u`, selected
@@ -58,7 +61,7 @@ from it, so a broken manual edit can be repaired with:
 npm run playlists:generate
 ```
 
-Refresh only the approved NeoTV+ sports subset and its locally hosted logos:
+Refresh only the approved NeoTV+ subset and its locally hosted logos:
 
 ```powershell
 npm run playlists:import:neotv-sports
@@ -158,6 +161,21 @@ imports are Fite TV, Fight TV, Cricket Gold, Goal TV, Golf Network, Xtrem
 Sports, Nautical, Sport Fishing TV, and Kozoom Billiards. Their source URLs and
 ads are preserved, and their logos are cached locally under
 `assets/channels/neotv/`.
+
+### NeoTV+ English non-sports subset
+
+On 2026-10-23 the News, Lifestyle, Entertainment and Kids catalogs were
+compared with the registry. Channels Rugare TV already carried under other
+names (Al Jazeera, Bloomberg, GB News, TRT World, Arirang, CNA, i24NEWS,
+Newsmax, DW, RT, Stingray Classic Rock, Ticker News, DroneTV) were not
+duplicated. Now USA and Now Global returned 404, China Travel had no
+confirmed language, BTV Originals duplicated Bloomberg Originals, and
+Elevation Church Network and Supreme Master TV are religious, so all were
+left out. H2O TV and Urban Street failed their media probe and are skipped
+by the import until they recover. Arabic, Spanish and Indian catalogs are
+outside the English policy. The 48 imports keep their NeoTV+ source URLs
+and ads, as the sports subset does; Movies and Music feeds from the
+Entertainment catalog are filed under those folders.
 
 The sports territory exception does not defeat broadcaster controls: Rugare TV
 does not proxy, restream, or alter these feeds. A region-limited channel can

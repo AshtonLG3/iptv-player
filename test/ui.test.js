@@ -88,6 +88,13 @@ test('getContentCategory maps channels into conventional browsing categories', (
   assert.equal(getContentCategory({ name: 'Cape Town TV', category: 'Africa' }), 'General');
 });
 
+test('getContentCategory uses a source group that is already a browsing category', () => {
+  assert.equal(getContentCategory({ name: 'USERIES', category: 'Entertainment' }), 'Entertainment');
+  assert.equal(getContentCategory({ name: 'Wild TV', category: 'Lifestyle' }), 'Lifestyle');
+  assert.equal(getContentCategory({ name: 'Cinepast', category: 'Movies' }), 'Movies');
+  assert.equal(getContentCategory({ name: 'Cricket Gold', category: 'Sports' }), 'Sports');
+});
+
 test('sortChannelsAlphabetically sorts case-insensitively and understands channel numbers', () => {
   const sorted = sortChannelsAlphabetically([
     { name: 'ZBC News' },

@@ -3,7 +3,7 @@
 Browse and watch free-to-air and public FAST channels from Zimbabwe, South
 Africa, Zambia, Botswana, Kenya, the UK, and worldwide providers. Sources
 include [iptv-org/iptv](https://github.com/iptv-org/iptv) and selected public,
-ad-supported NeoTV+ sports feeds.
+ad-supported NeoTV+ sports, news, lifestyle, entertainment and kids feeds.
 
 Release 1.6.42 makes TOP BARÇA English easy to find in Sports and includes it in both the main and sports playlists. It is FC Barcelona’s free ad-supported archive and club channel, not a subscription for live first-team matches. Existing services, dark/light themes and the app version menu remain available.
 
@@ -197,7 +197,8 @@ Refresh all eligible English feeds, preserving the USA/UK regional exception:
     npm run playlists:refresh:english
     npm run playlists:generate
 
-Refresh the NeoTV+ sports subset and its locally hosted logos:
+Refresh the approved NeoTV+ subset (sports plus English news, lifestyle,
+entertainment and kids) and its locally hosted logos:
 
     npm run playlists:import:neotv-sports
 

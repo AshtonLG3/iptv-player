@@ -138,6 +138,8 @@ export function getContentCategory(channel) {
   if (sourceCategories.some((category) => category === 'Sports' || category === 'Cue Sports')) {
     return 'Sports';
   }
+  const sourceContentCategory = sourceCategories.find((category) => CONTENT_CATEGORIES.includes(category));
+  if (sourceContentCategory) return sourceContentCategory;
 
   const name = String(channel?.name || '').trim();
   const matchingRule = CONTENT_CATEGORY_RULES.find(([, pattern]) => pattern.test(name));
