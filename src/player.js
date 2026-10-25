@@ -1,4 +1,4 @@
-import { normalizeQuality, selectQualityLevel } from './quality.js?v=20261025a';
+import { normalizeQuality, selectQualityLevel } from './quality.js?v=20261025b';
 export function createPlayer(videoEl, {
   HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined),
   androidBridge = globalThis.AndroidDevice,

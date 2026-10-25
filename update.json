@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 71,
-  "versionName": "1.6.44",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.44.apk",
-  "sha256": "9E55D40181AA65B0D11F3F15CB85EE16ECF50FF263CD79D49D3AD4BFDACD9888",
-  "releaseNotes": "Restores SABC 1 and SABC 2 in 1080p, opens channels at their highest quality (720p minimum fallback), removes misleading geo-blocked labels, turns off subtitle tracks and fixes the white launch screen. Dark/light themes and app version menu retained.",
-  "publishedAt": "2026-10-25T13:16:36.0000000Z"
+  "versionCode": 72,
+  "versionName": "1.6.45",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.45.apk",
+  "sha256": "7B3F7B977752933C5532F076CEAD462F1119542DDBAD32F6A9A1EAE308E8C3F9",
+  "releaseNotes": "Keeps Wildlife to nature channels, removes the non-English Nature Time and mislabelled Yadah TV, and hides five channels while their source server is offline. Dark/light themes and app version menu retained.",
+  "publishedAt": "2026-10-25T14:37:45.0000000Z"
 }

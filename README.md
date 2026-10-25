@@ -5,7 +5,7 @@ Africa, Zambia, Botswana, Kenya, the UK, and worldwide providers. Sources
 include [iptv-org/iptv](https://github.com/iptv-org/iptv) and selected public,
 ad-supported NeoTV+ sports, news, lifestyle, entertainment and kids feeds.
 
-Release 1.6.44 restores SABC 1 and SABC 2 on SABC's official 1080p streams, opens channels at their highest quality with 720p as the minimum fallback, removes the misleading geo-blocked labels, turns off subtitle tracks, fixes the white launch screen, and requires 720p or better for newly added channels. Existing services, dark/light themes and the app version menu remain available.
+Release 1.6.45 keeps Wildlife to nature channels (westerns, comedies and dramas with "wild" in the name are no longer filed there), removes the non-English Nature Time and the mislabelled Yadah TV feed, and hides five channels while their shared source server is offline. Existing services, dark/light themes and the app version menu remain available.
 
 The 2026-10-12 sports audit checked media behind 145 active registry feeds.
 129 passed initially, and A Spor passed on retry. Fifteen had no reachable
