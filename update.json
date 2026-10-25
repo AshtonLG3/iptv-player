@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 73,
+  "versionCode": 74,
   "versionName": "1.6.46",
   "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.46.apk",
-  "sha256": "F57210AF9E9395849B0DE80890A0E74EF056F03ADF2BC2D3A1A6855A53F26EC9",
+  "sha256": "D5D62DB565E8675F7C9351889E0B168FD28978F1B6EDA76177D501CBC879ADD2",
   "releaseNotes": "Removes empty guide space. Matching programme schedules appear only as a translucent video overlay. Optional guide import, dark/light themes and the version menu remain available.",
-  "publishedAt": "2026-10-25T17:15:38.974Z"
+  "publishedAt": "2026-10-25T17:22:43.080Z"
 }

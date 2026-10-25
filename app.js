@@ -1,34 +1,34 @@
-import { normalizeQuality } from './src/quality.js?v=20261025c';
-import * as playlistModule from './src/playlist.js?v=20261025c';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261025c';
+import { normalizeQuality } from './src/quality.js?v=20261025d';
+import * as playlistModule from './src/playlist.js?v=20261025d';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261025d';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261025c';
+} from './src/constants.js?v=20261025d';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261025c';
+} from './src/playlistAccess.js?v=20261025d';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261025c';
-import { createPlayer } from './src/player.js?v=20261025c';
-import { createEpgController } from './src/epg.js?v=20261025c';
-import { createFullscreenController } from './src/fullscreen.js?v=20261025c';
+} from './src/ui.js?v=20261025d';
+import { createPlayer } from './src/player.js?v=20261025d';
+import { createEpgController } from './src/epg.js?v=20261025d';
+import { createFullscreenController } from './src/fullscreen.js?v=20261025d';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261025c';
-import { updateMediaSession } from './src/mediaSession.js?v=20261025c';
+} from './src/channelRoute.js?v=20261025d';
+import { updateMediaSession } from './src/mediaSession.js?v=20261025d';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -41,14 +41,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261025c';
+} from './src/tvRemote.js?v=20261025d';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261025c';
+} from './src/storage.js?v=20261025d';
 
 const {
   clearPrivatePlaylist,

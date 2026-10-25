@@ -2408,7 +2408,6 @@ html.tv-mode #tv-quality-options[hidden] { display: none; }
 html.tv-mode .tv-theme-choices button[aria-pressed="true"] { color: var(--text); }
 html.tv-mode .tv-theme-choices button:focus { background: var(--chip-selected-bg); color: var(--chip-selected-text); }
 html.tv-mode { --tv-menu-width: min(24vw, 290px); }
-html.tv-mode[data-tv-panel="preferences"] .epg-settings,
 html.tv-mode[data-tv-panel="preferences"] .playlist-access { display: none; }
 html.tv-mode[data-tv-panel="preferences"] .overflow-menu-panel { padding: 16px 12px; gap: 8px; box-shadow: none; }
 html.tv-mode[data-tv-panel="preferences"] .tv-settings-content { gap: 6px; }
@@ -2447,7 +2446,6 @@ html:not(.tv-mode) .overflow-menu-panel #category-filter,
 html:not(.tv-mode) .overflow-menu-panel .favorites-label,
 html:not(.tv-mode) .overflow-menu-panel .legacy-theme-control,
 html:not(.tv-mode) .overflow-menu-panel .legacy-quality-control,
-html:not(.tv-mode) .overflow-menu-panel .epg-settings,
 html:not(.tv-mode) .overflow-menu-panel .playlist-access,
 html:not(.tv-mode) .overflow-menu-panel .menu-download-link,
 html:not(.tv-mode) .overflow-menu-panel .tv-hide { display: none; }

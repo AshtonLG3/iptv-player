@@ -1,6 +1,6 @@
 # Rugare TV 1.6.46
 
-Android version code 73.
+Android version code 74.
 
 - Removed the empty program-guide row and the space it occupied between playback and Browse.
 - A guide appears only when the selected channel has matching current or upcoming programmes, as a translucent overlay inside the video frame. Switching to a channel without data, removing a guide, or schedule expiry hides and collapses it.
