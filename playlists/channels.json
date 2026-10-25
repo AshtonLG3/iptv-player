@@ -18585,7 +18585,9 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Removed 2026-10-25 at user request: the only listed feed carries RTM programming, not Yadah TV (frame shows RTM logo, 854x480). Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply.",
+      "status": "disabled",
+      "disabledByUser": true
     },
     {
       "id": "YahooFinance.us@SD",
