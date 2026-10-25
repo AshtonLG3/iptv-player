@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 72,
-  "versionName": "1.6.45",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.45.apk",
-  "sha256": "7B3F7B977752933C5532F076CEAD462F1119542DDBAD32F6A9A1EAE308E8C3F9",
-  "releaseNotes": "Keeps Wildlife to nature channels, removes the non-English Nature Time and mislabelled Yadah TV, and hides five channels while their source server is offline. Dark/light themes and app version menu retained.",
-  "publishedAt": "2026-10-25T14:37:45.0000000Z"
+  "versionCode": 73,
+  "versionName": "1.6.46",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.46.apk",
+  "sha256": "F57210AF9E9395849B0DE80890A0E74EF056F03ADF2BC2D3A1A6855A53F26EC9",
+  "releaseNotes": "Removes empty guide space. Matching programme schedules appear only as a translucent video overlay. Optional guide import, dark/light themes and the version menu remain available.",
+  "publishedAt": "2026-10-25T17:15:38.974Z"
 }
