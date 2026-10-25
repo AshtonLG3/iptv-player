@@ -6068,7 +6068,8 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Hidden 2026-10-25: source server 51.75.127.199 refused connections. Not user-disabled, so the next refresh restores it when the feed responds. Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply.",
+      "status": "disabled"
     },
     {
       "id": "ComedyCentral.pl@SD",
@@ -11491,7 +11492,8 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Hidden 2026-10-25: source server 51.75.127.199 refused connections. Not user-disabled, so the next refresh restores it when the feed responds. Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply.",
+      "status": "disabled"
     },
     {
       "id": "NickJr.cz@SD",
@@ -14156,7 +14158,8 @@
       "outputs": [
         "main"
       ],
-      "notes": "Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply."
+      "notes": "Hidden 2026-10-25: source server 51.75.127.199 refused connections. Not user-disabled, so the next refresh restores it when the feed responds. Listed in upstream English playlist; manifest and media segment checked 2026-10-03. Region restrictions may apply.",
+      "status": "disabled"
     },
     {
       "id": "ROVTV.za@SD",
@@ -18806,8 +18809,8 @@
       "outputs": [
         "main"
       ],
-      "notes": "Selected English H.264/AAC rendition from India SD feed; master explicitly identifies a1 as eng, and ffprobe confirms eng audio. Avoid Hindi HD feed. HTTP source may be blocked on HTTPS web player; Android allows this stream.",
-      "status": "active"
+      "notes": "Hidden 2026-10-25: source server 51.75.127.199 refused connections. Not user-disabled, so the next refresh restores it when the feed responds. Selected English H.264/AAC rendition from India SD feed; master explicitly identifies a1 as eng, and ffprobe confirms eng audio. Avoid Hindi HD feed. HTTP source may be blocked on HTTPS web player; Android allows this stream.",
+      "status": "disabled"
     },
     {
       "id": "NationalGeographicWild.in@English",
@@ -18823,8 +18826,8 @@
       "outputs": [
         "main"
       ],
-      "notes": "English H.264/AAC feed, actual 1024x576. Added at user request accepting SD quality. HTTP may be blocked by HTTPS browsers; Android permits mixed content.",
-      "status": "active"
+      "notes": "Hidden 2026-10-25: source server 51.75.127.199 refused connections. Not user-disabled, so the next refresh restores it when the feed responds. English H.264/AAC feed, actual 1024x576. Added at user request accepting SD quality. HTTP may be blocked by HTTPS browsers; Android permits mixed content.",
+      "status": "disabled"
     },
     {
       "id": "NollyAfrica.uk@SD",
