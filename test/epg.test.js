@@ -1,7 +1,27 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { gzipSync } from 'node:zlib';
-import { parseXmltvTime, matchGuideChannel, getGuideSchedule, decodeGuideBytes, EPG_MAX_BYTES } from '../src/epg.js';
+import { parseXmltvTime, matchGuideChannel, getGuideSchedule, decodeGuideBytes, EPG_MAX_BYTES, createEpgController } from '../src/epg.js';
+
+test('selecting a channel without a guide hides and collapses the guide panel', () => {
+  const previousDocument = globalThis.document;
+  const panel = { hidden: false, open: true };
+  const elements = new Map([['programme-guide', panel]]);
+  globalThis.document = { getElementById(id) {
+    if (!elements.has(id)) elements.set(id, { replaceChildren() {} });
+    return elements.get(id);
+  } };
+  try {
+    const controller = createEpgController({ storage: { getItem() { return null; } } });
+    controller.setChannel({ name: 'TOP BARÇA English', tvgId: 'TOPBarca.pl@SD' });
+    assert.equal(panel.hidden, true);
+    assert.equal(panel.open, false);
+    controller.setChannel(null);
+    assert.equal(panel.hidden, true);
+    controller.setChannel({ name: 'Another channel' });
+    assert.equal(panel.hidden, true);
+  } finally { globalThis.document = previousDocument; }
+});
 
 test('XMLTV offsets and UTC cross dates correctly; invalid times are rejected', () => {
   assert.equal(parseXmltvTime('20261004010000 +0200'), Date.parse('2026-10-03T23:00:00Z'));

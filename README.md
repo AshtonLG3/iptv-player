@@ -5,6 +5,8 @@ Africa, Zambia, Botswana, Kenya, the UK, and worldwide providers. Sources
 include [iptv-org/iptv](https://github.com/iptv-org/iptv) and selected public,
 ad-supported NeoTV+ sports, news, lifestyle, entertainment and kids feeds.
 
+Release 1.6.46 removes the empty program-guide row and its space. Matching schedules appear only as a translucent overlay on the video; optional XMLTV import stays in Settings. Dark/light themes and the menu version remain available.
+
 Release 1.6.45 keeps Wildlife to nature channels (westerns, comedies and dramas with "wild" in the name are no longer filed there), removes the non-English Nature Time and the mislabelled Yadah TV feed, and hides five channels while their shared source server is offline. Existing services, dark/light themes and the app version menu remain available.
 
 The 2026-10-12 sports audit checked media behind 145 active registry feeds.

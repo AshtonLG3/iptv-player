@@ -1,7 +1,7 @@
-import { QUALITY_OPTIONS } from './quality.js?v=20261025b';
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261025b';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261025b';
-import { getMediaSection } from './catalog.js?v=20261025b';
+import { QUALITY_OPTIONS } from './quality.js?v=20261025c';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261025c';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261025c';
+import { getMediaSection } from './catalog.js?v=20261025c';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -246,6 +246,9 @@ export function renderApp({
               <label for="epg-file">Or import XML / XML.GZ (up to 20 MB)</label>
               <input id="epg-file" type="file" accept=".xml,.gz,application/xml,text/xml,application/gzip" />
               <button id="epg-clear" type="button">Remove guide</button>
+              <label for="epg-channel-match">Guide channel for current stream</label>
+              <select id="epg-channel-match" disabled><option value="">Automatic matching</option></select>
+              <p id="epg-hint"></p>
               <p id="epg-status" role="status">Choose a starter guide or use your provider’s XMLTV URL. Match the channel’s provider and region; coverage varies. Times use your device timezone.</p>
             </details>
             <details class="playlist-access">

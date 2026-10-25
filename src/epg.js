@@ -124,11 +124,12 @@ export function createEpgController({ storage, androidBridge = null }) {
   function render() {
     const panel = document.getElementById('programme-guide');
     if (!panel) return;
-    panel.hidden = !channel;
     const list = document.getElementById('epg-programmes');
     list.replaceChildren();
     const id = matchGuideChannel(guide, channel, mappings[mappingKey()]);
     const schedule = getGuideSchedule(guide, id);
+    panel.hidden = !channel || (!schedule.current && !schedule.upcoming.length);
+    if (panel.hidden) panel.open = false;
     const label = document.getElementById('epg-channel-label');
     label.textContent = channel?.name || '';
     const hint = document.getElementById('epg-hint');

@@ -2263,13 +2263,14 @@ html.tv-mode .layout.drawer-open .player-panel {
 html.tv-mode .layout.settings-open .player-panel {
   left: min(44vw, 520px);
 }
-/* XMLTV controls share the existing theme and remain below inline playback. */
+/* Optional XMLTV data overlays playback without reserving browse space. */
 .epg-settings { margin-top: 12px; }
 .epg-settings label { display: block; margin: 10px 0 4px; }
 .epg-settings input { box-sizing: border-box; max-width: 100%; width: 100%; }
 .epg-settings button { margin: 8px 6px 0 0; }
 .epg-settings p { font-size: .85rem; overflow-wrap: anywhere; }
-.programme-guide { margin: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: var(--panel); }
+.programme-guide { position: absolute; z-index: 5; left: 12px; right: 12px; bottom: 58px; max-height: 45%; overflow: auto; margin: 0; padding: 8px 12px; border: 0; border-radius: 8px; color: #fff; background: rgba(13, 15, 18, .65); text-shadow: 0 1px 2px #000; }
+.programme-guide[hidden] { display: none !important; }
 .programme-guide summary { cursor: pointer; overflow-wrap: anywhere; }
 .programme-guide > strong { display: block; margin-top: 12px; }
 .programme-guide select { max-width: 100%; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--field); color: var(--text); }
