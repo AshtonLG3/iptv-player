@@ -2620,32 +2620,36 @@
     },
     {
       "id": "SABCNews.za@SD",
-      "name": "SABC News",
+      "name": "SABC News (1080p)",
       "group": "Africa",
       "logo": "https://i.imgur.com/liLta8j.png",
-      "source": "Direct verified public HLS",
-      "primaryUrl": "https://sabconetanw.cdn.mangomolo.com/news/smil:news.stream.smil/master.m3u8",
-      "backupUrls": [],
+      "source": "SABC / Mangomolo official HLS",
+      "primaryUrl": "https://sabconetanw.cdn.mangomolo.com/news/smil:news.stream.smil/chunklist_b3500000_t64MTA4MHA=.m3u8",
+      "backupUrls": [
+        "https://sabconetanw.cdn.mangomolo.com/news/smil:news.stream.smil/chunklist_b1600000_t64NzIwcA==.m3u8"
+      ],
       "outputs": [
         "main"
       ],
-      "notes": "",
+      "notes": "SABC official 1080p rendition with 720p backup; lower renditions deliberately excluded. Media decode checked 2026-10-25 from South Africa. Regional and programme restrictions may apply; official fallback is SABC+.",
       "languages": [
         "eng"
       ]
     },
     {
       "id": "SABCLehae.za@SD",
-      "name": "SABC Lehae",
+      "name": "SABC Lehae (1080p)",
       "group": "Africa",
       "logo": "https://i.imgur.com/YhdnZHH.png",
-      "source": "Direct verified public HLS",
-      "primaryUrl": "https://sabctretalh.cdn.mangomolo.com/lehae/smil:lehae.stream.smil/master.m3u8",
-      "backupUrls": [],
+      "source": "SABC / Mangomolo official HLS",
+      "primaryUrl": "https://sabctretalh.cdn.mangomolo.com/lehae/smil:lehae.stream.smil/chunklist_b3500000_t64MTA4MHA=.m3u8",
+      "backupUrls": [
+        "https://sabctretalh.cdn.mangomolo.com/lehae/smil:lehae.stream.smil/chunklist_b1600000_t64NzIwcA==.m3u8"
+      ],
       "outputs": [
         "main"
       ],
-      "notes": "",
+      "notes": "SABC official 1080p rendition with 720p backup; lower renditions deliberately excluded. Media decode checked 2026-10-25 from South Africa. Regional and programme restrictions may apply; official fallback is SABC+.",
       "languages": [
         "eng"
       ]
@@ -5602,7 +5606,7 @@
     },
     {
       "id": "CinevaultWesterns.us@SD",
-      "name": "Cinevault Westerns (540p) [Geo-blocked]",
+      "name": "Cinevault Westerns (540p)",
       "group": "USA",
       "logo": "https://i.imgur.com/K1W137J.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -5940,7 +5944,7 @@
     },
     {
       "id": "CNA.sg@SD",
-      "name": "CNA (Singapore) (1080p) [Geo-blocked]",
+      "name": "CNA (Singapore) (1080p)",
       "group": "International",
       "logo": "https://i.imgur.com/awIDugE.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -8331,7 +8335,7 @@
     },
     {
       "id": "GTNCanada.ca@SD",
-      "name": "GTN Canada (1080i) [Geo-blocked]",
+      "name": "GTN Canada (1080i)",
       "group": "International",
       "logo": "https://i.imgur.com/7bQPJOd.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -9563,7 +9567,7 @@
     },
     {
       "id": "KCM.sg@India",
-      "name": "KCM India (1080p) [Geo-blocked]",
+      "name": "KCM India (1080p)",
       "group": "International",
       "logo": "https://jiotvimages.cdn.jio.com/dare_images/images/KCM.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -9627,7 +9631,7 @@
     },
     {
       "id": "KnowledgeNetwork.ca@SD",
-      "name": "Knowledge Network (720p) [Geo-blocked]",
+      "name": "Knowledge Network (720p)",
       "group": "International",
       "logo": "https://i.imgur.com/VfofmZZ.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -14172,7 +14176,7 @@
     },
     {
       "id": "RTDocumentary.ru@English",
-      "name": "RT Documentary (1080p) [Geo-blocked]",
+      "name": "RT Documentary (1080p)",
       "group": "International",
       "logo": "https://i.imgur.com/aeu5zIC.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -14204,7 +14208,7 @@
     },
     {
       "id": "RTRPlaneta.ru@US",
-      "name": "RTR-Planeta US (720p) [Geo-blocked]",
+      "name": "RTR-Planeta US (720p)",
       "group": "International",
       "logo": "https://i.imgur.com/0YEahxs.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -14332,39 +14336,39 @@
     },
     {
       "id": "SABC1.za@SD",
-      "name": "SABC 1 (720p) [Geo-blocked]",
-      "group": "International",
+      "name": "SABC 1 (1080p)",
+      "group": "Africa",
       "logo": "https://i.imgur.com/G8OXWe4.png",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
+      "source": "SABC / Mangomolo official HLS",
       "languages": [
         "eng"
       ],
-      "primaryUrl": "https://sabconeta.cdn.mangomolo.com/sabc1/smil:sabc1.stream.smil/master.m3u8",
-      "backupUrls": [],
+      "primaryUrl": "https://sabconeta.cdn.mangomolo.com/sabc1/smil:sabc1.stream.smil/chunklist_b3500000_t64MTA4MHA=.m3u8",
+      "backupUrls": [
+        "https://sabconeta.cdn.mangomolo.com/sabc1/smil:sabc1.stream.smil/chunklist_b1600000_t64NzIwcA==.m3u8"
+      ],
       "outputs": [
         "main"
       ],
-      "notes": "Withdrawn 2026-10-17 after repeated user-reported geo-blocked playback. Use official SABC+ service. Manifest availability is not successful playback.",
-      "status": "disabled",
-      "disabledByUser": true
+      "notes": "SABC official 1080p rendition with 720p backup; lower renditions deliberately excluded. Media decode checked 2026-10-25 from South Africa. Regional and programme restrictions may apply; official fallback is SABC+."
     },
     {
       "id": "SABC2.za@SD",
-      "name": "SABC 2 [Geo-blocked]",
-      "group": "International",
+      "name": "SABC 2 (1080p)",
+      "group": "Africa",
       "logo": "https://i.imgur.com/rj6i9sn.png",
-      "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
+      "source": "SABC / Mangomolo official HLS",
       "languages": [
         "eng"
       ],
-      "primaryUrl": "https://sabctwota.cdn.mangomolo.com/sabc2/smil:sabc2.stream.smil/master.m3u8",
-      "backupUrls": [],
+      "primaryUrl": "https://sabctwota.cdn.mangomolo.com/sabc2/smil:sabc2.stream.smil/chunklist_b2500000_t64MTA4MHA=.m3u8",
+      "backupUrls": [
+        "https://sabctwota.cdn.mangomolo.com/sabc2/smil:sabc2.stream.smil/chunklist_b1600000_t64NzIwcA==.m3u8"
+      ],
       "outputs": [
         "main"
       ],
-      "notes": "Withdrawn 2026-10-17 after repeated user-reported geo-blocked playback. Use official SABC+ service. Manifest availability is not successful playback.",
-      "status": "disabled",
-      "disabledByUser": true
+      "notes": "SABC official 1080p rendition with 720p backup; lower renditions deliberately excluded. Media decode checked 2026-10-25 from South Africa. Regional and programme restrictions may apply; official fallback is SABC+."
     },
     {
       "id": "SalvationTV.in@SD",
@@ -17745,7 +17749,7 @@
     },
     {
       "id": "VantageMusic.ee@UK",
-      "name": "Vantage Music UK (1080p) [Geo-blocked]",
+      "name": "Vantage Music UK (1080p)",
       "group": "International",
       "logo": "https://vantagetv.ee/vantage_music.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -17761,7 +17765,7 @@
     },
     {
       "id": "VantageRock.ee@HD",
-      "name": "Vantage Rock (720p) [Geo-blocked]",
+      "name": "Vantage Rock (720p)",
       "group": "International",
       "logo": "https://vantagetv.ee/vantage_rock.png",
       "source": "https://iptv-org.github.io/iptv/languages/eng.m3u",
@@ -19129,7 +19133,7 @@
     },
     {
       "id": "CanalPlusSport.fr@SD",
-      "name": "Canal+ Sport (1080p) [Geo-blocked]",
+      "name": "Canal+ Sport (1080p)",
       "group": "Sports",
       "logo": "https://i.imgur.com/EOXnU15.png",
       "source": "https://iptv-org.github.io/iptv/categories/sports.m3u",
@@ -20334,19 +20338,21 @@
     },
     {
       "id": "SABC3.za@SD",
-      "name": "SABC 3 (720p) [Geo-blocked]",
+      "name": "SABC 3 (1080p)",
       "group": "Africa",
       "logo": "",
-      "source": "SABC / Mangomolo; official service https://sabc-plus.com/live/322",
+      "source": "SABC / Mangomolo official HLS",
       "languages": [
         "eng"
       ],
-      "primaryUrl": "https://sabctreta.cdn.mangomolo.com/sabc3/smil:sabc3.stream.smil/master.m3u8",
-      "backupUrls": [],
+      "primaryUrl": "https://sabctreta.cdn.mangomolo.com/sabc3/smil:sabc3.stream.smil/chunklist_b8000000_t64MTA4MHA=.m3u8",
+      "backupUrls": [
+        "https://sabctreta.cdn.mangomolo.com/sabc3/smil:sabc3.stream.smil/chunklist_b3500000_t64NzIwcA==.m3u8"
+      ],
       "outputs": [
         "main"
       ],
-      "notes": "S3 public HLS manifest and media checked 2026-10-17 from South Africa. Regional and programme restrictions may apply. Official fallback: SABC+."
+      "notes": "SABC official 1080p rendition with 720p backup; lower renditions deliberately excluded. Media decode checked 2026-10-25 from South Africa. Regional and programme restrictions may apply; official fallback is SABC+."
     },
     {
       "id": "NeoTVPlus.NHKWorld",

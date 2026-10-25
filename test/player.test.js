@@ -145,6 +145,27 @@ test('data saver uses adaptive HLS and caps available renditions at 480p', () =>
   player.destroy();
 });
 
+test('subtitles and captions stay off for HLS.js and native playback', () => {
+  FakeHls.supported = true;
+  FakeHls.instances = [];
+  const hlsVideo = createFakeVideo({ canPlayHls: true });
+  const hlsPlayer = createPlayer(hlsVideo, { HlsCtor: FakeHls });
+  hlsPlayer.play('https://example.com/master.m3u8', { quality: 'high' });
+  assert.equal(FakeHls.instances[0].config.subtitleDisplay, false);
+  hlsPlayer.destroy();
+
+  const caption = { mode: 'showing' };
+  const nativeVideo = createFakeVideo({ canPlayHls: true });
+  nativeVideo.textTracks = Object.assign([caption], { onaddtrack: null });
+  const nativePlayer = createPlayer(nativeVideo);
+  nativePlayer.play('https://example.com/master.m3u8');
+  assert.equal(caption.mode, 'disabled');
+  const late = { mode: 'showing' };
+  nativeVideo.textTracks.onaddtrack({ track: late });
+  assert.equal(late.mode, 'disabled');
+  nativePlayer.destroy();
+});
+
 test('global highest quality bypasses native browser auto and selects the best HLS rendition', () => {
   FakeHls.instances = [];
   const video = createFakeVideo({ canPlayHls: true });

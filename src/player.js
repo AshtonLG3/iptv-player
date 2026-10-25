@@ -1,4 +1,4 @@
-import { normalizeQuality, selectQualityLevel } from './quality.js?v=20261023a';
+import { normalizeQuality, selectQualityLevel } from './quality.js?v=20261025a';
 export function createPlayer(videoEl, {
   HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined),
   androidBridge = globalThis.AndroidDevice,
@@ -82,6 +82,14 @@ export function createPlayer(videoEl, {
     videoEl.volume = 1;
     hls?.startLoad?.(-1);
     return videoEl.play?.();
+  }
+
+  // Native HLS may expose embedded captions; keep every text track off.
+  function disableTextTracks() {
+    const tracks = videoEl.textTracks;
+    if (!tracks) return;
+    for (let i = 0; i < tracks.length; i += 1) tracks[i].mode = 'disabled';
+    if (!tracks.onaddtrack) tracks.onaddtrack = (event) => { event.track.mode = 'disabled'; };
   }
 
   function cleanupPlayback() {
@@ -202,6 +210,7 @@ export function createPlayer(videoEl, {
     };
 
     videoEl.src = url;
+    disableTextTracks();
     nativeErrorListener = () => fail(new Error('Native playback failed'));
     videoEl.addEventListener('error', nativeErrorListener, { once: true });
     watchStartup(session, fail);
@@ -223,7 +232,12 @@ export function createPlayer(videoEl, {
       onFailure(error);
     };
 
-    hls = new HlsCtor({ startLevel: -1, capLevelToPlayerSize: quality === 'auto', maxBufferLength: 30 });
+    hls = new HlsCtor({
+      startLevel: -1,
+      capLevelToPlayerSize: quality === 'auto',
+      maxBufferLength: 30,
+      subtitleDisplay: false,
+    });
     hls.on(HlsCtor.Events.ERROR, (_event, data) => {
       if (!data || !data.fatal) return;
 

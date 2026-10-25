@@ -17,6 +17,7 @@ import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
+import androidx.media3.exoplayer.upstream.DefaultBandwidthMeter;
 import androidx.media3.ui.PlayerView;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,7 +64,12 @@ final class EmbeddedChannelPlayer {
         retries = 0;
         failed = false;
         DefaultTrackSelector selector = new DefaultTrackSelector(context);
-        if ("data-saver".equals(quality)) selector.setParameters(selector.buildUponParameters()
+        // Live channels play without subtitles or closed captions.
+        selector.setParameters(selector.buildUponParameters().setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true));
+        boolean dataSaver = "data-saver".equals(quality);
+        // Prefer 1080p or higher; 720p is the floor whenever a channel offers it.
+        if (!dataSaver) selector.setParameters(selector.buildUponParameters().setMinVideoSize(0, 720));
+        if (dataSaver) selector.setParameters(selector.buildUponParameters()
                 .setMaxVideoSize(960, 480).setForceLowestBitrate(true));
         else if ("high".equals(quality)) selector.setParameters(selector.buildUponParameters()
                 .setViewportSize(Integer.MAX_VALUE, Integer.MAX_VALUE, true)
@@ -80,6 +86,9 @@ final class EmbeddedChannelPlayer {
         player = new ExoPlayer.Builder(context)
                 .setMediaSourceFactory(new DefaultMediaSourceFactory(context).setDataSourceFactory(http))
                 .setTrackSelector(selector)
+                // A high starting estimate opens channels on their top rendition instead of 480p.
+                .setBandwidthMeter(new DefaultBandwidthMeter.Builder(context)
+                        .setInitialBitrateEstimate(dataSaver ? 1_000_000L : 20_000_000L).build())
                 .setLoadControl(new DefaultLoadControl.Builder()
                         .setBufferDurationsMs(15000, 50000, 1500, 3000).build())
                 .build();

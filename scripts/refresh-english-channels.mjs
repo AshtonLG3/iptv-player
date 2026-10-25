@@ -1,7 +1,7 @@
 import { parseM3U, readJson, writeJson, compilePolicyPatterns, REGISTRY_PATH, ROOT_DIR } from './playlist-tools.mjs';
 import { probeStream, mapConcurrent } from './stream-probe.mjs';
 import path from 'node:path';
-import { isExcludedRegionalChannel, isEnglishOnlyFeed } from './channel-policy.mjs';
+import { incomingHeight, isExcludedRegionalChannel, isEnglishOnlyFeed, meetsIncomingQuality } from './channel-policy.mjs';
 
 const sourceUrl = 'https://iptv-org.github.io/iptv/languages/eng.m3u';
 const metadataUrl = 'https://iptv-org.github.io/api/channels.json';
@@ -49,7 +49,7 @@ for (const channel of upstream) {
   upstreamById.get(id).push(channel);
 }
 const now = new Date().toISOString();
-const audit = { checkedAt: now, sourceUrl, probedFeeds: candidates.size, added: [], repaired: [], withdrawn: [], retained: 0, probes: Object.fromEntries(candidates) };
+const audit = { checkedAt: now, sourceUrl, probedFeeds: candidates.size, added: [], skippedBelow720: [], repaired: [], withdrawn: [], retained: 0, probes: Object.fromEntries(candidates) };
 const existingIds = new Set(registry.channels.map((channel) => baseId(channel.id)));
 for (const channel of registry.channels) {
   if (channel.disabledByUser || excludedTitle(channel)) {
@@ -85,13 +85,23 @@ for (const channel of registry.channels) {
   if (oldUrl !== channel.primaryUrl) audit.repaired.push({ id: channel.id, name: channel.name, oldUrl, newUrl: channel.primaryUrl });
   else audit.retained++;
 }
-for (const [id, variants] of upstreamById) {
+for (const [id, allVariants] of upstreamById) {
   if (existingIds.has(id)) continue;
+  // Incoming channels need 720p or better; the highest-resolution source becomes primary.
+  const variants = allVariants
+    .map((channel) => ({ channel, height: incomingHeight(candidates.get(channel.primaryUrl), channel.name) }))
+    .filter(({ height }) => meetsIncomingQuality(height))
+    .sort((left, right) => right.height - left.height)
+    .map(({ channel }) => channel);
+  if (!variants.length) {
+    audit.skippedBelow720.push({ id: allVariants[0].id, name: allVariants[0].name });
+    continue;
+  }
   const source = variants[0];
   const info = metadata.get(id);
   const sports = info?.categories?.includes('sports');
   registry.channels.push({
-    id: source.id, name: source.name, group: sports ? 'Sports' : info?.country === 'US' ? 'USA' : info?.country === 'UK' ? 'UK' : 'International', logo: source.logo,
+    id: source.id, name: source.name.replace(/\s*\[geo-blocked\]/gi, '').trim(), group: sports ? 'Sports' : info?.country === 'US' ? 'USA' : info?.country === 'UK' ? 'UK' : 'International', logo: source.logo,
     source: sourceUrl, languages: ['eng'], primaryUrl: source.primaryUrl,
     backupUrls: [...new Set(variants.slice(1).map((c) => c.primaryUrl))].slice(0, 3),
     outputs: sports ? ['main', 'sports'] : ['main'],
@@ -112,4 +122,4 @@ await writeJson(path.join(ROOT_DIR, 'build', 'refresh-probes.json'), audit.probe
 delete audit.probes;
 audit.activeCount = registry.channels.filter((c) => c.status !== 'disabled').length;
 await writeJson(path.join(ROOT_DIR, 'playlists', 'refresh-audit.json'), audit);
-console.log(`Added=${audit.added.length}, repaired=${audit.repaired.length}, withdrawn=${audit.withdrawn.length}, retained=${audit.retained}. Active=${registry.channels.filter((c) => c.status !== 'disabled').length}`);
+console.log(`Added=${audit.added.length}, skippedBelow720=${audit.skippedBelow720.length}, repaired=${audit.repaired.length}, withdrawn=${audit.withdrawn.length}, retained=${audit.retained}. Active=${registry.channels.filter((c) => c.status !== 'disabled').length}`);

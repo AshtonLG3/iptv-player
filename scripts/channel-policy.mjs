@@ -29,3 +29,16 @@ export function isEnglishOnlyFeed(channel, feed) {
   // Some upstream language records are overly broad; reject explicit non-English labels.
   return !/\b(?:Spanish|Portuguese|French|German|Hindi|Urdu|Arabic|Bangla|Punjabi|Tamil|Telugu|Korean|Latino|Latina|Bollywood|Telemundo|Univision|UniMas|espanol|Español|Francais|Français|Deportes|Esportes|Cine aventura|Cine Romantico|Crimenes|Tortues Ninja)\b/i.test(channel.name || '');
 }
+
+// New channels must offer at least 720p; existing catalogue entries are not re-judged.
+export const MIN_INCOMING_HEIGHT = 720;
+
+// Best known height: the probed master playlist first, then a "(1080p)" style name label.
+export function incomingHeight(probe, name = '') {
+  if (probe?.maxHeight) return probe.maxHeight;
+  return Number(String(name).match(/\((\d{3,4})[pi]\)/i)?.[1]) || null;
+}
+
+export function meetsIncomingQuality(height) {
+  return Number(height) >= MIN_INCOMING_HEIGHT;
+}

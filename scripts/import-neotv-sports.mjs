@@ -7,6 +7,7 @@ import {
   writeJson,
 } from './playlist-tools.mjs';
 import { mapConcurrent, probeStream } from './stream-probe.mjs';
+import { incomingHeight, meetsIncomingQuality } from './channel-policy.mjs';
 
 const NEOTV_ENDPOINT = 'https://livetv.neotvapp.com/wp-admin/admin-ajax.php';
 const SOURCE_NAME = 'NeoTV+ public FAST catalog';
@@ -164,6 +165,10 @@ async function importChannel(upstreamName, approved, upstream, definition, verif
   // Do not replace a working registry with an upstream error page or dead feed.
   const probe = await probeStream(upstream.stream_url, 20000);
   if (!probe.ok) throw new Error(`Invalid NeoTV+ HLS for ${upstreamName}: ${probe.status} ${probe.error}`);
+  const isNew = !registry.channels.some((candidate) => candidate.id === approved.id);
+  if (isNew && !meetsIncomingQuality(incomingHeight(probe))) {
+    throw new Error(`New NeoTV+ channel ${upstreamName} is below 720p (${probe.maxHeight || 'unknown'})`);
+  }
 
   const logoResponse = await fetch(logoUrl, { signal: AbortSignal.timeout(20000) });
   if (!logoResponse.ok) throw new Error(`Logo download failed for ${upstreamName}`);

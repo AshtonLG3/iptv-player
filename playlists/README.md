@@ -181,6 +181,14 @@ The sports territory exception does not defeat broadcaster controls: Rugare TV
 does not proxy, restream, or alter these feeds. A region-limited channel can
 still refuse playback outside its permitted market.
 
+## Incoming quality rule
+
+From 2026-10-25, channels added by `refresh-english-channels.mjs` or the NeoTV+
+import must offer 720p or better (from the master playlist's `RESOLUTION`, or a
+`(720p)`/`(1080p)` name label when the master has none); 1080p sources are put
+first. Existing catalogue entries are not re-judged. SABC 1, 2, 3, News and
+Lehae use SABC's official 1080p rendition with the 720p rendition as backup.
+
 ## Update log
 
 - 2026-09-19: refreshed nine NeoTV+ entries from the current worldwide sports

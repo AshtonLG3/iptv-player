@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 70,
-  "versionName": "1.6.43",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.43.apk",
-  "sha256": "5E46D29AC441B1FC5848CE34E33B2B0F1D617BC9BA2B28066C422F65F913367D",
-  "releaseNotes": "Adds 48 free English NeoTV+ channels across News, Lifestyle, Movies, Music, Entertainment and Kids, filed under those categories. Disables the timed-out Willow feed. Dark/light themes and app version menu retained.",
-  "publishedAt": "2026-10-23T18:27:34.0000000Z"
+  "versionCode": 71,
+  "versionName": "1.6.44",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.44.apk",
+  "sha256": "9E55D40181AA65B0D11F3F15CB85EE16ECF50FF263CD79D49D3AD4BFDACD9888",
+  "releaseNotes": "Restores SABC 1 and SABC 2 in 1080p, opens channels at their highest quality (720p minimum fallback), removes misleading geo-blocked labels, turns off subtitle tracks and fixes the white launch screen. Dark/light themes and app version menu retained.",
+  "publishedAt": "2026-10-25T13:16:36.0000000Z"
 }

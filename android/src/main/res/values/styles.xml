@@ -3,6 +3,8 @@
         <item name="android:fontFamily">sans</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <!-- Dark first frame instead of the light theme's white window while the WebView loads. -->
+        <item name="android:windowBackground">#12141a</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">#12141a</item>
         <item name="android:statusBarColor">#12141a</item>

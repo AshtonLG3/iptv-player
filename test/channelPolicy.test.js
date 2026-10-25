@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { isExcludedRegionalChannel, isEnglishOnlyFeed } from '../scripts/channel-policy.mjs';
+import { isExcludedRegionalChannel, isEnglishOnlyFeed, incomingHeight, meetsIncomingQuality } from '../scripts/channel-policy.mjs';
 test('USA/UK local exception excludes station and regional variants, preserving national feeds', () => {
   for (const [id, name] of [['CBSNewsBoston.us@SD', 'CBS News Boston'], ['KCRA.us@HD', 'NBC 3 Sacramento (KCRA)'], ['LondonLive.uk@SD', 'London Live']]) {
     assert.equal(isExcludedRegionalChannel({ id, name }), true, name);
@@ -16,4 +16,14 @@ test('English filter rejects mixed language and explicit non-English feeds', () 
   assert.equal(isEnglishOnlyFeed({ name: 'News' }, { languages: ['eng', 'spa'] }), false);
   assert.equal(isEnglishOnlyFeed({ name: 'Cine en espanol' }, { languages: ['eng'] }), false);
   assert.equal(isEnglishOnlyFeed({ name: 'France 24 English' }, { languages: ['eng'] }), true);
+});
+
+test('incoming channels need 720p or better from the probe or the name label', () => {
+  assert.equal(incomingHeight({ maxHeight: 1080 }, 'News (480p)'), 1080);
+  assert.equal(incomingHeight({ maxHeight: null }, 'News (720p)'), 720);
+  assert.equal(incomingHeight({}, 'News'), null);
+  assert.equal(meetsIncomingQuality(1080), true);
+  assert.equal(meetsIncomingQuality(720), true);
+  assert.equal(meetsIncomingQuality(684), false);
+  assert.equal(meetsIncomingQuality(null), false);
 });

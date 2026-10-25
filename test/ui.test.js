@@ -157,9 +157,9 @@ test('filterChannelsForUi still narrows folders by country when both filters mat
   );
 });
 
-test('filterChannelsForUi keeps geo-restricted sports visible while hiding other blocked channels', () => {
+test('filterChannelsForUi no longer hides channels based on geo-restriction labels', () => {
   const filtered = filterChannelsForUi(CHANNELS, { hideGeoBlocked: true });
 
   assert.equal(filtered.some((channel) => channel.name === 'Regional Sports [Geo-blocked]'), true);
-  assert.equal(filtered.some((channel) => channel.name === 'Regional News [Geo-blocked]'), false);
+  assert.equal(filtered.some((channel) => channel.name === 'Regional News [Geo-blocked]'), true);
 });

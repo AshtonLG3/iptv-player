@@ -41,3 +41,12 @@ test('generated backups survive parsing and reject malformed or unsafe attribute
   const bad = encodeURIComponent(JSON.stringify(['javascript:alert(1)', root]));
   assert.deepEqual(parseM3U(`#EXTINF:-1 backup-urls="${bad}",News\n${root}`)[0].backupUrls, [root]);
 });
+test('probe reports the highest rendition advertised by the master playlist', async () => {
+  const result = await probeStream(root, 1000, mockFetch({
+    [root]: { body: '#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=900,RESOLUTION=640x360\nlow/index.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=5000,RESOLUTION=1920x1080\nhigh/index.m3u8' },
+    'https://example.com/live/low/index.m3u8': { body: '#EXTM3U\n#EXTINF:4,\nseg.ts' },
+    'https://example.com/live/low/seg.ts': { body: new Uint8Array([0x47, 1, 2, 3]) },
+  }));
+  assert.equal(result.ok, true);
+  assert.equal(result.maxHeight, 1080);
+});

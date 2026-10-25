@@ -5,6 +5,7 @@ export async function probeStream(url, timeoutMs = 10000, fetchImpl = fetch) {
   let finalUrl = url;
   let entryUrl = url;
   const started = Date.now();
+  let maxHeight = null;
   try {
     let manifest;
     for (let depth = 0; depth < 4; depth += 1) {
@@ -18,6 +19,8 @@ export async function probeStream(url, timeoutMs = 10000, fetchImpl = fetch) {
       const lines = manifest.split(/\r?\n/).map((line) => line.trim());
       const variant = lines.findIndex((line) => line.startsWith('#EXT-X-STREAM-INF:'));
       if (variant < 0) break;
+      const heights = [...manifest.matchAll(/RESOLUTION=\d+x(\d+)/g)].map((match) => Number(match[1]));
+      if (heights.length) maxHeight = Math.max(maxHeight || 0, ...heights);
       const child = lines.slice(variant + 1).find((line) => line && !line.startsWith('#'));
       if (!child) throw new Error('Master playlist has no rendition');
       finalUrl = new URL(child, finalUrl).href;
@@ -43,7 +46,7 @@ export async function probeStream(url, timeoutMs = 10000, fetchImpl = fetch) {
     if (!value?.length) throw new Error('Empty media segment');
     const prefix = new TextDecoder().decode(value.slice(0, 100)).trimStart();
     if (/^(<!doctype|<html|\{)/i.test(prefix)) throw new Error('Media URL returned an error page');
-    return { url, ok: true, status, finalUrl: entryUrl, mediaPlaylistUrl: finalUrl, segmentUrl, segmentBytes: value.length, validPlaylist: true, elapsedMs: Date.now() - started };
+    return { url, ok: true, status, finalUrl: entryUrl, mediaPlaylistUrl: finalUrl, segmentUrl, segmentBytes: value.length, maxHeight, validPlaylist: true, elapsedMs: Date.now() - started };
   } catch (error) {
     return { url, ok: false, status: signal.aborted ? 'TIMEOUT' : status, finalUrl, validPlaylist: false, error: error.message, elapsedMs: Date.now() - started };
   }

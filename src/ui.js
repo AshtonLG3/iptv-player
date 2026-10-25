@@ -1,7 +1,7 @@
-import { QUALITY_OPTIONS } from './quality.js?v=20261023a';
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261023a';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261023a';
-import { getMediaSection } from './catalog.js?v=20261023a';
+import { QUALITY_OPTIONS } from './quality.js?v=20261025a';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261025a';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261025a';
+import { getMediaSection } from './catalog.js?v=20261025a';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -56,14 +56,6 @@ export function sortChannelsAlphabetically(channels) {
 
 export function limitChannelsForRendering(channels, limit = MAX_RENDERED_CHANNELS) {
   return channels.slice(0, limit);
-}
-
-function isGeoBlockedChannel(channel) {
-  return /\[geo-blocked\]/i.test(channel.name);
-}
-
-function isSportsChannel(channel) {
-  return getContentCategory(channel) === 'Sports';
 }
 
 function isIntermittentChannel(channel) {
@@ -157,7 +149,6 @@ export function filterChannelsForUi(
     search = '',
     country = '',
     category = '',
-    hideGeoBlocked = false,
     favoritesOnly = false,
     isFavorite = () => false,
     mediaSection = '',
@@ -171,7 +162,6 @@ export function filterChannelsForUi(
     if (normalizedSearch && !normalizeSearch(channel.name).includes(normalizedSearch)) return false;
     if (country && channel.country !== country) return false;
     if (!channelMatchesCategory(channel, category)) return false;
-    if (hideGeoBlocked && isGeoBlockedChannel(channel) && !isSportsChannel(channel)) return false;
     if (favoritesOnly && !isFavorite(channel.url)) return false;
     return true;
   });
@@ -218,9 +208,6 @@ export function renderApp({
             <h2 class="tv-only tv-preferences-title">Settings</h2>
             <div class="tv-settings-content">
             <select id="category-filter"><option value="">All categories</option></select>
-            <label class="blocked-label" title="Sports channels remain visible">
-              <input type="checkbox" id="hide-blocked-toggle" aria-label="Hide geo-blocked except sports" /> Hide geo-blocked<span class="tv-hide"> (except sports)</span>
-            </label>
             <label class="favorites-label">
               <input type="checkbox" id="favorites-toggle" /> Favorites only
             </label>
@@ -327,7 +314,6 @@ export function renderApp({
   const updateStatus = root.querySelector('#update-status');
   const countrySelect = root.querySelector('#country-filter');
   const categorySelect = root.querySelector('#category-filter');
-  const hideBlockedToggle = root.querySelector('#hide-blocked-toggle');
   const favoritesToggle = root.querySelector('#favorites-toggle');
   const overflowMenu = root.querySelector('#overflow-menu');
   const overflowMenuButton = root.querySelector('.overflow-menu-button');
@@ -500,7 +486,6 @@ export function renderApp({
       search: searchBox.value,
       country: countrySelect.value,
       category: categorySelect.value,
-      hideGeoBlocked: hideBlockedToggle.checked,
       favoritesOnly: favoritesToggle.checked,
       isFavorite: (url) => favoritesApi.isFavorite(url),
     };
@@ -521,7 +506,7 @@ export function renderApp({
 
     const nextBrowseKey = JSON.stringify([
       mediaSection, filters.search, countrySelect.value, filters.category,
-      filters.hideGeoBlocked, filters.favoritesOnly,
+      filters.favoritesOnly,
     ]);
     const position = browsePositions.get(nextBrowseKey);
     if (!keepRenderLimit) renderLimit = position?.renderLimit || initialRenderLimit;
@@ -613,21 +598,13 @@ export function renderApp({
       detail.textContent = [getPrimaryCategory(channel), countryName].filter(Boolean).join(' · ');
       meta.append(name, detail, badge);
 
-      if (isGeoBlockedChannel(channel) || isIntermittentChannel(channel)) {
+      if (isIntermittentChannel(channel)) {
         const flags = document.createElement('span');
         flags.className = 'channel-flags';
-        if (isGeoBlockedChannel(channel)) {
-          const flag = document.createElement('span');
-          flag.className = 'channel-flag warning';
-          flag.textContent = 'Geo-blocked';
-          flags.appendChild(flag);
-        }
-        if (isIntermittentChannel(channel)) {
-          const flag = document.createElement('span');
-          flag.className = 'channel-flag';
-          flag.textContent = 'Not 24/7';
-          flags.appendChild(flag);
-        }
+        const flag = document.createElement('span');
+        flag.className = 'channel-flag';
+        flag.textContent = 'Not 24/7';
+        flags.appendChild(flag);
         meta.appendChild(flags);
       }
 
@@ -944,7 +921,7 @@ export function renderApp({
 
   function focusMenu() {
     const target = document.documentElement.dataset.tvPanel === 'preferences'
-      ? hideBlockedToggle : isPanelMode() ? root.querySelector('#tv-countries-button') : countrySelect;
+      ? favoritesToggle : isPanelMode() ? root.querySelector('#tv-countries-button') : countrySelect;
     if (!target) return false;
     target.focus({ preventScroll: true });
     target.scrollIntoView({ block: 'nearest' });
@@ -1205,7 +1182,6 @@ export function renderApp({
   });
   countrySelect.addEventListener('change', applyFilters);
   categorySelect.addEventListener('change', () => applyFilters({ relaxCountryWhenCategoryEmpty: true }));
-  hideBlockedToggle.addEventListener('change', applyFilters);
   favoritesToggle.addEventListener('change', applyFilters);
 
   applyFilters();

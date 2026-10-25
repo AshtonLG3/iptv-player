@@ -96,7 +96,8 @@ public final class NativeHlsPlayerActivity extends Activity {
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(this);
         trackSelector.setParameters(trackSelector.buildUponParameters()
                 .setMaxVideoSize(MAX_VIDEO_WIDTH, MAX_VIDEO_HEIGHT)
-                .setAllowVideoMixedMimeTypeAdaptiveness(true));
+                .setAllowVideoMixedMimeTypeAdaptiveness(true)
+                .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true));
         DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
                 .setBufferDurationsMs(MIN_BUFFER_MS, MAX_BUFFER_MS, 5_000, 10_000)
                 .setPrioritizeTimeOverSizeThresholds(true)
