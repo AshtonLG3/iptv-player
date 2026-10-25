@@ -2418,10 +2418,12 @@
       "outputs": [
         "main"
       ],
-      "notes": "",
+      "notes": "Removed 2026-10-25 at user request: programming is not in English. ",
       "languages": [
         "eng"
-      ]
+      ],
+      "status": "disabled",
+      "disabledByUser": true
     },
     {
       "id": "wh.actionhollywoodmovies",

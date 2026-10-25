@@ -81,6 +81,9 @@ test('getContentCategory maps channels into conventional browsing categories', (
   assert.equal(getContentCategory({ name: 'Cricket Gold', category: 'Sports' }), 'Sports');
   assert.equal(getContentCategory({ name: 'MyTime Movie Network', category: 'UK' }), 'Movies');
   assert.equal(getContentCategory({ name: 'BBC Earth', category: 'UK' }), 'Wildlife');
+  assert.equal(getContentCategory({ name: 'Terra Mater WILD English', category: 'International' }), 'Wildlife');
+  assert.equal(getContentCategory({ name: 'The Wild Wild West', category: 'USA' }), 'General');
+  assert.equal(getContentCategory({ name: "Wild 'N Out", category: 'USA' }), 'General');
   assert.equal(getContentCategory({ name: 'Moonbug Kids', category: 'UK' }), 'Kids');
   assert.equal(getContentCategory({ name: 'NOW Rock', category: 'UK' }), 'Music');
   assert.equal(getContentCategory({ name: 'Autentic History', category: 'International' }), 'Documentary');
