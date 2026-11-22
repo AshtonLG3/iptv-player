@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 74,
-  "versionName": "1.6.46",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.46.apk",
-  "sha256": "D5D62DB565E8675F7C9351889E0B168FD28978F1B6EDA76177D501CBC879ADD2",
-  "releaseNotes": "Removes empty guide space. Matching programme schedules appear only as a translucent video overlay. Optional guide import, dark/light themes and the version menu remain available.",
-  "publishedAt": "2026-10-25T17:22:43.080Z"
+  "versionCode": 75,
+  "versionName": "1.6.47",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.47.apk",
+  "sha256": "207DDED424F590E142418E251F67E0E3E7147544E9B4A19325451BF97F92DDBE",
+  "releaseNotes": "Dismisses idle TV menus and favorite prompts after ten seconds. Ordinary Back menu cycles no longer exit the app; rapid double-Back still exits. Clarifies SABC regional-access failures and retains the SABC+ fallback, dark/light themes and menu version.",
+  "publishedAt": "2026-11-22T14:02:03.444516+00:00"
 }

@@ -151,19 +151,17 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
   return currentPanel;
 }
 
-// Count deliberate Back presses; a held key must never trigger an exit.
-export function createBackExitPolicy({ now = () => Date.now(), rapidMs = 1500 } = {}) {
-  let count = 0;
+// Only a rapid double Back exits; menu cycles and held keys never accumulate.
+export function createBackExitPolicy({ now = () => Date.now(), rapidMs = 600 } = {}) {
   let previous = null;
   return {
-    reset() { count = 0; previous = null; },
+    reset() { previous = null; },
     press({ repeat = false } = {}) {
       if (repeat) return { exit: false, ignored: true };
       const time = now();
       const rapid = previous !== null && time - previous <= rapidMs;
-      previous = time;
-      count += 1;
-      return { exit: rapid || count >= 4, ignored: false };
+      previous = rapid ? null : time;
+      return { exit: rapid, ignored: false };
     },
   };
 }

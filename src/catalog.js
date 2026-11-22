@@ -1,4 +1,4 @@
-import { getQualityHeight } from './quality.js?v=20261025d';
+import { getQualityHeight } from './quality.js?v=20261122a';
 export function getMediaSection(item) {
   if (item.mediaType === 'movie' || item.mediaType === 'show') return item.mediaType;
   const group = String(item.category || '');
@@ -46,10 +46,13 @@ export function getPlaybackSources(channel, quality = 'auto') {
   return [...new Set(ordered.map((variant) => variant.url))];
 }
 
-export function describePlaybackError(error) {
+export function describePlaybackError(error, channel = null) {
   const message = String(error?.message || '');
   if (error?.name === 'NotAllowedError') return 'Playback needs a tap. Press Play or Retry to start.';
   if (error?.name === 'AbortError') return 'Playback was interrupted. Press Retry to start again.';
+  if (/^SABC\s*[123](?:\s|\(|$)/i.test(channel?.name || '') && /403|bad_http_status/i.test(message)) {
+    return 'SABC’s direct stream is unavailable. Regional or programme restrictions may apply. Open SABC+ below; signing in may be required.';
+  }
   if (/secure page|mixed content/i.test(message)) return 'This stream uses HTTP and is blocked on this secure website. Use the Android app or another channel.';
   if (/timeout|did not start/i.test(message)) return 'The stream took too long to start. Try Data saver, Retry, or another channel.';
   if (/codec|decode|media|native playback/i.test(message)) return 'The stream could not be decoded or has an unsupported format. Try another channel or an external player.';

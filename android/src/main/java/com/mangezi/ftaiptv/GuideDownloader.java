@@ -30,7 +30,7 @@ final class GuideDownloader {
                     continue;
                 }
                 if (status != 200) throw new Exception("Guide download failed (HTTP " + status + ").");
-                if (connection.getContentLengthLong() > MAX_BYTES) throw new Exception("Guide exceeds 20 MB.");
+                if (connection.getContentLength() > MAX_BYTES) throw new Exception("Guide exceeds 20 MB.");
                 try (PushbackInputStream input = new PushbackInputStream(connection.getInputStream(), 2)) {
                     int first = input.read(); int second = input.read();
                     if (second >= 0) input.unread(second);

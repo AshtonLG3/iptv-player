@@ -1,34 +1,35 @@
-import { normalizeQuality } from './src/quality.js?v=20261025d';
-import * as playlistModule from './src/playlist.js?v=20261025d';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261025d';
+import { createOverlayIdle } from './src/overlayIdle.js?v=20261122a';
+import { normalizeQuality } from './src/quality.js?v=20261122a';
+import * as playlistModule from './src/playlist.js?v=20261122a';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261122a';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261025d';
+} from './src/constants.js?v=20261122a';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261025d';
+} from './src/playlistAccess.js?v=20261122a';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261025d';
-import { createPlayer } from './src/player.js?v=20261025d';
-import { createEpgController } from './src/epg.js?v=20261025d';
-import { createFullscreenController } from './src/fullscreen.js?v=20261025d';
+} from './src/ui.js?v=20261122a';
+import { createPlayer } from './src/player.js?v=20261122a';
+import { createEpgController } from './src/epg.js?v=20261122a';
+import { createFullscreenController } from './src/fullscreen.js?v=20261122a';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261025d';
-import { updateMediaSession } from './src/mediaSession.js?v=20261025d';
+} from './src/channelRoute.js?v=20261122a';
+import { updateMediaSession } from './src/mediaSession.js?v=20261122a';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -41,14 +42,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261025d';
+} from './src/tvRemote.js?v=20261122a';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261025d';
+} from './src/storage.js?v=20261122a';
 
 const {
   clearPrivatePlaylist,
@@ -139,6 +140,31 @@ async function main() {
     userAgent: navigator.userAgent,
   });
   const televisionDevice = isTvMode;
+  let overlayComposing = null;
+  const overlayIdle = createOverlayIdle({
+    isActive: () => isTvMode && (tvPanel !== 'none' || Boolean(document.getElementById('programme-guide')?.open)),
+    canDismiss: () => !document.hidden && overlayComposing !== document.activeElement,
+    onDismiss: () => {
+      backExit.reset();
+      appView?.closeQualityOptions();
+      for (const detail of root.querySelectorAll('details[open]')) detail.open = false;
+      const guide = document.getElementById('programme-guide');
+      if (guide) guide.open = false;
+      setTvPanel('none', { showHud: false });
+      clearTimeout(playerHudHideTimer);
+      playerHud.classList.remove('visible');
+      playerHud.hidden = true;
+    },
+  });
+  const overlayActivityEvents = ['pointerdown', 'pointermove', 'wheel', 'input', 'change', 'focusin', 'toggle', 'visibilitychange'];
+  for (const type of overlayActivityEvents) document.addEventListener(type, overlayIdle.activity, true);
+  function overlayComposition(event) {
+    if (event.type === 'compositionstart') overlayComposing = event.target;
+    else if (event.target === overlayComposing) overlayComposing = null;
+    overlayIdle.activity();
+  }
+  const overlayCompositionEvents = ['compositionstart', 'compositionend', 'focusout'];
+  for (const type of overlayCompositionEvents) document.addEventListener(type, overlayComposition, true);
   const backExit = createBackExitPolicy();
   const channelRouteBase = getPlayerBasePath(window.location.pathname);
   const channelRoutingEnabled = supportsChannelRoutes({
@@ -356,7 +382,7 @@ async function main() {
     }
   }
 
-  function setTvPanel(panel, { focus = true, overlay = false } = {}) {
+  function setTvPanel(panel, { focus = true, overlay = false, showHud = true } = {}) {
     if (!isTvMode) return;
 
     const nextPanel = [
@@ -375,9 +401,10 @@ async function main() {
       ? panel
       : 'none';
     tvPanel = nextPanel;
+    if (nextPanel === 'none') overlayComposing = null;
     document.documentElement.dataset.tvPanel = nextPanel;
     layoutEl.classList.toggle('tv-transparent-browse', overlay && ['channels', 'categories'].includes(nextPanel));
-    if (['none', 'channels', 'categories', 'browse'].includes(nextPanel)) showPlayerHud(currentChannel);
+    if (showHud && ['none', 'channels', 'categories', 'browse'].includes(nextPanel)) showPlayerHud(currentChannel);
     syncingTvPanel = true;
     setDrawerOpen([
       'channels',
@@ -391,9 +418,11 @@ async function main() {
     if (nextPanel !== 'playback' && nextPanel !== 'services') setChannelNavVisible(false);
     syncingTvPanel = false;
     notifyNativeTvPanelState();
+    overlayIdle.activity();
 
     if (!focus) return;
     window.requestAnimationFrame(() => {
+      if (tvPanel !== nextPanel) return;
       if (nextPanel === 'channels') appView?.focusChannel();
       if (nextPanel === 'categories' || nextPanel === 'browse') appView?.focusCategory();
       if (nextPanel === 'channel-services') appView?.focusChannelService();
@@ -538,7 +567,7 @@ async function main() {
     updatePlaybackLabel(needsGesture ? 'Ready' : 'Unavailable');
     showPlayerPlaceholder(needsGesture ? 'Press Play to start' : 'Channel unavailable');
     statusEl.textContent = '';
-    statusEl.append(document.createTextNode(describePlaybackError(err)));
+    statusEl.append(document.createTextNode(describePlaybackError(err, currentChannel)));
     const retry = document.createElement('button');
     retry.type = 'button';
     retry.textContent = 'Retry';
@@ -812,6 +841,7 @@ async function main() {
   }
 
   function handleTvRemoteAction(action) {
+    overlayIdle.activity();
     if (action !== 'close') backExit.reset();
     switch (action) {
       case 'left':
@@ -855,6 +885,7 @@ async function main() {
   }
 
   function handleTvKeydown(event) {
+    overlayIdle.activity();
     const key = getTvNavigationKey(event);
     if (['Escape', 'BrowserBack'].includes(key) && event.repeat) { event.preventDefault(); return; }
     if (!['Escape', 'BrowserBack'].includes(key)) backExit.reset();
@@ -1183,6 +1214,9 @@ async function main() {
   updateFullscreenControl();
   window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
   window.addEventListener('pagehide', () => {
+    overlayIdle.dispose();
+    for (const type of overlayCompositionEvents) document.removeEventListener(type, overlayComposition, true);
+    for (const type of overlayActivityEvents) document.removeEventListener(type, overlayIdle.activity, true);
     delete window.__ftaIptvUpdateStatus;
     clearTimeout(channelTuneTimer);
     clearTimeout(channelNavHideTimer);

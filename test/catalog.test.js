@@ -22,6 +22,9 @@ test('quality variants share one channel with lower-bandwidth source first in da
 });
 
 test('browser interruptions and provider errors give distinct recovery instructions', () => {
+  assert.match(describePlaybackError(new Error('ERROR_CODE_IO_BAD_HTTP_STATUS'), { name: 'SABC 1' }), /Open SABC\+/);
+  assert.match(describePlaybackError(new Error('HTTP 403'), { name: 'SABC 3 (1080p)' }), /Regional/);
+  assert.doesNotMatch(describePlaybackError(new Error('HTTP 403'), { name: 'Other TV' }), /SABC/);
   assert.match(describePlaybackError({ name: 'NotAllowedError' }), /tap/);
   assert.match(describePlaybackError({ name: 'AbortError' }), /interrupted/);
   assert.match(describePlaybackError(new Error('manifestLoadError')), /provider/);
