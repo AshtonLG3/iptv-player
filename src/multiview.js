@@ -1,5 +1,5 @@
-import { describePlaybackError, getMediaSection, getPlaybackSources } from './catalog.js?v=20261124b';
-import { createPlayer } from './player.js?v=20261124b';
+import { describePlaybackError, getMediaSection, getPlaybackSources } from './catalog.js?v=20261124c';
+import { createPlayer } from './player.js?v=20261124c';
 
 const MAX_TILES = 4;
 
@@ -57,19 +57,37 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
   function setActive(tile) {
     if (active === tile) return;
     if (active) {
-      active.actions.hidden = true;
+      closeControls();
       active.element.removeAttribute('data-active');
     }
     active = tile;
-    if (active) {
-      active.actions.hidden = false;
-      active.element.setAttribute('data-active', '');
-    }
+    if (active) active.element.setAttribute('data-active', '');
     syncAudio();
   }
 
   function focusTile(tile) {
     tile?.select.focus({ preventScroll: true });
+  }
+
+  function closeControls(restoreFocus = false) {
+    if (!active) return;
+    active.actions.hidden = true;
+    active.element.removeAttribute('data-controls');
+    active.select.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) focusTile(active);
+  }
+
+  function openControls() {
+    if (!active || !setup.hidden) return;
+    active.actions.hidden = false;
+    active.element.setAttribute('data-controls', '');
+    active.select.setAttribute('aria-expanded', 'true');
+    active.expand.focus({ preventScroll: true });
+  }
+
+  function toggleControls() {
+    if (active?.actions.hidden) openControls();
+    else closeControls(true);
   }
 
   function renderList() {
@@ -91,6 +109,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
 
   function openPicker() {
     if (tiles.length >= MAX_TILES) return;
+    closeControls();
     search.value = '';
     renderList();
     setup.hidden = false;
@@ -134,7 +153,11 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
     element.innerHTML = `
       <div class="multiview-picture">
         <span class="multiview-status" role="status"></span>
-        <button class="multiview-tile-select" type="button"></button>
+        <button class="multiview-tile-select" type="button" aria-expanded="false">
+          <span class="multiview-tile-hint" aria-hidden="true">
+            <span class="multiview-pointer-hint">Controls</span><span class="multiview-tv-hint">OK for controls</span>
+          </span>
+        </button>
       </div>
       <footer>
         <strong></strong>
@@ -158,10 +181,10 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
     element.querySelector('strong').textContent = channel.name;
     tile.select.setAttribute('aria-label', channel.name);
     element.addEventListener('focusin', () => setActive(tile));
-    tile.select.addEventListener('click', () => { setActive(tile); tile.expand.focus(); });
+    tile.select.addEventListener('click', () => { setActive(tile); openControls(); });
     tile.expand.addEventListener('click', () => showExpanded(expanded ? null : tile));
     tile.add.addEventListener('click', openPicker);
-    tile.retry.addEventListener('click', () => { focusTile(tile); playTile(tile); });
+    tile.retry.addEventListener('click', () => { closeControls(true); playTile(tile); });
     const remove = element.querySelector('[data-remove]');
     remove.textContent = tile.primary ? 'Exit Multiview' : 'Remove';
     remove.addEventListener('click', () => tile.primary ? close() : removeTile(tile));
@@ -189,6 +212,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
   }
 
   function showExpanded(tile) {
+    closeControls();
     expanded = tile;
     updateGrid();
     focusTile(tile || active);
@@ -276,8 +300,8 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
 
   function back() {
     if (!setup.hidden) dismissPicker();
+    else if (active && !active.actions.hidden) closeControls(true);
     else if (expanded) showExpanded(null);
-    else if (active?.actions.contains(document.activeElement)) focusTile(active);
     else close();
     return true;
   }
@@ -313,12 +337,11 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
       if (!horizontal) move([setup.querySelector('[data-dismiss]'), search, ...list.querySelectorAll('button')]);
       return;
     }
-    if (active?.actions.contains(current)) {
-      if (horizontal) move([...active.actions.querySelectorAll('button:not([hidden])')]);
-      else focusTile(active);
+    if (!active) return;
+    if (!active.actions.hidden) {
+      move([...active.actions.querySelectorAll('button:not([hidden])')]);
       return;
     }
-    if (!active) return;
     const center = ({ picture }) => {
       const rect = picture.getBoundingClientRect();
       return [rect.left + rect.width / 2, rect.top + rect.height / 2];
@@ -353,7 +376,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
   });
 
   return {
-    open, close, back, handleDirection, suspend, resume, isOpen: () => dialog.open,
+    open, close, back, toggleControls, handleDirection, suspend, resume, isOpen: () => dialog.open,
     primaryBounds: () => tiles[0]?.picture.getBoundingClientRect(),
     isPrimaryAudible: () => !active || active.primary,
   };
