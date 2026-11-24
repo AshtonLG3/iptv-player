@@ -1,7 +1,7 @@
-import { QUALITY_OPTIONS } from './quality.js?v=20261124d';
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261124d';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261124d';
-import { getMediaSection } from './catalog.js?v=20261124d';
+import { QUALITY_OPTIONS } from './quality.js?v=20261125a';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261125a';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261125a';
+import { getMediaSection } from './catalog.js?v=20261125a';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',

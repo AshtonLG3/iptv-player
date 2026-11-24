@@ -1,9 +1,9 @@
-import { describePlaybackError, getMediaSection, getPlaybackSources } from './catalog.js?v=20261124d';
-import { createPlayer } from './player.js?v=20261124d';
+import { describePlaybackError, getMediaSection, getPlaybackSources } from './catalog.js?v=20261125a';
+import { createPlayer } from './player.js?v=20261125a';
 
 const MAX_TILES = 4;
 
-export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, onPrimaryAudio, onResumePrimary, onLayoutChange, onClose }) {
+export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, onDropPrimary, onPrimaryAudio, onResumePrimary, onLayoutChange, onClose }) {
   const native = typeof bridge?.stopMultiviewTile === 'function';
   const videoHome = video.parentNode;
   const videoAnchor = video.nextSibling;
@@ -37,7 +37,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
   function syncBounds() {
     onLayoutChange();
     if (!native || grid.hidden || suspended) return;
-    const positions = Array(MAX_TILES - 1).fill(null);
+    const positions = Array(MAX_TILES).fill(null);
     for (const tile of tiles) {
       if (tile.primary) continue;
       const { left, top, width, height } = tile.picture.getBoundingClientRect();
@@ -63,6 +63,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
     active = tile;
     if (active) active.element.setAttribute('data-active', '');
     syncAudio();
+    if (tiles.length === 3) syncBounds();
   }
 
   function focusTile(tile) {
@@ -82,7 +83,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
     active.actions.hidden = false;
     active.element.setAttribute('data-controls', '');
     active.select.setAttribute('aria-expanded', 'true');
-    active.expand.focus({ preventScroll: true });
+    active.watchOnly.focus({ preventScroll: true });
   }
 
   function toggleControls() {
@@ -95,7 +96,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
     const playing = new Set([primaryChannel?.url, ...tiles.map((tile) => tile.channel.url)]);
     const rows = document.createDocumentFragment();
     for (const channel of catalog) {
-      if (playing.has(channel.url) || !`${channel.name} ${channel.country || ''}`.toLowerCase().includes(query)) continue;
+      if (playing.has(channel.url) || !`${channel.name} ${channel.category || ''} ${channel.country || ''}`.toLowerCase().includes(query)) continue;
       const button = document.createElement('button');
       button.type = 'button';
       button.textContent = channel.name;
@@ -138,6 +139,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
 
   function moveVideo(parent, anchor) {
     if (native) return;
+    if (video.parentNode === parent && video.nextSibling === anchor) return;
     if (parent.moveBefore && video.isConnected && parent.isConnected) {
       parent.moveBefore(video, anchor);
     } else {
@@ -162,9 +164,10 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
       <footer>
         <strong></strong>
         <div class="multiview-tile-actions" aria-label="Channel controls" hidden>
+          <button type="button" data-watch-only>Watch only</button>
           <button type="button" data-expand>Fullscreen</button>
           <button type="button" data-add>Add channel</button>
-          <button type="button" data-remove></button>
+          <button type="button" data-remove>Remove</button>
           <button type="button" data-retry hidden>Retry</button>
         </div>
       </footer>`;
@@ -174,6 +177,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
       status: element.querySelector('.multiview-status'),
       select: element.querySelector('.multiview-tile-select'),
       actions: element.querySelector('.multiview-tile-actions'),
+      watchOnly: element.querySelector('[data-watch-only]'),
       retry: element.querySelector('[data-retry]'),
       add: element.querySelector('[data-add]'),
       expand: element.querySelector('[data-expand]'),
@@ -182,12 +186,11 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
     tile.select.setAttribute('aria-label', channel.name);
     element.addEventListener('focusin', () => setActive(tile));
     tile.select.addEventListener('click', () => { setActive(tile); openControls(); });
+    tile.watchOnly.addEventListener('click', () => close(tile.channel));
     tile.expand.addEventListener('click', () => showExpanded(expanded ? null : tile));
     tile.add.addEventListener('click', openPicker);
     tile.retry.addEventListener('click', () => { closeControls(true); playTile(tile); });
-    const remove = element.querySelector('[data-remove]');
-    remove.textContent = tile.primary ? 'Exit Multiview' : 'Remove';
-    remove.addEventListener('click', () => tile.primary ? close() : removeTile(tile));
+    element.querySelector('[data-remove]').addEventListener('click', () => removeTile(tile));
     if (!native && !tile.primary) {
       const media = document.createElement('video');
       media.playsInline = true;
@@ -220,7 +223,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
 
   function addChannel(channel) {
     if (tiles.length >= MAX_TILES || channel.url === primaryChannel?.url || tiles.some((tile) => tile.channel.url === channel.url)) return;
-    if (!primaryChannel) {
+    if (tiles.length === 0 && !primaryChannel) {
       primaryChannel = channel;
       onChoosePrimary(channel);
       dialog.querySelector('h2').textContent = 'Add a channel';
@@ -235,7 +238,8 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
       grid.hidden = false;
       document.documentElement.classList.add('multiview-playing');
     }
-    const slot = [0, 1, 2].find((index) => !tiles.some((tile) => tile.slot === index));
+    const slot = Array.from({ length: MAX_TILES }, (_, index) => index)
+      .find((index) => !tiles.some((tile) => tile.slot === index));
     const tile = makeTile(channel, slot);
     tiles.push(tile);
     grid.append(tile.element);
@@ -268,16 +272,22 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
   }
 
   function removeTile(tile) {
-    if (tiles.length === 2) { close(); return; }
-    if (native) bridge.stopMultiviewTile(tile.slot);
+    const remaining = tiles.filter((item) => item !== tile);
+    if (remaining.length === 1) { close(remaining[0].channel); return; }
+    const next = remaining[Math.min(tiles.indexOf(tile), remaining.length - 1)];
+    if (tile.primary) {
+      moveVideo(videoHome, videoAnchor);
+      primaryChannel = null;
+      onDropPrimary(next.channel);
+    } else if (native) bridge.stopMultiviewTile(tile.slot);
     tile.player?.destroy();
-    tiles = tiles.filter((item) => item !== tile);
+    tiles = remaining;
     tile.element.remove();
-    setActive(tiles[0]);
+    setActive(next);
     showExpanded(null);
   }
 
-  function close() {
+  function close(channel = primaryChannel || active?.channel) {
     if (!dialog.open) return;
     if (tiles.length) {
       if (native) bridge.stopMultiview();
@@ -295,6 +305,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
     dialog.close();
     syncBounds();
     opener?.focus({ preventScroll: true });
+    if (channel && channel.url !== primaryChannel?.url) onChoosePrimary(channel);
     onClose();
   }
 
@@ -316,7 +327,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
   function resume() {
     if (!dialog.open || !suspended) return;
     suspended = false;
-    onResumePrimary();
+    if (primaryChannel) onResumePrimary();
     syncAudio();
     for (const tile of tiles) if (!tile.primary) playTile(tile);
   }
@@ -377,7 +388,7 @@ export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, on
 
   return {
     open, close, back, toggleControls, handleDirection, suspend, resume, isOpen: () => dialog.open,
-    primaryBounds: () => tiles[0]?.picture.getBoundingClientRect(),
+    primaryBounds: () => tiles.find((tile) => tile.primary)?.picture.getBoundingClientRect(),
     isPrimaryAudible: () => !active || active.primary,
   };
 }
