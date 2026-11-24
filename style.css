@@ -105,6 +105,19 @@
   border: 0;
   background: transparent;
 }
+.multiview-tile-hint, .multiview-tv-hint { display: none; }
+.multiview-tile[data-active]:not([data-controls]) .multiview-tile-hint {
+  position: absolute;
+  inset: auto 4px 4px auto;
+  display: block;
+  padding: .4em .6em;
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
+  font-size: clamp(.72rem, 1.3vw, .9rem);
+}
+html.tv-mode .multiview-pointer-hint { display: none; }
+html.tv-mode .multiview-tv-hint { display: inline; }
 .multiview-status { z-index: 1; padding: .35em .6em; background: #000; color: #fff; text-align: center; }
 .multiview-status:empty { display: none; }
 .multiview-tile footer {

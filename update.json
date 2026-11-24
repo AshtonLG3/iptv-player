@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 77,
-  "versionName": "1.6.49",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.49.apk",
-  "sha256": "73E339BC06003F10605F3603B3B6161ABF85F2041B6BFEDD14083172597E6680",
-  "releaseNotes": "Press Up while watching to open a transparent channel list. Selecting a channel adds it immediately and keeps the current stream playing. Move focus between tiles to switch audio and reveal controls. Two Back presses within 1.5 seconds exit the app.",
-  "publishedAt": "2026-11-24T21:46:01.502591+00:00"
+  "versionCode": 78,
+  "versionName": "1.6.50",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.50.apk",
+  "sha256": "B447FAD52A503274FD0C95BCCA178D1A8206BAEAC174D6CA4D93AAB5BC923BAB",
+  "releaseNotes": "Press Up while watching to add a channel without interrupting the original stream. Arrow keys move between tiles and audio follows focus. Press OK on the focused tile to open its controls. The arrows stay within those controls until Back closes them. Press Back twice within 1.5 seconds to exit the app.",
+  "publishedAt": "2026-11-24T21:55:48.932648+00:00"
 }
