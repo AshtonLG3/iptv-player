@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 79,
-  "versionName": "1.6.51",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.51.apk",
-  "sha256": "DB8307E0B6AA394B699636E390207DE5D63A5B7A0126A4BC8E1794EF5FBF68A6",
-  "releaseNotes": "Press Up while watching to add a channel without restarting the original stream. Audio follows tile focus. Press OK to open controls for that tile and Back to return to the grid. Two Back presses within 1.5 seconds exit the Android TV app, even during a menu transition.",
-  "publishedAt": "2026-11-24T22:02:30.047156+00:00"
+  "versionCode": 80,
+  "versionName": "1.6.52",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.52.apk",
+  "sha256": "ACD4F84CA9E1BB929925E49AF653D9E8FF05540C351D2AF1D9D58AE89D1945CB",
+  "releaseNotes": "In three-channel Multiview, the focused channel fills the large tile. Remove works on the original channel as well as added channels. Watch only takes you directly to the selected channel. The channel picker also searches category names.",
+  "publishedAt": "2026-11-24T22:20:08.669575+00:00"
 }
