@@ -3,6 +3,84 @@
   --radius: 8px;
 }
 
+.multiview {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: clamp(8px, 2vw, 24px);
+  border: 0;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+.multiview[open], .multiview-setup:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.multiview [hidden] { display: none; }
+.multiview::backdrop { background: transparent; }
+.multiview-playing .layout { opacity: 0; }
+.multiview-playing .multiview-native { background: transparent; }
+.multiview-header, .multiview-controls, .multiview-counts, .multiview-tile footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.multiview-header h2 { margin: 0 auto 0 0; font-size: clamp(1rem, 2.5vw, 1.5rem); }
+.multiview-setup { flex: 1; min-height: 0; width: min(100%, 52rem); margin: 0 auto; }
+.multiview-controls { justify-content: space-between; flex-wrap: wrap; }
+.multiview button, .multiview input {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
+  padding: 0.45em 0.65em;
+  font: inherit;
+}
+.multiview button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.multiview button:disabled, .multiview button[aria-disabled="true"] { opacity: .6; }
+.multiview :is(button,input):focus-visible, html.tv-mode .multiview :is(button,input):focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.multiview-list { display: grid; gap: 4px; align-content: start; overflow: auto; }
+.multiview-list button { text-align: left; }
+.multiview-grid:not([hidden]) {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  gap: 6px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+.multiview-grid[data-count="2"] { grid-template-rows: minmax(0, 1fr); }
+.multiview-grid[data-count="3"] { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.multiview-grid[data-count="3"] .multiview-tile:first-child { grid-row: span 2; }
+.multiview-grid.multiview-expanded { grid-template: minmax(0, 1fr) / minmax(0, 1fr); }
+.multiview-grid.multiview-expanded .multiview-tile { grid-row: auto; }
+.multiview-tile { display: grid; grid-template-rows: minmax(0, 1fr) auto; min-width: 0; }
+.multiview-picture { position: relative; display: grid; place-items: center; min-height: 0; }
+.multiview-picture video { position: absolute; inset: 0; width: 100%; height: 100%; background: #000; object-fit: contain; }
+.multiview-native .multiview-picture video { background: transparent; visibility: hidden; }
+.multiview-status { z-index: 1; padding: .35em .6em; background: #000; color: #fff; text-align: center; }
+.multiview-status:empty { display: none; }
+.multiview-tile footer { background: var(--panel); padding: 4px; flex-wrap: wrap; }
+.multiview-tile footer strong { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.multiview-tile footer button { font-size: clamp(.72rem, 1.5vw, .95rem); }
+
+@media (orientation: portrait) {
+  .multiview-grid[data-count="2"]:not(.multiview-expanded) { grid-template: repeat(2, minmax(0, 1fr)) / minmax(0, 1fr); }
+  .multiview-grid[data-count="3"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .multiview-grid[data-count="3"] .multiview-tile:first-child { grid-column: span 2; grid-row: auto; }
+  .multiview-grid.multiview-expanded .multiview-tile:first-child { grid-column: auto; }
+}
+
 :root[data-theme="dark"] {
   --bg: #0d0f12;
   --panel: #16191e;

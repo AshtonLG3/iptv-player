@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 75,
-  "versionName": "1.6.47",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.47.apk",
-  "sha256": "207DDED424F590E142418E251F67E0E3E7147544E9B4A19325451BF97F92DDBE",
-  "releaseNotes": "Dismisses idle TV menus and favorite prompts after ten seconds. Ordinary Back menu cycles no longer exit the app; rapid double-Back still exits. Clarifies SABC regional-access failures and retains the SABC+ fallback, dark/light themes and menu version.",
-  "publishedAt": "2026-11-22T14:02:03.444516+00:00"
+  "versionCode": 76,
+  "versionName": "1.6.48",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.48.apk",
+  "sha256": "FE9855189D682040759F7E1487551809C698C0F3C30079D5CA29F2C238FA000A",
+  "releaseNotes": "Multiview plays two, three or four live channels at once. Choose one channel for audio, expand a tile, or return to the grid. Multiview prefers lower-bitrate streams where available. Playback capacity depends on the device and channel feeds.",
+  "publishedAt": "2026-11-24T21:09:24.751039+00:00"
 }

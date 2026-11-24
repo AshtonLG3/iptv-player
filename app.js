@@ -1,35 +1,36 @@
-import { createOverlayIdle } from './src/overlayIdle.js?v=20261122a';
-import { normalizeQuality } from './src/quality.js?v=20261122a';
-import * as playlistModule from './src/playlist.js?v=20261122a';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261122a';
+import { createOverlayIdle } from './src/overlayIdle.js?v=20261124a';
+import { createMultiview } from './src/multiview.js?v=20261124a';
+import { normalizeQuality } from './src/quality.js?v=20261124a';
+import * as playlistModule from './src/playlist.js?v=20261124a';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261124a';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261122a';
+} from './src/constants.js?v=20261124a';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261122a';
+} from './src/playlistAccess.js?v=20261124a';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261122a';
-import { createPlayer } from './src/player.js?v=20261122a';
-import { createEpgController } from './src/epg.js?v=20261122a';
-import { createFullscreenController } from './src/fullscreen.js?v=20261122a';
+} from './src/ui.js?v=20261124a';
+import { createPlayer } from './src/player.js?v=20261124a';
+import { createEpgController } from './src/epg.js?v=20261124a';
+import { createFullscreenController } from './src/fullscreen.js?v=20261124a';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261122a';
-import { updateMediaSession } from './src/mediaSession.js?v=20261122a';
+} from './src/channelRoute.js?v=20261124a';
+import { updateMediaSession } from './src/mediaSession.js?v=20261124a';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -42,14 +43,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261122a';
+} from './src/tvRemote.js?v=20261124a';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261122a';
+} from './src/storage.js?v=20261124a';
 
 const {
   clearPrivatePlaylist,
@@ -143,7 +144,7 @@ async function main() {
   let overlayComposing = null;
   const overlayIdle = createOverlayIdle({
     isActive: () => isTvMode && (tvPanel !== 'none' || Boolean(document.getElementById('programme-guide')?.open)),
-    canDismiss: () => !document.hidden && overlayComposing !== document.activeElement,
+    canDismiss: () => !document.hidden && !multiview.isOpen() && overlayComposing !== document.activeElement,
     onDismiss: () => {
       backExit.reset();
       appView?.closeQualityOptions();
@@ -841,6 +842,7 @@ async function main() {
   }
 
   function handleTvRemoteAction(action) {
+    if (multiview.isOpen()) return action === 'close' ? multiview.back() : true;
     overlayIdle.activity();
     if (action !== 'close') backExit.reset();
     switch (action) {
@@ -888,6 +890,13 @@ async function main() {
     overlayIdle.activity();
     const key = getTvNavigationKey(event);
     if (['Escape', 'BrowserBack'].includes(key) && event.repeat) { event.preventDefault(); return; }
+    if (multiview.isOpen()) {
+      if (key === 'Escape' || key === 'BrowserBack') {
+        event.preventDefault();
+        multiview.back();
+      } else if (isTvMode) multiview.handleDirection(event, key);
+      return;
+    }
     if (!['Escape', 'BrowserBack'].includes(key)) backExit.reset();
     if (!isTvMode && ['Escape', 'BrowserBack'].includes(key)) {
       if (handleAppBack()) event.preventDefault();
@@ -997,6 +1006,7 @@ async function main() {
         qualityApi,
         playlistAccessApi,
         onSelectChannel: selectChannel,
+        onMultiview: () => multiview.open(channels, currentChannel),
         onVisibleChannelsChange: setVisibleChannels,
         onFavoriteChange: () => updateNowPlayingSummary(currentChannel),
         onBack: () => { if (!handleAppBack()) androidDeviceBridge?.exitApp?.(); },
@@ -1155,18 +1165,19 @@ async function main() {
     });
   };
   window.addEventListener('popstate', () => {
+    if (multiview.isOpen()) multiview.close();
     const slug = getRequestedChannelSlug(window.location.pathname, channelRouteBase);
     const channel = channelRoutes.channelBySlug.get(slug);
     if (channel && channel.url !== currentChannel?.url) {
       selectChannel(channel, { historyMode: 'none' });
     }
   });
-  window.__ftaIptvPreviousChannel = () => navigateChannel(-1);
-  window.__ftaIptvNextChannel = () => navigateChannel(1);
-  window.__ftaIptvPlay = playCurrentVideo;
-  window.__ftaIptvPause = pauseCurrentVideo;
-  window.__ftaIptvSuspendPlayback = suspendCurrentVideo;
-  window.__ftaIptvTogglePlayback = toggleCurrentVideo;
+  window.__ftaIptvPreviousChannel = () => { if (!multiview.isOpen()) navigateChannel(-1); };
+  window.__ftaIptvNextChannel = () => { if (!multiview.isOpen()) navigateChannel(1); };
+  window.__ftaIptvPlay = () => { if (!multiview.isOpen()) playCurrentVideo(); };
+  window.__ftaIptvPause = () => { if (!multiview.isOpen()) pauseCurrentVideo(); };
+  window.__ftaIptvSuspendPlayback = () => { multiview.suspend(); suspendCurrentVideo(); };
+  window.__ftaIptvTogglePlayback = () => { if (!multiview.isOpen()) toggleCurrentVideo(); };
   window.__ftaIptvShowControlsAt = (relativeX, relativeY) => {
     const playerBounds = playerFrameEl.getBoundingClientRect();
     const touchX = Number(relativeX) * window.innerWidth;
@@ -1185,16 +1196,33 @@ async function main() {
   window.__ftaIptvTvLeft = () => handleTvRemoteAction('left');
   window.__ftaIptvTvRight = () => handleTvRemoteAction('right');
   window.__ftaIptvTvToggleChannels = () => toggleTvPanel('channels');
-  window.__ftaIptvTvToggleMenu = () => toggleTvPanel('settings');
+  window.__ftaIptvTvToggleMenu = () => { if (!multiview.isOpen()) toggleTvPanel('settings'); };
   function handleAppBack() {
+    if (multiview.isOpen()) return multiview.back();
     if (isTvMode) return handleTvRemoteAction('close');
     if (backExit.press().exit) return false;
     return Boolean(appView?.closeMenuPanel());
   }
   window.__ftaIptvCloseMenu = handleAppBack;
   window.__ftaIptvResumeChannel = () => {
-    if (currentChannel) selectChannel(currentChannel, { historyMode: 'none', keepTvPanel: true });
+    if (multiview.isOpen()) multiview.resume();
+    else if (currentChannel) selectChannel(currentChannel, { historyMode: 'none', keepTvPanel: true });
   };
+  const multiview = createMultiview({
+    bridge: androidDeviceBridge,
+    isFavorite: (url) => favoritesApi.isFavorite(url),
+    onStart: () => {
+      clearTimeout(channelTuneTimer);
+      player.stop();
+      syncMediaSession(false);
+      document.documentElement.classList.remove('native-channel-active');
+    },
+    onClose: (played) => {
+      backExit.reset();
+      if (played && currentChannel) selectChannel(currentChannel, { historyMode: 'none', keepTvPanel: true });
+      overlayIdle.activity();
+    },
+  });
   root.addEventListener('click', event => { if (!event.target.closest('.mobile-menu-back, .mobile-category-back')) backExit.reset(); });
   const touchControls = document.createElement('nav');
   touchControls.className = 'mobile-fullscreen-controls';
@@ -1214,6 +1242,7 @@ async function main() {
   updateFullscreenControl();
   window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
   window.addEventListener('pagehide', () => {
+    multiview.suspend();
     overlayIdle.dispose();
     for (const type of overlayCompositionEvents) document.removeEventListener(type, overlayComposition, true);
     for (const type of overlayActivityEvents) document.removeEventListener(type, overlayIdle.activity, true);

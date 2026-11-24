@@ -55,7 +55,27 @@ test('inline native playback state drives controls and ignores events from an ea
   assert.equal(error, undefined);
   emit({ session: lastRequest, error: 'ERROR_CODE_IO_NETWORK_CONNECTION_FAILED' });
   assert.match(error.message, /NETWORK/);
+  player.stop();
+  assert.equal(stops, 2);
+  player.play('https://example.com/first.m3u8');
+  emit({ session: lastRequest, ready: true, playing: true });
+  assert.equal(player.isPlaying(), true);
   player.destroy();
+});
+
+test('browser players can start with independent audio settings', () => {
+  const foreground = createFakeVideo({ canPlayHls: true });
+  const background = createFakeVideo({ canPlayHls: true });
+  const first = createPlayer(foreground);
+  const second = createPlayer(background);
+  first.play('https://example.com/first.m3u8');
+  second.play('https://example.com/second.m3u8', { muted: true });
+  assert.equal(foreground.muted, false);
+  assert.equal(background.muted, true);
+  second.stop();
+  assert.equal(foreground.src, 'https://example.com/first.m3u8');
+  first.destroy();
+  second.destroy();
 });
 
 test('on-demand playback can use the original browser player and stop native channel playback', () => {

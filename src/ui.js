@@ -1,7 +1,7 @@
-import { QUALITY_OPTIONS } from './quality.js?v=20261122a';
-import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261122a';
-import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261122a';
-import { getMediaSection } from './catalog.js?v=20261122a';
+import { QUALITY_OPTIONS } from './quality.js?v=20261124a';
+import { APP_NAME, APP_VERSION, FTA_COUNTRIES } from './constants.js?v=20261124a';
+import { getBoundedFocusIndex, getWrappedFocusIndex } from './tvRemote.js?v=20261124a';
+import { getMediaSection } from './catalog.js?v=20261124a';
 
 export const CONTENT_CATEGORIES = Object.freeze([
   'News',
@@ -174,6 +174,7 @@ export function renderApp({
   themeApi,
   playlistAccessApi = null,
   onSelectChannel,
+  onMultiview = null,
   onVisibleChannelsChange = null,
   onFavoriteChange = null,
   onBack = null,
@@ -204,6 +205,7 @@ export function renderApp({
               <select id="country-filter"><option value="">All countries</option></select>
             </label>
             <button id="tv-settings-button" class="tv-only tv-root-action" type="button">Settings</button>
+            ${onMultiview ? '<button id="multiview-toggle" class="tv-root-action" type="button">Multiview</button>' : ''}
             <button id="tv-exit-button" class="tv-only tv-root-action" type="button">Exit app</button>
             <h2 class="tv-only tv-preferences-title">Settings</h2>
             <div class="tv-settings-content">
@@ -325,6 +327,7 @@ export function renderApp({
   root.querySelector('#tv-exit-button').addEventListener('click', () => window.AndroidDevice?.exitApp?.());
   root.querySelector('#tv-countries-button').addEventListener('click', () => isPanelMode() ? onBrowseSelection?.('countries') : openMenuPanel('countries'));
   root.querySelector('#tv-settings-button').addEventListener('click', () => isPanelMode() ? onSettingsSelection?.() : openMenuPanel('preferences'));
+  root.querySelector('#multiview-toggle')?.addEventListener('click', onMultiview);
   root.querySelectorAll('.mobile-menu-back').forEach(button => button.addEventListener('click', () => onBack?.()));
   const playlistLinkList = root.querySelector('#playlist-link-list');
   const playlistActionStatus = root.querySelector('#playlist-action-status');
