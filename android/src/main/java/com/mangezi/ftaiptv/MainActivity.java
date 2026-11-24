@@ -59,6 +59,7 @@ public final class MainActivity extends Activity {
     private static final String ACTION_PLAY = "com.mangezi.ftaiptv.action.PLAY";
     private static final String ACTION_PAUSE = "com.mangezi.ftaiptv.action.PAUSE";
     private static final String ACTION_TOGGLE_PLAYBACK = "com.mangezi.ftaiptv.action.TOGGLE_PLAYBACK";
+    private static final long TV_DOUBLE_BACK_MS = 1500L;
     private static final String PAUSE_WEB_MEDIA_SCRIPT =
             "(function(){try{"
                     + "if(window.__ftaIptvSuspendPlayback){window.__ftaIptvSuspendPlayback();}"
@@ -88,6 +89,8 @@ public final class MainActivity extends Activity {
     private boolean playerChannelSwipeCandidate;
     private volatile boolean tvPanelOpen;
     private volatile String tvPanelState = "none";
+    private long lastTvBackDown = -1L;
+    private boolean exitOnTvBackUp;
     private ValueCallback<Uri[]> pendingPlaylistFileCallback;
 
     @Override
@@ -294,6 +297,7 @@ public final class MainActivity extends Activity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) lastTvBackDown = -1L;
         boolean revealPlayerControlsAfterDispatch = false;
         if (!isTelevisionDevice && webView != null) {
             switch (event.getActionMasked()) {
@@ -338,6 +342,25 @@ public final class MainActivity extends Activity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getRepeatCount() > 0) return true;
+        if (isTelevisionDevice) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                long pressTime = event.getEventTime();
+                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+                    // The WebView may still be closing a menu when the next physical press arrives.
+                    long elapsed = pressTime - lastTvBackDown;
+                    exitOnTvBackUp = lastTvBackDown >= 0 && elapsed >= 0 && elapsed <= TV_DOUBLE_BACK_MS;
+                    lastTvBackDown = exitOnTvBackUp ? -1L : pressTime;
+                    if (exitOnTvBackUp) return true;
+                } else {
+                    lastTvBackDown = -1L;
+                }
+            } else if (event.getAction() == KeyEvent.ACTION_UP
+                    && event.getKeyCode() == KeyEvent.KEYCODE_BACK && exitOnTvBackUp) {
+                exitOnTvBackUp = false;
+                finish();
+                return true;
+            }
+        }
         if (isTelevisionDevice && isTvNavigationKey(event.getKeyCode())) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) forwardTvNavigationKey(event);
             return true; // Consume key-up too, preventing duplicate WebView activation.
@@ -845,6 +868,8 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
+        lastTvBackDown = -1L;
+        exitOnTvBackUp = false;
         if (multiviewPlayers != null) multiviewPlayers.stop();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (channelPlayer != null) channelPlayer.pause();

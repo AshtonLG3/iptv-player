@@ -1,5 +1,5 @@
-import { describePlaybackError, getMediaSection, getPlaybackSources } from './catalog.js?v=20261124c';
-import { createPlayer } from './player.js?v=20261124c';
+import { describePlaybackError, getMediaSection, getPlaybackSources } from './catalog.js?v=20261124d';
+import { createPlayer } from './player.js?v=20261124d';
 
 const MAX_TILES = 4;
 

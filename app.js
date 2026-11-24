@@ -1,36 +1,36 @@
-import { createOverlayIdle } from './src/overlayIdle.js?v=20261124c';
-import { createMultiview } from './src/multiview.js?v=20261124c';
-import { normalizeQuality } from './src/quality.js?v=20261124c';
-import * as playlistModule from './src/playlist.js?v=20261124c';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261124c';
+import { createOverlayIdle } from './src/overlayIdle.js?v=20261124d';
+import { createMultiview } from './src/multiview.js?v=20261124d';
+import { normalizeQuality } from './src/quality.js?v=20261124d';
+import * as playlistModule from './src/playlist.js?v=20261124d';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261124d';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261124c';
+} from './src/constants.js?v=20261124d';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261124c';
+} from './src/playlistAccess.js?v=20261124d';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261124c';
-import { createPlayer } from './src/player.js?v=20261124c';
-import { createEpgController } from './src/epg.js?v=20261124c';
-import { createFullscreenController } from './src/fullscreen.js?v=20261124c';
+} from './src/ui.js?v=20261124d';
+import { createPlayer } from './src/player.js?v=20261124d';
+import { createEpgController } from './src/epg.js?v=20261124d';
+import { createFullscreenController } from './src/fullscreen.js?v=20261124d';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261124c';
-import { updateMediaSession } from './src/mediaSession.js?v=20261124c';
+} from './src/channelRoute.js?v=20261124d';
+import { updateMediaSession } from './src/mediaSession.js?v=20261124d';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -43,14 +43,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261124c';
+} from './src/tvRemote.js?v=20261124d';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261124c';
+} from './src/storage.js?v=20261124d';
 
 const {
   clearPrivatePlaylist,
@@ -845,8 +845,8 @@ async function main() {
     return focusFeaturedService(nextIndex);
   }
 
-  function handleTvRemoteAction(action) {
-    if (action === 'close' && backExit.press().exit) return false;
+  function handleTvRemoteAction(action, { nativeBack = false } = {}) {
+    if (action === 'close' && !nativeBack && backExit.press().exit) return false;
     if (multiview.isOpen()) return action === 'close' ? multiview.back() : true;
     overlayIdle.activity();
     if (action !== 'close') backExit.reset();
@@ -1266,7 +1266,7 @@ async function main() {
   }
   layoutEl.appendChild(touchControls);
   updateFullscreenControl();
-  window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close');
+  window.__ftaIptvTvClosePanel = () => handleTvRemoteAction('close', { nativeBack: true });
   window.addEventListener('pagehide', () => {
     multiview.suspend();
     overlayIdle.dispose();
