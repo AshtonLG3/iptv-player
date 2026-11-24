@@ -14,6 +14,7 @@ import androidx.media3.common.VideoSize;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.DefaultLoadControl;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
@@ -49,6 +50,10 @@ final class EmbeddedChannelPlayer {
     }
 
     void play(String json, String title, String quality, int requestId) {
+        play(json, title, quality, requestId, false, true);
+    }
+
+    void play(String json, String title, String quality, int requestId, boolean multiview, boolean audible) {
         stop();
         request = requestId;
         sources.clear();
@@ -83,17 +88,20 @@ final class EmbeddedChannelPlayer {
         DefaultHttpDataSource.Factory http = new DefaultHttpDataSource.Factory()
                 .setUserAgent("Rugare TV/" + BuildConfig.VERSION_NAME + " Android")
                 .setConnectTimeoutMs(15000).setReadTimeoutMs(15000).setAllowCrossProtocolRedirects(true);
-        player = new ExoPlayer.Builder(context)
+        DefaultRenderersFactory renderers = new DefaultRenderersFactory(context)
+                .setEnableDecoderFallback(multiview);
+        player = new ExoPlayer.Builder(context, renderers)
                 .setMediaSourceFactory(new DefaultMediaSourceFactory(context).setDataSourceFactory(http))
                 .setTrackSelector(selector)
                 // A high starting estimate opens channels on their top rendition instead of 480p.
                 .setBandwidthMeter(new DefaultBandwidthMeter.Builder(context)
                         .setInitialBitrateEstimate(dataSaver ? 1_000_000L : 20_000_000L).build())
                 .setLoadControl(new DefaultLoadControl.Builder()
-                        .setBufferDurationsMs(15000, 50000, 1500, 3000).build())
+                        .setBufferDurationsMs(multiview ? 5000 : 15000, multiview ? 15000 : 50000, 1500, 3000).build())
                 .build();
         player.setAudioAttributes(new AudioAttributes.Builder().setUsage(C.USAGE_MEDIA)
-                .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE).build(), true);
+                .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE).build(), !multiview);
+        setAudible(audible);
         final ExoPlayer active = player;
         player.addListener(new Player.Listener() {
             @Override public void onIsPlayingChanged(boolean playing) {
@@ -192,6 +200,10 @@ final class EmbeddedChannelPlayer {
             view.setPlayer(null);
             previous.release();
         }
+    }
+
+    void setAudible(boolean audible) {
+        if (player != null) player.setVolume(audible ? 1f : 0f);
     }
 
     private void emit(String error) {

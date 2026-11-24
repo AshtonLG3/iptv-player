@@ -1,4 +1,4 @@
-import { normalizeQuality, selectQualityLevel } from './quality.js?v=20261122a';
+import { normalizeQuality, selectQualityLevel } from './quality.js?v=20261124a';
 export function createPlayer(videoEl, {
   HlsCtor = (typeof window !== 'undefined' ? window.Hls : undefined),
   androidBridge = globalThis.AndroidDevice,
@@ -51,14 +51,18 @@ export function createPlayer(videoEl, {
     errorHandler = handler;
   }
 
-  function destroy() {
+  function stop() {
     if (nativeRequest) androidBridge.stopChannel?.();
-    nativeEvents?.removeEventListener?.('rugare-native-playback', receiveNativeState);
     nativeRequest = null;
     nativePlaying = false;
     suspended = false;
     playSession += 1;
     cleanupPlayback();
+  }
+
+  function destroy() {
+    stop();
+    nativeEvents?.removeEventListener?.('rugare-native-playback', receiveNativeState);
   }
 
   function suspend() {
@@ -109,7 +113,7 @@ export function createPlayer(videoEl, {
   function play(sources, options = {}) {
     quality = normalizeQuality(options.quality);
     suspended = false;
-    videoEl.muted = false;
+    videoEl.muted = Boolean(options.muted);
     videoEl.volume = 1;
     playSession += 1;
     const session = playSession;
@@ -293,5 +297,5 @@ export function createPlayer(videoEl, {
     return nativeRequest ? nativePlaying : !videoEl.paused && !videoEl.ended;
   }
 
-  return { play, onError, destroy, suspend, resume, pause, isPlaying };
+  return { play, onError, stop, destroy, suspend, resume, pause, isPlaying };
 }

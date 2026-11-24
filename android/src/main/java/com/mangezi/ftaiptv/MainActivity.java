@@ -71,6 +71,7 @@ public final class MainActivity extends Activity {
     private FrameLayout mainRoot;
     private FrameLayout nativeFrame;
     private EmbeddedChannelPlayer channelPlayer;
+    private MultiviewPlayers multiviewPlayers;
     private MediaSession mediaSession;
     private NotificationManager notificationManager;
     private UpdateManager updateManager;
@@ -212,6 +213,7 @@ public final class MainActivity extends Activity {
                 view.destroy();
                 webView = null;
                 if (channelPlayer != null) channelPlayer.stop();
+                if (multiviewPlayers != null) multiviewPlayers.stop();
                 tvPanelOpen = false;
                 tvPanelState = "none";
                 if (!isFinishing() && !isDestroyed()) {
@@ -236,6 +238,10 @@ public final class MainActivity extends Activity {
                     "window.dispatchEvent(new CustomEvent('rugare-native-playback',{detail:" + state + "}));", null);
         });
         mainRoot.addView(nativeFrame, new FrameLayout.LayoutParams(1, 1));
+        multiviewPlayers = new MultiviewPlayers(this, mainRoot, state -> {
+            if (webView != null) webView.evaluateJavascript(
+                    "window.dispatchEvent(new CustomEvent('rugare-multiview-playback',{detail:" + state + "}));", null);
+        });
         mainRoot.addView(webView);
         setContentView(mainRoot);
         updateSystemUiForOrientation(getResources().getConfiguration().orientation);
@@ -838,6 +844,7 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
+        if (multiviewPlayers != null) multiviewPlayers.stop();
         if (channelPlayer != null) channelPlayer.pause();
         suppressMediaSessionUpdates = true;
         if (webView != null) {
@@ -892,6 +899,7 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if (multiviewPlayers != null) multiviewPlayers.stop();
         if (channelPlayer != null) channelPlayer.stop();
         if (pendingPlaylistFileCallback != null) {
             pendingPlaylistFileCallback.onReceiveValue(null);
@@ -1005,6 +1013,34 @@ public final class MainActivity extends Activity {
                 if (channelPlayer != null) channelPlayer.stop();
                 if (nativeFrame != null) nativeFrame.setVisibility(View.GONE);
             });
+        }
+
+        @JavascriptInterface
+        public void playMultiviewTile(int tile, String sources, String title, int session, boolean audible) {
+            runOnUiThread(() -> {
+                if (isResumedForMultiview()) multiviewPlayers.play(tile, sources, title, session, audible);
+            });
+        }
+
+        @JavascriptInterface public void setMultiviewBounds(String json) {
+            runOnUiThread(() -> {
+                if (isResumedForMultiview()) multiviewPlayers.setBounds(json, webView.getWidth());
+            });
+        }
+
+        @JavascriptInterface public void setMultiviewAudio(int tile) {
+            runOnUiThread(() -> {
+                if (isResumedForMultiview()) multiviewPlayers.setAudio(tile);
+            });
+        }
+
+        @JavascriptInterface public void stopMultiview() {
+            runOnUiThread(() -> { if (multiviewPlayers != null) multiviewPlayers.stop(); });
+        }
+
+        private boolean isResumedForMultiview() {
+            return !suppressMediaSessionUpdates && multiviewPlayers != null && webView != null
+                    && webView.getUrl() != null && webView.getUrl().startsWith("https://" + APP_ASSET_HOST + "/assets/");
         }
         @JavascriptInterface public void setChannelBounds(String json) {
             runOnUiThread(() -> {
