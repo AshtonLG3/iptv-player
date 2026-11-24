@@ -89,13 +89,16 @@ final class MultiviewPlayers {
     }
 
     void stop() {
-        boolean hadPlayers = container.getChildCount() > 0;
-        for (int i = 0; i < MAX_TILES; i++) {
-            if (players[i] != null) players[i].stop();
-            players[i] = null;
-            views[i] = null;
-        }
-        container.removeAllViews();
-        if (hadPlayers) activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        for (int i = 0; i < MAX_TILES; i++) stopTile(i);
+    }
+
+    boolean hasTiles() { return container.getChildCount() != 0; }
+
+    void stopTile(int tile) {
+        if (tile < 0 || tile >= MAX_TILES || players[tile] == null) return;
+        players[tile].stop();
+        players[tile] = null;
+        container.removeView(views[tile]);
+        views[tile] = null;
     }
 }

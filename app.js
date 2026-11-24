@@ -1,36 +1,36 @@
-import { createOverlayIdle } from './src/overlayIdle.js?v=20261124a';
-import { createMultiview } from './src/multiview.js?v=20261124a';
-import { normalizeQuality } from './src/quality.js?v=20261124a';
-import * as playlistModule from './src/playlist.js?v=20261124a';
-import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261124a';
+import { createOverlayIdle } from './src/overlayIdle.js?v=20261124b';
+import { createMultiview } from './src/multiview.js?v=20261124b';
+import { normalizeQuality } from './src/quality.js?v=20261124b';
+import * as playlistModule from './src/playlist.js?v=20261124b';
+import { groupChannelVariants, getPlaybackSources, describePlaybackError, getMediaSection } from './src/catalog.js?v=20261124b';
 import {
   COMPATIBLE_PLAYERS,
   CURATED_PLAYLISTS,
   FEATURED_OFFICIAL_SERVICE_IDS,
   OFFICIAL_SERVICES,
-} from './src/constants.js?v=20261124a';
+} from './src/constants.js?v=20261124b';
 import {
   createAndroidIntentUrl,
   isAndroidUserAgent,
   resolveShareablePlaylistUrl,
-} from './src/playlistAccess.js?v=20261124a';
+} from './src/playlistAccess.js?v=20261124b';
 import {
   getCategoryNames,
   getChannelInitials,
   renderApp,
   resolveChannelLogoUrl,
-} from './src/ui.js?v=20261124a';
-import { createPlayer } from './src/player.js?v=20261124a';
-import { createEpgController } from './src/epg.js?v=20261124a';
-import { createFullscreenController } from './src/fullscreen.js?v=20261124a';
+} from './src/ui.js?v=20261124b';
+import { createPlayer } from './src/player.js?v=20261124b';
+import { createEpgController } from './src/epg.js?v=20261124b';
+import { createFullscreenController } from './src/fullscreen.js?v=20261124b';
 import {
   createChannelRouteIndex,
   getChannelPath,
   getPlayerBasePath,
   getRequestedChannelSlug,
   supportsChannelRoutes,
-} from './src/channelRoute.js?v=20261124a';
-import { updateMediaSession } from './src/mediaSession.js?v=20261124a';
+} from './src/channelRoute.js?v=20261124b';
+import { updateMediaSession } from './src/mediaSession.js?v=20261124b';
 import {
   detectTelevision,
   createBackExitPolicy,
@@ -43,14 +43,14 @@ import {
   getTvVerticalPanelAction,
   getWrappedFocusIndex,
   shouldActivateTelevisionFromRemote,
-} from './src/tvRemote.js?v=20261124a';
+} from './src/tvRemote.js?v=20261124b';
 import {
   getTheme,
   createFavoritesApi,
   setTheme,
   getLastWatched,
   setLastWatched,
-} from './src/storage.js?v=20261124a';
+} from './src/storage.js?v=20261124b';
 
 const {
   clearPrivatePlaylist,
@@ -105,6 +105,7 @@ async function main() {
   let playerHudHideTimer = null;
   let appView = null;
   let currentChannel = null;
+  let catalog = [];
   const epg = createEpgController({ storage: window.localStorage, androidBridge: window.AndroidDevice });
   epg.start();
   let visibleChannels = [];
@@ -114,22 +115,23 @@ async function main() {
   const androidDeviceBridge = globalThis.AndroidDevice;
   const usesNativeChannelPlayer = typeof androidDeviceBridge?.playChannel === 'function';
   document.documentElement.classList.toggle('native-channel-player', usesNativeChannelPlayer);
-  if (usesNativeChannelPlayer) {
-    let lastBounds = '';
-    function syncNativeBounds() {
-      const rect = playerFrameEl.getBoundingClientRect();
-      const bounds = JSON.stringify({
-        left: rect.left, top: rect.top, width: rect.width, height: rect.height,
-        viewportWidth: window.innerWidth,
-        background: getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0d0f12',
-        visible: document.documentElement.classList.contains('native-channel-active')
-          && document.visibilityState !== 'hidden',
-      });
-      if (bounds !== lastBounds) {
-        lastBounds = bounds;
-        androidDeviceBridge.setChannelBounds(bounds);
-      }
+  let lastBounds = '';
+  function syncNativeBounds() {
+    if (!usesNativeChannelPlayer) return;
+    const rect = multiview.primaryBounds() || playerFrameEl.getBoundingClientRect();
+    const bounds = JSON.stringify({
+      left: rect.left, top: rect.top, width: rect.width, height: rect.height,
+      viewportWidth: window.innerWidth,
+      background: getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0d0f12',
+      visible: document.documentElement.classList.contains('native-channel-active')
+        && document.visibilityState !== 'hidden',
+    });
+    if (bounds !== lastBounds) {
+      lastBounds = bounds;
+      androidDeviceBridge.setChannelBounds(bounds);
     }
+  }
+  if (usesNativeChannelPlayer) {
     new ResizeObserver(syncNativeBounds).observe(playerFrameEl);
     new MutationObserver(syncNativeBounds).observe(document.documentElement, { attributes: true });
     window.addEventListener('resize', syncNativeBounds);
@@ -685,9 +687,11 @@ async function main() {
 
     clearTimeout(channelTuneTimer);
     const startPlayback = () => {
+      const audible = multiview.isPrimaryAudible();
       player.play(getPlaybackSources(channel, qualityApi.get()), {
-        quality: qualityApi.get(), title: channel.name, nativePlayback: getMediaSection(channel) === 'live',
+        quality: qualityApi.get(), title: channel.name, nativePlayback: getMediaSection(channel) === 'live', muted: !audible,
       });
+      if (!audible) androidDeviceBridge?.setChannelAudible?.(false);
       syncMediaSession(true);
     };
     if (isTvMode) {
@@ -842,6 +846,7 @@ async function main() {
   }
 
   function handleTvRemoteAction(action) {
+    if (action === 'close' && backExit.press().exit) return false;
     if (multiview.isOpen()) return action === 'close' ? multiview.back() : true;
     overlayIdle.activity();
     if (action !== 'close') backExit.reset();
@@ -866,7 +871,6 @@ async function main() {
         if (currentChannel) toggleCurrentVideo();
         return true;
       case 'close':
-        if (backExit.press().exit) return false;
         if (tvPanel === 'preferences') {
           if (appView?.closeQualityOptions()) return true;
           const expanded = [...root.querySelectorAll('.overflow-menu-panel details[open]')];
@@ -892,9 +896,12 @@ async function main() {
     if (['Escape', 'BrowserBack'].includes(key) && event.repeat) { event.preventDefault(); return; }
     if (multiview.isOpen()) {
       if (key === 'Escape' || key === 'BrowserBack') {
-        event.preventDefault();
-        multiview.back();
-      } else if (isTvMode) multiview.handleDirection(event, key);
+        if (handleAppBack()) event.preventDefault();
+        else androidDeviceBridge?.exitApp?.();
+      } else {
+        backExit.reset();
+        if (isTvMode) multiview.handleDirection(event, key);
+      }
       return;
     }
     if (!['Escape', 'BrowserBack'].includes(key)) backExit.reset();
@@ -916,6 +923,12 @@ async function main() {
     if (key === 'Escape' || key === 'BrowserBack') {
       if (handleTvRemoteAction('close')) event.preventDefault();
       else androidDeviceBridge?.exitApp?.();
+      return;
+    }
+
+    if (key === 'ArrowUp' && tvPanel === 'none' && catalog.length) {
+      event.preventDefault();
+      if (!event.repeat) openMultiview();
       return;
     }
 
@@ -984,6 +997,7 @@ async function main() {
         sessionStore: window.sessionStorage,
         privateStore: androidDeviceBridge ? window.localStorage : null,
       }));
+      catalog = channels;
       channelRoutes = createChannelRouteIndex(channels);
       // Keep stars saved against an older quality variant visible after grouping.
       for (const channel of channels) {
@@ -1006,7 +1020,7 @@ async function main() {
         qualityApi,
         playlistAccessApi,
         onSelectChannel: selectChannel,
-        onMultiview: () => multiview.open(channels, currentChannel),
+        onMultiview: openMultiview,
         onVisibleChannelsChange: setVisibleChannels,
         onFavoriteChange: () => updateNowPlayingSummary(currentChannel),
         onBack: () => { if (!handleAppBack()) androidDeviceBridge?.exitApp?.(); },
@@ -1198,9 +1212,10 @@ async function main() {
   window.__ftaIptvTvToggleChannels = () => toggleTvPanel('channels');
   window.__ftaIptvTvToggleMenu = () => { if (!multiview.isOpen()) toggleTvPanel('settings'); };
   function handleAppBack() {
-    if (multiview.isOpen()) return multiview.back();
     if (isTvMode) return handleTvRemoteAction('close');
+    if (multiview.isOpen() && !androidDeviceBridge) return multiview.back();
     if (backExit.press().exit) return false;
+    if (multiview.isOpen()) return multiview.back();
     return Boolean(appView?.closeMenuPanel());
   }
   window.__ftaIptvCloseMenu = handleAppBack;
@@ -1208,18 +1223,25 @@ async function main() {
     if (multiview.isOpen()) multiview.resume();
     else if (currentChannel) selectChannel(currentChannel, { historyMode: 'none', keepTvPanel: true });
   };
+  function openMultiview() {
+    backExit.reset();
+    if (isTvMode) setTvPanel('none', { focus: false, showHud: false });
+    else appView?.setMenuOpen(false);
+    multiview.open(catalog, currentChannel);
+  }
   const multiview = createMultiview({
     bridge: androidDeviceBridge,
+    video: videoEl,
     isFavorite: (url) => favoritesApi.isFavorite(url),
-    onStart: () => {
-      clearTimeout(channelTuneTimer);
-      player.stop();
-      syncMediaSession(false);
-      document.documentElement.classList.remove('native-channel-active');
+    onChoosePrimary: (channel) => selectChannel(channel),
+    onPrimaryAudio: (enabled) => {
+      if (usesNativeChannelPlayer) androidDeviceBridge.setChannelAudible?.(enabled);
+      else videoEl.muted = !enabled;
     },
-    onClose: (played) => {
-      backExit.reset();
-      if (played && currentChannel) selectChannel(currentChannel, { historyMode: 'none', keepTvPanel: true });
+    onResumePrimary: () => { if (currentChannel) player.resume()?.catch(() => {}); },
+    onLayoutChange: syncNativeBounds,
+    onClose: () => {
+      if (isTvMode) playerPanelEl.focus({ preventScroll: true });
       overlayIdle.activity();
     },
   });

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "packageName": "com.mangezi.ftaiptv",
-  "versionCode": 76,
-  "versionName": "1.6.48",
-  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.48.apk",
-  "sha256": "FE9855189D682040759F7E1487551809C698C0F3C30079D5CA29F2C238FA000A",
-  "releaseNotes": "Multiview plays two, three or four live channels at once. Choose one channel for audio, expand a tile, or return to the grid. Multiview prefers lower-bitrate streams where available. Playback capacity depends on the device and channel feeds.",
-  "publishedAt": "2026-11-24T21:09:24.751039+00:00"
+  "versionCode": 77,
+  "versionName": "1.6.49",
+  "apkUrl": "https://mangezi.xyz/tv/downloads/rugare-tv-v1.6.49.apk",
+  "sha256": "73E339BC06003F10605F3603B3B6161ABF85F2041B6BFEDD14083172597E6680",
+  "releaseNotes": "Press Up while watching to open a transparent channel list. Selecting a channel adds it immediately and keeps the current stream playing. Move focus between tiles to switch audio and reveal controls. Two Back presses within 1.5 seconds exit the app.",
+  "publishedAt": "2026-11-24T21:46:01.502591+00:00"
 }
