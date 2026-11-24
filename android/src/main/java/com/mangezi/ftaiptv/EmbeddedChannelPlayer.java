@@ -206,6 +206,8 @@ final class EmbeddedChannelPlayer {
         if (player != null) player.setVolume(audible ? 1f : 0f);
     }
 
+    boolean isPlaying() { return player != null && player.isPlaying(); }
+
     private void emit(String error) {
         try {
             JSONObject state = new JSONObject();

@@ -1,134 +1,239 @@
-import { describePlaybackError, getMediaSection, getPlaybackSources } from './catalog.js?v=20261124a';
-import { createPlayer } from './player.js?v=20261124a';
+import { describePlaybackError, getMediaSection, getPlaybackSources } from './catalog.js?v=20261124b';
+import { createPlayer } from './player.js?v=20261124b';
 
-export function createMultiview({ bridge, isFavorite, onStart, onClose }) {
-  const native = typeof bridge?.playMultiviewTile === 'function';
+const MAX_TILES = 4;
+
+export function createMultiview({ bridge, video, isFavorite, onChoosePrimary, onPrimaryAudio, onResumePrimary, onLayoutChange, onClose }) {
+  const native = typeof bridge?.stopMultiviewTile === 'function';
+  const videoHome = video.parentNode;
+  const videoAnchor = video.nextSibling;
   const dialog = document.createElement('dialog');
-  dialog.className = 'multiview';
-  dialog.setAttribute('aria-labelledby', 'multiview-title');
+  dialog.className = native ? 'multiview multiview-native' : 'multiview';
+  dialog.setAttribute('aria-label', 'Multiview');
   dialog.innerHTML = `
-    <header class="multiview-header">
-      <h2 id="multiview-title">Multiview</h2>
-      <button type="button" data-edit hidden>Change channels</button>
-      <button type="button" data-close>Close</button>
-    </header>
-    <section class="multiview-setup">
-      <div class="multiview-controls">
-        <div class="multiview-counts" role="group" aria-label="Number of channels">
-          <button type="button" data-count="2">2 channels</button>
-          <button type="button" data-count="3">3 channels</button>
-          <button type="button" data-count="4">4 channels</button>
-        </div>
-        <button type="button" data-start></button>
-      </div>
+    <section class="multiview-grid" aria-label="Playing channels" hidden></section>
+    <section class="multiview-setup" aria-labelledby="multiview-title" hidden>
+      <header>
+        <h2 id="multiview-title">Add a channel</h2>
+        <button type="button" data-dismiss aria-label="Close channel list">Close</button>
+      </header>
       <input type="search" placeholder="Search live channels" aria-label="Search live channels" />
       <div class="multiview-list" role="group" aria-label="Live channels"></div>
-    </section>
-    <section class="multiview-grid" aria-label="Playing channels" hidden></section>`;
+    </section>`;
   document.body.append(dialog);
+  const grid = dialog.querySelector('.multiview-grid');
   const setup = dialog.querySelector('.multiview-setup');
   const list = dialog.querySelector('.multiview-list');
-  const grid = dialog.querySelector('.multiview-grid');
   const search = dialog.querySelector('input');
-  const start = dialog.querySelector('[data-start]');
-  const edit = dialog.querySelector('[data-edit]');
-  const counts = [...dialog.querySelectorAll('[data-count]')];
-  let channels = [];
-  let selected = [];
+  let catalog = [];
+  let primaryChannel = null;
   let tiles = [];
-  let opener;
-  let count = 2;
-  let audible = 0;
+  let active = null;
   let expanded = null;
+  let opener;
   let session = 0;
-  let played = false;
   let suspended = false;
 
-  function updateSelection() {
-    for (const button of counts) button.setAttribute('aria-pressed', String(Number(button.dataset.count) === count));
-    start.disabled = selected.length !== count;
-    start.textContent = `Watch (${selected.length}/${count})`;
-    for (const button of list.querySelectorAll('button')) {
-      const picked = selected.includes(channels[Number(button.dataset.channel)]);
-      button.setAttribute('aria-pressed', String(picked));
-      button.setAttribute('aria-disabled', String(!picked && selected.length === count));
+  function syncBounds() {
+    onLayoutChange();
+    if (!native || grid.hidden || suspended) return;
+    const positions = Array(MAX_TILES - 1).fill(null);
+    for (const tile of tiles) {
+      if (tile.primary) continue;
+      const { left, top, width, height } = tile.picture.getBoundingClientRect();
+      positions[tile.slot] = { left, top, width, height };
     }
+    bridge.setMultiviewBounds(JSON.stringify({ viewportWidth: window.innerWidth, tiles: positions }));
+  }
+
+  function syncAudio() {
+    onPrimaryAudio(!active || active.primary);
+    if (native && !suspended) bridge.setMultiviewAudio(active?.slot ?? -1);
+    for (const tile of tiles) {
+      if (tile.player) tile.picture.querySelector('video').muted = tile !== active;
+    }
+  }
+
+  function setActive(tile) {
+    if (active === tile) return;
+    if (active) {
+      active.actions.hidden = true;
+      active.element.removeAttribute('data-active');
+    }
+    active = tile;
+    if (active) {
+      active.actions.hidden = false;
+      active.element.setAttribute('data-active', '');
+    }
+    syncAudio();
+  }
+
+  function focusTile(tile) {
+    tile?.select.focus({ preventScroll: true });
   }
 
   function renderList() {
     const query = search.value.trim().toLowerCase();
-    list.replaceChildren();
+    const playing = new Set([primaryChannel?.url, ...tiles.map((tile) => tile.channel.url)]);
     const rows = document.createDocumentFragment();
-    for (const [index, channel] of channels.entries()) {
-      if (!`${channel.name} ${channel.country || ''}`.toLowerCase().includes(query)) continue;
+    for (const channel of catalog) {
+      if (playing.has(channel.url) || !`${channel.name} ${channel.country || ''}`.toLowerCase().includes(query)) continue;
       const button = document.createElement('button');
       button.type = 'button';
-      button.dataset.channel = String(index);
       button.textContent = channel.name;
+      button.addEventListener('click', () => addChannel(channel));
       rows.append(button);
     }
     if (!rows.childElementCount) rows.append('No matching live channels');
-    list.append(rows);
+    list.replaceChildren(rows);
     list.scrollTop = 0;
-    updateSelection();
   }
 
-  function open(catalog, currentChannel) {
-    if (dialog.open) return;
-    channels = [...new Map(catalog.filter((channel) => getMediaSection(channel) === 'live')
-      .map((channel) => [channel.url, channel])).values()].sort((a, b) =>
-      Number(b === currentChannel) - Number(a === currentChannel)
-      || Number(isFavorite(b.url)) - Number(isFavorite(a.url)) || a.name.localeCompare(b.name));
-    selected = channels.includes(currentChannel) ? [currentChannel] : [];
-    count = 2;
-    played = false;
-    suspended = false;
+  function openPicker() {
+    if (tiles.length >= MAX_TILES) return;
     search.value = '';
-    opener = document.activeElement;
     renderList();
+    setup.hidden = false;
+    grid.inert = true;
+    (list.querySelector('button') || search).focus({ preventScroll: true });
+  }
+
+  function open(channels, currentChannel) {
+    if (dialog.open) return;
+    catalog = [...new Map(channels.filter((channel) => getMediaSection(channel) === 'live')
+      .map((channel) => [channel.url, channel])).values()].sort((a, b) =>
+      Number(isFavorite(b.url)) - Number(isFavorite(a.url)) || a.name.localeCompare(b.name));
+    primaryChannel = currentChannel && getMediaSection(currentChannel) === 'live' ? currentChannel : null;
+    opener = document.activeElement;
+    dialog.querySelector('h2').textContent = primaryChannel ? 'Add a channel' : 'Choose a live channel';
     dialog.showModal();
-    counts[0].focus();
+    openPicker();
   }
 
-  function syncBounds() {
-    if (!native || grid.hidden || suspended) return;
-    bridge.setMultiviewBounds(JSON.stringify({ viewportWidth: window.innerWidth, tiles: tiles.map((tile) => {
-      const { left, top, width, height } = tile.video.getBoundingClientRect();
-      return { left, top, width, height };
-    }) }));
+  function dismissPicker() {
+    if (grid.hidden) { close(); return; }
+    setup.hidden = true;
+    grid.inert = false;
+    focusTile(active);
   }
 
-  function updateAudio() {
-    if (native && !suspended) bridge.setMultiviewAudio(audible);
-    for (const [index, tile] of tiles.entries()) {
-      const active = index === audible;
-      tile.video.muted = !active;
-      tile.audio.setAttribute('aria-pressed', String(active));
-      tile.audio.textContent = active ? 'Audio on' : 'Audio';
+  function moveVideo(parent, anchor) {
+    if (native) return;
+    if (parent.moveBefore && video.isConnected && parent.isConnected) {
+      parent.moveBefore(video, anchor);
+    } else {
+      const playing = !video.paused;
+      parent.insertBefore(video, anchor);
+      if (playing && video.paused) video.play().catch(() => {});
     }
   }
 
-  function setExpanded(index) {
-    expanded = index;
-    grid.classList.toggle('multiview-expanded', index !== null);
-    for (const [i, tile] of tiles.entries()) {
-      tile.element.hidden = index !== null && index !== i;
-      tile.expand.textContent = index === null ? 'Fullscreen' : 'Show grid';
+  function makeTile(channel, slot) {
+    const element = document.createElement('article');
+    element.className = 'multiview-tile';
+    element.innerHTML = `
+      <div class="multiview-picture">
+        <span class="multiview-status" role="status"></span>
+        <button class="multiview-tile-select" type="button"></button>
+      </div>
+      <footer>
+        <strong></strong>
+        <div class="multiview-tile-actions" aria-label="Channel controls" hidden>
+          <button type="button" data-expand>Fullscreen</button>
+          <button type="button" data-add>Add channel</button>
+          <button type="button" data-remove></button>
+          <button type="button" data-retry hidden>Retry</button>
+        </div>
+      </footer>`;
+    const tile = {
+      channel, element, slot, primary: slot < 0,
+      picture: element.querySelector('.multiview-picture'),
+      status: element.querySelector('.multiview-status'),
+      select: element.querySelector('.multiview-tile-select'),
+      actions: element.querySelector('.multiview-tile-actions'),
+      retry: element.querySelector('[data-retry]'),
+      add: element.querySelector('[data-add]'),
+      expand: element.querySelector('[data-expand]'),
+    };
+    element.querySelector('strong').textContent = channel.name;
+    tile.select.setAttribute('aria-label', channel.name);
+    element.addEventListener('focusin', () => setActive(tile));
+    tile.select.addEventListener('click', () => { setActive(tile); tile.expand.focus(); });
+    tile.expand.addEventListener('click', () => showExpanded(expanded ? null : tile));
+    tile.add.addEventListener('click', openPicker);
+    tile.retry.addEventListener('click', () => { focusTile(tile); playTile(tile); });
+    const remove = element.querySelector('[data-remove]');
+    remove.textContent = tile.primary ? 'Exit Multiview' : 'Remove';
+    remove.addEventListener('click', () => tile.primary ? close() : removeTile(tile));
+    if (!native && !tile.primary) {
+      const media = document.createElement('video');
+      media.playsInline = true;
+      tile.picture.prepend(media);
+      tile.player = createPlayer(media, { androidBridge: null, nativeEvents: null });
+      tile.player.onError((error) => showError(tile, describePlaybackError(error, channel)));
+      media.addEventListener('playing', () => { tile.status.textContent = ''; });
+      media.addEventListener('ended', () => showError(tile, 'Stream ended'));
+    }
+    return tile;
+  }
+
+  function updateGrid() {
+    grid.dataset.count = String(tiles.length);
+    grid.classList.toggle('multiview-expanded', Boolean(expanded));
+    for (const tile of tiles) {
+      tile.element.hidden = Boolean(expanded && tile !== expanded);
+      tile.expand.textContent = expanded ? 'Show grid' : 'Fullscreen';
+      tile.add.hidden = tiles.length >= MAX_TILES;
     }
     syncBounds();
   }
 
-  function playTile(index) {
-    const tile = tiles[index];
+  function showExpanded(tile) {
+    expanded = tile;
+    updateGrid();
+    focusTile(tile || active);
+  }
+
+  function addChannel(channel) {
+    if (tiles.length >= MAX_TILES || channel.url === primaryChannel?.url || tiles.some((tile) => tile.channel.url === channel.url)) return;
+    if (!primaryChannel) {
+      primaryChannel = channel;
+      onChoosePrimary(channel);
+      dialog.querySelector('h2').textContent = 'Add a channel';
+      openPicker();
+      return;
+    }
+    if (tiles.length === 0) {
+      const primary = makeTile(primaryChannel, -1);
+      tiles.push(primary);
+      grid.append(primary.element);
+      moveVideo(primary.picture, primary.picture.firstChild);
+      grid.hidden = false;
+      document.documentElement.classList.add('multiview-playing');
+    }
+    const slot = [0, 1, 2].find((index) => !tiles.some((tile) => tile.slot === index));
+    const tile = makeTile(channel, slot);
+    tiles.push(tile);
+    grid.append(tile.element);
+    expanded = null;
+    setup.hidden = true;
+    grid.inert = false;
+    setActive(tile);
+    updateGrid();
+    playTile(tile);
+    focusTile(tile);
+  }
+
+  function playTile(tile) {
     tile.status.textContent = 'Loading…';
     tile.retry.hidden = true;
     const sources = getPlaybackSources(tile.channel, 'data-saver');
     if (native) {
       tile.session = ++session;
-      bridge.playMultiviewTile(index, JSON.stringify(sources), tile.channel.name, tile.session, index === audible);
+      bridge.playMultiviewTile(tile.slot, JSON.stringify(sources), tile.channel.name, tile.session, tile === active);
       syncBounds();
     } else {
-      tile.player.play(sources, { quality: 'data-saver', muted: index !== audible });
+      tile.player.play(sources, { quality: 'data-saver', muted: tile !== active });
     }
   }
 
@@ -138,164 +243,108 @@ export function createMultiview({ bridge, isFavorite, onStart, onClose }) {
     tile.player?.stop();
   }
 
-  function makeTile(channel, index) {
-    const element = document.createElement('article');
-    element.className = 'multiview-tile';
-    element.innerHTML = `
-      <div class="multiview-picture">
-        <video playsinline></video>
-        <span class="multiview-status" role="status"></span>
-      </div>
-      <footer><strong></strong><button type="button" data-retry hidden>Retry</button>
-        <button type="button" data-audio>Audio</button><button type="button" data-expand>Fullscreen</button></footer>`;
-    element.querySelector('strong').textContent = channel.name;
-    const video = element.querySelector('video');
-    const tile = {
-      channel, element, video,
-      status: element.querySelector('.multiview-status'),
-      retry: element.querySelector('[data-retry]'),
-      audio: element.querySelector('[data-audio]'),
-      expand: element.querySelector('[data-expand]'),
-    };
-    tile.audio.setAttribute('aria-label', `Audio for ${channel.name}`);
-    tile.retry.addEventListener('click', () => { tile.audio.focus(); playTile(index); });
-    tile.audio.addEventListener('click', () => { audible = index; updateAudio(); });
-    tile.expand.addEventListener('click', () => {
-      if (expanded === null) { audible = index; updateAudio(); }
-      setExpanded(expanded === null ? index : null);
-    });
-    if (!native) {
-      tile.player = createPlayer(video, { androidBridge: null, nativeEvents: null });
-      tile.player.onError((error) => showError(tile, describePlaybackError(error, channel)));
-      video.addEventListener('playing', () => { tile.status.textContent = ''; });
-      video.addEventListener('ended', () => showError(tile, 'Stream ended'));
-    }
-    return tile;
-  }
-
-  function startGrid() {
-    if (selected.length !== count) return;
-    if (!played) onStart();
-    played = true;
-    setup.hidden = true;
-    grid.hidden = edit.hidden = false;
-    grid.dataset.count = String(count);
-    audible = 0;
-    tiles = selected.map(makeTile);
-    grid.replaceChildren(...tiles.map((tile) => tile.element));
-    dialog.classList.toggle('multiview-native', native);
-    document.documentElement.classList.add('multiview-playing');
-    setExpanded(null);
-    updateAudio();
-    tiles.forEach((_, index) => playTile(index));
-    tiles[0].audio.focus();
-  }
-
-  function stopPlayback() {
-    if (native) bridge.stopMultiview();
-    for (const tile of tiles) {
-      tile.session = null;
-      tile.player?.destroy();
-      tile.player = null;
-    }
-  }
-
-  function showSetup() {
-    stopPlayback();
-    tiles = [];
-    grid.replaceChildren();
-    grid.hidden = edit.hidden = true;
-    setup.hidden = false;
-    expanded = null;
-    document.documentElement.classList.remove('multiview-playing');
+  function removeTile(tile) {
+    if (tiles.length === 2) { close(); return; }
+    if (native) bridge.stopMultiviewTile(tile.slot);
+    tile.player?.destroy();
+    tiles = tiles.filter((item) => item !== tile);
+    tile.element.remove();
+    setActive(tiles[0]);
+    showExpanded(null);
   }
 
   function close() {
     if (!dialog.open) return;
-    if (!grid.hidden) showSetup();
+    if (tiles.length) {
+      if (native) bridge.stopMultiview();
+      for (const tile of tiles) tile.player?.destroy();
+      moveVideo(videoHome, videoAnchor);
+      tiles = [];
+      grid.replaceChildren();
+      grid.hidden = true;
+      document.documentElement.classList.remove('multiview-playing');
+    }
+    expanded = null;
+    setActive(null);
+    setup.hidden = true;
+    suspended = false;
     dialog.close();
+    syncBounds();
     opener?.focus({ preventScroll: true });
-    onClose(played);
+    onClose();
   }
 
   function back() {
-    if (expanded !== null) setExpanded(null);
+    if (!setup.hidden) dismissPicker();
+    else if (expanded) showExpanded(null);
+    else if (active?.actions.contains(document.activeElement)) focusTile(active);
     else close();
     return true;
   }
 
   function suspend() {
-    if (!dialog.open || grid.hidden || suspended) return;
+    if (!dialog.open || suspended) return;
     suspended = true;
-    if (native) stopPlayback();
-    else for (const tile of tiles) tile.player.suspend();
+    if (native) bridge.stopMultiview();
+    else for (const tile of tiles) tile.player?.suspend();
   }
 
   function resume() {
-    if (!dialog.open || grid.hidden || !suspended) return;
+    if (!dialog.open || !suspended) return;
     suspended = false;
-    updateAudio();
-    tiles.forEach((_, index) => playTile(index));
+    onResumePrimary();
+    syncAudio();
+    for (const tile of tiles) if (!tile.primary) playTile(tile);
   }
 
   function handleDirection(event, key) {
-    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(key)) return;
-    const current = document.activeElement;
     const horizontal = key === 'ArrowLeft' || key === 'ArrowRight';
+    if (!horizontal && !['ArrowUp', 'ArrowDown'].includes(key)) return;
+    const current = document.activeElement;
     if (horizontal && current === search) return;
     event.preventDefault();
-    const candidates = [...dialog.querySelectorAll('button:not(:disabled), input')]
-      .filter((button) => button.getClientRects().length);
     const direction = key === 'ArrowUp' || key === 'ArrowLeft' ? -1 : 1;
-    const from = candidates.indexOf(current);
-    let next;
+    const move = (items) => {
+      const target = items[items.indexOf(current) + direction];
+      target?.focus({ preventScroll: true });
+      target?.scrollIntoView({ block: 'nearest' });
+    };
     if (!setup.hidden) {
-      const insideList = list.contains(current);
-      if (insideList && horizontal) return;
-      next = candidates[from + direction] || candidates[from];
-    } else {
-      const center = (button) => {
-        const rect = button.getBoundingClientRect();
-        return [rect.left + rect.width / 2, rect.top + rect.height / 2];
-      };
-      const [x, y] = center(current);
-      let best = Infinity;
-      for (const button of candidates) {
-        const [cx, cy] = center(button);
-        const forward = (horizontal ? cx - x : cy - y) * direction;
-        const cross = Math.abs(horizontal ? cy - y : cx - x);
-        const score = forward + cross * 4;
-        if (forward > 4 && score < best) { best = score; next = button; }
-      }
+      if (!horizontal) move([setup.querySelector('[data-dismiss]'), search, ...list.querySelectorAll('button')]);
+      return;
     }
-    next?.focus({ preventScroll: true });
-    next?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (active?.actions.contains(current)) {
+      if (horizontal) move([...active.actions.querySelectorAll('button:not([hidden])')]);
+      else focusTile(active);
+      return;
+    }
+    if (!active) return;
+    const center = ({ picture }) => {
+      const rect = picture.getBoundingClientRect();
+      return [rect.left + rect.width / 2, rect.top + rect.height / 2];
+    };
+    const [x, y] = center(active);
+    let best = Infinity;
+    let next;
+    for (const tile of tiles) {
+      if (tile.element.hidden) continue;
+      const [cx, cy] = center(tile);
+      const forward = (horizontal ? cx - x : cy - y) * direction;
+      const score = forward + Math.abs(horizontal ? cy - y : cx - x) * 4;
+      if (forward > 4 && score < best) { best = score; next = tile; }
+    }
+    if (next) focusTile(next);
+    else if (key === 'ArrowUp' && !event.repeat) openPicker();
   }
 
-  for (const button of counts) button.addEventListener('click', () => {
-    count = Number(button.dataset.count);
-    selected = selected.slice(0, count);
-    updateSelection();
-  });
-  list.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-channel]');
-    if (!button || button.getAttribute('aria-disabled') === 'true') return;
-    const channel = channels[Number(button.dataset.channel)];
-    if (selected.includes(channel)) selected = selected.filter((item) => item !== channel);
-    else selected.push(channel);
-    updateSelection();
-    if (!start.disabled) start.focus();
-  });
   search.addEventListener('input', renderList);
-  start.addEventListener('click', startGrid);
-  edit.addEventListener('click', () => { showSetup(); counts.find((button) => Number(button.dataset.count) === count).focus(); });
-  dialog.querySelector('[data-close]').addEventListener('click', close);
+  setup.querySelector('[data-dismiss]').addEventListener('click', dismissPicker);
   dialog.addEventListener('cancel', (event) => { event.preventDefault(); back(); });
   window.addEventListener('resize', syncBounds);
   document.addEventListener('visibilitychange', () => document.hidden ? suspend() : resume());
   if (native) window.addEventListener('rugare-multiview-playback', ({ detail }) => {
-    const tile = tiles[detail.tile];
-    if (!tile || tile.session !== detail.session) return;
+    const tile = tiles.find((item) => item.slot === detail.tile && item.session === detail.session);
+    if (!tile || suspended) return;
     if (detail.ended) showError(tile, 'Stream ended');
     else if (detail.error?.includes('DECODER_INIT_FAILED')) {
       showError(tile, 'The device could not start another decoder. Try a lower-resolution channel or fewer tiles.');
@@ -303,5 +352,9 @@ export function createMultiview({ bridge, isFavorite, onStart, onClose }) {
     else if (detail.ready) tile.status.textContent = '';
   });
 
-  return { open, close, back, handleDirection, suspend, resume, isOpen: () => dialog.open };
+  return {
+    open, close, back, handleDirection, suspend, resume, isOpen: () => dialog.open,
+    primaryBounds: () => tiles[0]?.picture.getBoundingClientRect(),
+    isPrimaryAudible: () => !active || active.primary,
+  };
 }

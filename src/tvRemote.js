@@ -152,7 +152,7 @@ export function getTvHorizontalPanelAction(currentPanel, direction) {
 }
 
 // Only a rapid double Back exits; menu cycles and held keys never accumulate.
-export function createBackExitPolicy({ now = () => Date.now(), rapidMs = 600 } = {}) {
+export function createBackExitPolicy({ now = () => Date.now(), rapidMs = 1500 } = {}) {
   let previous = null;
   return {
     reset() { previous = null; },

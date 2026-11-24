@@ -15,13 +15,13 @@ import {
   shouldActivateTelevisionFromRemote,
 } from '../src/tvRemote.js';
 
-test('two complete menu Back cycles do not exit; rapid double Back still exits', () => {
+test('spaced Back presses navigate; two deliberate presses within 1.5 seconds exit', () => {
   let time = 0;
   const policy = createBackExitPolicy({ now: () => time });
   let panel = 'none';
   for (let cycle = 0; cycle < 2; cycle += 1) {
     for (let index = 0; index < 3; index += 1) {
-      time += 1000;
+      time += 2000;
       assert.equal(policy.press().exit, false);
       panel = getTvBackPanel(panel);
     }
@@ -29,7 +29,7 @@ test('two complete menu Back cycles do not exit; rapid double Back still exits',
   }
   policy.reset();
   assert.equal(policy.press().exit, false);
-  time += 150;
+  time += 1000;
   assert.deepEqual(policy.press({ repeat: true }), { exit: false, ignored: true });
   assert.equal(policy.press().exit, true);
   policy.reset();

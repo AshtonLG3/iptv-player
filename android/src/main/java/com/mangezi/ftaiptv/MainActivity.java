@@ -232,7 +232,8 @@ public final class MainActivity extends Activity {
                 .inflate(R.layout.inline_channel_player, nativeFrame, false);
         nativeFrame.addView(inlineView);
         channelPlayer = new EmbeddedChannelPlayer(this, inlineView, state -> {
-            if (state.optBoolean("playing")) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            if (state.optBoolean("playing") || (multiviewPlayers != null && multiviewPlayers.hasTiles()))
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             if (webView != null) webView.evaluateJavascript(
                     "window.dispatchEvent(new CustomEvent('rugare-native-playback',{detail:" + state + "}));", null);
@@ -845,6 +846,7 @@ public final class MainActivity extends Activity {
     @Override
     protected void onPause() {
         if (multiviewPlayers != null) multiviewPlayers.stop();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (channelPlayer != null) channelPlayer.pause();
         suppressMediaSessionUpdates = true;
         if (webView != null) {
@@ -1034,8 +1036,21 @@ public final class MainActivity extends Activity {
             });
         }
 
+        @JavascriptInterface public void setChannelAudible(boolean audible) {
+            runOnUiThread(() -> { if (isResumedForMultiview()) channelPlayer.setAudible(audible); });
+        }
+
+        @JavascriptInterface public void stopMultiviewTile(int tile) {
+            runOnUiThread(() -> { if (isResumedForMultiview()) multiviewPlayers.stopTile(tile); });
+        }
+
         @JavascriptInterface public void stopMultiview() {
-            runOnUiThread(() -> { if (multiviewPlayers != null) multiviewPlayers.stop(); });
+            runOnUiThread(() -> {
+                if (multiviewPlayers != null) multiviewPlayers.stop();
+                if (channelPlayer == null || !channelPlayer.isPlaying()) {
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+            });
         }
 
         private boolean isResumedForMultiview() {
